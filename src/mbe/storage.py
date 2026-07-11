@@ -113,6 +113,36 @@ class RunStore:
         ]
         return [dict(zip(cols, row)) for row in rows]
 
+    def runs(self) -> list[dict]:
+        with self._conn() as conn:
+            rows = conn.execute(
+                """
+                SELECT r.run_id, r.as_of, r.universe, r.created_at,
+                       COUNT(t.ticker) AS n_results
+                FROM runs r LEFT JOIN results t ON t.run_id = r.run_id
+                GROUP BY r.run_id, r.as_of, r.universe, r.created_at
+                ORDER BY r.created_at DESC
+                """
+            ).fetchall()
+        cols = ["run_id", "as_of", "universe", "created_at", "n_results"]
+        return [dict(zip(cols, row)) for row in rows]
+
+    def run_results(self, run_id: str) -> list[dict]:
+        with self._conn() as conn:
+            rows = conn.execute(
+                """
+                SELECT ticker, investment, multibagger, confidence, risk_score,
+                       trend_state, price, market_cap, verdict
+                FROM results WHERE run_id = ? ORDER BY multibagger DESC
+                """,
+                [run_id],
+            ).fetchall()
+        cols = [
+            "ticker", "investment", "multibagger", "confidence", "risk_score",
+            "trend_state", "price", "market_cap", "verdict",
+        ]
+        return [dict(zip(cols, row)) for row in rows]
+
     def save_backtest(
         self,
         universe: str,

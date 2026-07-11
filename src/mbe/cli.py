@@ -175,6 +175,24 @@ def backtest(
     console.print(f"Report: [green]{path}[/green]")
 
 
+@app.command()
+def serve(
+    host: str = typer.Option("127.0.0.1", help="Bind address"),
+    port: int = typer.Option(8000, help="Port"),
+):
+    """Launch the local research terminal (web dashboard)."""
+    import uvicorn
+
+    from mbe.storage import RunStore
+    from mbe.web.app import create_app
+
+    web_app = create_app(
+        provider=_provider(), store=RunStore(DB_PATH), reports_dir=Path("reports")
+    )
+    console.print(f"Research terminal: [green]http://{host}:{port}[/green]")
+    uvicorn.run(web_app, host=host, port=port, log_level="warning")
+
+
 def _universe_tickers(universe: str) -> list[str]:
     from mbe.data.universe_nse import CACHE_TTL_HOURS
 

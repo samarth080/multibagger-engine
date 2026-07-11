@@ -50,3 +50,18 @@ def test_save_and_list_backtests(tmp_path):
     assert len(rows) == 1
     assert rows[0]["mean_ic"] == 0.42
     assert rows[0]["details"]["n"] == 50
+
+
+def test_runs_listing_and_run_results(tmp_path):
+    store = RunStore(tmp_path / "test.duckdb")
+    run_id = store.save_run(_result(), universe="unit-test")
+    runs = store.runs()
+    assert len(runs) == 1
+    assert runs[0]["run_id"] == run_id
+    assert runs[0]["universe"] == "unit-test"
+    assert runs[0]["n_results"] == 2
+
+    rows = store.run_results(run_id)
+    assert len(rows) == 2
+    assert rows[0]["multibagger"] >= rows[1]["multibagger"]  # ranked desc
+    assert {"ticker", "investment", "multibagger", "verdict"} <= set(rows[0])

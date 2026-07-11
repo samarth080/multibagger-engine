@@ -114,6 +114,19 @@ def compute_valuation(
 
     base_fcf, proxy_used = _base_fcf(fin)
 
+    # Owner-earnings floor: heavy growth capex depresses trailing FCF and
+    # would wreck the DCF for reinvestment-phase compounders. When earnings
+    # are cash-backed (cash conversion >= 0.8), floor base FCF at 0.7 x avg NI.
+    owner_earnings_floor = 0.0
+    if fund.cash_conversion is not None and fund.cash_conversion >= 0.8:
+        avg_ni = _avg_last3(fin, "net_income")
+        if avg_ni is not None and avg_ni > 0:
+            floor = 0.7 * avg_ni
+            if base_fcf is None or floor > base_fcf:
+                base_fcf = floor
+                owner_earnings_floor = 1.0
+                proxy_used = False
+
     fair_bear = fair_base = fair_bull = None
     implied = None
     if base_fcf is not None and shares:
@@ -172,6 +185,7 @@ def compute_valuation(
             "g_bull": g_bull,
             "base_fcf": base_fcf if base_fcf is not None else float("nan"),
             "growth_defaulted": growth_defaulted,
+            "owner_earnings_floor": owner_earnings_floor,
         },
         completeness=completeness,
     )

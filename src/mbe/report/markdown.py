@@ -171,7 +171,11 @@ def _entry_guidance(bundle: AnalysisBundle) -> str:
     return "no technical entry — falling knife; wait for a confirmed trend reversal above the 200-day MA."
 
 
-def _sizing_guidance(bundle: AnalysisBundle) -> str:
+def sizing_guidance(bundle: AnalysisBundle) -> str:
+    if bundle.card.investment_score < 45:
+        return ("**No new position** — the overall verdict is Avoid at current "
+                "evidence; sizing is moot until fundamentals, technicals, or "
+                "price improve.")
     bucket = bundle.risk.permanent_loss_bucket
     if bucket == "low":
         return ("Risk bucket **low**: up to a full position (3-5% of portfolio), "
@@ -204,7 +208,7 @@ def render_report(bundle: AnalysisBundle) -> str:
         market_cap_str=_money(bundle.info.market_cap, bundle.info.currency),
         pct_vs=pct_vs,
         entry_guidance=_entry_guidance(bundle),
-        sizing_guidance=_sizing_guidance(bundle),
+        sizing_guidance=sizing_guidance(bundle),
         stop_level=stop,
     )
 

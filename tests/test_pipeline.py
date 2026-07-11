@@ -125,3 +125,13 @@ def test_screen_table_renders():
     table = render_screen_table(result)
     assert "GOOD.NS" in table and "ALSO.NS" in table
     assert "Multibagger" in table
+
+
+def test_sizing_never_recommends_position_on_avoid_verdict():
+    from mbe.report.markdown import sizing_guidance
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    low_card = bundle.card.model_copy(update={"investment_score": 30.0})
+    avoid_bundle = bundle.model_copy(update={"card": low_card})
+    text = sizing_guidance(avoid_bundle)
+    assert "No new position" in text

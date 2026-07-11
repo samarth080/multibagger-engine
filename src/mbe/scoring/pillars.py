@@ -112,7 +112,7 @@ def momentum_pillar(tech: TechnicalState) -> PillarScore:
         evidence.append(
             Evidence(
                 metric=metric,
-                value=value,
+                value=round(value, 6) if isinstance(value, float) else value,
                 benchmark=benchmark,
                 points=points,
                 weight=weight,

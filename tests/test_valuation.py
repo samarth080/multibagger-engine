@@ -102,3 +102,43 @@ def test_no_earnings_no_dcf_no_crash():
     assert v.fair_value_base is None
     assert v.margin_of_safety is None
     assert v.completeness < 0.5
+
+
+def test_owner_earnings_floor_for_capex_heavy_compounder():
+    """Trailing FCF depressed by growth capex must not wreck the DCF when
+    earnings are cash-backed (cash conversion >= 0.8)."""
+    years = [2021, 2022, 2023, 2024]
+    fin = FinancialHistory(
+        data={
+            "revenue": dict(zip(years, [500.0, 550.0, 605.0, 665.0])),
+            "net_income": dict(zip(years, [80.0, 88.0, 97.0, 107.0])),
+            "cfo": dict(zip(years, [100.0, 110.0, 121.0, 133.0])),
+            "capex": dict(zip(years, [85.0, 95.0, 105.0, 115.0])),
+            "fcf": dict(zip(years, [15.0, 15.0, 16.0, 18.0])),
+            "shares_diluted": dict(zip(years, [10.0, 10.0, 10.0, 10.0])),
+        }
+    )
+    info = CompanyInfo(ticker="CAPEX.NS", market_cap=2000.0, shares_outstanding=10.0)
+    fund = compute_fundamentals(fin, info)
+    assert fund.cash_conversion is not None and fund.cash_conversion >= 0.8
+    v = compute_valuation(fin, info, fund, price=200.0)
+    # floor = 0.7 * avg NI(88, 97, 107) = 0.7 * 97.33 = 68.13 >> avg FCF 16.33
+    assert v.assumptions["base_fcf"] == pytest.approx(0.7 * (88 + 97 + 107) / 3, abs=0.01)
+    assert v.assumptions["owner_earnings_floor"] == 1.0
+
+
+def test_owner_earnings_floor_skipped_when_earnings_not_cash_backed():
+    years = [2021, 2022, 2023, 2024]
+    fin = FinancialHistory(
+        data={
+            "net_income": dict(zip(years, [80.0, 88.0, 97.0, 107.0])),
+            "cfo": dict(zip(years, [30.0, 33.0, 36.0, 40.0])),  # conversion ~0.37
+            "fcf": dict(zip(years, [15.0, 15.0, 16.0, 18.0])),
+            "shares_diluted": dict(zip(years, [10.0, 10.0, 10.0, 10.0])),
+        }
+    )
+    info = CompanyInfo(ticker="ACCRUAL.NS", market_cap=2000.0, shares_outstanding=10.0)
+    fund = compute_fundamentals(fin, info)
+    v = compute_valuation(fin, info, fund, price=200.0)
+    assert v.assumptions["base_fcf"] == pytest.approx((15 + 16 + 18) / 3, abs=0.01)
+    assert v.assumptions["owner_earnings_floor"] == 0.0

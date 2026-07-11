@@ -18,6 +18,7 @@ app = typer.Typer(help="Multibagger Engine — evidence-driven equity research")
 console = Console()
 
 CACHE_DIR = Path("data/cache")
+DB_PATH = Path("data/mbe.duckdb")
 
 
 def _provider() -> YahooProvider:
@@ -52,7 +53,7 @@ def screen_cmd(
     out: Path = typer.Option(Path("reports"), help="Directory for the ranking file"),
 ):
     """Rank a universe by Multibagger Score."""
-    tickers = get_universe(universe)
+    tickers = _universe_tickers(universe)
     console.print(f"[bold]Screening {len(tickers)} tickers in {universe}…[/bold]")
     result = screen(tickers, _provider())
 
@@ -77,9 +78,107 @@ def screen_cmd(
 
 @app.command()
 def universes():
-    """List available universes."""
+    """List available universes (curated + dynamic NSE index lists)."""
+    from mbe.data.universe_nse import NSE_SOURCES
+
     for name, tickers in UNIVERSES.items():
-        console.print(f"[bold]{name}[/bold]: {len(tickers)} tickers")
+        console.print(f"[bold]{name}[/bold]: {len(tickers)} tickers (curated)")
+    for name in sorted(NSE_SOURCES):
+        console.print(f"[bold]{name}[/bold]: NSE index constituents (downloaded)")
+
+
+@app.command()
+def snapshot(universe: str):
+    """Screen a universe and persist the run to the DuckDB store."""
+    from mbe.storage import RunStore
+
+    tickers = _universe_tickers(universe)
+    console.print(f"[bold]Snapshot: {len(tickers)} tickers in {universe}…[/bold]")
+    result = screen(tickers, _provider())
+    run_id = RunStore(DB_PATH).save_run(result, universe)
+    console.print(
+        f"Saved run [green]{run_id}[/green]: {len(result.ranked)} analyzed, "
+        f"{len(result.failures)} failed -> {DB_PATH}"
+    )
+
+
+@app.command()
+def history(ticker: str):
+    """Score history for a ticker from the run store."""
+    from mbe.storage import RunStore
+
+    rows = RunStore(DB_PATH).history(ticker)
+    if not rows:
+        console.print(f"No stored runs for {ticker}. Run `mbe snapshot <universe>` first.")
+        raise typer.Exit(1)
+    table = Table(title=f"{ticker} — score history")
+    for col in ("As of", "Universe", "MB", "Inv", "Conf", "Risk", "Trend"):
+        table.add_column(col)
+    for r in rows:
+        table.add_row(
+            str(r["as_of"]), r["universe"], f"{r['multibagger']:.1f}",
+            f"{r['investment']:.1f}", f"{r['confidence']:.2f}",
+            f"{int(r['risk_score'])}", r["trend_state"],
+        )
+    console.print(table)
+
+
+@app.command()
+def backtest(
+    universe: str,
+    cutoffs: str = typer.Option(
+        "2024-07-15,2025-07-15",
+        help="Comma-separated cutoff dates (fundamentals gated by FY-end + 90d lag)",
+    ),
+    horizon: int = typer.Option(365, help="Forward-return horizon in days"),
+    score: str = typer.Option("multibagger", help="multibagger | investment | momentum"),
+    limit: int = typer.Option(0, help="Cap number of tickers (0 = all)"),
+    out: Path = typer.Option(Path("reports"), help="Directory for the report"),
+):
+    """Point-in-time backtest: does the score predict forward returns?"""
+    from datetime import date as date_cls
+
+    from mbe.backtest.harness import render_backtest_md, run_backtest
+    from mbe.storage import RunStore
+
+    tickers = _universe_tickers(universe)
+    if limit:
+        tickers = tickers[:limit]
+    cutoff_dates = [date_cls.fromisoformat(c.strip()) for c in cutoffs.split(",")]
+    console.print(
+        f"[bold]Backtesting {score} on {len(tickers)} tickers, "
+        f"cutoffs {cutoff_dates}, horizon {horizon}d…[/bold]"
+    )
+    report = run_backtest(
+        tickers, _provider(), cutoff_dates, horizon,
+        score_name=score, universe_name=universe,
+    )
+    out.mkdir(parents=True, exist_ok=True)
+    path = out / f"backtest_{universe}_{score}.md"
+    path.write_text(render_backtest_md(report))
+
+    for c in report.cutoffs:
+        ic = "n/a" if c.ic is None else f"{c.ic:.3f}"
+        spread = "n/a" if c.spread is None else f"{c.spread * 100:.1f}%"
+        console.print(f"  {c.cutoff}: IC {ic} | top-bottom spread {spread} | n={c.n}")
+    mean_ic = "n/a" if report.mean_ic is None else f"{report.mean_ic:.3f}"
+    console.print(f"Mean IC: [bold]{mean_ic}[/bold] | skipped {len(report.skipped)}")
+    RunStore(DB_PATH).save_backtest(
+        universe=universe, score_name=score, horizon_days=horizon,
+        mean_ic=report.mean_ic if report.mean_ic is not None else float("nan"),
+        details={
+            "cutoffs": [str(c.cutoff) for c in report.cutoffs],
+            "n_per_cutoff": [c.n for c in report.cutoffs],
+            "skipped": len(report.skipped),
+        },
+    )
+    console.print(f"Report: [green]{path}[/green]")
+
+
+def _universe_tickers(universe: str) -> list[str]:
+    from mbe.data.universe_nse import CACHE_TTL_HOURS
+
+    return get_universe(universe, cache=DiskCache(CACHE_DIR, ttl_hours=CACHE_TTL_HOURS))
 
 
 if __name__ == "__main__":

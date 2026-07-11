@@ -35,3 +35,30 @@ Setup: NIFTY Midcap 150 (first 60 constituents), point-in-time cutoffs
 - Priority raised for a deeper fundamentals provider (10+ years of statements)
   — it directly multiplies usable cutoffs and enables the 3-5y horizons the
   multibagger thesis actually claims.
+
+## Addendum: powered momentum backtest (8 annual cutoffs, 2018-2025)
+
+Momentum score, 60 NIFTY Midcap 150 names, 365-day forward returns,
+n = 45-57 per cutoff (72 ticker-cutoffs skipped: young listings / short windows).
+
+| Cutoff | IC | Top-bottom spread |
+|---|---|---|
+| 2018-07 | +0.120 | +14.2% |
+| 2019-07 | -0.065 | -15.3% |
+| 2020-07 | -0.051 | +56.9% |
+| 2021-07 | +0.066 | -10.6% |
+| 2022-07 | -0.299 | -12.7% |
+| 2023-07 | +0.203 | +77.0% |
+| 2024-07 | -0.138 | -20.0% |
+| **Mean** | **-0.010** | — |
+
+Interpretation (with 2025-07 included, mean IC -0.010):
+
+1. **No stable 1-year momentum edge in Indian midcaps at annual rebalance.**
+   IC whipsaws between -0.30 and +0.20 across regimes — momentum decays over
+   months, so annual sampling aliases the signal badly.
+2. This is consistent with the decision to keep Momentum at a moderate 14%
+   of the Investment Score rather than raising it.
+3. The harness is now demonstrably capable of powered multi-cutoff tests —
+   the constraint for testing the core quality/growth thesis remains
+   statement depth, not tooling.

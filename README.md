@@ -10,9 +10,12 @@ from data completeness.
 ```bash
 uv sync
 uv run mbe analyze RELIANCE.NS          # full research report -> reports/
-uv run mbe screen india-midsmall       # rank a universe by Multibagger Score
-uv run mbe universes                    # list available universes
-uv run pytest                           # 51 offline tests
+uv run mbe screen nifty-midcap150      # rank an NSE index universe
+uv run mbe snapshot india-midsmall     # screen + persist to DuckDB store
+uv run mbe history MCX.NS               # score time series from the store
+uv run mbe backtest nifty-midcap150 --limit 60   # does the score predict returns?
+uv run mbe universes                    # curated + NSE index universes
+uv run pytest                           # offline test suite
 ```
 
 ## What it does (v0.1)
@@ -68,12 +71,24 @@ src/mbe/
 
 Specs and plans live in `docs/superpowers/`.
 
+## v0.2 additions
+
+- **NSE index universes** — NIFTY 50/500, Midcap 150, Smallcap 250, Microcap 250
+  constituent lists downloaded from niftyindices.com and cached (7-day TTL).
+- **DuckDB run store** (`data/mbe.duckdb`) — every `snapshot` persists scorecards;
+  `history` shows a ticker's score time series; backtest summaries accumulate.
+- **Point-in-time backtest harness** — statements gated by FY-end + 90-day filing
+  lag, prices truncated at cutoff, present-day fields (holdings, PE, beta)
+  excluded so nothing leaks. Reports Spearman IC, top/bottom-quantile spread and
+  hit rate per cutoff. Known caveats printed in every report: survivorship bias
+  (today's constituent lists), ~5y Yahoo statement depth limits cutoffs, no
+  costs/slippage — a validation instrument, not a strategy simulator.
+
 ## Roadmap
 
-- **v0.2** — full NSE/BSE universe ingestion, DuckDB store, backtesting harness
-  to calibrate benchmark tables against historical multibagger outcomes.
 - **v0.3** — macro dashboard, government-policy/PLI mapping, news & sentiment,
-  filings ingestion (annual reports, con-calls), promoter pledging via NSE data.
+  filings ingestion (annual reports, con-calls), promoter pledging via NSE data;
+  benchmark-table recalibration fed by accumulated backtest evidence.
 - **v0.4** — web UI, scheduling, portfolio construction, continuous-improvement loop.
 
 ## Known limitations (v0.1)

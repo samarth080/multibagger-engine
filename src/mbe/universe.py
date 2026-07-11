@@ -29,9 +29,13 @@ UNIVERSES: dict[str, list[str]] = {
 }
 
 
-def get_universe(name: str) -> list[str]:
-    if name not in UNIVERSES:
-        raise KeyError(
-            f"unknown universe {name!r}; available: {', '.join(sorted(UNIVERSES))}"
-        )
-    return UNIVERSES[name]
+def get_universe(name: str, cache=None) -> list[str]:
+    """Curated list, or a dynamic NSE index universe (downloaded + cached)."""
+    if name in UNIVERSES:
+        return UNIVERSES[name]
+    from mbe.data.universe_nse import NSE_SOURCES, fetch_universe
+
+    if name in NSE_SOURCES:
+        return fetch_universe(name, cache=cache)
+    all_names = sorted(UNIVERSES) + sorted(NSE_SOURCES)
+    raise KeyError(f"unknown universe {name!r}; available: {', '.join(all_names)}")

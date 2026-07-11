@@ -113,18 +113,32 @@ def forward_return(
 
 
 def analyze_as_of(
-    ticker: str, provider: DataProvider, cutoff: date
+    ticker: str,
+    provider: DataProvider,
+    cutoff: date,
+    require_statements: bool = True,
 ) -> tuple[AnalysisBundle, PriceHistory]:
     """Point-in-time analysis. Returns the bundle plus the full (untruncated)
-    price history so the caller can compute forward returns from the same data."""
+    price history so the caller can compute forward returns from the same data.
+
+    Technical-only callers pass require_statements=False: prices reach back
+    ~10 years while statements reach ~5, so momentum cutoffs may legitimately
+    predate any available fundamentals."""
+    from mbe.models.company import FinancialHistory
+
     info_now = provider.get_info(ticker)
-    fin = truncate_financials(provider.get_financials(ticker), cutoff)
+    try:
+        fin = truncate_financials(provider.get_financials(ticker), cutoff)
+    except ProviderError:
+        if require_statements:
+            raise
+        fin = FinancialHistory(data={})
     full_prices = provider.get_prices(ticker, years=PRICE_YEARS)
     prices = truncate_prices(full_prices, cutoff)
 
     if len(prices.df) < MIN_PRICE_DAYS:
         raise ProviderError(f"only {len(prices.df)} price days before {cutoff}")
-    if len(fin.years()) < MIN_STATEMENT_YEARS:
+    if require_statements and len(fin.years()) < MIN_STATEMENT_YEARS:
         raise ProviderError(f"only {len(fin.years())} statement years before {cutoff}")
 
     benchmark = None
@@ -173,13 +187,16 @@ def run_backtest(
 ) -> BacktestReport:
     results: list[CutoffResult] = []
     skipped: dict[str, str] = {}
+    needs_statements = score_name != "momentum"
 
     for cutoff in cutoffs:
         scores: dict[str, float] = {}
         fwd: dict[str, float] = {}
         for ticker in tickers:
             try:
-                bundle, full_prices = analyze_as_of(ticker, provider, cutoff)
+                bundle, full_prices = analyze_as_of(
+                    ticker, provider, cutoff, require_statements=needs_statements
+                )
             except ProviderError as exc:
                 skipped[f"{ticker}@{cutoff}"] = str(exc)
                 continue

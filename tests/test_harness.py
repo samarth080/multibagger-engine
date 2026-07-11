@@ -102,3 +102,37 @@ def test_run_backtest_structure():
     md = render_backtest_md(report)
     assert "Information coefficient" in md or "IC" in md
     assert "point-in-time" in md.lower()
+
+
+class NoFinStubProvider(PITStubProvider):
+    def get_financials(self, ticker: str):
+        from mbe.data.provider import ProviderError
+        raise ProviderError("no statements available")
+
+
+def test_momentum_backtest_survives_missing_statements():
+    """Technical-only backtests must not require fundamentals: prices go back
+    10 years, statements only ~5 — momentum cutoffs can predate statements."""
+    report = run_backtest(
+        tickers=["A.NS", "B.NS", "C.NS", "D.NS"],
+        provider=NoFinStubProvider(),
+        cutoffs=[date(2023, 6, 30)],
+        horizon_days=365,
+        score_name="momentum",
+        universe_name="stub",
+    )
+    assert report.cutoffs[0].n == 4
+    assert report.skipped == {}
+
+
+def test_fundamental_backtest_still_requires_statements():
+    report = run_backtest(
+        tickers=["A.NS"],
+        provider=NoFinStubProvider(),
+        cutoffs=[date(2023, 6, 30)],
+        horizon_days=365,
+        score_name="multibagger",
+        universe_name="stub",
+    )
+    assert report.cutoffs[0].n == 0
+    assert len(report.skipped) == 1

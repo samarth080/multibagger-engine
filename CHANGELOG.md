@@ -36,3 +36,26 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
 - Sizing guidance can never recommend a position when the verdict is Avoid.
 - DCF is deliberately conservative; absolute fair values skew low. Empirical
   recalibration of all benchmark tables is the headline v0.2 deliverable.
+
+## v0.2.0 — 2026-07-12
+
+### Added
+- NSE index universe ingestion (NIFTY 50/500, Midcap 150, Smallcap 250,
+  Microcap 250) from niftyindices.com, cached 7 days, loud failures.
+- DuckDB run store (`data/mbe.duckdb`): `mbe snapshot` persists scorecards,
+  `mbe history` shows per-ticker score time series, backtest summaries stored.
+- Point-in-time backtest harness: statements gated by FY-end + 90-day filing
+  lag, prices truncated at cutoff, present-day fields (holdings/PE/beta)
+  excluded to prevent lookahead. Reports Spearman IC, top/bottom-quantile
+  spread, hit rate. `mbe backtest UNIVERSE --cutoffs … --horizon … --score …`.
+
+### Measured (see docs/backtest-findings-2026-07.md)
+- First live calibration evidence on NIFTY Midcap 150 (60 names, 2 cutoffs,
+  1y horizon): mean IC ~0.02 (multibagger), ~0.01 (investment), -0.03
+  (momentum, with a -0.14/+0.08 regime flip across the midcap correction).
+  Conclusion: no demonstrated 1-year edge at this sample size; no
+  recalibration performed (2 cutoffs = curve-fitting risk); deeper
+  fundamentals history is the binding constraint.
+
+### Fixed
+- Spearman IC on constant score vectors now returns None instead of NaN.

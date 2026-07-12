@@ -111,10 +111,13 @@ def parse_companyfacts(payload: dict) -> FinancialHistory:
     filed: dict[int, date] = {}
 
     for field, tags in TAG_MAP.items():
+        merged: dict[int, tuple[date, float]] = {}  # year -> (filed, value)
+        # companies switch tags over time (e.g. ASC 606 revenue): merge all
+        # fallback tags, earlier-listed tags winning any per-year conflict
         for tag in tags:
             if tag not in gaap:
                 continue
-            by_year: dict[int, tuple[date, float]] = {}  # year -> (filed, value)
+            by_year: dict[int, tuple[date, float]] = {}
             for fact in _annual_facts(gaap[tag]):
                 year = datetime.fromisoformat(fact["end"]).year
                 filed_on = date.fromisoformat(fact["filed"])
@@ -124,12 +127,13 @@ def parse_companyfacts(payload: dict) -> FinancialHistory:
                     if field in _ABS_FIELDS:
                         val = abs(val)
                     by_year[year] = (filed_on, val)
-            if by_year:
-                data[field] = {y: v for y, (_, v) in by_year.items()}
-                for year, (filed_on, _) in by_year.items():
-                    if year not in filed or filed_on < filed[year]:
-                        filed[year] = filed_on
-                break  # first tag with data wins
+            for year, entry in by_year.items():
+                merged.setdefault(year, entry)
+        if merged:
+            data[field] = {y: v for y, (_, v) in merged.items()}
+            for year, (filed_on, _) in merged.items():
+                if year not in filed or filed_on < filed[year]:
+                    filed[year] = filed_on
 
     # derive fcf = cfo - capex (capex stored positive)
     if "cfo" in data:

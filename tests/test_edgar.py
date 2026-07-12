@@ -148,3 +148,35 @@ def test_composite_provider_routes(tmp_path):
     info = provider.get_info("AAPL")
     assert info.name == "Stub Co"  # from market provider
     assert provider.benchmark_ticker("AAPL") == "^NSEI"  # delegated
+
+
+def test_tag_fallbacks_merge_across_eras():
+    """Companies switch tags over time (e.g. ASC 606 revenue): fallback tags
+    must fill years the primary tag lacks, with the primary winning conflicts."""
+    facts = {
+        "facts": {
+            "us-gaap": {
+                "Revenues": {
+                    "units": {"USD": [
+                        {"start": "2016-01-01", "end": "2016-12-31", "val": 50.0,
+                         "form": "10-K", "filed": "2017-02-01"},
+                        # conflicting value for 2018 — primary tag must win
+                        {"start": "2018-01-01", "end": "2018-12-31", "val": 70.0,
+                         "form": "10-K", "filed": "2019-02-01"},
+                    ]}
+                },
+                "RevenueFromContractWithCustomerExcludingAssessedTax": {
+                    "units": {"USD": [
+                        {"start": "2018-01-01", "end": "2018-12-31", "val": 71.0,
+                         "form": "10-K", "filed": "2019-02-01"},
+                        {"start": "2023-01-01", "end": "2023-12-31", "val": 90.0,
+                         "form": "10-K", "filed": "2024-02-01"},
+                    ]}
+                },
+            }
+        }
+    }
+    fin = parse_companyfacts(facts)
+    assert fin.value("revenue", 2016) == 50.0   # primary-tag era
+    assert fin.value("revenue", 2023) == 90.0   # fallback-tag era merged in
+    assert fin.value("revenue", 2018) == 70.0   # primary wins conflicts

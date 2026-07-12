@@ -56,7 +56,7 @@ def get_universe(name: str, cache=None) -> list[str]:
         return fetch_universe(name, cache=cache)
     from mbe.data.universe_us import WIKI_SOURCES, fetch_us_sample
 
-    if name in WIKI_SOURCES:
+    if name in WIKI_SOURCES or (name.endswith("2") and name[:-1] in WIKI_SOURCES):
         return fetch_us_sample(name, cache=cache)
     all_names = sorted(UNIVERSES) + sorted(NSE_SOURCES) + sorted(WIKI_SOURCES)
     raise KeyError(f"unknown universe {name!r}; available: {', '.join(all_names)}")

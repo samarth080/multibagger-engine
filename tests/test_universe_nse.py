@@ -78,3 +78,13 @@ def test_sample_universe_deterministic():
     assert a == b
     assert len(a) == 10
     assert a[0] == "T0" and a[-1] == "T90"  # even coverage, not the head
+
+
+def test_sample_offset_produces_disjoint_replication_set():
+    from mbe.data.universe_us import sample_evenly
+
+    pool = [f"T{i}" for i in range(600)]
+    primary = sample_evenly(pool, 80)
+    replication = sample_evenly(pool, 80, offset_fraction=0.5)
+    assert len(replication) == 80
+    assert set(primary).isdisjoint(set(replication))

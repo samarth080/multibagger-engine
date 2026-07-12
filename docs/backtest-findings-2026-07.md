@@ -89,3 +89,42 @@ Interpretation:
    with exact first-public dates — cutoffs back to ~2010 are now possible for
    US universes. Statement depth is no longer the binding constraint for US
    tests; universe breadth (small/mid cap lists) is.
+
+## Addendum 3: US small caps — first thesis-consistent signal
+
+Universe: us-smallcap-sample (80 mechanically-sampled current S&P 600 members),
+EDGAR fundamentals (exact filing dates), n = 57-76 per cutoff.
+
+| Test | Cutoffs | Mean IC | Cutoffs positive | t-stat |
+|---|---|---|---|---|
+| multibagger, 1y | 7 (2018-2024) | **+0.095** | 5/7 | ~1.8 (p~0.13) |
+| **multibagger, 2y** | 6 (2018-2023) | **+0.160** | **6/6** | **~2.9 (p~0.03)** |
+| investment, 1y | 7 (2018-2024) | +0.067 | — | — |
+
+The full picture across all backtests now reads:
+
+| Configuration | Mean IC |
+|---|---|
+| multibagger · mega caps · 1-2y | ~0.00 |
+| momentum · Indian midcaps · 1y | -0.01 |
+| multibagger · small caps · 1y | +0.10 |
+| multibagger · small caps · 2y | +0.16 |
+
+**Why this is credible:** the gradient matches the pre-registered thesis, not a
+data-mined grid point — the score was designed for small caps (size-runway,
+reinvestment pillars) and multi-year horizons, and that is precisely where the
+signal concentrates. The 1y negative years are regime-coherent (2020 junk
+rally, 2024 rate-cut rotation). At 2y, every cutoff including the COVID window
+is positive.
+
+**Why restraint still applies:**
+1. Survivorship bias: current constituents only — delisted losers are absent.
+   This likely flatters quality scores (survivors skew healthy).
+2. One 80-name sample; several configurations were run this session (multiple
+   testing inflates the best result).
+3. Not yet replicated on Indian small caps (blocked on Yahoo's 5y statement
+   depth; an Indian filings provider unlocks it).
+
+**Decision: still no benchmark-table recalibration.** Next evidence steps, in
+order: (a) rerun on a second disjoint S&P 600 sample (cheap, cached universe),
+(b) 3y horizon, (c) an Indian fundamentals source for the home-market test.

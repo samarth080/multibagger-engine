@@ -135,3 +135,12 @@ def test_sizing_never_recommends_position_on_avoid_verdict():
     avoid_bundle = bundle.model_copy(update={"card": low_card})
     text = sizing_guidance(avoid_bundle)
     assert "No new position" in text
+
+
+def test_report_discloses_validation_status():
+    from mbe.report.markdown import render_report
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    text = render_report(bundle)
+    assert "Model validation status" in text
+    assert "no demonstrated" in text.lower()

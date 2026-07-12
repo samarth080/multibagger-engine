@@ -47,3 +47,34 @@ def test_fetch_failure_is_loud():
     name = next(iter(NSE_SOURCES))
     with pytest.raises(ProviderError):
         fetch_universe(name, cache=None, fetcher=broken)
+
+
+WIKI_HTML = """
+<html><body>
+<table id="constituents" class="wikitable">
+<tr><th>Symbol</th><th>Company</th><th>GICS Sector</th></tr>
+<tr><td>AAON</td><td>AAON Inc</td><td>Industrials</td></tr>
+<tr><td>ABCB</td><td>Ameris Bancorp</td><td>Financials</td></tr>
+<tr><td>BRK.B</td><td>Weird Unit</td><td>Financials</td></tr>
+</table>
+</body></html>
+"""
+
+
+def test_parse_sp600_symbols():
+    from mbe.data.universe_us import parse_wiki_constituents
+
+    tickers = parse_wiki_constituents(WIKI_HTML)
+    assert "AAON" in tickers and "ABCB" in tickers
+    assert "BRK.B" not in tickers  # dotted share classes excluded (Yahoo mismatch)
+
+
+def test_sample_universe_deterministic():
+    from mbe.data.universe_us import sample_evenly
+
+    pool = [f"T{i}" for i in range(100)]
+    a = sample_evenly(pool, 10)
+    b = sample_evenly(pool, 10)
+    assert a == b
+    assert len(a) == 10
+    assert a[0] == "T0" and a[-1] == "T90"  # even coverage, not the head

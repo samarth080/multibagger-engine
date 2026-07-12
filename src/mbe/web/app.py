@@ -7,6 +7,7 @@ meter (the signature element). Status is never conveyed by color alone.
 
 from __future__ import annotations
 
+import re
 from datetime import date
 from pathlib import Path
 
@@ -185,10 +186,27 @@ _HISTORY = _ENV.from_string("""
 """)
 
 
-def _page(title: str, body_html: str) -> HTMLResponse:
+def _page(title: str, body_html: str, status_code: int = 200) -> HTMLResponse:
     # body_html is trusted output of our own autoescaped templates
     html = _ENV.from_string(_BASE).render(title=title, body=Markup(body_html))
-    return HTMLResponse(html)
+    return HTMLResponse(html, status_code=status_code)
+
+
+def _clean_ticker(raw: str) -> str:
+    """Keep only characters that occur in real symbols (letters, digits,
+    '.', '-', '^', '&'). Strips stray backslashes/whitespace from user input."""
+    return re.sub(r"[^A-Za-z0-9.\-^&]", "", raw).upper()
+
+
+def _error_page(title: str, message: str, status_code: int) -> HTMLResponse:
+    body = (
+        '<p class="small"><a href="/">← back to terminal</a></p>'
+        f'<div class="panel"><h2 style="margin-top:0">{_ENV.from_string("{{ t }}").render(t=title)}</h2>'
+        f"<p>{_ENV.from_string('{{ m }}').render(m=message)}</p>"
+        '<p class="muted small">Check the symbol (Indian listings need the .NS suffix, '
+        "e.g. TCS.NS) and try again from the analyze box.</p></div>"
+    )
+    return _page(title, body, status_code=status_code)
 
 
 def create_app(
@@ -228,16 +246,21 @@ def create_app(
 
     @app.get("/analyze")
     def analyze_redirect(ticker: str):
-        return RedirectResponse(f"/report/{ticker.strip().upper()}")
+        return RedirectResponse(f"/report/{_clean_ticker(ticker)}")
 
     @app.get("/report/{ticker}", response_class=HTMLResponse)
     def report_view(ticker: str):
+        ticker = _clean_ticker(ticker)
+        if not ticker:
+            return _error_page("Invalid symbol", "That input contained no usable ticker symbol.", 404)
         try:
             bundle = analyze_ticker(ticker, provider)
         except ProviderError as exc:
-            raise HTTPException(
-                404, f"could not analyze {ticker}: {exc}"
-            ) from exc
+            return _error_page(
+                f"Could not analyze {ticker}",
+                f"The data source returned nothing usable: {exc}",
+                404,
+            )
         reports_dir.mkdir(parents=True, exist_ok=True)
         md_text = render_report(bundle)
         (reports_dir / f"{ticker.replace('.', '_')}_{date.today()}.md").write_text(md_text)

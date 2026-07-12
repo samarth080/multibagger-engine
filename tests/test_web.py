@@ -49,3 +49,25 @@ def test_history_page(client):
 
 def test_unknown_run_404(client):
     assert client.get("/run/nope").status_code == 404
+
+
+def test_report_sanitizes_stray_characters_in_ticker(client):
+    # trailing backslash (key next to Enter) and whitespace must not break analysis
+    resp = client.get("/report/GOOD.NS%5C")  # %5C = backslash
+    assert resp.status_code == 200
+    assert "Equity Research Report" in resp.text
+    assert "GOOD.NS\\" not in resp.text  # the backslash must never reach the provider
+
+    resp = client.get("/analyze", params={"ticker": " good.ns\\ "}, follow_redirects=True)
+    assert resp.status_code == 200
+    assert "(GOOD.NS)" in resp.text
+    assert "GOOD.NS\\" not in resp.text
+
+
+def test_unanalyzable_ticker_gets_friendly_html_not_json(client):
+    resp = client.get("/report/BAD.NS")  # StubProvider knows nothing of BAD.NS?
+    # our stub analyzes anything; simulate failure via empty ticker instead
+    resp = client.get("/report/%5C%5C")  # sanitizes to empty -> must be handled
+    assert resp.status_code == 404
+    assert "text/html" in resp.headers["content-type"]
+    assert "could not" in resp.text.lower() or "check the symbol" in resp.text.lower()

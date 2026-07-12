@@ -262,3 +262,37 @@ exact broadcast timestamps — full P&L and cash-flow line items confirmed for
 RELIANCE. **This is the Indian fundamentals provider path** (better than the
 BSE PDF pipeline), enabling the home-market replication the thesis actually
 targets. Queued as the next build.
+
+## Addendum 8 — FIRST INDIA HOME-MARKET BACKTEST (NSE XBRL, exact broadcast-date PIT)
+
+Multibagger score, 50 NIFTY Smallcap 250 names, NSE Ind-AS fundamentals with
+exact broadcast-date gating, 2y horizon:
+
+| Cutoff | IC | Top-bottom spread | n |
+|---|---|---|---|
+| 2021-07 | +0.082 | -4.9% | 28 |
+| 2022-07 | +0.394 | +53.0% | 30 |
+| 2023-07 | +0.221 | +84.9% | 35 |
+| **Mean** | **+0.232** | — | — |
+
+This is the **strongest home-market-relevant number to date** and it is
+directionally exciting — but discipline holds: **it is preliminary, not
+proven.** The exact same red flags that killed the US +0.16 apply:
+
+1. **Single favorable regime.** 2021-2023 cutoffs at a 2y horizon span the
+   post-COVID Indian small-cap bull run. The US samples *also* looked great in
+   2021-22 and then collapsed on replication.
+2. **Small, survivorship-biased sample.** n=28-35 per cutoff; nifty-smallcap250
+   is today's membership — 2021 names that blew up and were dropped are absent.
+   57 ticker-cutoffs skipped (NSE XBRL coverage starts ~FY2019, so early cutoffs
+   lack statement history).
+3. **Only 3 cutoffs, all overlapping regime.** No pre-2019 windows yet.
+
+**Required before any claim of an Indian edge (in order):**
+1. Disjoint replication sample (second 50 NIFTY smallcap names).
+2. Pre-2019 NSE taxonomy parser -> cutoffs spanning 2010-2020 (non-bull regimes).
+3. Delisting-inclusive Indian universe.
+
+**Status: promising lead, explicitly unvalidated.** No recalibration. The US
+experience is the cautionary precedent: this is precisely the shape of result
+that later evaporated.

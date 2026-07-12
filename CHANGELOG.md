@@ -106,3 +106,22 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
 - Findings addendum dedupe; local DuckDB store untracked from git.
 - (Process) pytest-pipe exit codes masked one failure; verification now uses
   pipefail.
+
+## v0.4.0 — 2026-07-12
+
+### Added
+- **NSE XBRL fundamentals provider** (`--fundamentals nse`): Indian Ind-AS
+  annual statements from NSE corporate-results filings, with **exact broadcast
+  dates** for true point-in-time gating. Consolidated-preferred, original-filing
+  dedupe, EBIT/EBITDA/FCF derived. Verified to the crore vs Reliance FY24.
+  defusedxml parsing. Coverage FY2019+ (pre-Ind-AS taxonomy is future work).
+- Survivorship sensitivity analysis + raw-panel export on the harness.
+- `OVERVIEW.md` — plain-language tour of the whole engine.
+
+### Measured
+- **First India home-market backtest** (50 NIFTY smallcaps, 2y): mean IC
+  **+0.232**, 3/3 cutoffs positive — strongest home-market number yet, but a
+  single post-COVID regime on a small survivorship-biased sample; recorded as a
+  promising-but-unvalidated lead (docs/backtest-findings Addendum 8).
+- Survivorship sensitivity collapsed the last US signal (Size Runway) to ≈ 0 →
+  clean null on US samples confirmed (Addendum 7).

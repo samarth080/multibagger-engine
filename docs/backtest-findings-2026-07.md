@@ -62,3 +62,30 @@ Interpretation (with 2025-07 included, mean IC -0.010):
 3. The harness is now demonstrably capable of powered multi-cutoff tests —
    the constraint for testing the core quality/growth thesis remains
    statement depth, not tooling.
+
+## Addendum 2: deep US backtests via SEC EDGAR (exact filing-date gating)
+
+First backtests with real point-in-time discipline from XBRL filing dates
+(no +90d heuristic). Universe: us-largecap60, n = 56-58 per cutoff.
+
+| Test | Cutoffs | Mean IC | Range |
+|---|---|---|---|
+| multibagger, 1y horizon | 7 (2018-2024) | +0.004 | -0.15 .. +0.19 |
+| investment, 1y horizon | 7 (2018-2024) | -0.025 | — |
+| multibagger, 2y horizon | 6 (2018-2023) | -0.001 | -0.26 .. +0.24 |
+
+Interpretation:
+
+1. **Still no demonstrated edge — but this test is structurally biased against
+   the thesis.** Every name in us-largecap60 is a large cap, so the Size-Runway
+   pillar simply shorts the biggest names — which led the 2023-25 mega-cap/AI
+   rally (the 2023 cutoff shows IC -0.26, top-bottom spread -47%). A multibagger
+   score tested on mega caps mostly measures the size tilt against a
+   mega-cap-led regime. The **correct test universe is US small/mid caps**, and
+   for India the small/microcap indices — queued as the next harness run.
+2. Quintile buckets of ~11 names make spreads extremely noisy (-73% in the
+   2019+2y window spans the COVID crash); IC is the more stable statistic.
+3. **Infrastructure conclusion:** EDGAR gives 15-20 statement years per company
+   with exact first-public dates — cutoffs back to ~2010 are now possible for
+   US universes. Statement depth is no longer the binding constraint for US
+   tests; universe breadth (small/mid cap lists) is.

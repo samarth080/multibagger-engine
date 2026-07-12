@@ -35,7 +35,7 @@ from mbe.scoring.engine import build_scorecard
 MIN_PRICE_DAYS = 200
 MIN_STATEMENT_YEARS = 2
 MIN_TICKERS_FOR_IC = 4
-PRICE_YEARS = 10
+PRICE_YEARS = 18  # full available history; enables cutoffs back to ~2012
 
 
 class CutoffResult(BaseModel):

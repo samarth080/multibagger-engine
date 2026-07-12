@@ -124,6 +124,11 @@ def map_statements(
     return FinancialHistory(data={k: v for k, v in data.items() if v})
 
 
+def period_str(years: int) -> str:
+    """Yahoo's preset ranges stop at 10y; anything deeper needs 'max'."""
+    return f"{years}y" if years <= 10 else "max"
+
+
 class YahooProvider:
     def __init__(self, cache: DiskCache | None = None):
         self.cache = cache
@@ -170,7 +175,7 @@ class YahooProvider:
         if self.cache is not None and (hit := self.cache.get_df(key)) is not None:
             return PriceHistory(df=hit)
         try:
-            df = self._ticker(ticker).history(period=f"{years}y", auto_adjust=True)
+            df = self._ticker(ticker).history(period=period_str(years), auto_adjust=True)
         except Exception as exc:
             raise ProviderError(f"price fetch failed for {ticker}: {exc}") from exc
         if df is None or df.empty:

@@ -87,3 +87,11 @@ def test_disk_cache_expiry(tmp_path):
     cache.set_json("k", {"a": 1})
     time.sleep(0.01)
     assert cache.get_json("k") is None
+
+
+def test_period_string_uses_max_beyond_yahoo_presets():
+    from mbe.data.yahoo import period_str
+
+    assert period_str(3) == "3y"
+    assert period_str(10) == "10y"
+    assert period_str(18) == "max"  # Yahoo presets stop at 10y

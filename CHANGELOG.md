@@ -125,3 +125,30 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
   promising-but-unvalidated lead (docs/backtest-findings Addendum 8).
 - Survivorship sensitivity collapsed the last US signal (Size Runway) to ≈ 0 →
   clean null on US samples confirmed (Addendum 7).
+
+## v0.5.0 — 2026-07-13 (Phase 2 begins: business intelligence)
+
+### Added
+- **Business-Quality / Franchise-Durability engine**: decade-scale ROCE
+  consistency, margin stability & trajectory, incremental ROIC, earnings-quality
+  track, downturn resilience → evidence-backed classification (Durable
+  Compounder / Steady / Cyclical / Turnaround / Deteriorating / Unproven).
+- **Living Investment Thesis**: falsifiable assumptions with probabilities from
+  the company's own track record, explicit falsifiers, bull/base/bear business
+  trajectories, thesis confidence.
+- **Self-critique (devil's advocate)**: enumerates disconfirming evidence before
+  any recommendation; can veto.
+- **Longitudinal thesis memory**: every thesis persisted to DuckDB;
+  `mbe analyze` reports what changed since the last look (change detection).
+- Reports gain a "Business & Investment Thesis" section; franchise available as
+  a labelled research score in the backtest harness.
+- Phase 2 vision/roadmap (docs/PHASE2_VISION.md): one validated increment at a
+  time; every module must prove incremental value or be demoted.
+
+### Measured — and demoted accordingly (Addenda 9-10)
+- **Franchise score: validated null predictor** (0/3 samples ≥ base IC; worse
+  on India and US replication). Demoted to descriptive-only; never ranks picks.
+- **Critique veto: does not avoid worse outcomes** (vetoed names had higher
+  mean returns AND higher loss rates — it selects volatility). Relabelled as
+  reasoning transparency, explicitly not a validated filter, in every report.
+- Model-validation disclosure updated to state both nulls.

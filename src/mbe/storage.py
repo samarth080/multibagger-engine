@@ -36,6 +36,17 @@ CREATE TABLE IF NOT EXISTS results (
     pillars_json TEXT,
     metrics_json TEXT
 );
+CREATE TABLE IF NOT EXISTS theses (
+    as_of DATE,
+    ticker TEXT,
+    classification TEXT,
+    thesis_confidence DOUBLE,
+    veto BOOLEAN,
+    recommendation TEXT,
+    thesis_json TEXT,
+    critique_json TEXT,
+    created_at TIMESTAMP
+);
 CREATE TABLE IF NOT EXISTS backtests (
     created_at TIMESTAMP,
     universe TEXT,
@@ -142,6 +153,47 @@ class RunStore:
             "trend_state", "price", "market_cap", "verdict",
         ]
         return [dict(zip(cols, row)) for row in rows]
+
+    def save_thesis(self, thesis, critique, as_of=None) -> None:
+        """Longitudinal thesis memory: every snapshot is kept, never overwritten."""
+        from datetime import date as _date
+
+        with self._conn() as conn:
+            conn.execute(
+                "INSERT INTO theses VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [
+                    as_of or _date.today(),
+                    thesis.ticker,
+                    thesis.classification,
+                    thesis.thesis_confidence,
+                    critique.veto,
+                    critique.recommendation,
+                    thesis.model_dump_json(),
+                    critique.model_dump_json(),
+                    datetime.now(),
+                ],
+            )
+
+    def thesis_history(self, ticker: str) -> list[dict]:
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT as_of, classification, thesis_confidence, veto, "
+                "recommendation, thesis_json, critique_json FROM theses "
+                "WHERE ticker = ? ORDER BY created_at",
+                [ticker],
+            ).fetchall()
+        return [
+            {
+                "as_of": r[0],
+                "classification": r[1],
+                "thesis_confidence": r[2],
+                "veto": r[3],
+                "recommendation": r[4],
+                "thesis": json.loads(r[5]),
+                "critique": json.loads(r[6]),
+            }
+            for r in rows
+        ]
 
     def save_backtest(
         self,

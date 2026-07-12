@@ -93,3 +93,50 @@ def test_thesis_confidence_lower_for_short_history():
     risk = RiskAssessment()
     thesis = build_thesis(info, fund, business, val, risk)
     assert thesis.thesis_confidence < 0.5  # 2 years -> low confidence
+
+
+def test_thesis_diff_detects_changes():
+    from mbe.thesis.engine import diff_theses
+    from mbe.models.thesis import Assumption, InvestmentThesis
+
+    prev = InvestmentThesis(
+        ticker="X.NS", business_summary="s", classification="Durable Compounder",
+        assumptions=[
+            Assumption(statement="Sustains a high return on capital (ROCE >= 15%)",
+                       historical_support=0.9, currently_true=True),
+            Assumption(statement="Grows revenue over time",
+                       historical_support=0.8, currently_true=True),
+        ],
+        thesis_confidence=0.7,
+    )
+    curr = InvestmentThesis(
+        ticker="X.NS", business_summary="s", classification="Steady",
+        assumptions=[
+            Assumption(statement="Sustains a high return on capital (ROCE >= 15%)",
+                       historical_support=0.85, currently_true=False),  # flipped!
+            Assumption(statement="Grows revenue over time",
+                       historical_support=0.85, currently_true=True),   # strengthened
+        ],
+        thesis_confidence=0.55,
+    )
+    diff = diff_theses(prev, curr)
+    assert any("ROCE" in c and "no longer" in c.lower() for c in diff.changes)
+    assert any("classification" in c.lower() for c in diff.changes)
+    assert diff.confidence_delta == pytest.approx(-0.15)
+
+
+def test_thesis_persistence_roundtrip(tmp_path):
+    from mbe.storage import RunStore
+
+    fin, info, fund, business, val, risk = _bundle_compounder()
+    from mbe.thesis.engine import critique_thesis as _crit
+    thesis = build_thesis(info, fund, business, val, risk)
+    critique = _crit(thesis, fund, business, val, risk)
+
+    store = RunStore(tmp_path / "t.duckdb")
+    store.save_thesis(thesis, critique)
+    store.save_thesis(thesis, critique)
+    rows = store.thesis_history("COMP.NS")
+    assert len(rows) == 2
+    assert rows[0]["classification"] == thesis.classification
+    assert rows[0]["thesis"]["assumptions"]  # full thesis JSON round-trips

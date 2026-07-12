@@ -28,3 +28,11 @@ class Critique(BaseModel):
     disconfirmers: list[str] = []
     veto: bool = False
     recommendation: str = ""
+
+
+class ThesisDiff(BaseModel):
+    """Change detection between two snapshots of a living thesis."""
+
+    ticker: str
+    changes: list[str] = []
+    confidence_delta: float = 0.0

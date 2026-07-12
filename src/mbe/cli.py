@@ -61,6 +61,28 @@ def analyze(
         f"Confidence {card.confidence:.0%} | Risk {int(bundle.risk.risk_score)}"
     )
     console.print(f"Verdict: {card.verdict}")
+
+    if bundle.thesis and bundle.critique:
+        from mbe.models.thesis import InvestmentThesis
+        from mbe.storage import RunStore
+        from mbe.thesis.engine import diff_theses
+
+        store = RunStore(DB_PATH)
+        prior = store.thesis_history(ticker)
+        if prior:
+            prev = InvestmentThesis(**prior[-1]["thesis"])
+            diff = diff_theses(prev, bundle.thesis)
+            if diff.changes:
+                console.print("[bold]Since last analysis:[/bold]")
+                for change in diff.changes:
+                    console.print(f"  • {change}")
+            else:
+                console.print("Thesis unchanged since last analysis.")
+        store.save_thesis(bundle.thesis, bundle.critique, as_of=bundle.as_of)
+        console.print(
+            f"Thesis: {bundle.thesis.classification} | "
+            f"{bundle.critique.recommendation}"
+        )
     console.print(f"Report: [green]{path}[/green]")
 
 

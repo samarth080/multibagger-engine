@@ -16,7 +16,7 @@ from mbe.models.analysis import (
     ValuationResult,
 )
 from mbe.models.company import CompanyInfo
-from mbe.models.thesis import Assumption, Critique, InvestmentThesis
+from mbe.models.thesis import Assumption, Critique, InvestmentThesis, ThesisDiff
 
 
 def _level_support(value: float | None, good: float, ok: float, lower_better: bool) -> float:
@@ -224,3 +224,37 @@ def critique_thesis(
         rec = "Pass — insufficient franchise evidence to underwrite a decade"
 
     return Critique(disconfirmers=dis, veto=veto, recommendation=rec)
+
+
+def diff_theses(prev: InvestmentThesis, curr: InvestmentThesis) -> ThesisDiff:
+    """What changed since the last look? Longitudinal memory, not isolated reports."""
+    changes: list[str] = []
+
+    if prev.classification != curr.classification:
+        changes.append(
+            f"Classification changed: {prev.classification} -> {curr.classification}"
+        )
+
+    prev_by_stmt = {a.statement: a for a in prev.assumptions}
+    for a in curr.assumptions:
+        old = prev_by_stmt.get(a.statement)
+        if old is None:
+            changes.append(f"New assumption tracked: {a.statement}")
+            continue
+        if old.currently_true and not a.currently_true:
+            changes.append(f"Assumption no longer holds: {a.statement}")
+        elif not old.currently_true and a.currently_true:
+            changes.append(f"Assumption restored: {a.statement}")
+        elif a.historical_support - old.historical_support >= 0.03:
+            changes.append(f"Assumption strengthened: {a.statement}")
+        elif old.historical_support - a.historical_support >= 0.03:
+            changes.append(f"Assumption weakened: {a.statement}")
+    for stmt in prev_by_stmt:
+        if stmt not in {a.statement for a in curr.assumptions}:
+            changes.append(f"Assumption no longer measurable: {stmt}")
+
+    return ThesisDiff(
+        ticker=curr.ticker,
+        changes=changes,
+        confidence_delta=round(curr.thesis_confidence - prev.thesis_confidence, 4),
+    )

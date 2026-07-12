@@ -326,3 +326,44 @@ makes no return-prediction claim. Its value proposition is (1) research quality
 devil's-advocate disconfirmers — and (2) **risk avoidance** via the critique
 veto. Claim (2) is tested next (veto-avoidance study); if the veto does not
 steer away from worse outcomes it too will be demoted.
+
+## Addendum 10 — Self-critique VETO: does not avoid worse outcomes (null / mild negative)
+
+Veto-avoidance study: analyze every name point-in-time, split by whether the
+self-critique vetoed, compare 2y forward returns. A useful risk filter should
+give vetoed names LOWER mean and HIGHER permanent-loss rate.
+
+| Sample | Vetoed mean / loss-rate | Not-vetoed mean / loss-rate |
+|---|---|---|
+| us-smallcap-sample | +25.8% / 16% | +25.3% / 10% |
+| us-smallcap-sample2 | +38.5% / 13% | +29.7% / 11% |
+| nifty-smallcap250 | +94.2% / 8% | +83.6% / 2% |
+| **Pooled (n=440 vs 1052)** | **+38.1% / 14%** | **+29.9% / 10%** |
+
+**Verdict: the veto does NOT avoid worse outcomes.** Vetoed names had *higher*
+mean returns in every sample and a *higher* permanent-loss rate — the critique
+is selecting higher-volatility names (fatter both tails), not steering away
+from loss. Vetoing them would have *reduced* returns in these bull-heavy
+small-cap samples: the levered/deteriorating names the veto flags were exactly
+the high-beta winners of the window.
+
+## P2.1 disposition — honest accounting
+
+Both quantitative hypotheses of P2.1 are **falsified in these samples**:
+franchise durability does not predict returns (Addendum 9); the critique veto
+does not avoid losses (Addendum 10). Per the directive's rule, neither is
+presented as an investment edge:
+
+- `franchise_score`: descriptive classification only; never ranks or screens.
+- Critique `veto`: reframed as *transparency* — it surfaces disconfirming
+  evidence for the reader and is explicitly labelled as NOT a validated risk
+  filter. It no longer masquerades as a decision that improves outcomes.
+
+**What is retained, and why:** the thesis layer — falsifiable assumptions with
+track-record probabilities, explicit falsifiers, bull/base/bear business
+trajectory, devil's-advocate disconfirmers — is kept as a **research-quality /
+reasoning-transparency** upgrade (an explicitly permitted justification in the
+directive), because it makes the platform reason and communicate about a
+*business* rather than a ticker. It is labelled as unvalidated-for-returns
+everywhere it appears. Keep the reasoning scaffolding; drop every unearned
+predictive claim.

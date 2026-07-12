@@ -64,6 +64,58 @@ _TEMPLATE = _ENV.from_string("""\
 
 {{ (info.description or "No business description available from the current data source.")[:900] }}
 
+{% if thesis %}
+## Business & Investment Thesis
+
+**Franchise classification:** {{ business.classification }} — franchise score
+{{ business.franchise_score }}/100 over {{ business.history_years }} years of history.
+*(Franchise score is descriptive only: backtests found it does not predict
+forward returns better than the base score — see Model validation status.)*
+
+{{ thesis.business_summary }}
+
+**Why it might compound:**
+{% for p in thesis.bull_pillars %}
+- {{ p }}
+{% endfor %}
+
+**Key assumptions** — each with the share of the company's own history in which it held:
+
+| Assumption | Historical support | Currently true? |
+|---|---|---|
+{% for a in thesis.assumptions %}
+| {{ a.statement }} | {{ (a.historical_support * 100) | round(0) | int }}% | {{ "yes" if a.currently_true else "**NO**" }} |
+{% endfor %}
+
+**What would break the thesis (falsifiers):**
+{% for f in thesis.falsifiers %}
+- {{ f }}
+{% endfor %}
+
+**Business trajectory**
+- **Bull:** {{ thesis.trajectory_bull }}
+- **Base:** {{ thesis.trajectory_base }}
+- **Bear:** {{ thesis.trajectory_bear }}
+
+### Self-critique (devil's advocate)
+
+{% if critique.disconfirmers %}
+Before recommending, the platform searched for reasons *not* to invest:
+{% for d in critique.disconfirmers %}
+- {{ d }}
+{% endfor %}
+{% else %}
+No material disconfirming evidence surfaced by the critique rules.
+{% endif %}
+
+**Post-critique recommendation: {{ critique.recommendation }}**
+(thesis confidence {{ (thesis.thesis_confidence * 100) | round(0) | int }}%{% if critique.veto %}; **VETOED** — thesis rejected before recommendation{% endif %})
+
+*The critique exists for reasoning transparency. Backtests found the veto does
+NOT reliably avoid worse outcomes (vetoed names had higher volatility in both
+directions) — treat it as a list of concerns to weigh, not a validated filter.*
+{% endif %}
+
 ## Financial Analysis
 
 | Metric | Value | Metric | Value |
@@ -157,12 +209,14 @@ No risk flags triggered by the current rule set.
 
 ## Model validation status
 
-Backtests to date (US small/large caps 2012-2025, Indian midcaps 2024-2025;
-point-in-time, survivorship-biased current-constituent samples) show
+Backtests to date (US small/large caps 2012-2025, Indian small/midcaps
+2021-2025; point-in-time, survivorship-biased current-constituent samples) show
 **no demonstrated persistent predictive edge** for these scores; cross-sample
-agreement appears only in isolated regimes (2021-22 quality rally). Treat
-scores as a structured evidence summary, not a return forecast. Full record:
-`docs/backtest-findings-2026-07.md`.
+agreement appears only in isolated regimes (2021-22 quality rally). Ablations
+additionally found the franchise-durability score does **not** out-predict the
+base score, and the self-critique veto does **not** avoid worse outcomes. Treat
+scores, classifications, and critiques as a structured evidence summary, not a
+return forecast. Full record: `docs/backtest-findings-2026-07.md`.
 
 ## Disclaimer
 
@@ -213,6 +267,9 @@ def render_report(bundle: AnalysisBundle) -> str:
         val=bundle.val,
         risk=bundle.risk,
         card=bundle.card,
+        business=bundle.business,
+        thesis=bundle.thesis,
+        critique=bundle.critique,
         as_of=bundle.as_of,
         market_cap_str=_money(bundle.info.market_cap, bundle.info.currency),
         pct_vs=pct_vs,

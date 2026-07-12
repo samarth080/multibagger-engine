@@ -21,6 +21,7 @@ from scipy import stats
 from mbe.analysis.business import assess_business
 from mbe.analysis.fundamentals import compute_fundamentals
 from mbe.analysis.risk import assess_risk
+from mbe.thesis.engine import build_thesis, critique_thesis
 from mbe.analysis.technicals import compute_technicals
 from mbe.analysis.valuation import compute_valuation
 from mbe.backtest.pointintime import (
@@ -162,10 +163,12 @@ def analyze_as_of(
     risk = assess_risk(fin, fund, tech, val, info)
     card = build_scorecard(info, fund, tech, val, risk, fin, price_days=len(prices.df))
     business = assess_business(fin, info, fund)
+    thesis = build_thesis(info, fund, business, val, risk)
+    critique = critique_thesis(thesis, fund, business, val, risk)
 
     bundle = AnalysisBundle(
         info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk,
-        card=card, as_of=cutoff, business=business,
+        card=card, as_of=cutoff, business=business, thesis=thesis, critique=critique,
     )
     return bundle, full_prices
 

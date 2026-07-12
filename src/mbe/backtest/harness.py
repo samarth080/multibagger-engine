@@ -18,6 +18,7 @@ import pandas as pd
 from pydantic import BaseModel
 from scipy import stats
 
+from mbe.analysis.business import assess_business
 from mbe.analysis.fundamentals import compute_fundamentals
 from mbe.analysis.risk import assess_risk
 from mbe.analysis.technicals import compute_technicals
@@ -160,10 +161,11 @@ def analyze_as_of(
     val = compute_valuation(fin, info, fund, cutoff_price or 0.0)
     risk = assess_risk(fin, fund, tech, val, info)
     card = build_scorecard(info, fund, tech, val, risk, fin, price_days=len(prices.df))
+    business = assess_business(fin, info, fund)
 
     bundle = AnalysisBundle(
         info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk,
-        card=card, as_of=cutoff,
+        card=card, as_of=cutoff, business=business,
     )
     return bundle, full_prices
 
@@ -176,6 +178,8 @@ def _extract_score(bundle: AnalysisBundle, score_name: str) -> float:
         return bundle.card.multibagger_score
     if score_name == "investment":
         return bundle.card.investment_score
+    if score_name == "franchise":
+        return bundle.business.franchise_score if bundle.business else 0.0
     if score_name == "momentum":
         score_name = "Momentum"
     pillar = bundle.card.pillar(score_name)

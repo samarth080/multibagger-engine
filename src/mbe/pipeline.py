@@ -11,12 +11,14 @@ from datetime import date
 
 from pydantic import BaseModel, ConfigDict
 
+from mbe.analysis.business import assess_business
 from mbe.analysis.fundamentals import compute_fundamentals
 from mbe.analysis.risk import assess_risk
 from mbe.analysis.technicals import compute_technicals
 from mbe.analysis.valuation import compute_valuation
 from mbe.data.provider import DataProvider, ProviderError
 from mbe.models.analysis import (
+    BusinessProfile,
     FundamentalMetrics,
     RiskAssessment,
     TechnicalState,
@@ -24,7 +26,9 @@ from mbe.models.analysis import (
 )
 from mbe.models.company import CompanyInfo, FinancialHistory
 from mbe.models.scoring import ScoreCard
+from mbe.models.thesis import Critique, InvestmentThesis
 from mbe.scoring.engine import build_scorecard
+from mbe.thesis.engine import build_thesis, critique_thesis
 
 
 class AnalysisBundle(BaseModel):
@@ -38,6 +42,9 @@ class AnalysisBundle(BaseModel):
     risk: RiskAssessment
     card: ScoreCard
     as_of: date
+    business: BusinessProfile | None = None
+    thesis: InvestmentThesis | None = None
+    critique: Critique | None = None
 
 
 class ScreenResult(BaseModel):
@@ -63,9 +70,14 @@ def analyze_ticker(ticker: str, provider: DataProvider) -> AnalysisBundle:
     risk = assess_risk(fin, fund, tech, val, info)
     card = build_scorecard(info, fund, tech, val, risk, fin, price_days=len(prices.df))
 
+    business = assess_business(fin, info, fund)
+    thesis = build_thesis(info, fund, business, val, risk)
+    critique = critique_thesis(thesis, fund, business, val, risk)
+
     return AnalysisBundle(
         info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk,
         card=card, as_of=date.today(),
+        business=business, thesis=thesis, critique=critique,
     )
 
 

@@ -59,3 +59,29 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
 
 ### Fixed
 - Spearman IC on constant score vectors now returns None instead of NaN.
+
+## v0.3.0 — 2026-07-12
+
+### Added
+- **Local web research terminal** (`mbe serve` -> http://127.0.0.1:8000):
+  stored runs, rankings with score meters, in-browser research reports
+  (analyze any ticker), per-ticker score history, backtest evidence table.
+- **SEC EDGAR fundamentals provider** (`--fundamentals edgar`): 15-20 years of
+  US annual statements from XBRL companyfacts, original-filing values only
+  (restatements ignored to prevent leakage), per-year exact first-public dates.
+- `FinancialHistory.filed` + filed-date-aware point-in-time truncation
+  (exact dates beat the FY-end + 90d heuristic; late filers handled honestly).
+- `CompositeProvider` (EDGAR statements + Yahoo prices/info), `us-largecap60`
+  universe, technical-only backtests no longer require statements at cutoff.
+
+### Measured (docs/backtest-findings-2026-07.md)
+- Momentum, 8 annual cutoffs, 60 Indian midcaps: mean IC -0.01, whipsaw
+  -0.30..+0.20 — no stable annual-rebalance momentum edge.
+- US large caps via EDGAR (7 cutoffs 2018-2024): multibagger 1y IC +0.004,
+  investment 1y IC -0.025, multibagger 2y IC -0.001. Caveat recorded: a
+  large-cap universe structurally penalizes the size-runway pillar in a
+  mega-cap-led regime; proper test needs small/mid-cap universes (queued).
+
+### Fixed
+- EDGAR tag fallbacks merge across eras (ASC 606 revenue tag switch) — values
+  verified against Apple's reported figures to the million.

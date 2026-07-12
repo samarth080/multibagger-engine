@@ -231,14 +231,15 @@ def assess_business(
     # Great investors weight the trajectory, not just the level.
     if margin_trajectory is not None:
         mult = max(0.55, min(1.10, 1 + margin_trajectory * 10))
+        adjusted = min(100.0, max(0.0, franchise_score * mult))
         if abs(mult - 1.0) > 0.01:
             evidence.append(_score_component(
-                "trajectory_adjustment", franchise_score * mult,
+                "trajectory_adjustment", adjusted,
                 f"margin trend {margin_trajectory:+.3f}/yr -> x{mult:.2f}",
                 0.0, round(margin_trajectory, 4),
                 "Expanding margins strengthen a franchise; compressing margins erode it",
             ))
-        franchise_score *= mult
+        franchise_score = adjusted
 
     # weights of the 6 real components sum to 1.0, so coverage == completeness
     completeness = min(1.0, weight_present)

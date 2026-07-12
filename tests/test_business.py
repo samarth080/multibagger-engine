@@ -153,3 +153,28 @@ def test_completeness_never_exceeds_one_with_trajectory_row():
     assert 0 <= prof.completeness <= 1.0
     assert prof.margin_trajectory > 0
     assert any(e.metric == "trajectory_adjustment" for e in prof.evidence)
+
+
+def test_elite_compounder_with_expanding_margins_stays_bounded():
+    """TCS-shaped bug: a near-perfect franchise x expanding-margin multiplier
+    pushed points/score above 100 and crashed pydantic validation."""
+    years = list(range(2016, 2025))
+    rev = [100 * 1.12 ** i for i in range(9)]
+    op = [r * (0.24 + 0.004 * i) for i, r in enumerate(rev)]  # high + expanding
+    fin = FinancialHistory(
+        data={
+            "revenue": dict(zip(years, rev)),
+            "operating_income": dict(zip(years, op)),
+            "net_income": dict(zip(years, [o * 0.75 for o in op])),
+            "total_equity": dict(zip(years, [40 + 8 * i for i in range(9)])),
+            "total_debt": dict(zip(years, [2] * 9)),
+            "cash": dict(zip(years, [10 + 2 * i for i in range(9)])),
+            "cfo": dict(zip(years, [o * 0.95 for o in op])),
+        }
+    )
+    info = CompanyInfo(ticker="ELITE.NS")
+    fund = compute_fundamentals(fin, info)
+    prof = assess_business(fin, info, fund)  # must not raise
+    assert 0 <= prof.franchise_score <= 100
+    assert all(0 <= e.points <= 100 for e in prof.evidence)
+    assert prof.classification == "Durable Compounder"

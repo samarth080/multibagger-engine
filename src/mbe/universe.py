@@ -26,6 +26,23 @@ UNIVERSES: dict[str, list[str]] = {
     "us-tech": [
         "AAPL", "MSFT", "GOOGL", "NVDA", "AMD", "CRWD", "DDOG", "NET",
     ],
+    "us-largecap60": [
+        # tech / communication
+        "AAPL", "MSFT", "GOOGL", "META", "NVDA", "AMD", "CRM", "ADBE", "ORCL",
+        "CSCO", "TXN", "INTU", "NFLX", "DIS",
+        # health care
+        "JNJ", "UNH", "PFE", "MRK", "ABBV", "TMO", "DHR", "LLY",
+        # financials
+        "JPM", "BAC", "GS", "MS", "SCHW", "BLK", "V", "MA", "AXP",
+        # consumer
+        "AMZN", "TSLA", "HD", "MCD", "NKE", "SBUX", "COST", "WMT", "PG", "KO",
+        "PEP", "TGT",
+        # industrials / energy / materials
+        "CAT", "DE", "HON", "GE", "UPS", "UNP", "LMT", "BA", "XOM", "CVX",
+        "COP", "LIN", "SHW",
+        # utilities / real estate / misc
+        "NEE", "DUK", "AMT", "PLD",
+    ],
 }
 
 

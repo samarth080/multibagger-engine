@@ -21,18 +21,29 @@ CACHE_DIR = Path("data/cache")
 DB_PATH = Path("data/mbe.duckdb")
 
 
-def _provider() -> YahooProvider:
-    return YahooProvider(DiskCache(CACHE_DIR))
+def _provider(fundamentals: str = "yahoo"):
+    yahoo = YahooProvider(DiskCache(CACHE_DIR))
+    if fundamentals == "edgar":
+        from mbe.data.composite import CompositeProvider
+        from mbe.data.edgar import EdgarFundamentals
+
+        return CompositeProvider(
+            fundamentals=EdgarFundamentals(DiskCache(CACHE_DIR)), market=yahoo
+        )
+    return yahoo
 
 
 @app.command()
 def analyze(
     ticker: str,
     out: Path = typer.Option(Path("reports"), help="Directory for the markdown report"),
+    fundamentals: str = typer.Option(
+        "yahoo", help="Statement source: yahoo | edgar (US tickers, 10y+ history)"
+    ),
 ):
     """Full research report for one ticker (e.g. RELIANCE.NS)."""
     console.print(f"[bold]Analyzing {ticker}…[/bold]")
-    bundle = analyze_ticker(ticker, _provider())
+    bundle = analyze_ticker(ticker, _provider(fundamentals))
     out.mkdir(parents=True, exist_ok=True)
     path = out / f"{ticker.replace('.', '_')}_{bundle.as_of}.md"
     path.write_text(render_report(bundle))
@@ -134,6 +145,9 @@ def backtest(
     score: str = typer.Option("multibagger", help="multibagger | investment | momentum"),
     limit: int = typer.Option(0, help="Cap number of tickers (0 = all)"),
     out: Path = typer.Option(Path("reports"), help="Directory for the report"),
+    fundamentals: str = typer.Option(
+        "yahoo", help="Statement source: yahoo | edgar (US tickers, 10y+ history)"
+    ),
 ):
     """Point-in-time backtest: does the score predict forward returns?"""
     from datetime import date as date_cls
@@ -150,7 +164,7 @@ def backtest(
         f"cutoffs {cutoff_dates}, horizon {horizon}d…[/bold]"
     )
     report = run_backtest(
-        tickers, _provider(), cutoff_dates, horizon,
+        tickers, _provider(fundamentals), cutoff_dates, horizon,
         score_name=score, universe_name=universe,
     )
     out.mkdir(parents=True, exist_ok=True)

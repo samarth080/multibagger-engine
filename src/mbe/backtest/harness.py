@@ -55,6 +55,8 @@ class BacktestReport(BaseModel):
     cutoffs: list[CutoffResult]
     mean_ic: float | None
     skipped: dict[str, str]
+    # cutoff ISO date -> ticker -> (score, forward_return); only when requested
+    raw_panel: dict[str, dict[str, tuple[float, float]]] | None = None
 
 
 def evaluate_cutoff(
@@ -189,11 +191,15 @@ def run_backtest_multi(
     horizon_days: int,
     score_names: list[str],
     universe_name: str = "",
+    collect_raw: bool = False,
 ) -> dict[str, BacktestReport]:
     """One point-in-time analysis pass, evaluated against every requested
     score (composites and individual pillars) — pillar attribution without
     re-fetching or re-analyzing per score."""
     per_score_results: dict[str, list[CutoffResult]] = {s: [] for s in score_names}
+    raw: dict[str, dict[str, dict[str, tuple[float, float]]]] = {
+        s: {} for s in score_names
+    }
     skipped: dict[str, str] = {}
     needs_statements = any(s not in _TECHNICAL_ONLY_SCORES for s in score_names)
 
@@ -222,6 +228,10 @@ def run_backtest_multi(
             per_score_results[name].append(
                 CutoffResult(cutoff=cutoff, **evaluate_cutoff(scores[name], fwd))
             )
+            if collect_raw:
+                raw[name][cutoff.isoformat()] = {
+                    t: (scores[name][t], fwd[t]) for t in scores[name]
+                }
 
     reports: dict[str, BacktestReport] = {}
     for name in score_names:
@@ -233,6 +243,7 @@ def run_backtest_multi(
             cutoffs=per_score_results[name],
             mean_ic=sum(ics) / len(ics) if ics else None,
             skipped=dict(skipped),
+            raw_panel=raw[name] if collect_raw else None,
         )
     return reports
 

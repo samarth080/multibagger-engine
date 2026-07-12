@@ -155,3 +155,24 @@ def test_run_backtest_multi_scores_single_pass():
     for name, report in reports.items():
         assert report.score_name == name
         assert report.cutoffs[0].n == 4, name
+
+
+def test_run_backtest_multi_returns_raw_panel_when_asked():
+    from mbe.backtest.harness import run_backtest_multi
+
+    reports = run_backtest_multi(
+        tickers=["A.NS", "B.NS"],
+        provider=PITStubProvider(),
+        cutoffs=[date(2023, 6, 30)],
+        horizon_days=365,
+        score_names=["multibagger"],
+        universe_name="stub",
+        collect_raw=True,
+    )
+    panel = reports["multibagger"].raw_panel
+    assert panel is not None
+    day = panel["2023-06-30"]
+    assert set(day) == {"A.NS", "B.NS"}
+    score, fwd = day["A.NS"]
+    assert 0 <= score <= 100
+    assert isinstance(fwd, float)

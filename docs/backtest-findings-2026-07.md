@@ -296,3 +296,33 @@ proven.** The exact same red flags that killed the US +0.16 apply:
 **Status: promising lead, explicitly unvalidated.** No recalibration. The US
 experience is the cautionary precedent: this is precisely the shape of result
 that later evaporated.
+
+## Addendum 9 — Phase 2 / P2.1: franchise-durability score is a VALIDATED NULL predictor
+
+Ablation (multi-score harness, 2y horizon, franchise vs base multibagger vs
+Quality vs investment), pre-registered decision rule: franchise becomes a
+first-class ranking score only if IC ≥ base in the majority of samples.
+
+| Sample | multibagger IC | franchise IC | franchise ≥ base? |
+|---|---|---|---|
+| us-smallcap-sample (12 cutoffs) | +0.098 | +0.092 | no |
+| us-smallcap-sample2 (12 cutoffs) | -0.025 | **-0.094** | no |
+| nifty-smallcap250 (3 cutoffs) | +0.221 | **-0.114** | no |
+
+**Verdict: 0/3. Franchise-durability does NOT predict forward returns better
+than the existing score — it is materially worse on the replication and India
+panels.** Honoring the rule: `franchise_score` is **demoted** — it is NOT used
+to rank or screen picks. It remains only (a) a labelled research quantity in the
+backtest store and (b) a *descriptive* business classification in reports.
+
+This is the discipline the directive demands working as intended: a plausible,
+investor-intuitive signal (durable high-ROCE franchises) was built, tested, and
+found to carry no selection alpha in these samples — and is demoted rather than
+shipped on narrative appeal.
+
+**What is retained, and on what basis:** the *thesis + self-critique* layer
+makes no return-prediction claim. Its value proposition is (1) research quality
+— falsifiable assumptions with track-record probabilities, explicit falsifiers,
+devil's-advocate disconfirmers — and (2) **risk avoidance** via the critique
+veto. Claim (2) is tested next (veto-avoidance study); if the veto does not
+steer away from worse outcomes it too will be demoted.

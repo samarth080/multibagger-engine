@@ -144,3 +144,16 @@ def test_report_discloses_validation_status():
     text = render_report(bundle)
     assert "Model validation status" in text
     assert "no demonstrated" in text.lower()
+
+
+def test_report_has_business_and_thesis_section():
+    from mbe.report.markdown import render_report
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    text = render_report(bundle)
+    assert "Business & Investment Thesis" in text
+    assert "Franchise classification" in text
+    assert "Key assumptions" in text  # falsifiable assumptions table
+    assert "Self-critique" in text     # devil's advocate
+    assert bundle.thesis is not None
+    assert bundle.critique is not None

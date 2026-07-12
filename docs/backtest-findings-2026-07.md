@@ -128,3 +128,31 @@ is positive.
 **Decision: still no benchmark-table recalibration.** Next evidence steps, in
 order: (a) rerun on a second disjoint S&P 600 sample (cheap, cached universe),
 (b) 3y horizon, (c) an Indian fundamentals source for the home-market test.
+
+## Addendum 4: replication — the signal weakens out-of-sample
+
+| Test (multibagger score) | Sample | Mean IC | Detail |
+|---|---|---|---|
+| 2y horizon | primary 80 (S&P600) | +0.160 | 6/6 cutoffs positive |
+| 3y horizon | primary 80 | +0.218 | 5/5 positive (overlapping windows — not independent) |
+| **2y horizon** | **disjoint replication 80** | **+0.044** | one -0.25 cutoff; 2021/22 positive in both samples |
+
+**Synthesis (all 2y evidence pooled, 12 cutoff-samples): mean IC ~ +0.10,
+p ~ 0.05 before adjusting for the fact that both samples share the same
+6 calendar windows — effectively ~6 independent regime observations, so the
+true significance is weaker.**
+
+Disciplined conclusion:
+1. There is a **suggestive positive tendency** for the multibagger score on
+   US small caps at multi-year horizons, strongest in 2021-2022 windows —
+   and it is **not yet robust**: the primary sample's +0.16 was partly
+   winner's luck (classic regression to the mean on replication).
+2. The horizon gradient (mega caps ~0 -> small caps 1y +0.10/2y pooled +0.10)
+   remains thesis-coherent, but claims stay at "suggestive".
+3. **No recalibration, no weight changes.** Evidence base needed before any:
+   delisting-inclusive constituent history (kills survivorship bias),
+   Indian small-cap replication (needs an Indian filings provider), and
+   more independent time windows (older cutoffs — EDGAR supports ~2010+).
+
+This file is the permanent record: every claim the engine makes about its own
+predictive power must cite it or supersede it with better evidence.

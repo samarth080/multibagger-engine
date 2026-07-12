@@ -79,10 +79,21 @@ def analyze(
             else:
                 console.print("Thesis unchanged since last analysis.")
         store.save_thesis(bundle.thesis, bundle.critique, as_of=bundle.as_of)
+
+        from mbe.thesis.predictions import emit_predictions
+
+        n_new = store.save_predictions(
+            emit_predictions(bundle.thesis, as_of=bundle.as_of)
+        )
         console.print(
             f"Thesis: {bundle.thesis.classification} | "
             f"{bundle.critique.recommendation}"
         )
+        if n_new:
+            console.print(
+                f"Ledger: {n_new} falsifiable predictions recorded "
+                f"(due {bundle.as_of.replace(year=bundle.as_of.year + 1)})"
+            )
     console.print(f"Report: [green]{path}[/green]")
 
 
@@ -216,6 +227,37 @@ def backtest(
         },
     )
     console.print(f"Report: [green]{path}[/green]")
+
+
+@app.command()
+def calibration():
+    """Is the platform honest about its confidence? Reliability table + Brier."""
+    from mbe.storage import RunStore
+    from mbe.thesis.calibration import brier_score, reliability_table
+
+    resolved = RunStore(DB_PATH).resolved_predictions()
+    if not resolved:
+        console.print(
+            "No resolved predictions yet. Run `mbe analyze` to record claims, "
+            "or `uv run python scripts/retro_calibration.py` for a historical run."
+        )
+        raise typer.Exit(0)
+
+    pairs = [(r["confidence"], bool(r["correct"])) for r in resolved]
+    console.print(
+        f"[bold]{len(pairs)} resolved predictions[/bold] | "
+        f"Brier score {brier_score(pairs):.3f} "
+        f"(0 = perfect, 0.25 = coin-flip at 0.5)"
+    )
+    table = Table(title="Reliability: stated confidence vs observed frequency")
+    for col in ("Bucket", "N", "Stated", "Observed", "Gap"):
+        table.add_column(col)
+    for row in reliability_table(pairs):
+        table.add_row(
+            row["bucket"], str(row["n"]), f"{row['stated']:.0%}",
+            f"{row['observed']:.0%}", f"{row['gap']:+.0%}",
+        )
+    console.print(table)
 
 
 @app.command()

@@ -85,3 +85,24 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
 ### Fixed
 - EDGAR tag fallbacks merge across eras (ASC 606 revenue tag switch) — values
   verified against Apple's reported figures to the million.
+
+## v0.3.1 — 2026-07-12
+
+### Added
+- Full-depth price history (`period=max`) — backtest cutoffs back to ~2012.
+- Disjoint replication samples (`us-smallcap-sample2`, stride midpoints).
+- **Model validation status section in every research report** (test-enforced):
+  states the current null result and links the findings record.
+
+### Measured — headline research conclusion (docs/backtest-findings-2026-07.md)
+- Decade matrix (12 cutoffs x 2 disjoint S&P600 samples, 2y horizon):
+  primary +0.098 mean IC vs replication **-0.028** — the earlier +0.16 was
+  sample luck. Cross-sample agreement only in 2021-22 (regime effect).
+  **No demonstrated persistent edge; benchmark tables remain unvalidated
+  priors.** Next directions: pillar-level attribution, Indian replication
+  (BSE PDF pipeline), delisting-inclusive universes.
+
+### Fixed
+- Findings addendum dedupe; local DuckDB store untracked from git.
+- (Process) pytest-pipe exit codes masked one failure; verification now uses
+  pipefail.

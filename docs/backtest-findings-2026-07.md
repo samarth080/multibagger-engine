@@ -191,3 +191,37 @@ even firmer.
    publicly addressable).
 3. Delisting-inclusive universes; quarterly rebalance; interaction filters
    (e.g. quality only within uptrends).
+
+## Addendum 6 — pillar attribution (single-pass, 9 scores x 2 samples x 12 cutoffs, 2y)
+
+| Component | Primary IC | Replication IC | Replicates? |
+|---|---|---|---|
+| **Size Runway** | **+0.277 (11/12)** | **+0.221 (10/12)** | **yes — but see caveat** |
+| Valuation | +0.102 | -0.006 | no |
+| Quality | +0.084 | -0.094 | no |
+| Financial Strength | +0.074 | -0.070 | no |
+| Growth | +0.058 | -0.012 | no |
+| Reinvestment | +0.064 | -0.019 | no |
+| Momentum | -0.074 | -0.064 | negative in both |
+| multibagger (composite) | +0.098 | -0.028 | no |
+| investment (composite) | +0.110 | -0.074 | no |
+
+Readings:
+
+1. **Size Runway is the only replicating signal — and it is exactly the one
+   current-constituent survivorship inflates most.** A stock that was tiny in
+   2012 and is still an S&P 600 member today survived and grew by construction;
+   small losers were delisted and are invisible. Direction plausible (size
+   effect within small caps), magnitude untrustworthy. A delisting-inclusive
+   constituent history is now the single most valuable data acquisition for
+   this engine.
+2. **No fundamental pillar (Quality/Growth/Strength/Valuation) carries
+   replicable 2y signal** in these samples — the composite null decomposes
+   into component nulls, not into cancellation.
+3. **Momentum is negative in BOTH samples at 2y** — coherent with the
+   literature (momentum works at 3-12 months and mean-reverts at 2-5 years);
+   annual-sampled 1y momentum was ~0. If momentum is ever used for entry
+   timing, its horizon must be far shorter than the holding thesis.
+
+Attribution is stored per-score in the DuckDB backtests table
+(`attribution_run: true`) and reproducible via `scripts/attribution_backtest.py`.

@@ -136,3 +136,22 @@ def test_fundamental_backtest_still_requires_statements():
     )
     assert report.cutoffs[0].n == 0
     assert len(report.skipped) == 1
+
+
+def test_run_backtest_multi_scores_single_pass():
+    """One analysis pass must yield reports for every requested score,
+    including individual pillars."""
+    from mbe.backtest.harness import run_backtest_multi
+
+    reports = run_backtest_multi(
+        tickers=["A.NS", "B.NS", "C.NS", "D.NS"],
+        provider=PITStubProvider(),
+        cutoffs=[date(2023, 6, 30)],
+        horizon_days=365,
+        score_names=["multibagger", "investment", "Quality", "Momentum"],
+        universe_name="stub",
+    )
+    assert set(reports) == {"multibagger", "investment", "Quality", "Momentum"}
+    for name, report in reports.items():
+        assert report.score_name == name
+        assert report.cutoffs[0].n == 4, name

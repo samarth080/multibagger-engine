@@ -166,31 +166,39 @@ def analyze_as_of(
     return bundle, full_prices
 
 
+_TECHNICAL_ONLY_SCORES = {"momentum", "Momentum"}
+
+
 def _extract_score(bundle: AnalysisBundle, score_name: str) -> float:
     if score_name == "multibagger":
         return bundle.card.multibagger_score
     if score_name == "investment":
         return bundle.card.investment_score
     if score_name == "momentum":
-        pillar = bundle.card.pillar("Momentum")
-        return pillar.score if pillar else 0.0
+        score_name = "Momentum"
+    pillar = bundle.card.pillar(score_name)
+    if pillar is not None:
+        return pillar.score
     raise ValueError(f"unknown score {score_name!r}")
 
 
-def run_backtest(
+def run_backtest_multi(
     tickers: list[str],
     provider: DataProvider,
     cutoffs: list[date],
     horizon_days: int,
-    score_name: str = "multibagger",
+    score_names: list[str],
     universe_name: str = "",
-) -> BacktestReport:
-    results: list[CutoffResult] = []
+) -> dict[str, BacktestReport]:
+    """One point-in-time analysis pass, evaluated against every requested
+    score (composites and individual pillars) — pillar attribution without
+    re-fetching or re-analyzing per score."""
+    per_score_results: dict[str, list[CutoffResult]] = {s: [] for s in score_names}
     skipped: dict[str, str] = {}
-    needs_statements = score_name != "momentum"
+    needs_statements = any(s not in _TECHNICAL_ONLY_SCORES for s in score_names)
 
     for cutoff in cutoffs:
-        scores: dict[str, float] = {}
+        scores: dict[str, dict[str, float]] = {s: {} for s in score_names}
         fwd: dict[str, float] = {}
         for ticker in tickers:
             try:
@@ -207,19 +215,39 @@ def run_backtest(
             if ret is None:
                 skipped[f"{ticker}@{cutoff}"] = "forward window incomplete"
                 continue
-            scores[ticker] = _extract_score(bundle, score_name)
             fwd[ticker] = ret
-        results.append(CutoffResult(cutoff=cutoff, **evaluate_cutoff(scores, fwd)))
+            for name in score_names:
+                scores[name][ticker] = _extract_score(bundle, name)
+        for name in score_names:
+            per_score_results[name].append(
+                CutoffResult(cutoff=cutoff, **evaluate_cutoff(scores[name], fwd))
+            )
 
-    ics = [c.ic for c in results if c.ic is not None]
-    return BacktestReport(
-        universe_name=universe_name,
-        score_name=score_name,
-        horizon_days=horizon_days,
-        cutoffs=results,
-        mean_ic=sum(ics) / len(ics) if ics else None,
-        skipped=skipped,
-    )
+    reports: dict[str, BacktestReport] = {}
+    for name in score_names:
+        ics = [c.ic for c in per_score_results[name] if c.ic is not None]
+        reports[name] = BacktestReport(
+            universe_name=universe_name,
+            score_name=name,
+            horizon_days=horizon_days,
+            cutoffs=per_score_results[name],
+            mean_ic=sum(ics) / len(ics) if ics else None,
+            skipped=dict(skipped),
+        )
+    return reports
+
+
+def run_backtest(
+    tickers: list[str],
+    provider: DataProvider,
+    cutoffs: list[date],
+    horizon_days: int,
+    score_name: str = "multibagger",
+    universe_name: str = "",
+) -> BacktestReport:
+    return run_backtest_multi(
+        tickers, provider, cutoffs, horizon_days, [score_name], universe_name
+    )[score_name]
 
 
 def render_backtest_md(report: BacktestReport) -> str:

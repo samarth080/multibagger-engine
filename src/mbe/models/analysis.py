@@ -94,3 +94,30 @@ class RiskAssessment(BaseModel):
     flags: list[RiskFlag] = []
     risk_score: float = Field(ge=0, le=100, default=0.0)  # higher = riskier
     permanent_loss_bucket: str = "unknown"  # low / medium / high
+
+
+class BusinessProfile(BaseModel):
+    """A decade-scale view of the business, not a single-year snapshot.
+    Franchise-durability signals the world's best long-term investors use."""
+
+    history_years: int = 0
+    roce_median: float | None = None
+    roce_min: float | None = None
+    roce_consistency: float | None = None  # fraction of years ROCE >= 15%
+    growth_positive_years: float | None = None  # fraction of YoY revenue gains
+    margin_stability: float | None = None  # 1 - CV(operating margin); pricing power
+    margin_trajectory: float | None = None  # OLS slope of operating margin / year
+    earnings_quality_track: float | None = None  # fraction of years CFO/NI >= 0.8
+    incremental_roic: float | None = None  # return earned on reinvested capital
+    worst_revenue_drawdown: float | None = None  # <= 0; peak-to-trough
+    ever_lossmaking: bool = False
+    survived_downturn: bool = False
+    classification: str = "Unproven"
+    franchise_score: float = Field(ge=0, le=100, default=0.0)
+    evidence: list["Evidence"] = []
+    completeness: float = Field(ge=0, le=1, default=0.0)
+
+
+from mbe.models.scoring import Evidence  # noqa: E402  (resolve forward ref)
+
+BusinessProfile.model_rebuild()

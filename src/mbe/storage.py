@@ -47,6 +47,19 @@ CREATE TABLE IF NOT EXISTS theses (
     critique_json TEXT,
     created_at TIMESTAMP
 );
+CREATE TABLE IF NOT EXISTS predictions (
+    pred_id TEXT PRIMARY KEY,
+    ticker TEXT,
+    made_on DATE,
+    due_on DATE,
+    kind TEXT,
+    statement TEXT,
+    confidence DOUBLE,
+    source TEXT,
+    resolved_on DATE,
+    actual TEXT,
+    correct BOOLEAN
+);
 CREATE TABLE IF NOT EXISTS backtests (
     created_at TIMESTAMP,
     universe TEXT,
@@ -194,6 +207,67 @@ class RunStore:
             }
             for r in rows
         ]
+
+    # ---- prediction ledger (append-only; outcomes fill in, never overwrite) ----
+
+    @staticmethod
+    def _pred_id(p) -> str:
+        import hashlib
+
+        key = f"{p.ticker}|{p.made_on}|{p.kind}|{p.statement}"
+        return hashlib.sha1(key.encode()).hexdigest()[:16]
+
+    def save_predictions(self, predictions) -> int:
+        """Insert new predictions; duplicates (same ticker/date/claim) skipped."""
+        saved = 0
+        with self._conn() as conn:
+            for p in predictions:
+                pid = self._pred_id(p)
+                exists = conn.execute(
+                    "SELECT 1 FROM predictions WHERE pred_id = ?", [pid]
+                ).fetchone()
+                if exists:
+                    continue
+                conn.execute(
+                    "INSERT INTO predictions VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL)",
+                    [pid, p.ticker, p.made_on, p.due_on, p.kind,
+                     p.statement, p.confidence, p.source],
+                )
+                saved += 1
+        return saved
+
+    def due_predictions(self, as_of) -> list:
+        from mbe.models.prediction import Prediction
+
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT ticker, made_on, due_on, kind, statement, confidence, source "
+                "FROM predictions WHERE due_on <= ? AND resolved_on IS NULL "
+                "ORDER BY due_on, ticker",
+                [as_of],
+            ).fetchall()
+        cols = ["ticker", "made_on", "due_on", "kind", "statement", "confidence", "source"]
+        return [Prediction(**dict(zip(cols, r))) for r in rows]
+
+    def record_outcome(self, prediction, outcome) -> None:
+        with self._conn() as conn:
+            conn.execute(
+                "UPDATE predictions SET resolved_on = ?, actual = ?, correct = ? "
+                "WHERE pred_id = ? AND resolved_on IS NULL",
+                [outcome.resolved_on, outcome.actual, outcome.correct,
+                 self._pred_id(prediction)],
+            )
+
+    def resolved_predictions(self) -> list[dict]:
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT ticker, made_on, due_on, kind, statement, confidence, "
+                "resolved_on, actual, correct FROM predictions "
+                "WHERE resolved_on IS NOT NULL ORDER BY resolved_on",
+            ).fetchall()
+        cols = ["ticker", "made_on", "due_on", "kind", "statement", "confidence",
+                "resolved_on", "actual", "correct"]
+        return [dict(zip(cols, r)) for r in rows]
 
     def save_backtest(
         self,

@@ -30,6 +30,13 @@ def _provider(fundamentals: str = "yahoo"):
         return CompositeProvider(
             fundamentals=EdgarFundamentals(DiskCache(CACHE_DIR)), market=yahoo
         )
+    if fundamentals == "nse":
+        from mbe.data.composite import CompositeProvider
+        from mbe.data.nse_xbrl import NseFundamentals
+
+        return CompositeProvider(
+            fundamentals=NseFundamentals(DiskCache(CACHE_DIR)), market=yahoo
+        )
     return yahoo
 
 

@@ -191,3 +191,38 @@ even firmer.
    publicly addressable).
 3. Delisting-inclusive universes; quarterly rebalance; interaction filters
    (e.g. quality only within uptrends).
+
+## Addendum 5 — FINAL SYNTHESIS: the decade-long matrix (null result)
+
+Multibagger score, 2y horizon, 12 annual cutoffs 2012-2023, two disjoint
+80-name S&P 600 samples, EDGAR fundamentals, full-depth prices:
+
+| Sample | Mean IC | Positive cutoffs | 2012-2018 | 2021-22 |
+|---|---|---|---|---|
+| primary | +0.098 | 9/12 | mixed | +0.35 / +0.30 |
+| replication | **-0.028** | 4/12 | nearly all negative | +0.21 / +0.25 |
+
+**Conclusion: no demonstrated persistent edge.** The two samples disagree
+across most of the decade; they agree only in the 2021-2022 windows — a
+regime effect (post-COVID quality repricing), not a durable stock-selection
+signal. The initial +0.16 (Addendum 3) was sample-specific luck, caught by
+replication + window extension. Additional caveat: at older cutoffs,
+current-constituent samples are increasingly survivorship-tilted (n drops
+from ~75 to ~44), which should *flatter* quality scores — making the null
+even firmer.
+
+**Actions taken:**
+1. Every research report now carries a "Model validation status" section
+   stating the null result and linking this record (wired into the template,
+   test-enforced).
+2. Benchmark tables remain documented priors — explicitly unvalidated.
+
+**Where signal could still hide (next research directions, in value order):**
+1. **Pillar-level attribution** — test each pillar score separately; a null
+   composite can hide a working component cancelled by a broken one.
+2. **Indian small/mid caps** — different market efficiency regime; blocked on
+   an Indian fundamentals source (BSE annual-report PDF extraction pipeline
+   is the identified path; NSE API bot-walled; structured BSE endpoints not
+   publicly addressable).
+3. Delisting-inclusive universes; quarterly rebalance; interaction filters
+   (e.g. quality only within uptrends).

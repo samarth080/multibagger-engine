@@ -158,8 +158,8 @@ No risk flags triggered by the current rule set.
 ## Model validation status
 
 Backtests to date (US small/large caps 2012-2025, Indian midcaps 2024-2025;
-point-in-time, survivorship-biased current-constituent samples) show **no
-demonstrated persistent predictive edge** for these scores; cross-sample
+point-in-time, survivorship-biased current-constituent samples) show
+**no demonstrated persistent predictive edge** for these scores; cross-sample
 agreement appears only in isolated regimes (2021-22 quality rally). Treat
 scores as a structured evidence summary, not a return forecast. Full record:
 `docs/backtest-findings-2026-07.md`.

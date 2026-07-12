@@ -225,3 +225,40 @@ Readings:
 
 Attribution is stored per-score in the DuckDB backtests table
 (`attribution_run: true`) and reproducible via `scripts/attribution_backtest.py`.
+
+## Addendum 7 — survivorship sensitivity: the size signal is bias-compatible
+
+Ghost-injection grid (synthetic delisted names at the top size tier, forward
+return swept over plausible removal outcomes), applied to the Size Runway
+panels from Addendum 6:
+
+| Assumption (delisted share, ghost return) | Sample1 IC | Sample2 IC |
+|---|---|---|
+| observed (no ghosts) | +0.277 | +0.221 |
+| mild (5%, -20%) | +0.130 | +0.079 |
+| **central (10%, -20%)** | **+0.024** | **-0.023** |
+| adverse (15%, -40%) | -0.154 | -0.195 |
+
+S&P 600 turnover runs ~6-10%/yr (=> ~12-20% over a 2y window); removal
+outcomes blend bankruptcies/deletions (very negative) with buyouts (positive
+premium), plausibly netting -10% to -30%. At those central assumptions the
+observed size IC is **indistinguishable from zero**.
+
+**Verdict: the last surviving signal is fully compatible with survivorship
+bias. The complete v0.1 scoring system has no demonstrated predictive edge in
+US samples, 2012-2025, at 1-3y horizons.** This is now a clean,
+rigorously-established null — the correct foundation for what comes next.
+
+(Process note: the first grid run produced ICs that *rose* under adverse
+assumptions — a rank-placement bug (ghosts jittered below the top tier
+instead of above). Caught because the result contradicted arithmetic
+intuition; fixed and rerun. Surprising results get audited before recording.)
+
+## Strategic pivot recorded
+
+NSE's financial-results API + archives XBRL are openly accessible (no bot
+wall on these endpoints): 20 years of annual Ind-AS filings per company with
+exact broadcast timestamps — full P&L and cash-flow line items confirmed for
+RELIANCE. **This is the Indian fundamentals provider path** (better than the
+BSE PDF pipeline), enabling the home-market replication the thesis actually
+targets. Queued as the next build.

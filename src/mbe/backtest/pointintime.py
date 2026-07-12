@@ -30,15 +30,20 @@ def availability_date(fy_year: int, fy_end_month: int = 3) -> date:
 def truncate_financials(
     fin: FinancialHistory, cutoff: date, fy_end_month: int = 3
 ) -> FinancialHistory:
+    def visible(year: int) -> bool:
+        # exact first-public date when the provider recorded one (XBRL filings)
+        if year in fin.filed:
+            return fin.filed[year] <= cutoff
+        return availability_date(year, fy_end_month) <= cutoff
+
     return FinancialHistory(
         data={
             field: {
-                year: value
-                for year, value in by_year.items()
-                if availability_date(year, fy_end_month) <= cutoff
+                year: value for year, value in by_year.items() if visible(year)
             }
             for field, by_year in fin.data.items()
-        }
+        },
+        filed={y: d for y, d in fin.filed.items() if visible(y)},
     )
 
 

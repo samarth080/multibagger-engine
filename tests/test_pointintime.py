@@ -66,3 +66,27 @@ def test_sanitize_info_without_shares_gives_no_mcap():
     info = CompanyInfo(ticker="X.NS", market_cap=999.0)
     as_of = sanitize_info_as_of(info, cutoff_price=8.0)
     assert as_of.market_cap is None
+
+
+def test_truncate_prefers_real_filed_dates():
+    """EDGAR supplies exact first-public dates; they beat the +90d heuristic."""
+    fin = FinancialHistory(
+        data={"revenue": {2022: 1.0, 2023: 2.0, 2024: 3.0}},
+        filed={2023: date(2024, 2, 1), 2024: date(2025, 1, 25)},
+    )
+    # cutoff 2024-03-01: FY2023 filed 2024-02-01 (visible), FY2024 not yet.
+    # FY2022 has no filed date -> heuristic (avail 2022-06-29, visible).
+    out = truncate_financials(fin, date(2024, 3, 1), fy_end_month=3)
+    assert sorted(out.data["revenue"]) == [2022, 2023]
+    # filed map itself must be truncated consistently
+    assert 2024 not in out.filed
+
+
+def test_filed_date_can_be_later_than_heuristic():
+    """A company that filed late must not be visible at the heuristic date."""
+    fin = FinancialHistory(
+        data={"revenue": {2024: 3.0}},
+        filed={2024: date(2024, 12, 15)},  # late filer
+    )
+    out = truncate_financials(fin, date(2024, 8, 1), fy_end_month=3)
+    assert out.data.get("revenue", {}) == {}

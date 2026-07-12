@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import date
+
 import pandas as pd
 from pydantic import BaseModel, ConfigDict
 
@@ -48,9 +50,14 @@ class CompanyInfo(BaseModel):
 
 
 class FinancialHistory(BaseModel):
-    """Annual statement history: canonical field -> {fiscal year -> value}."""
+    """Annual statement history: canonical field -> {fiscal year -> value}.
+
+    `filed` optionally records when each year's annual data first became
+    public (exact from XBRL filings). Point-in-time truncation prefers these
+    over the fiscal-year-end + filing-lag heuristic."""
 
     data: dict[str, dict[int, float | None]] = {}
+    filed: dict[int, "date"] = {}
 
     def years(self) -> list[int]:
         ys: set[int] = set()

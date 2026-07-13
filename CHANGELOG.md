@@ -193,3 +193,21 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
 - Ablation 0/3 samples ≥ base IC — stewardship is descriptive-only, never
   ranks picks. Nuance: it tracks the base score closely (not anti-signal);
   it duplicates rather than adds selection information.
+
+## v0.8.0 — 2026-07-13 (India: deeper history, honest replication)
+
+### Added
+- **Legacy NSE results parser**: pre-FY2019 filings (no XBRL) parsed from
+  archives HTML pages — India statement depth 6 -> 11 years (FY2013+),
+  verified exact vs Reliance FY16. P&L-only for legacy years (surfaced via
+  completeness, never imputed).
+- Fixed a live-data trap: old entries carry `.../xbrl/-` placeholder URLs that
+  pass startswith("http") — real-URL detection added with regression test.
+
+### Measured (Addendum 13)
+- India replication first regressed (+0.047 vs +0.232 on 2021-23 windows),
+  then the extended 2016-2023 windows showed **both disjoint samples positive
+  (+0.100 / +0.138 mean IC, 6/8 windows)** — the first cross-sample-consistent
+  signal in the project (the US never had sample agreement). p ≈ 0.07;
+  survivorship caveats hold; verdict stays "suggestive, not proven"; no
+  recalibration.

@@ -415,3 +415,36 @@ it encodes similar information to the existing quality/strength components, not
 incremental information. The report section (dilution record, allocation fit,
 Empire Builder / Serial Diluter labels) is retained as risk disclosure and
 reasoning transparency, labelled as unvalidated-for-returns like everything else.
+
+## Addendum 13 — India, properly windowed: the first cross-sample-consistent signal
+
+The legacy-parser deepening (FY2013+ statements) enabled 8 cutoffs (2016-2023)
+including the non-bull 2016-2019 windows. Multibagger score, 2y horizon, two
+disjoint 50-name NIFTY Smallcap 250 samples:
+
+| Sample | 3 cutoffs (2021-23) | 8 cutoffs (2016-23) | Windows positive |
+|---|---|---|---|
+| india-primary | +0.232 | **+0.100** | 5/8 |
+| india-replication | +0.047 | **+0.138** | 6/8 |
+
+Per-window means (both samples averaged): 2016 +0.19, 2017 +0.21, 2018 -0.15,
+2019 +0.30, 2020 -0.02, 2021 +0.01, 2022 +0.15, 2023 +0.27 → mean ≈ +0.12,
+6/8 windows positive, t ≈ 2.2 (p ≈ 0.07 on 8 independent windows).
+
+**Why this is the strongest evidence yet:** unlike the US (where disjoint
+samples *disagreed* across the decade: +0.098 vs -0.028), the two Indian
+samples agree in sign and broadly in pattern. The short-window replication
+scare (+0.047) resolved upward once non-bull windows were added — the signal
+is not purely the post-COVID regime.
+
+**Why claims stay at "suggestive, not proven":**
+1. p ≈ 0.07 — short of conventional significance; ~90-93% confidence.
+2. Survivorship: current index members only, thinner at old cutoffs (n=19-43).
+3. Pre-2019 statements are P&L-only (legacy pages) — early-cutoff scores lean
+   on fewer pillars, and that structural change coincides with the windows.
+4. Overlapping 2y windows slightly inflate the effective sample.
+
+**Standing verdict:** US small caps ≈ no edge; India small caps ≈ consistent
+suggestive edge (~+0.12 IC at 2y) pending survivorship-robust confirmation.
+No recalibration on this evidence. Next: delisting-inclusive Indian universe,
+all 250 names per cutoff, and 3y horizons.

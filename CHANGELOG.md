@@ -152,3 +152,28 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
   mean returns AND higher loss rates — it selects volatility). Relabelled as
   reasoning transparency, explicitly not a validated filter, in every report.
 - Model-validation disclosure updated to state both nulls.
+
+## v0.6.0 — 2026-07-13 (P2.2: the scientific spine)
+
+### Added
+- **Prediction ledger**: every thesis assumption becomes an accountable 1-year
+  prediction (append-only DuckDB ledger; dedup by claim identity; outcomes
+  recorded, never rewritten). Return/price forecasts deliberately excluded —
+  no validated return edge exists to stake.
+- **Resolution engine** + **calibration scoring** (Brier, reliability table),
+  `mbe calibration` command, calibration panel on the web terminal home.
+- **Retro-calibration** over real history: 2,770 predictions emitted and
+  resolved point-in-time on both sides.
+
+### Measured — first validated improvement (Addendum 11)
+- Confidences are informative: Brier 0.132 vs 0.25 coin-flip; top bucket
+  nearly perfectly calibrated (93% stated / 92% observed, n=1141).
+- Systematic underconfidence in middle buckets (+15pp): persistence is
+  autocorrelated beyond base rates.
+- Bucketwise calibration map learned on US, tested on India out-of-sample:
+  **Brier 0.170 -> 0.153 (-10.2%)** — the correction transfers across markets.
+  Now applied at emission (raw confidence kept for provenance).
+
+### Fixed
+- Web: ticker input sanitization (stray backslash), friendly HTML error pages,
+  franchise-score bound overflow on elite compounders (TCS-shaped bug).

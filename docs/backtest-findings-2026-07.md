@@ -367,3 +367,33 @@ directive), because it makes the platform reason and communicate about a
 *business* rather than a ticker. It is labelled as unvalidated-for-returns
 everywhere it appears. Keep the reasoning scaffolding; drop every unearned
 predictive claim.
+
+## Addendum 11 — P2.2 retro-calibration: confidences are informative, and the FIRST VALIDATED IMPROVEMENT
+
+The prediction ledger emitted and resolved **2,770 predictions** across real
+history (US small-caps 2016-2023, India 2021-2024), both emission and
+resolution strictly point-in-time.
+
+**Result 1 — the platform's confidences carry real information.**
+Brier 0.132 overall (0.25 = coin-flip). The 0.8-1.0 bucket (n=1141) is almost
+perfectly calibrated (stated 93%, observed 92%).
+
+**Result 2 — a systematic, correctable bias.** Observed frequencies exceed
+stated confidence in the middle buckets (+15pp at n=895 and n=237): business
+characteristics are *stickier* than naive year-frequencies imply
+(autocorrelation — the current state adds information beyond the base rate).
+
+**Result 3 — the correction VALIDATES OUT-OF-SAMPLE.** A bucketwise
+calibration map learned on US resolutions only (n=2086), applied to India
+(n=684, disjoint market): **Brier 0.170 -> 0.153 (-10.2%)**. This is the
+project's first data-derived improvement that survived honest validation, per
+the pre-registered rule (gap > 15pp in populated buckets -> earn a correction).
+
+**Shipped accordingly:** `mbe analyze` now emits calibrated confidences (raw
+value kept for provenance) once the ledger holds >= 200 resolutions; the web
+terminal home shows the live reliability table; the ledger keeps accumulating,
+so the map is re-learned from evidence as outcomes arrive.
+
+Caveats: retro window overlaps the bull-heavy 2016-2024 period; assumption
+persistence is regime-dependent; the classification-stability prior (0.7) now
+has a measured base rate (85%) that the map corrects automatically.

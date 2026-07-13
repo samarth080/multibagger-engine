@@ -114,3 +114,73 @@ def test_nse_fundamentals_end_to_end(tmp_path):
     assert fin.filed[2024] == date(2024, 4, 22)  # exact broadcast date
     assert fin.filed[2023] == date(2023, 4, 21)
     assert fin.value("total_debt", 2024) == 3000.0
+
+
+LEGACY_HTML = """<HTML><BODY><table><tr><td>Non Banking</td></tr>
+<tr><td>Description</td><td>Amount(Rs. in lakhs)</td></tr>
+<tr><td>(a) Net sales/income from operations (Net of excise duty)</td><td>27654372.00</td></tr>
+<tr><td>Total income from operations (net) ( a + b)</td><td>27654372.00</td></tr>
+<tr><td>(e) Depreciation and amortisation expense</td><td>1291559.00</td></tr>
+<tr><td>Finance costs</td><td>360785.00</td></tr>
+<tr><td>Profit / (Loss) from ordinary activities before tax</td><td>3576816.00</td></tr>
+<tr><td>Net Profit / (Loss) for the period</td><td>2750416.00</td></tr>
+<tr><td>Face Value (in Rs.)</td><td>10.00</td></tr>
+<tr><td>Paid-up equity share capital</td><td>324038.00</td></tr>
+</table></BODY></HTML>"""
+
+
+def test_parse_legacy_results_html_values_in_rupees():
+    from mbe.data.nse_xbrl import parse_legacy_results_html
+
+    v = parse_legacy_results_html(LEGACY_HTML)
+    lakh = 1e5
+    assert v["revenue"] == pytest.approx(27654372.00 * lakh)
+    assert v["net_income"] == pytest.approx(2750416.00 * lakh)
+    assert v["interest_expense"] == pytest.approx(360785.00 * lakh)
+    # EBIT proxy = PBT + finance costs; EBITDA adds depreciation
+    assert v["operating_income"] == pytest.approx((3576816.00 + 360785.00) * lakh)
+    assert v["ebitda"] == pytest.approx((3576816.00 + 360785.00 + 1291559.00) * lakh)
+    assert v["shares_diluted"] == pytest.approx(324038.00 / 10.00 * lakh)
+
+
+def test_parse_legacy_detects_crores_unit():
+    from mbe.data.nse_xbrl import parse_legacy_results_html
+
+    html = LEGACY_HTML.replace("Rs. in lakhs", "Rs. in crores")
+    v = parse_legacy_results_html(html)
+    assert v["revenue"] == pytest.approx(27654372.00 * 1e7)
+
+
+def test_parse_legacy_rejects_unusable_page():
+    from mbe.data.nse_xbrl import parse_legacy_results_html
+
+    with pytest.raises(ProviderError):
+        parse_legacy_results_html("<html><body>Banking format: Interest Earned only</body></html>")
+
+
+def test_provider_falls_back_to_legacy_html_for_old_years(tmp_path):
+    index = [
+        {"consolidated": "Consolidated", "toDate": "31-Mar-2024",
+         "broadCastDate": "22-Apr-2024 19:47:12", "period": "Annual",
+         "xbrl": "https://x/con2024.xml", "resultDetailedDataLink": None},
+        {"consolidated": "Consolidated", "toDate": "31-Mar-2016",
+         "broadCastDate": "22-Apr-2016 18:00:00", "period": "Annual",
+         # real NSE shape: base URL + dash, NOT a bare "-" (caught live)
+         "xbrl": "https://nsearchives.nseindia.com/corporate/xbrl/-",
+         "resultDetailedDataLink": "https://nsearchives/legacy_2016.html"},
+    ]
+
+    def fetcher(url: str) -> str:
+        if "corporates-financial-results" in url:
+            return json.dumps(index)
+        if url == "https://x/con2024.xml":
+            return _xbrl(revenue="9000", pat="800")
+        if url == "https://nsearchives/legacy_2016.html":
+            return LEGACY_HTML
+        raise AssertionError(f"unexpected url {url}")
+
+    provider = NseFundamentals(DiskCache(tmp_path), fetcher=fetcher, sleep_s=0)
+    fin = provider.get_financials("RELIANCE.NS")
+    assert fin.value("revenue", 2024) == 9000.0            # XBRL path
+    assert fin.value("revenue", 2016) == pytest.approx(27654372.00 * 1e5)  # legacy path
+    assert fin.filed[2016] == date(2016, 4, 22)

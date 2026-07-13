@@ -177,3 +177,19 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
 ### Fixed
 - Web: ticker input sanitization (stray backslash), friendly HTML error pages,
   franchise-score bound overflow on elite compounders (TCS-shaped bug).
+
+## v0.7.0 — 2026-07-13 (P2.3: management & capital-allocation intelligence)
+
+### Added
+- **Stewardship engine**: full-history dilution vs buybacks, allocation fit
+  (compounding machine vs empire builder), debt-vs-EBIT growth discipline,
+  cash-return consistency → evidence-backed classification (Owner-Operator
+  Discipline / Balanced / Empire Builder / Serial Diluter / Unproven).
+- "Management & capital allocation" section in every research report and on
+  the web terminal; `stewardship` available as a labelled research score in
+  the backtest harness.
+
+### Measured — demoted per pre-registered rule (Addendum 12)
+- Ablation 0/3 samples ≥ base IC — stewardship is descriptive-only, never
+  ranks picks. Nuance: it tracks the base score closely (not anti-signal);
+  it duplicates rather than adds selection information.

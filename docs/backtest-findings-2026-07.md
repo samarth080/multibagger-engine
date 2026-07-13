@@ -397,3 +397,21 @@ so the map is re-learned from evidence as outcomes arrive.
 Caveats: retro window overlaps the bull-heavy 2016-2024 period; assumption
 persistence is regime-dependent; the classification-stability prior (0.7) now
 has a measured base rate (85%) that the map corrects automatically.
+
+## Addendum 12 — P2.3 stewardship ablation: demoted (0/3), with a nuance
+
+Pre-registered rule, same as Addendum 9. 2y horizon:
+
+| Sample | multibagger IC | stewardship IC |
+|---|---|---|
+| us-smallcap-sample | +0.098 | +0.076 |
+| us-smallcap-sample2 | -0.028 | -0.030 |
+| nifty-smallcap250 | +0.232 | +0.218 |
+
+**Verdict: 0/3 — stewardship_score is demoted to descriptive-only** (does not
+rank or screen picks). Nuance recorded: unlike the franchise score (which was
+anti-signal on India), stewardship *tracks* the base score closely everywhere —
+it encodes similar information to the existing quality/strength components, not
+incremental information. The report section (dilution record, allocation fit,
+Empire Builder / Serial Diluter labels) is retained as risk disclosure and
+reasoning transparency, labelled as unvalidated-for-returns like everything else.

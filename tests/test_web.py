@@ -71,3 +71,30 @@ def test_unanalyzable_ticker_gets_friendly_html_not_json(client):
     assert resp.status_code == 404
     assert "text/html" in resp.headers["content-type"]
     assert "could not" in resp.text.lower() or "check the symbol" in resp.text.lower()
+
+
+def test_home_shows_calibration_when_ledger_has_outcomes(tmp_path):
+    from datetime import date
+
+    from mbe.models.prediction import Outcome
+    from mbe.pipeline import analyze_ticker, screen
+    from mbe.storage import RunStore
+    from mbe.thesis.predictions import emit_predictions
+    from mbe.web.app import create_app
+
+    store = RunStore(tmp_path / "cal.duckdb")
+    store.save_run(screen(["GOOD.NS"], StubProvider()), universe="unit-test")
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    preds = emit_predictions(bundle.thesis, as_of=date(2024, 1, 1))
+    store.save_predictions(preds)
+    for p in preds:
+        store.record_outcome(
+            p, Outcome(resolved_on=date(2025, 1, 2), actual="held", correct=True)
+        )
+
+    app = create_app(provider=StubProvider(), store=store, reports_dir=tmp_path / "r")
+    client_local = TestClient(app)
+    resp = client_local.get("/")
+    assert resp.status_code == 200
+    assert "Calibration" in resp.text
+    assert "Brier" in resp.text

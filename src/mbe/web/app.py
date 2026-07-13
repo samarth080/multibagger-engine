@@ -121,6 +121,27 @@ _HOME = _ENV.from_string("""
 <code>uv run mbe snapshot india-midsmall</code> in a terminal, then refresh.</p></div>
 {% endif %}
 
+{% if calibration %}
+<h2>Calibration — is the platform honest about its confidence?</h2>
+<div class="panel">
+<p class="small">{{ calibration.n }} resolved predictions ·
+Brier score <span class="mono">{{ "%.3f"|format(calibration.brier) }}</span>
+<span class="muted">(0 = perfect, 0.25 = coin-flip at 50%)</span></p>
+<table class="data">
+<tr><th>Confidence bucket</th><th>N</th><th>Stated</th><th>Observed</th><th>Gap</th></tr>
+{% for row in calibration.table %}
+<tr><td class="mono">{{ row.bucket }}</td><td>{{ row.n }}</td>
+<td class="mono">{{ (row.stated * 100) | round(0) | int }}%</td>
+<td class="mono">{{ (row.observed * 100) | round(0) | int }}%</td>
+<td class="mono">{{ "%+d"|format((row.gap * 100) | round(0) | int) }}pp</td></tr>
+{% endfor %}
+</table>
+<p class="muted small" style="margin-top:.5rem">Every thesis assumption becomes a
+1-year prediction; this table compares stated confidence with how often those
+claims actually held. The gap column is the honesty meter.</p>
+</div>
+{% endif %}
+
 <h2>Backtest evidence</h2>
 {% if backtests %}
 <div class="panel"><table class="data">
@@ -219,7 +240,20 @@ def create_app(
 
     @app.get("/", response_class=HTMLResponse)
     def home():
-        body = _HOME.render(runs=store.runs(), backtests=store.backtests())
+        from mbe.thesis.calibration import brier_score, reliability_table
+
+        calibration = None
+        resolved = store.resolved_predictions()
+        if resolved:
+            pairs = [(r["confidence"], bool(r["correct"])) for r in resolved]
+            calibration = {
+                "n": len(pairs),
+                "brier": brier_score(pairs),
+                "table": reliability_table(pairs),
+            }
+        body = _HOME.render(
+            runs=store.runs(), backtests=store.backtests(), calibration=calibration
+        )
         return _page("Terminal", body)
 
     @app.get("/run/{run_id}", response_class=HTMLResponse)

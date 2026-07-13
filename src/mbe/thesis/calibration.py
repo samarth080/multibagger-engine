@@ -39,3 +39,29 @@ def reliability_table(
             }
         )
     return table
+
+
+def learn_calibration_map(
+    pairs: list[tuple[float, bool]], bucket_size: float = 0.1, min_n: int = 50
+) -> list[tuple[float, float, float]]:
+    """Bucketwise mapping stated -> observed, learned from resolved predictions.
+    Only well-populated buckets (n >= min_n) earn a correction; sparse ranges
+    fall back to identity. Returns [(lo, hi, observed), ...]."""
+    out = []
+    for row in reliability_table(pairs, bucket_size=bucket_size):
+        if row["n"] < min_n:
+            continue
+        lo, hi = (float(x) for x in row["bucket"].split("-"))
+        out.append((lo, hi, row["observed"]))
+    return out
+
+
+def apply_calibration(
+    confidence: float, calibration_map: list[tuple[float, float, float]]
+) -> float:
+    """Replace a stated confidence with the observed frequency of its bucket.
+    Identity where no correction was learned."""
+    for lo, hi, observed in calibration_map:
+        if lo <= confidence < hi or (hi >= 1.0 and confidence == 1.0):
+            return round(observed, 4)
+    return confidence

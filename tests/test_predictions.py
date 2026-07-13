@@ -97,3 +97,33 @@ def test_ledger_roundtrip_and_due_filtering(tmp_path):
     assert len(resolved) == 1
     assert resolved[0]["correct"] is True
     assert resolved[0]["confidence"] == pytest.approx(due[0].confidence)
+
+
+def test_learn_and_apply_calibration_map():
+    from mbe.thesis.calibration import apply_calibration, learn_calibration_map
+
+    # 0.6-0.8 bucket observed 0.9; 0.8-1.0 observed 0.85; sparse bucket ignored
+    pairs = (
+        [(0.7, True)] * 9 + [(0.7, False)] * 1
+        + [(0.9, True)] * 17 + [(0.9, False)] * 3
+        + [(0.1, True)] * 2  # n=2 < min_n -> no correction learned here
+    )
+    cmap = learn_calibration_map(pairs, bucket_size=0.2, min_n=5)
+    assert apply_calibration(0.7, cmap) == pytest.approx(0.9)
+    assert apply_calibration(0.9, cmap) == pytest.approx(0.85)
+    # bucket without enough data -> identity
+    assert apply_calibration(0.1, cmap) == pytest.approx(0.1)
+    # empty map -> identity
+    assert apply_calibration(0.42, []) == pytest.approx(0.42)
+
+
+def test_emit_predictions_with_calibration_map():
+    from mbe.thesis.calibration import learn_calibration_map
+
+    pairs = [(0.7, True)] * 9 + [(0.7, False)] * 1
+    cmap = learn_calibration_map(pairs, bucket_size=0.2, min_n=5)
+    thesis = _thesis()
+    preds = emit_predictions(thesis, as_of=date(2024, 7, 15), calibration_map=cmap)
+    growth = next(p for p in preds if "revenue" in p.statement.lower())
+    assert growth.confidence == pytest.approx(0.9)   # calibrated from 0.7
+    assert growth.confidence_raw == pytest.approx(0.7)  # provenance kept

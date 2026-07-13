@@ -17,29 +17,36 @@ HORIZON_DAYS = 365
 CLASSIFICATION_CONFIDENCE = 0.7  # prior; will be replaced by measured base rate
 
 
-def emit_predictions(thesis: InvestmentThesis, as_of: date) -> list[Prediction]:
+def emit_predictions(
+    thesis: InvestmentThesis,
+    as_of: date,
+    calibration_map: list[tuple[float, float, float]] | None = None,
+) -> list[Prediction]:
+    """calibration_map (learned from resolved outcomes) corrects the raw
+    track-record confidences; the raw value is kept for provenance."""
+    from mbe.thesis.calibration import apply_calibration
+
+    def conf(raw: float) -> tuple[float, float | None]:
+        if calibration_map:
+            return apply_calibration(raw, calibration_map), raw
+        return raw, None
+
     due = as_of + timedelta(days=HORIZON_DAYS)
-    preds = [
-        Prediction(
-            ticker=thesis.ticker,
-            made_on=as_of,
-            due_on=due,
-            kind="assumption_holds",
-            statement=a.statement,
-            confidence=a.historical_support,
-        )
-        for a in thesis.assumptions
-    ]
-    preds.append(
-        Prediction(
-            ticker=thesis.ticker,
-            made_on=as_of,
-            due_on=due,
-            kind="classification_stable",
-            statement=f"Still classified '{thesis.classification}'",
-            confidence=CLASSIFICATION_CONFIDENCE,
-        )
-    )
+    preds = []
+    for a in thesis.assumptions:
+        c, raw = conf(a.historical_support)
+        preds.append(Prediction(
+            ticker=thesis.ticker, made_on=as_of, due_on=due,
+            kind="assumption_holds", statement=a.statement,
+            confidence=c, confidence_raw=raw,
+        ))
+    c, raw = conf(CLASSIFICATION_CONFIDENCE)
+    preds.append(Prediction(
+        ticker=thesis.ticker, made_on=as_of, due_on=due,
+        kind="classification_stable",
+        statement=f"Still classified '{thesis.classification}'",
+        confidence=c, confidence_raw=raw,
+    ))
     return preds
 
 

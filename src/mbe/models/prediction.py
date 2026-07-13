@@ -14,6 +14,7 @@ class Prediction(BaseModel):
     kind: str  # assumption_holds | classification_stable
     statement: str
     confidence: float = Field(ge=0, le=1)
+    confidence_raw: float | None = None  # pre-calibration value, for provenance
     source: str = "thesis"  # which module staked the claim
 
 

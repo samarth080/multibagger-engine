@@ -19,6 +19,7 @@ from pydantic import BaseModel
 from scipy import stats
 
 from mbe.analysis.business import assess_business
+from mbe.analysis.stewardship import assess_stewardship
 from mbe.analysis.fundamentals import compute_fundamentals
 from mbe.analysis.risk import assess_risk
 from mbe.thesis.engine import build_thesis, critique_thesis
@@ -163,12 +164,14 @@ def analyze_as_of(
     risk = assess_risk(fin, fund, tech, val, info)
     card = build_scorecard(info, fund, tech, val, risk, fin, price_days=len(prices.df))
     business = assess_business(fin, info, fund)
+    stewardship = assess_stewardship(fin, info, fund, business)
     thesis = build_thesis(info, fund, business, val, risk)
     critique = critique_thesis(thesis, fund, business, val, risk)
 
     bundle = AnalysisBundle(
         info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk,
-        card=card, as_of=cutoff, business=business, thesis=thesis, critique=critique,
+        card=card, as_of=cutoff, business=business, stewardship=stewardship,
+        thesis=thesis, critique=critique,
     )
     return bundle, full_prices
 
@@ -183,6 +186,8 @@ def _extract_score(bundle: AnalysisBundle, score_name: str) -> float:
         return bundle.card.investment_score
     if score_name == "franchise":
         return bundle.business.franchise_score if bundle.business else 0.0
+    if score_name == "stewardship":
+        return bundle.stewardship.stewardship_score if bundle.stewardship else 0.0
     if score_name == "momentum":
         score_name = "Momentum"
     pillar = bundle.card.pillar(score_name)

@@ -97,6 +97,25 @@ forward returns better than the base score — see Model validation status.)*
 - **Base:** {{ thesis.trajectory_base }}
 - **Bear:** {{ thesis.trajectory_bear }}
 
+{% if stewardship %}
+### Management & capital allocation (stewardship)
+
+**{{ stewardship.classification }}** — stewardship score {{ stewardship.stewardship_score }}/100
+over {{ stewardship.history_years }} years. {{ stewardship.allocation_fit_label | capitalize }}.
+
+| Signal | Value |
+|---|---|
+| Full-history share count CAGR | {{ stewardship.share_cagr_full | pct }} |
+| Years diluting >2% | {{ stewardship.dilution_years_frac | pct(0) }} |
+| Years buying back | {{ stewardship.buyback_years_frac | pct(0) }} |
+| Debt CAGR minus EBIT CAGR | {{ stewardship.debt_ebit_gap | pct }} |
+| Years with interest coverage < 2 | {{ stewardship.coverage_stress_frac | pct(0) }} |
+| Years returning cash (dividends) | {{ stewardship.dividend_consistency | pct(0) }} |
+
+*(Descriptive assessment of the capital-allocation record; like all scores here,
+not a validated return predictor — see Model validation status.)*
+{% endif %}
+
 ### Self-critique (devil's advocate)
 
 {% if critique.disconfirmers %}
@@ -268,6 +287,7 @@ def render_report(bundle: AnalysisBundle) -> str:
         risk=bundle.risk,
         card=bundle.card,
         business=bundle.business,
+        stewardship=bundle.stewardship,
         thesis=bundle.thesis,
         critique=bundle.critique,
         as_of=bundle.as_of,

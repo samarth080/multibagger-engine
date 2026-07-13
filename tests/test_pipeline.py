@@ -157,3 +157,13 @@ def test_report_has_business_and_thesis_section():
     assert "Self-critique" in text     # devil's advocate
     assert bundle.thesis is not None
     assert bundle.critique is not None
+
+
+def test_report_has_stewardship_section():
+    from mbe.report.markdown import render_report
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    text = render_report(bundle)
+    assert "Management & capital allocation" in text
+    assert bundle.stewardship is not None
+    assert "share count CAGR" in text

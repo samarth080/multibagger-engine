@@ -69,3 +69,23 @@ def test_sector_models_roundtrip():
     )
     assert ctx.groups["Semiconductors"].n == 5
     assert ctx.member_data["A.NS"].ret_12m is None
+
+
+from mbe.analysis.sector import revenue_acceleration
+from mbe.models.company import FinancialHistory
+
+
+def test_revenue_acceleration_hand_computed():
+    fin = FinancialHistory(data={"revenue": {2022: 100.0, 2023: 110.0, 2024: 127.6}})
+    # g1 = 0.10, g2 = 0.16 -> accel = +0.06
+    assert revenue_acceleration(fin) == pytest.approx(0.06, abs=1e-9)
+
+
+def test_revenue_acceleration_needs_three_years():
+    fin = FinancialHistory(data={"revenue": {2023: 100.0, 2024: 120.0}})
+    assert revenue_acceleration(fin) is None
+
+
+def test_revenue_acceleration_rejects_nonpositive_base():
+    fin = FinancialHistory(data={"revenue": {2022: -5.0, 2023: 100.0, 2024: 120.0}})
+    assert revenue_acceleration(fin) is None

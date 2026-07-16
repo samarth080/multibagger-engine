@@ -50,3 +50,22 @@ def test_sector_benchmark_tables():
     assert score_metric("sector_rel_strength_12m", 0.30)[0] == 90
     assert score_metric("sector_rev_accel", 0.03)[0] == 75
     assert score_metric("sector_margin_delta", 0.015)[0] == 75
+
+
+from mbe.models.scoring import Evidence
+from mbe.models.sector import MemberComponents, SectorContext, SectorScore
+
+
+def test_sector_models_roundtrip():
+    score = SectorScore(
+        name="Semiconductors", level="industry", n=5, score=72.0,
+        confidence=0.8, evidence=[], members=["A.NS", "B.NS"],
+    )
+    ctx = SectorContext(
+        groups={"Semiconductors": score},
+        membership={"A.NS": "Semiconductors"},
+        member_data={"A.NS": MemberComponents(ret_6m=0.2)},
+        universe_median_ret_6m=0.1,
+    )
+    assert ctx.groups["Semiconductors"].n == 5
+    assert ctx.member_data["A.NS"].ret_12m is None

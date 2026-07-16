@@ -171,6 +171,8 @@ def compute_technicals(
             dist_low = float(price / low52 - 1)
 
     ret63 = _return(close, 63)
+    ret126 = _return(close, 126)
+    ret252 = _return(close, 252)
     rel_strength = None
     if benchmark is not None and ret63 is not None:
         bench_ret = _return(benchmark.df["close"], 63)
@@ -208,6 +210,8 @@ def compute_technicals(
         dist_52w_high=dist_high,
         dist_52w_low=dist_low,
         return_63d=ret63,
+        return_126d=ret126,
+        return_252d=ret252,
         relative_strength_63d=rel_strength,
         trend_state=_trend_state(
             price, sma50, sma150, sma200, sma200_slope, dist_low, dist_high

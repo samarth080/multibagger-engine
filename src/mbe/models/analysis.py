@@ -59,6 +59,8 @@ class TechnicalState(BaseModel):
     dist_52w_high: float | None = None  # negative = below high
     dist_52w_low: float | None = None  # positive = above low
     return_63d: float | None = None
+    return_126d: float | None = None  # ~6 months
+    return_252d: float | None = None  # ~12 months
     relative_strength_63d: float | None = None  # vs benchmark
     trend_state: str = "unknown"  # strong_up/up/sideways/down/strong_down/unknown
     volatility_regime: str = "unknown"  # low/medium/high/unknown

@@ -21,11 +21,17 @@ if TYPE_CHECKING:  # avoid a runtime cycle: pipeline imports this module
 
 
 def revenue_acceleration(fin: FinancialHistory) -> float | None:
-    """Latest YoY revenue growth minus prior YoY growth. Needs 3 years."""
-    rev = fin.series("revenue")
-    if len(rev) < 3:
+    """Latest YoY revenue growth minus prior YoY growth; positive = demand
+    accelerating. Needs 3 consecutive fiscal years — a gap year means no
+    valid YoY comparison, not a skippable one."""
+    by_year = dict(fin.series("revenue"))
+    if not by_year:
         return None
-    (_, r0), (_, r1), (_, r2) = rev[-3], rev[-2], rev[-1]
+    latest = max(by_year)
+    y1, y0 = latest - 1, latest - 2
+    if y1 not in by_year or y0 not in by_year:
+        return None
+    r2, r1, r0 = by_year[latest], by_year[y1], by_year[y0]
     if r0 <= 0 or r1 <= 0:
         return None
     return (r2 / r1 - 1) - (r1 / r0 - 1)

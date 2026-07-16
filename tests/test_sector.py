@@ -89,3 +89,16 @@ def test_revenue_acceleration_needs_three_years():
 def test_revenue_acceleration_rejects_nonpositive_base():
     fin = FinancialHistory(data={"revenue": {2022: -5.0, 2023: 100.0, 2024: 120.0}})
     assert revenue_acceleration(fin) is None
+
+
+def test_revenue_acceleration_rejects_gap_years():
+    # 2022 missing: 2021->2023 is not a YoY comparison; must be None, not -0.35
+    fin = FinancialHistory(
+        data={"revenue": {2021: 100.0, 2022: None, 2023: 150.0, 2024: 172.5}}
+    )
+    assert revenue_acceleration(fin) is None
+
+
+def test_revenue_acceleration_rejects_nonpositive_middle_year():
+    fin = FinancialHistory(data={"revenue": {2022: 50.0, 2023: -10.0, 2024: 30.0}})
+    assert revenue_acceleration(fin) is None

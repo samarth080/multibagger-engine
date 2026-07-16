@@ -220,6 +220,9 @@ def compute_technicals(
         avg_traded_value_20d=traded_value,
     )
 
+    # return_126d/252d are deliberately excluded: history depth is already
+    # captured by the 52-week fields, and adding them would retroactively
+    # shift completeness for every stored run.
     numeric_fields = [
         state.price, state.sma50, state.sma150, state.sma200, state.price_vs_200sma,
         state.sma200_slope_20d, state.rsi14, state.macd_hist, state.atr_pct,

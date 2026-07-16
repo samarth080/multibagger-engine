@@ -39,3 +39,14 @@ def test_multi_horizon_returns_none_on_short_history():
     state = compute_technicals(_price_history(closes), None)
     assert state.return_126d is not None
     assert state.return_252d is None
+
+
+from mbe.scoring.benchmarks import score_metric
+
+
+def test_sector_benchmark_tables():
+    assert score_metric("sector_rel_strength_6m", 0.06)[0] == 75
+    assert score_metric("sector_rel_strength_6m", -0.20)[0] == 5  # floor
+    assert score_metric("sector_rel_strength_12m", 0.30)[0] == 90
+    assert score_metric("sector_rev_accel", 0.03)[0] == 75
+    assert score_metric("sector_margin_delta", 0.015)[0] == 75

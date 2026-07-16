@@ -26,6 +26,11 @@ HIGHER_BETTER: dict[str, list[tuple[float, int]]] = {
     "relative_strength_63d": [(0.15, 90), (0.05, 75), (0.0, 60), (-0.05, 40)],
     "dist_52w_high": [(-0.05, 90), (-0.15, 70), (-0.25, 50), (-0.40, 30)],
     "cmf20": [(0.15, 85), (0.05, 70), (0.0, 55), (-0.10, 35)],
+    # sector-level aggregates (P2.4): group medians vs the screened peer set
+    "sector_rel_strength_6m": [(0.15, 90), (0.05, 75), (0.0, 60), (-0.05, 40)],
+    "sector_rel_strength_12m": [(0.25, 90), (0.10, 75), (0.0, 60), (-0.10, 40)],
+    "sector_rev_accel": [(0.05, 90), (0.02, 75), (0.0, 60), (-0.02, 40)],
+    "sector_margin_delta": [(0.02, 90), (0.01, 75), (0.0, 55), (-0.01, 40)],
 }
 
 # value <= threshold (scanning bottom-up) earns the points

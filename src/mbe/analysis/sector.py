@@ -14,7 +14,9 @@ from statistics import median
 from typing import TYPE_CHECKING
 
 from mbe.models.company import FinancialHistory
+from mbe.models.scoring import PillarScore, ScoreCard
 from mbe.models.sector import MemberComponents, SectorContext, SectorScore
+from mbe.scoring.engine import HARD_GATE_CAP, MULTIBAGGER_WEIGHTS
 from mbe.scoring.pillars import build_pillar
 
 if TYPE_CHECKING:  # avoid a runtime cycle: pipeline imports this module
@@ -143,3 +145,72 @@ def compute_sector_scores(bundles: list["AnalysisBundle"]) -> SectorContext:
         groups=groups, membership=membership, member_data=member_data,
         universe_median_ret_6m=uni_6m, universe_median_ret_12m=uni_12m,
     )
+
+
+SECTOR_PILLAR_WEIGHT = 0.12  # pre-registered before ablation; never tuned on results
+
+# Flipped only by the scripts/ablation_sector.py verdict per the pre-registered
+# rule in the P2.4 spec. False = descriptive only (pillar evidence on the card,
+# multibagger score untouched) — the franchise/stewardship demotion treatment.
+SECTOR_PILLAR_LIVE = False
+
+
+def sector_pillar_for(ticker: str, context: SectorContext) -> PillarScore:
+    """Leave-one-out pillar: the stock's own momentum is excluded from its
+    group's medians (it is already paid by the Momentum pillar)."""
+    group_name = context.membership.get(ticker)
+    if group_name is None:
+        return PillarScore(name="Sector Momentum", score=0.0, confidence=0.0, evidence=[])
+    group = context.groups[group_name]
+    peers = [t for t in group.members if t != ticker]
+    comps = [context.member_data[t] for t in peers]
+    pillar = build_pillar(
+        "Sector Momentum",
+        _SECTOR_ITEMS,
+        _group_values(
+            comps, context.universe_median_ret_6m, context.universe_median_ret_12m
+        ),
+    )
+    for ev in pillar.evidence:
+        ev.rationale += f" — {group_name}, {len(peers)} peers (leave-one-out)"
+    return pillar
+
+
+def augmented_multibagger(card: ScoreCard) -> float:
+    """Multibagger score with the sector pillar blended at the pre-registered
+    weight; falls back to the base score when no sector context was computed.
+    Hard-gate cap is re-applied — a hot sector never rescues broken economics."""
+    sector = card.pillar("Sector Momentum")
+    if sector is None or sector.confidence == 0:
+        return card.multibagger_score
+    weights = {n: w * (1 - SECTOR_PILLAR_WEIGHT) for n, w in MULTIBAGGER_WEIGHTS.items()}
+    weights["Sector Momentum"] = SECTOR_PILLAR_WEIGHT
+    total = weighted = 0.0
+    for name, w in weights.items():
+        pillar = card.pillar(name)
+        if pillar is None or pillar.confidence == 0:
+            continue
+        total += w
+        weighted += w * pillar.score
+    if total == 0:
+        return card.multibagger_score
+    score = weighted / total
+    if card.hard_gate_failures:
+        score = min(score, HARD_GATE_CAP)
+    return round(score, 1)
+
+
+def apply_sector_pillar(
+    bundles: list["AnalysisBundle"],
+    context: SectorContext,
+    adjust_score: bool | None = None,
+) -> None:
+    """Post-pass: attach each stock's LOO pillar to its card; when live
+    (or forced), replace the multibagger score with the augmented one."""
+    if adjust_score is None:
+        adjust_score = SECTOR_PILLAR_LIVE
+    for b in bundles:
+        if b.card.pillar("Sector Momentum") is None:
+            b.card.pillars.append(sector_pillar_for(b.info.ticker, context))
+        if adjust_score:
+            b.card.multibagger_score = augmented_multibagger(b.card)

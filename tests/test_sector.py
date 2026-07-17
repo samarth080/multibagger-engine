@@ -232,3 +232,89 @@ def test_pool_fallback_has_sector_level():
     pool = ctx.groups["Technology (other)"]
     assert pool.level == "sector"
     assert pool.n == 4
+
+
+from mbe.analysis.sector import (
+    apply_sector_pillar,
+    augmented_multibagger,
+    sector_pillar_for,
+)
+
+
+def _hot_group_ctx():
+    """4 semis: one laggard (the LOO subject) among 3 hot peers, plus a cold
+    pool so universe medians aren't dominated by the semis."""
+    semis = [make_bundle("SELF.NS", ret_6m=0.00, ret_12m=0.00)] + [
+        make_bundle(f"PEER{i}.NS", ret_6m=0.30, ret_12m=0.50) for i in range(3)
+    ]
+    cold = [
+        make_bundle(f"C{i}.NS", sector="Energy", industry="Oil & Gas Refining",
+                    ret_6m=0.00, ret_12m=0.00)
+        for i in range(4)
+    ]
+    bundles = semis + cold
+    return bundles, compute_sector_scores(bundles)
+
+
+def test_loo_pillar_excludes_self():
+    _, ctx = _hot_group_ctx()
+    # SELF's pillar sees only the 3 hot peers: median .30 vs universe median .00
+    pillar = sector_pillar_for("SELF.NS", ctx)
+    ev = {e.metric: e for e in pillar.evidence}
+    assert ev["sector_rel_strength_6m"].value == pytest.approx(0.30)
+    assert "3 peers (leave-one-out)" in ev["sector_rel_strength_6m"].rationale
+    # a hot peer's own pillar loses its own .30 from the median
+    peer = sector_pillar_for("PEER0.NS", ctx)
+    pev = {e.metric: e for e in peer.evidence}
+    assert pev["sector_rel_strength_6m"].value == pytest.approx(0.30)  # median(.00,.30,.30)
+    assert pillar.confidence > 0
+
+
+def test_pillar_confidence_zero_when_ungrouped():
+    _, ctx = _hot_group_ctx()
+    pillar = sector_pillar_for("NOT_THERE.NS", ctx)
+    assert pillar.confidence == 0.0 and pillar.score == 0.0
+
+
+def test_augmented_multibagger_hand_computed():
+    base_pillars = [
+        PillarScore(name=n, score=50.0, confidence=1.0)
+        for n in ("Growth", "Quality", "Size Runway", "Valuation", "Momentum", "Reinvestment")
+    ]
+    sector = PillarScore(name="Sector Momentum", score=90.0, confidence=1.0)
+    card = ScoreCard(
+        ticker="X.NS", investment_score=50.0, multibagger_score=50.0,
+        confidence=0.5, pillars=base_pillars + [sector], verdict="test",
+    )
+    # all base pillars at 50, weights renormalize to 0.88; sector 90 at 0.12
+    assert augmented_multibagger(card) == pytest.approx(0.88 * 50 + 0.12 * 90, abs=0.05)
+
+
+def test_augmented_multibagger_respects_hard_gate_cap():
+    pillars_ = [
+        PillarScore(name=n, score=80.0, confidence=1.0)
+        for n in ("Growth", "Quality", "Size Runway", "Valuation", "Momentum", "Reinvestment")
+    ] + [PillarScore(name="Sector Momentum", score=95.0, confidence=1.0)]
+    card = ScoreCard(
+        ticker="X.NS", investment_score=50.0, multibagger_score=35.0,
+        confidence=0.5, pillars=pillars_, hard_gate_failures=["accruals gate"],
+        verdict="test",
+    )
+    assert augmented_multibagger(card) == 35.0
+
+
+def test_augmented_falls_back_without_sector_pillar():
+    card = ScoreCard(
+        ticker="X.NS", investment_score=50.0, multibagger_score=61.5,
+        confidence=0.5, pillars=[], verdict="test",
+    )
+    assert augmented_multibagger(card) == 61.5
+
+
+def test_apply_sector_pillar_descriptive_mode_leaves_score():
+    bundles, ctx = _hot_group_ctx()
+    before = {b.info.ticker: b.card.multibagger_score for b in bundles}
+    apply_sector_pillar(bundles, ctx, adjust_score=False)
+    for b in bundles:
+        assert b.card.multibagger_score == before[b.info.ticker]
+        assert b.card.pillar("Sector Momentum") is not None

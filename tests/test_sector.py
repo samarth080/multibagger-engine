@@ -102,3 +102,77 @@ def test_revenue_acceleration_rejects_gap_years():
 def test_revenue_acceleration_rejects_nonpositive_middle_year():
     fin = FinancialHistory(data={"revenue": {2022: 50.0, 2023: -10.0, 2024: 30.0}})
     assert revenue_acceleration(fin) is None
+
+
+from datetime import date
+
+from mbe.analysis.sector import group_bundles
+from mbe.models.analysis import (
+    FundamentalMetrics,
+    RiskAssessment,
+    TechnicalState,
+    ValuationResult,
+)
+from mbe.models.company import CompanyInfo
+from mbe.models.scoring import PillarScore, ScoreCard
+from mbe.pipeline import AnalysisBundle
+
+
+def make_bundle(
+    ticker: str,
+    sector: str | None = "Technology",
+    industry: str | None = "Semiconductors",
+    ret_6m: float | None = 0.10,
+    ret_12m: float | None = 0.20,
+    revenue: dict[int, float] | None = None,
+    margin_trend: float | None = 0.01,
+    multibagger: float = 50.0,
+    pillars: list[PillarScore] | None = None,
+    gates: list[str] | None = None,
+) -> AnalysisBundle:
+    from mbe.models.company import FinancialHistory
+
+    return AnalysisBundle(
+        info=CompanyInfo(ticker=ticker, sector=sector, industry=industry),
+        fin=FinancialHistory(
+            data={"revenue": revenue or {2022: 100.0, 2023: 110.0, 2024: 121.0}}
+        ),
+        fund=FundamentalMetrics(margin_trend=margin_trend),
+        tech=TechnicalState(return_126d=ret_6m, return_252d=ret_12m),
+        val=ValuationResult(),
+        risk=RiskAssessment(),
+        card=ScoreCard(
+            ticker=ticker, investment_score=50.0, multibagger_score=multibagger,
+            confidence=0.5, pillars=pillars or [], hard_gate_failures=gates or [],
+            verdict="test",
+        ),
+        as_of=date(2026, 7, 17),
+    )
+
+
+def test_grouping_keeps_large_industries_and_pools_leftovers():
+    bundles = (
+        [make_bundle(f"SEMI{i}.NS", industry="Semiconductors") for i in range(5)]
+        + [make_bundle("APP1.NS", industry="Software - Application"),
+           make_bundle("APP2.NS", industry="Software - Application"),
+           make_bundle("INF1.NS", industry="Software - Infrastructure"),
+           make_bundle("INF2.NS", industry="Software - Infrastructure")]
+        + [make_bundle("OIL1.NS", sector="Energy", industry="Oil & Gas Refining"),
+           make_bundle("OIL2.NS", sector="Energy", industry="Oil & Gas Refining")]
+    )
+    groups = group_bundles(bundles)
+    assert len(groups["Semiconductors"]) == 5
+    # two small Technology industries pool into the sector fallback
+    assert len(groups["Technology (other)"]) == 4
+    # Energy pool has only 2 members -> dropped entirely
+    assert "Energy (other)" not in groups
+    assert "Oil & Gas Refining" not in groups
+
+
+def test_grouping_handles_missing_metadata():
+    bundles = [make_bundle("X1.NS", sector=None, industry=None)] + [
+        make_bundle(f"S{i}.NS") for i in range(4)
+    ]
+    groups = group_bundles(bundles)
+    assert len(groups["Semiconductors"]) == 4
+    assert sum(len(m) for m in groups.values()) == 4  # X1 ungrouped

@@ -44,3 +44,33 @@ def member_components(bundle: "AnalysisBundle") -> MemberComponents:
         rev_accel=revenue_acceleration(bundle.fin),
         margin_delta=bundle.fund.margin_trend,
     )
+
+
+MIN_GROUP = 4  # leave-one-out needs >= 3 peers
+
+
+def group_bundles(bundles: list["AnalysisBundle"]) -> dict[str, list["AnalysisBundle"]]:
+    """Industry groups; members of too-small industries pool into
+    '<Sector> (other)'; pools still under MIN_GROUP are dropped (their
+    stocks get no sector pillar — honest absence over fake context)."""
+    by_industry: dict[str, list["AnalysisBundle"]] = {}
+    unassigned: list["AnalysisBundle"] = []
+    for b in bundles:
+        if b.info.industry:
+            by_industry.setdefault(b.info.industry, []).append(b)
+        else:
+            unassigned.append(b)
+    groups: dict[str, list["AnalysisBundle"]] = {}
+    for industry, members in by_industry.items():
+        if len(members) >= MIN_GROUP:
+            groups[industry] = members
+        else:
+            unassigned.extend(members)
+    pools: dict[str, list["AnalysisBundle"]] = {}
+    for b in unassigned:
+        if b.info.sector:
+            pools.setdefault(f"{b.info.sector} (other)", []).append(b)
+    for name, members in pools.items():
+        if len(members) >= MIN_GROUP:
+            groups[name] = members
+    return groups

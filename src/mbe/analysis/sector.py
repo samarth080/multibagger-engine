@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING
 
 from mbe.models.company import FinancialHistory
 from mbe.models.sector import MemberComponents, SectorContext, SectorScore
+from mbe.scoring.pillars import _build
 
 if TYPE_CHECKING:  # avoid a runtime cycle: pipeline imports this module
     from mbe.pipeline import AnalysisBundle
@@ -74,3 +75,68 @@ def group_bundles(bundles: list["AnalysisBundle"]) -> dict[str, list["AnalysisBu
         if len(members) >= MIN_GROUP:
             groups[name] = members
     return groups
+
+
+_SECTOR_ITEMS = [
+    ("sector_rel_strength_6m", 0.30, "Money moving into the industry over 6 months"),
+    ("sector_rel_strength_12m", 0.20, "Sustained 12-month industry leadership"),
+    ("sector_rev_accel", 0.30, "Peer revenue growth accelerating: industry demand turning up"),
+    ("sector_margin_delta", 0.20, "Peer margins expanding: industry-wide pricing power"),
+]
+
+
+def _median_of(values: list[float | None]) -> float | None:
+    present = [v for v in values if v is not None]
+    return float(median(present)) if present else None
+
+
+def _group_values(
+    comps: list[MemberComponents],
+    uni_ret_6m: float | None,
+    uni_ret_12m: float | None,
+) -> dict[str, float | None]:
+    med_6m = _median_of([c.ret_6m for c in comps])
+    med_12m = _median_of([c.ret_12m for c in comps])
+    return {
+        "sector_rel_strength_6m": (
+            med_6m - uni_ret_6m
+            if med_6m is not None and uni_ret_6m is not None else None
+        ),
+        "sector_rel_strength_12m": (
+            med_12m - uni_ret_12m
+            if med_12m is not None and uni_ret_12m is not None else None
+        ),
+        "sector_rev_accel": _median_of([c.rev_accel for c in comps]),
+        "sector_margin_delta": _median_of([c.margin_delta for c in comps]),
+    }
+
+
+def compute_sector_scores(bundles: list["AnalysisBundle"]) -> SectorContext:
+    """Full-group scores for the sector ranking table, plus everything the
+    leave-one-out per-stock pillar needs later."""
+    member_data = {b.info.ticker: member_components(b) for b in bundles}
+    uni_6m = _median_of([m.ret_6m for m in member_data.values()])
+    uni_12m = _median_of([m.ret_12m for m in member_data.values()])
+    groups: dict[str, SectorScore] = {}
+    membership: dict[str, str] = {}
+    for name, members in group_bundles(bundles).items():
+        comps = [member_data[b.info.ticker] for b in members]
+        pillar = _build(
+            "Sector Momentum", _SECTOR_ITEMS, _group_values(comps, uni_6m, uni_12m)
+        )
+        ranked = sorted(members, key=lambda b: b.card.multibagger_score, reverse=True)
+        groups[name] = SectorScore(
+            name=name,
+            level="sector" if name.endswith(" (other)") else "industry",
+            n=len(members),
+            score=pillar.score,
+            confidence=pillar.confidence,
+            evidence=pillar.evidence,
+            members=[b.info.ticker for b in ranked],
+        )
+        for b in members:
+            membership[b.info.ticker] = name
+    return SectorContext(
+        groups=groups, membership=membership, member_data=member_data,
+        universe_median_ret_6m=uni_6m, universe_median_ret_12m=uni_12m,
+    )

@@ -176,3 +176,44 @@ def test_grouping_handles_missing_metadata():
     groups = group_bundles(bundles)
     assert len(groups["Semiconductors"]) == 4
     assert sum(len(m) for m in groups.values()) == 4  # X1 ungrouped
+
+
+from mbe.analysis.sector import compute_sector_scores
+
+
+def test_group_score_hand_computed():
+    # Semis: 6m returns .28/.30/.32/.30 (median .30); pool of laggards median .10
+    semis = [
+        make_bundle(f"SEMI{i}.NS", ret_6m=r, ret_12m=0.40, multibagger=60.0 + i)
+        for i, r in enumerate([0.28, 0.30, 0.32, 0.30])
+    ]
+    laggards = [
+        make_bundle(f"LAG{i}.NS", sector="Energy", industry="Oil & Gas Refining",
+                    ret_6m=0.10, ret_12m=0.05, margin_trend=-0.02,
+                    revenue={2022: 100.0, 2023: 120.0, 2024: 130.0})
+        for i in range(4)
+    ]
+    ctx = compute_sector_scores(semis + laggards)
+    semi = ctx.groups["Semiconductors"]
+    # universe median 6m return = median(.28,.30,.32,.30,.10x4) = .19 -> rel = +.11
+    ev = {e.metric: e for e in semi.evidence}
+    assert ev["sector_rel_strength_6m"].value == pytest.approx(0.11)
+    assert ev["sector_rel_strength_6m"].points == 75
+    assert semi.n == 4
+    assert ctx.membership["SEMI0.NS"] == "Semiconductors"
+    # members ordered by multibagger score, best first
+    assert semi.members[0] == "SEMI3.NS"
+    assert semi.score > ctx.groups["Oil & Gas Refining"].score
+
+
+def test_group_score_missing_components_renormalize():
+    bundles = [
+        make_bundle(f"T{i}.NS", ret_6m=None, ret_12m=None,
+                    revenue={2024: 100.0}, margin_trend=0.015)
+        for i in range(4)
+    ]
+    ctx = compute_sector_scores(bundles)
+    group = ctx.groups["Semiconductors"]
+    # only margin_delta present -> confidence = its weight, score = its points
+    assert group.confidence == pytest.approx(0.20)
+    assert group.score == 75

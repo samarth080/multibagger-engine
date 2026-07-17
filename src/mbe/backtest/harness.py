@@ -22,6 +22,11 @@ from mbe.analysis.business import assess_business
 from mbe.analysis.stewardship import assess_stewardship
 from mbe.analysis.fundamentals import compute_fundamentals
 from mbe.analysis.risk import assess_risk
+from mbe.analysis.sector import (
+    apply_sector_pillar,
+    augmented_multibagger,
+    compute_sector_scores,
+)
 from mbe.thesis.engine import build_thesis, critique_thesis
 from mbe.analysis.technicals import compute_technicals
 from mbe.analysis.valuation import compute_valuation
@@ -177,6 +182,7 @@ def analyze_as_of(
 
 
 _TECHNICAL_ONLY_SCORES = {"momentum", "Momentum"}
+_SECTOR_SCORES = {"sector", "multibagger_sector"}
 
 
 def _extract_score(bundle: AnalysisBundle, score_name: str) -> float:
@@ -188,6 +194,11 @@ def _extract_score(bundle: AnalysisBundle, score_name: str) -> float:
         return bundle.business.franchise_score if bundle.business else 0.0
     if score_name == "stewardship":
         return bundle.stewardship.stewardship_score if bundle.stewardship else 0.0
+    if score_name == "multibagger_sector":
+        return augmented_multibagger(bundle.card)
+    if score_name == "sector":
+        pillar = bundle.card.pillar("Sector Momentum")
+        return pillar.score if pillar else 0.0
     if score_name == "momentum":
         score_name = "Momentum"
     pillar = bundle.card.pillar(score_name)
@@ -218,6 +229,7 @@ def run_backtest_multi(
     for cutoff in cutoffs:
         scores: dict[str, dict[str, float]] = {s: {} for s in score_names}
         fwd: dict[str, float] = {}
+        at_cutoff: list[AnalysisBundle] = []
         for ticker in tickers:
             try:
                 bundle, full_prices = analyze_as_of(
@@ -234,8 +246,14 @@ def run_backtest_multi(
                 skipped[f"{ticker}@{cutoff}"] = "forward window incomplete"
                 continue
             fwd[ticker] = ret
+            at_cutoff.append(bundle)
+        if at_cutoff and any(s in _SECTOR_SCORES for s in score_names):
+            context = compute_sector_scores(at_cutoff)
+            # descriptive attach only: base multibagger stays comparable
+            apply_sector_pillar(at_cutoff, context, adjust_score=False)
+        for bundle in at_cutoff:
             for name in score_names:
-                scores[name][ticker] = _extract_score(bundle, name)
+                scores[name][bundle.info.ticker] = _extract_score(bundle, name)
         for name in score_names:
             per_score_results[name].append(
                 CutoffResult(cutoff=cutoff, **evaluate_cutoff(scores[name], fwd))
@@ -308,6 +326,11 @@ def render_backtest_md(report: BacktestReport) -> str:
         "- Yahoo statement history (~5 fiscal years) limits usable cutoffs; a deeper "
         "fundamentals provider extends this harness without code changes.",
         "- No transaction costs or slippage: a validation instrument, not a strategy sim.",
+        "- Sector labels are present-day classifications applied to historical "
+        "cutoffs (no historical taxonomy source) — mild, disclosed lookahead.",
+        "- Survivorship hits sector-momentum harder than stock signals: hot "
+        "sectors are where dead names died, so sector IC on today's "
+        "constituents is overstated.",
     ]
     if report.skipped:
         lines += ["", f"## Skipped ({len(report.skipped)})", ""]

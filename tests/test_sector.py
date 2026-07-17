@@ -409,3 +409,45 @@ def test_screen_attaches_sector_pillar_and_ranking():
     for b in result.ranked:
         pillar = b.card.pillar("Sector Momentum")
         assert pillar is not None and pillar.confidence > 0
+
+
+from datetime import date as date_cls
+
+from mbe.backtest.harness import run_backtest_multi
+
+
+class BacktestSectorStub(SectorStubProvider):
+    """Prices span 2022 to ~2026-03 so a 2025-01-15 cutoff has 200+ prior days
+    AND a complete 365-day forward window (harness requires >= 90% elapsed)."""
+
+    def get_prices(self, ticker, years: int = 3):
+        n = 1100  # ~4.2 trading years from 2022-01-03
+        return _price_history(list(np.linspace(100.0, 180.0, n)))
+
+
+def test_harness_scores_sector_variants():
+    tickers = [f"S{i}.NS" for i in range(5)]
+    cutoff = date_cls(2025, 1, 15)
+    reports = run_backtest_multi(
+        tickers, BacktestSectorStub(), [cutoff], horizon_days=365,
+        score_names=["multibagger", "multibagger_sector", "sector"],
+        universe_name="stub",
+    )
+    assert set(reports) == {"multibagger", "multibagger_sector", "sector"}
+    assert reports["multibagger"].cutoffs[0].n == 5
+    assert reports["sector"].cutoffs[0].n == 5
+
+
+def test_harness_base_score_unchanged_by_sector_postpass():
+    tickers = [f"S{i}.NS" for i in range(5)]
+    cutoff = date_cls(2025, 1, 15)
+    solo = run_backtest_multi(
+        tickers, BacktestSectorStub(), [cutoff], 365,
+        score_names=["multibagger"], universe_name="stub", collect_raw=True,
+    )
+    both = run_backtest_multi(
+        tickers, BacktestSectorStub(), [cutoff], 365,
+        score_names=["multibagger", "multibagger_sector"],
+        universe_name="stub", collect_raw=True,
+    )
+    assert solo["multibagger"].raw_panel == both["multibagger"].raw_panel

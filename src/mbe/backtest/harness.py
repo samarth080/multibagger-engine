@@ -229,7 +229,7 @@ def run_backtest_multi(
     for cutoff in cutoffs:
         scores: dict[str, dict[str, float]] = {s: {} for s in score_names}
         fwd: dict[str, float] = {}
-        at_cutoff: list[AnalysisBundle] = []
+        at_cutoff: list[tuple[str, AnalysisBundle]] = []
         for ticker in tickers:
             try:
                 bundle, full_prices = analyze_as_of(
@@ -246,14 +246,14 @@ def run_backtest_multi(
                 skipped[f"{ticker}@{cutoff}"] = "forward window incomplete"
                 continue
             fwd[ticker] = ret
-            at_cutoff.append(bundle)
+            at_cutoff.append((ticker, bundle))
         if at_cutoff and any(s in _SECTOR_SCORES for s in score_names):
-            context = compute_sector_scores(at_cutoff)
+            context = compute_sector_scores([b for _, b in at_cutoff])
             # descriptive attach only: base multibagger stays comparable
-            apply_sector_pillar(at_cutoff, context, adjust_score=False)
-        for bundle in at_cutoff:
+            apply_sector_pillar([b for _, b in at_cutoff], context, adjust_score=False)
+        for ticker, bundle in at_cutoff:
             for name in score_names:
-                scores[name][bundle.info.ticker] = _extract_score(bundle, name)
+                scores[name][ticker] = _extract_score(bundle, name)
         for name in score_names:
             per_score_results[name].append(
                 CutoffResult(cutoff=cutoff, **evaluate_cutoff(scores[name], fwd))

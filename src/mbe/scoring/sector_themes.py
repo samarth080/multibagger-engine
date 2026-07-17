@@ -10,6 +10,7 @@ increment validates them on their own — until then they are narrative context.
 from __future__ import annotations
 
 from datetime import date
+from typing import Literal
 
 from pydantic import BaseModel
 
@@ -24,7 +25,7 @@ KNOWN_YAHOO_SECTORS = frozenset({
 
 class SectorTheme(BaseModel):
     theme: str
-    direction: str  # "tailwind" | "headwind"
+    direction: Literal["tailwind", "headwind"]
     reason: str
 
 

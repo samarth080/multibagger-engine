@@ -206,7 +206,11 @@ def apply_sector_pillar(
     adjust_score: bool | None = None,
 ) -> None:
     """Post-pass: attach each stock's LOO pillar to its card; when live
-    (or forced), replace the multibagger score with the augmented one."""
+    (or forced), replace the multibagger score with the augmented one.
+
+    Attach-once: a card that already has a Sector Momentum pillar keeps it —
+    reusing bundles across two different contexts would silently retain the
+    first context's stats. Callers build fresh bundles per run."""
     if adjust_score is None:
         adjust_score = SECTOR_PILLAR_LIVE
     for b in bundles:

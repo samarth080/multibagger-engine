@@ -52,7 +52,6 @@ def test_sector_benchmark_tables():
     assert score_metric("sector_margin_delta", 0.015)[0] == 75
 
 
-from mbe.models.scoring import Evidence
 from mbe.models.sector import MemberComponents, SectorContext, SectorScore
 
 
@@ -130,8 +129,6 @@ def make_bundle(
     pillars: list[PillarScore] | None = None,
     gates: list[str] | None = None,
 ) -> AnalysisBundle:
-    from mbe.models.company import FinancialHistory
-
     return AnalysisBundle(
         info=CompanyInfo(ticker=ticker, sector=sector, industry=industry),
         fin=FinancialHistory(
@@ -273,6 +270,17 @@ def test_loo_pillar_excludes_self():
 def test_pillar_confidence_zero_when_ungrouped():
     _, ctx = _hot_group_ctx()
     pillar = sector_pillar_for("NOT_THERE.NS", ctx)
+    assert pillar.confidence == 0.0 and pillar.score == 0.0
+
+
+def test_loo_pillar_zero_confidence_when_peers_uninformative():
+    bundles = [
+        make_bundle(f"N{i}.NS", ret_6m=None, ret_12m=None,
+                    revenue={2024: 100.0}, margin_trend=None)
+        for i in range(4)
+    ]
+    ctx = compute_sector_scores(bundles)
+    pillar = sector_pillar_for("N0.NS", ctx)
     assert pillar.confidence == 0.0 and pillar.score == 0.0
 
 

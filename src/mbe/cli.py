@@ -135,6 +135,53 @@ def screen_cmd(
 
 
 @app.command()
+def sectors(
+    universe: str,
+    limit: int = typer.Option(0, help="Cap number of tickers (0 = all)"),
+):
+    """Rank the universe's industries by Sector Momentum (peer-set relative)."""
+    from mbe.scoring.sector_themes import CURATED_AS_OF, themes_for
+
+    tickers = _universe_tickers(universe)
+    if limit:
+        tickers = tickers[:limit]
+    console.print(f"[bold]Sector view: {len(tickers)} tickers in {universe}…[/bold]")
+    result = screen(tickers, _provider())
+    if not result.sector_scores:
+        console.print("No sector groups of sufficient size (need >= 4 peers).")
+        raise typer.Exit(0)
+
+    table = Table(title=f"{universe} — industries by Sector Momentum (vs screened peers)")
+    for col in ("#", "Group", "Level", "Score", "Coverage", "N", "Top members"):
+        table.add_column(col)
+    for i, s in enumerate(result.sector_scores, 1):
+        table.add_row(
+            str(i), s.name, s.level, f"{s.score:.0f}",
+            f"{s.confidence:.0%}", str(s.n), ", ".join(s.members[:4]),
+        )
+    console.print(table)
+
+    console.print(
+        f"\n[bold]Curated themes (as of {CURATED_AS_OF}, descriptive only — not scored):[/bold]"
+    )
+    shown = False
+    for s in result.sector_scores:
+        tags = (
+            themes_for(None, s.name)
+            if s.level == "industry"
+            else themes_for(s.name.removesuffix(" (other)"), None)
+        )
+        for t in tags:
+            arrow = "▲" if t.direction == "tailwind" else "▼"
+            console.print(f"  {s.name}: {arrow} {t.theme} — {t.reason}")
+            shown = True
+    if not shown:
+        console.print("  (no curated tags for the groups in this universe)")
+    if result.failures:
+        console.print(f"[yellow]{len(result.failures)} failures[/yellow]")
+
+
+@app.command()
 def universes():
     """List available universes (curated + dynamic NSE index lists)."""
     from mbe.data.universe_nse import NSE_SOURCES

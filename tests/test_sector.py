@@ -451,3 +451,22 @@ def test_harness_base_score_unchanged_by_sector_postpass():
         universe_name="stub", collect_raw=True,
     )
     assert solo["multibagger"].raw_panel == both["multibagger"].raw_panel
+
+
+from mbe.pipeline import analyze_ticker
+from mbe.report.markdown import render_report
+
+
+def test_report_shows_sector_line_and_themes():
+    # single-ticker analyze: pillar absent -> honest n/a; themes still shown
+    bundle = analyze_ticker("S0.NS", SectorStubProvider())
+    text = render_report(bundle)
+    assert "Sector momentum: n/a — computed in universe screens" in text
+    assert "Sector themes (curated 2026-07-17" in text
+    assert "▲ AI infrastructure capex supercycle" in text
+
+
+def test_report_shows_pillar_when_screened():
+    result = screen([f"S{i}.NS" for i in range(5)], SectorStubProvider())
+    text = render_report(result.ranked[0])
+    assert "vs screened peers" in text

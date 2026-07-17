@@ -60,6 +60,10 @@ _TEMPLATE = _ENV.from_string("""\
 ## Business Overview
 
 - Sector: {{ info.sector or "n/a" }} | Industry: {{ info.industry or "n/a" }}
+- Sector momentum: {{ sector_momentum_line }}
+{% if sector_themes %}- Sector themes (curated {{ themes_curated_as_of }}, descriptive only — not scored):
+{% for t in sector_themes %}  - {{ "▲" if t.direction == "tailwind" else "▼" }} {{ t.theme }} — {{ t.reason }}
+{% endfor %}{% endif %}
 - Insider/promoter holding: {{ info.insider_pct | pct }} | Institutional: {{ info.institution_pct | pct }}
 
 {{ (info.description or "No business description available from the current data source.")[:900] }}
@@ -279,6 +283,19 @@ def render_report(bundle: AnalysisBundle) -> str:
     if bundle.tech.price and bundle.tech.atr_pct:
         stop = f"{bundle.tech.price * (1 - 2.5 * bundle.tech.atr_pct / 100):,.2f}"
 
+    from mbe.scoring.sector_themes import CURATED_AS_OF, themes_for
+
+    sector_pillar = bundle.card.pillar("Sector Momentum")
+    if sector_pillar is not None and sector_pillar.confidence > 0:
+        sector_momentum_line = (
+            f"{sector_pillar.score:.0f}/100 vs screened peers "
+            f"(coverage {sector_pillar.confidence:.0%})"
+        )
+    else:
+        sector_momentum_line = (
+            "n/a — computed in universe screens, not single-ticker analysis"
+        )
+
     return _TEMPLATE.render(
         info=bundle.info,
         fund=bundle.fund,
@@ -296,6 +313,9 @@ def render_report(bundle: AnalysisBundle) -> str:
         entry_guidance=_entry_guidance(bundle),
         sizing_guidance=sizing_guidance(bundle),
         stop_level=stop,
+        sector_momentum_line=sector_momentum_line,
+        sector_themes=themes_for(bundle.info.sector, bundle.info.industry),
+        themes_curated_as_of=CURATED_AS_OF,
     )
 
 

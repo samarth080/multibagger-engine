@@ -37,7 +37,7 @@ _VALUATION = [
 ]
 
 
-def _build(name: str, items: list[tuple[str, float, str]], values: dict[str, float | None]) -> PillarScore:
+def build_pillar(name: str, items: list[tuple[str, float, str]], values: dict[str, float | None]) -> PillarScore:
     evidence: list[Evidence] = []
     weighted_points = 0.0
     weight_present = 0.0
@@ -74,15 +74,15 @@ def quality_pillar(fund: FundamentalMetrics) -> PillarScore:
         values["roce_3y"] = fund.roce
     if values["roe_3y"] is None:
         values["roe_3y"] = fund.roe
-    return _build("Quality", _QUALITY, values)
+    return build_pillar("Quality", _QUALITY, values)
 
 
 def growth_pillar(fund: FundamentalMetrics) -> PillarScore:
-    return _build("Growth", _GROWTH, {m: getattr(fund, m) for m, _, _ in _GROWTH})
+    return build_pillar("Growth", _GROWTH, {m: getattr(fund, m) for m, _, _ in _GROWTH})
 
 
 def strength_pillar(fund: FundamentalMetrics) -> PillarScore:
-    return _build("Financial Strength", _STRENGTH, {m: getattr(fund, m) for m, _, _ in _STRENGTH})
+    return build_pillar("Financial Strength", _STRENGTH, {m: getattr(fund, m) for m, _, _ in _STRENGTH})
 
 
 def valuation_pillar(val: ValuationResult, fund: FundamentalMetrics) -> PillarScore:
@@ -96,7 +96,7 @@ def valuation_pillar(val: ValuationResult, fund: FundamentalMetrics) -> PillarSc
         "implied_growth_gap": gap,
         "fcf_yield": val.fcf_yield,
     }
-    return _build("Valuation", _VALUATION, values)
+    return build_pillar("Valuation", _VALUATION, values)
 
 
 def momentum_pillar(tech: TechnicalState) -> PillarScore:

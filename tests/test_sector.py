@@ -204,6 +204,7 @@ def test_group_score_hand_computed():
     # members ordered by multibagger score, best first
     assert semi.members[0] == "SEMI3.NS"
     assert semi.score > ctx.groups["Oil & Gas Refining"].score
+    assert semi.level == "industry"
 
 
 def test_group_score_missing_components_renormalize():
@@ -217,3 +218,17 @@ def test_group_score_missing_components_renormalize():
     # only margin_delta present -> confidence = its weight, score = its points
     assert group.confidence == pytest.approx(0.20)
     assert group.score == 75
+    assert {e.metric for e in group.evidence} == {"sector_margin_delta"}
+
+
+def test_pool_fallback_has_sector_level():
+    # two small same-sector industries pool into "Technology (other)"
+    bundles = [
+        make_bundle(f"A{i}.NS", industry="Software - Application") for i in range(2)
+    ] + [
+        make_bundle(f"B{i}.NS", industry="Software - Infrastructure") for i in range(2)
+    ]
+    ctx = compute_sector_scores(bundles)
+    pool = ctx.groups["Technology (other)"]
+    assert pool.level == "sector"
+    assert pool.n == 4

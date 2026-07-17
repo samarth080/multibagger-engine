@@ -15,10 +15,13 @@ from typing import TYPE_CHECKING
 
 from mbe.models.company import FinancialHistory
 from mbe.models.sector import MemberComponents, SectorContext, SectorScore
-from mbe.scoring.pillars import _build
+from mbe.scoring.pillars import build_pillar
 
 if TYPE_CHECKING:  # avoid a runtime cycle: pipeline imports this module
     from mbe.pipeline import AnalysisBundle
+
+
+_OTHER_SUFFIX = " (other)"  # marks a sector-level fallback pool (vs a real industry)
 
 
 def revenue_acceleration(fin: FinancialHistory) -> float | None:
@@ -70,7 +73,7 @@ def group_bundles(bundles: list["AnalysisBundle"]) -> dict[str, list["AnalysisBu
     pools: dict[str, list["AnalysisBundle"]] = {}
     for b in unassigned:
         if b.info.sector:
-            pools.setdefault(f"{b.info.sector} (other)", []).append(b)
+            pools.setdefault(f"{b.info.sector}{_OTHER_SUFFIX}", []).append(b)
     for name, members in pools.items():
         if len(members) >= MIN_GROUP:
             groups[name] = members
@@ -121,13 +124,13 @@ def compute_sector_scores(bundles: list["AnalysisBundle"]) -> SectorContext:
     membership: dict[str, str] = {}
     for name, members in group_bundles(bundles).items():
         comps = [member_data[b.info.ticker] for b in members]
-        pillar = _build(
+        pillar = build_pillar(
             "Sector Momentum", _SECTOR_ITEMS, _group_values(comps, uni_6m, uni_12m)
         )
         ranked = sorted(members, key=lambda b: b.card.multibagger_score, reverse=True)
         groups[name] = SectorScore(
             name=name,
-            level="sector" if name.endswith(" (other)") else "industry",
+            level="sector" if name.endswith(_OTHER_SUFFIX) else "industry",
             n=len(members),
             score=pillar.score,
             confidence=pillar.confidence,

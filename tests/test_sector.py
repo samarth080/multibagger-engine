@@ -354,3 +354,58 @@ def test_it_services_carries_both_directions():
     tags = themes_for("Technology", "Information Technology Services")
     directions = {t.direction for t in tags}
     assert directions == {"tailwind", "headwind"}
+
+
+from mbe.pipeline import screen
+
+
+class SectorStubProvider:
+    """5 same-industry tickers with full statements and 320 price days."""
+
+    def get_info(self, ticker):
+        return CompanyInfo(
+            ticker=ticker, name="Stub Co", market_cap=3e10,
+            shares_outstanding=1e8, currency="INR",
+            sector="Technology", industry="Semiconductors",
+        )
+
+    def get_financials(self, ticker):
+        from mbe.models.company import FinancialHistory
+
+        years = [2019, 2020, 2021, 2022, 2023, 2024]
+        data = {
+            "revenue": [100, 115, 132, 152, 175, 200],
+            "net_income": [10, 12, 15, 18, 22, 26],
+            "operating_income": [15, 17, 20, 24, 28, 33],
+            "ebitda": [20, 23, 27, 32, 37, 43],
+            "interest_expense": [4, 4, 4, 4, 4, 4],
+            "total_assets": [300, 340, 385, 435, 490, 550],
+            "total_equity": [60, 70, 82, 96, 112, 130],
+            "total_debt": [40, 40, 40, 40, 40, 40],
+            "cash": [10, 12, 14, 16, 18, 20],
+            "current_assets": [50, 55, 60, 65, 70, 75],
+            "current_liabilities": [25, 27, 29, 31, 33, 35],
+            "cfo": [12, 14, 18, 22, 26, 30],
+            "capex": [5, 6, 7, 8, 9, 10],
+            "fcf": [7, 8, 11, 14, 17, 20],
+            "shares_diluted": [100, 100, 100, 100, 100, 100],
+        }
+        return FinancialHistory(
+            data={f: dict(zip(years, v)) for f, v in data.items()}
+        )
+
+    def get_prices(self, ticker, years: int = 3):
+        return _price_history(list(np.linspace(100, 150, 320)))
+
+    def benchmark_ticker(self, ticker):
+        return "^NSEI"
+
+
+def test_screen_attaches_sector_pillar_and_ranking():
+    tickers = [f"S{i}.NS" for i in range(5)]
+    result = screen(tickers, SectorStubProvider())
+    assert len(result.ranked) == 5
+    assert result.sector_scores and result.sector_scores[0].name == "Semiconductors"
+    for b in result.ranked:
+        pillar = b.card.pillar("Sector Momentum")
+        assert pillar is not None and pillar.confidence > 0

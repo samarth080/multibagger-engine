@@ -12,6 +12,7 @@ from datetime import date
 from pydantic import BaseModel, ConfigDict
 
 from mbe.analysis.business import assess_business
+from mbe.analysis.sector import apply_sector_pillar, compute_sector_scores
 from mbe.analysis.stewardship import assess_stewardship
 from mbe.analysis.fundamentals import compute_fundamentals
 from mbe.analysis.risk import assess_risk
@@ -27,6 +28,7 @@ from mbe.models.analysis import (
 )
 from mbe.models.company import CompanyInfo, FinancialHistory
 from mbe.models.scoring import ScoreCard
+from mbe.models.sector import SectorScore
 from mbe.models.stewardship import StewardshipProfile
 from mbe.models.thesis import Critique, InvestmentThesis
 from mbe.scoring.engine import build_scorecard
@@ -53,6 +55,7 @@ class AnalysisBundle(BaseModel):
 class ScreenResult(BaseModel):
     ranked: list[AnalysisBundle]
     failures: dict[str, str]
+    sector_scores: list[SectorScore] = []  # best group first; empty pre-P2.4 runs
 
 
 def analyze_ticker(ticker: str, provider: DataProvider) -> AnalysisBundle:
@@ -95,5 +98,12 @@ def screen(tickers: list[str], provider: DataProvider) -> ScreenResult:
             failures[ticker] = str(exc)
         except Exception as exc:  # engine bug on odd data: record, keep batch alive
             failures[ticker] = f"unexpected: {exc!r}"
+    sector_scores: list[SectorScore] = []
+    if bundles:
+        context = compute_sector_scores(bundles)
+        apply_sector_pillar(bundles, context)  # score adjust gated by ablation verdict
+        sector_scores = sorted(
+            context.groups.values(), key=lambda s: s.score, reverse=True
+        )
     bundles.sort(key=lambda b: b.card.multibagger_score, reverse=True)
-    return ScreenResult(ranked=bundles, failures=failures)
+    return ScreenResult(ranked=bundles, failures=failures, sector_scores=sector_scores)

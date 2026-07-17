@@ -318,3 +318,39 @@ def test_apply_sector_pillar_descriptive_mode_leaves_score():
     for b in bundles:
         assert b.card.multibagger_score == before[b.info.ticker]
         assert b.card.pillar("Sector Momentum") is not None
+
+
+from mbe.scoring.sector_themes import (
+    CURATED_AS_OF,
+    KNOWN_YAHOO_SECTORS,
+    THEMES,
+    themes_for,
+)
+
+
+def test_theme_table_is_valid():
+    assert CURATED_AS_OF is not None
+    for key, themes in THEMES.items():
+        assert key.strip() == key and key
+        # typo guard: a key that case-insensitively matches a Yahoo sector
+        # must match it exactly
+        for known in KNOWN_YAHOO_SECTORS:
+            if key.lower() == known.lower():
+                assert key == known
+        assert themes, f"{key} has no themes"
+        for t in themes:
+            assert t.direction in ("tailwind", "headwind")
+            assert t.theme and t.reason
+
+
+def test_themes_for_industry_beats_sector():
+    semis = themes_for("Technology", "Semiconductors")
+    assert any("AI" in t.theme for t in semis)
+    # unknown industry falls back to sector-level tags if any, else []
+    assert themes_for(None, "Nonexistent Industry") == []
+
+
+def test_it_services_carries_both_directions():
+    tags = themes_for("Technology", "Information Technology Services")
+    directions = {t.direction for t in tags}
+    assert directions == {"tailwind", "headwind"}

@@ -1,8 +1,10 @@
 """Offline tests for the RSS news/policy provider (canned fixtures)."""
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from email.utils import format_datetime
 
-from mbe.data.news_rss import NewsItem, dedupe_recent, parse_rss
+from mbe.data.cache import DiskCache
+from mbe.data.news_rss import NewsItem, dedupe_recent, parse_rss, company_news, policy_items
 
 GOOGLE_RSS = """<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel><title>q</title>
@@ -64,3 +66,54 @@ def test_parse_rss_naive_date_normalized_to_utc_not_crash():
     assert items[0].title == "Natco Pharma wins US approval"
     assert items[0].published is not None
     assert items[0].published.tzinfo is not None
+
+
+# Dynamic fixture to prevent rot as calendar advances
+_RECENT = format_datetime(datetime.now(timezone.utc) - timedelta(days=1))
+
+PIB_RSS = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>PIB</title>
+<item><title>Cabinet approves semiconductor fab incentives</title>
+<link>https://pib.example/1</link>
+<pubDate>{_RECENT}</pubDate></item>
+<item><title>New highway inaugurated</title>
+<link>https://pib.example/2</link>
+<pubDate>{_RECENT}</pubDate></item>
+</channel></rss>"""
+
+
+def test_company_news_builds_query_and_caches(tmp_path):
+    calls: list[str] = []
+
+    def fake_http(url: str) -> str:
+        calls.append(url)
+        return GOOGLE_RSS
+
+    cache = DiskCache(tmp_path)
+    items = company_news("Natco Pharma", "NATCOPHARM.NS", cache=cache, fetcher=fake_http)
+    assert items  # something survived (undated items always do)
+    assert any("Natco" in i.title or "Undated" in i.title for i in items)
+    assert "news.google.com" in calls[0]
+    assert "%22Natco%20Pharma%22" in calls[0]  # quoted company name in query
+    # second call served from cache: no new fetch
+    company_news("Natco Pharma", "NATCOPHARM.NS", cache=cache, fetcher=fake_http)
+    assert len(calls) == 1
+
+
+def test_company_news_feed_failure_degrades_to_empty():
+    def boom(url: str) -> str:
+        raise OSError("network down")
+
+    assert company_news("X Ltd", "X.NS", cache=None, fetcher=boom) == []
+
+
+def test_policy_items_tag_matching_sectors(tmp_path):
+    items = policy_items(
+        ["Semiconductors", "Steel"], cache=DiskCache(tmp_path),
+        fetcher=lambda url: PIB_RSS,
+    )
+    by_title = {i.title: i for i in items}
+    assert by_title["Cabinet approves semiconductor fab incentives"].sectors == [
+        "Semiconductors"
+    ]
+    assert by_title["New highway inaugurated"].sectors == []

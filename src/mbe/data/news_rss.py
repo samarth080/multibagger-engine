@@ -111,3 +111,50 @@ def dedupe_recent(
         reverse=True,
     )
     return kept[:limit]
+
+
+def company_news(
+    name: str,
+    ticker: str,
+    cache: DiskCache | None = None,
+    fetcher=default_http,
+) -> list[NewsItem]:
+    """Top recent headlines for one company (Google News RSS)."""
+    base = ticker.split(".")[0]
+    query = urllib.parse.quote(f'"{name}" OR "{base}"')
+    key = f"news_{base}"
+    if cache and (hit := cache.get_json(key)):
+        return [NewsItem(**i) for i in hit["items"]]
+    try:
+        items = dedupe_recent(parse_rss(fetcher(GOOGLE_NEWS_URL.format(query=query))))
+    except Exception:
+        return []  # context must never fail a build; builder prints counts
+    if cache:
+        cache.set_json(key, {"items": [i.model_dump(mode="json") for i in items]})
+    return items
+
+
+def policy_items(
+    sector_names: list[str],
+    cache: DiskCache | None = None,
+    fetcher=default_http,
+    limit: int = 12,
+) -> list[NewsItem]:
+    """Latest PIB items, tagged with the sectors whose keywords they match."""
+    key = "news_pib"
+    if cache and (hit := cache.get_json(key)):
+        items = [NewsItem(**i) for i in hit["items"]]
+    else:
+        try:
+            items = dedupe_recent(parse_rss(fetcher(PIB_RSS_URL)), limit=limit)
+        except Exception:
+            return []
+        if cache:
+            cache.set_json(key, {"items": [i.model_dump(mode="json") for i in items]})
+    for item in items:
+        low = f" {item.title.lower()} "
+        item.sectors = [
+            s for s in sector_names
+            if any(k in low for k in POLICY_KEYWORDS.get(s, []))
+        ]
+    return items

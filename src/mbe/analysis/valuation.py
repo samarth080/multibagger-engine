@@ -129,9 +129,19 @@ def compute_valuation(
 
     fair_bear = fair_base = fair_bull = None
     implied = None
+    debt_overhang_floor = 0.0
     if base_fcf is not None and shares:
         def per_share(g: float) -> float:
-            return (dcf_value(base_fcf, g, discount, terminal) + net_cash) / shares
+            # Equity has limited liability: a DCF can legitimately imply net
+            # debt exceeds the enterprise value, but per-share equity "worth
+            # less than nothing" is not a real price — floor at 0 and flag it
+            # rather than surface a nonsensical negative fair value.
+            nonlocal debt_overhang_floor
+            raw = (dcf_value(base_fcf, g, discount, terminal) + net_cash) / shares
+            if raw < 0:
+                debt_overhang_floor = 1.0
+                return 0.0
+            return raw
 
         fair_bear, fair_base, fair_bull = per_share(g_bear), per_share(g_base), per_share(g_bull)
         if market_cap:
@@ -186,6 +196,7 @@ def compute_valuation(
             "base_fcf": base_fcf if base_fcf is not None else float("nan"),
             "growth_defaulted": growth_defaulted,
             "owner_earnings_floor": owner_earnings_floor,
+            "debt_overhang_floor": debt_overhang_floor,
         },
         completeness=completeness,
     )

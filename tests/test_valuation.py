@@ -142,3 +142,29 @@ def test_owner_earnings_floor_skipped_when_earnings_not_cash_backed():
     v = compute_valuation(fin, info, fund, price=200.0)
     assert v.assumptions["base_fcf"] == pytest.approx((15 + 16 + 18) / 3, abs=0.01)
     assert v.assumptions["owner_earnings_floor"] == 0.0
+
+
+def test_high_leverage_floors_fair_value_at_zero_not_negative():
+    """Net debt that swamps a thin, proxy-derived base FCF must clamp the
+    DCF's per-share equity value at 0 (limited liability), never negative —
+    the KPIGREEN.NS pattern: capex-heavy growth funded by debt, weak cash
+    conversion so the owner-earnings floor never engages, deeply negative
+    trailing FCF forcing the 0.8x-NI proxy."""
+    years = [2023, 2024, 2025, 2026]
+    fin = FinancialHistory(
+        data={
+            "net_income": dict(zip(years, [10.0, 16.0, 32.0, 48.0])),
+            "cfo": dict(zip(years, [10.0, 12.0, 20.0, 25.0])),  # conversion ~0.6, < 0.8
+            "fcf": dict(zip(years, [-15.0, -24.0, -130.0, -261.0])),  # heavy project capex
+            "total_debt": dict(zip(years, [68.0, 104.0, 147.0, 520.0])),
+            "cash": dict(zip(years, [5.0, 8.0, 10.0, 12.0])),
+            "shares_diluted": dict(zip(years, [1.0, 1.0, 1.0, 1.0])),
+        }
+    )
+    info = CompanyInfo(ticker="LEVERED.NS", market_cap=800.0, shares_outstanding=1.0)
+    fund = compute_fundamentals(fin, info)
+    assert fund.cash_conversion is not None and fund.cash_conversion < 0.8
+    v = compute_valuation(fin, info, fund, price=400.0)
+    assert v.fair_value_bear is not None and v.fair_value_bear >= 0.0
+    assert v.assumptions["debt_overhang_floor"] == 1.0
+    assert v.assumptions["owner_earnings_floor"] == 0.0  # never engaged, as intended

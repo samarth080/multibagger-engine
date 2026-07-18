@@ -189,6 +189,13 @@ class YahooProvider:
                 "Volume": "volume",
             }
         )[["open", "high", "low", "close", "volume"]]
+        # Yahoo sometimes appends an in-progress bar for the current session
+        # with real volume but NaN OHLC; a NaN close is truthy in Python and
+        # would silently poison every downstream price-derived metric instead
+        # of surfacing as missing data, so drop it here at the source.
+        df = df[df["close"].notna()]
+        if df.empty:
+            raise ProviderError(f"no valid (non-NaN) price history for {ticker}")
         df.index = pd.to_datetime(df.index).tz_localize(None)
         if self.cache:
             self.cache.set_df(key, df)

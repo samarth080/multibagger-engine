@@ -4,7 +4,8 @@ import pandas as pd
 import pytest
 
 from mbe.data.cache import DiskCache
-from mbe.data.yahoo import map_statements
+from mbe.data.provider import ProviderError
+from mbe.data.yahoo import YahooProvider, map_statements
 
 
 def _yf_frame(rows: dict[str, list[float | None]], years: list[int]) -> pd.DataFrame:
@@ -95,3 +96,59 @@ def test_period_string_uses_max_beyond_yahoo_presets():
     assert period_str(3) == "3y"
     assert period_str(10) == "10y"
     assert period_str(18) == "max"  # Yahoo presets stop at 10y
+
+
+class _StubYfTicker:
+    """Mimics yfinance's Ticker.history() shape closely enough to exercise
+    YahooProvider.get_prices without a network call."""
+
+    def __init__(self, history_df: pd.DataFrame):
+        self._history_df = history_df
+
+    def history(self, period: str, auto_adjust: bool) -> pd.DataFrame:
+        return self._history_df
+
+
+def test_get_prices_drops_trailing_nan_bar():
+    # Yahoo sometimes appends an in-progress session bar: real volume, no OHLC
+    # yet. A NaN close is truthy in Python, so it must be dropped here rather
+    # than surfacing as a poisoned "price" that silently skips every
+    # `is None` missing-data guard downstream.
+    idx = pd.to_datetime(["2026-07-16", "2026-07-17"])
+    raw = pd.DataFrame(
+        {
+            "Open": [100.0, float("nan")],
+            "High": [102.0, float("nan")],
+            "Low": [99.0, float("nan")],
+            "Close": [101.0, float("nan")],
+            "Volume": [1_000_000, 93_411],
+        },
+        index=idx,
+    )
+    provider = YahooProvider(cache=None)
+    provider._ticker = lambda ticker: _StubYfTicker(raw)
+
+    prices = provider.get_prices("TEST.NS")
+
+    assert len(prices.df) == 1
+    assert not prices.df["close"].isna().any()
+    assert prices.last_close() == 101.0
+
+
+def test_get_prices_raises_when_all_rows_nan():
+    idx = pd.to_datetime(["2026-07-17"])
+    raw = pd.DataFrame(
+        {
+            "Open": [float("nan")],
+            "High": [float("nan")],
+            "Low": [float("nan")],
+            "Close": [float("nan")],
+            "Volume": [93_411],
+        },
+        index=idx,
+    )
+    provider = YahooProvider(cache=None)
+    provider._ticker = lambda ticker: _StubYfTicker(raw)
+
+    with pytest.raises(ProviderError, match="no valid"):
+        provider.get_prices("TEST.NS")

@@ -80,3 +80,15 @@ def test_render_site_writes_index_reports_and_data(tmp_path):
     assert (tmp_path / "reports" / "S0_NS.html").exists()
     report = (tmp_path / "reports" / "S0_NS.html").read_text()
     assert "Multibagger" in report
+
+
+def test_render_site_prunes_dropped_ticker_pages(tmp_path):
+    # a report page for a ticker no longer in the top table must not stay
+    # live at its old URL presenting stale analysis as current
+    (tmp_path / "reports").mkdir()
+    (tmp_path / "reports" / "DROPPED_NS.html").write_text("<html>old</html>")
+    result = _result()
+    data = build_data(result, {}, policy=[], built_at=NOW)
+    render_site(data, {"entered": [], "exited": ["DROPPED.NS"]}, result, tmp_path)
+    assert not (tmp_path / "reports" / "DROPPED_NS.html").exists()
+    assert (tmp_path / "reports" / "S0_NS.html").exists()

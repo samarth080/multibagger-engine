@@ -281,3 +281,11 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
 - News RSS: non-http(s) link schemes dropped at parse time — a
   `javascript:` URI from a feed would otherwise survive autoescape as a
   live clickable link.
+- **`src/mbe/data/nse_xbrl.py` was never in git**: the pre-anchor `data/`
+  ignore pattern silently excluded the NSE XBRL provider from every commit
+  since it was written — nine modules import it, so any fresh clone was
+  broken. Surfaced by the anchoring fix; now tracked. A fresh-clone test
+  run (188/188) confirms the tracked tree is self-sufficient.
+- `render_site` now prunes `site/reports/` pages for tickers that dropped
+  out of the top table — a stale report at a live URL would present last
+  week's analysis as current.

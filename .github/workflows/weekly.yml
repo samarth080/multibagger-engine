@@ -5,6 +5,9 @@ on:
   workflow_dispatch: {}
 permissions:
   contents: write
+concurrency:
+  group: weekly-picks
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -197,6 +197,12 @@ def render_site(data: dict, changes: dict, result: ScreenResult, out_dir) -> Non
     (out / "reports").mkdir(parents=True, exist_ok=True)
     (out / "data.json").write_text(json.dumps({**data, "changes": changes}, indent=1))
     published = {row["ticker"] for row in data["top"]}
+    # prune pages for tickers that dropped out: a stale report reachable at a
+    # live URL would present last week's analysis as current
+    expected = {t.replace(".", "_") + ".html" for t in published}
+    for old in (out / "reports").glob("*.html"):
+        if old.name not in expected:
+            old.unlink()
     for b in result.ranked:
         if b.card.ticker in published:
             body = md.markdown(render_report(b), extensions=["tables"])

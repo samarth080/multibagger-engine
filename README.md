@@ -116,7 +116,11 @@ stays local; the site is only its published output.
   Monday pre-open IST and commits the rebuilt `site/` back to the repo;
   Vercel's git integration auto-deploys on that push (no CLI, no token).
   Delayed quotes are served by a single stdlib-only Vercel serverless
-  function scoped to the published tickers.
+  function scoped to the published tickers. If Yahoo ever rate-limits
+  GitHub's runners outright (the degraded-build guard will fail the job
+  loudly), the fallback is a scheduled local run of the identical
+  `scripts/build_site.py` followed by `git push` — same output, different
+  trigger.
 - **Honesty carried over from the reports** — descriptive layers (sector
   momentum, theme tags, news, policy) are shown, never scored; a build
   that can't analyze at least 100 of the 250 names refuses to publish

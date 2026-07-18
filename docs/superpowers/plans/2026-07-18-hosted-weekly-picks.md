@@ -92,6 +92,19 @@ def test_parse_rss_bad_date_becomes_none_not_crash():
     xml = GOOGLE_RSS.replace("Fri, 17 Jul 2026 08:00:00 GMT", "not-a-date")
     items = parse_rss(xml)
     assert items[0].published is None
+
+
+def test_parse_rss_naive_date_normalized_to_utc_not_crash():
+    # a pubDate with no zone parses to a NAIVE datetime (stdlib behavior,
+    # no exception) — it must be normalized so dedupe_recent's aware
+    # comparison never raises
+    xml = GOOGLE_RSS.replace(
+        "Fri, 17 Jul 2026 08:00:00 GMT", "Fri, 17 Jul 2026 08:00:00"
+    )
+    items = dedupe_recent(parse_rss(xml), days=7, limit=5, now=NOW)
+    assert items[0].title == "Natco Pharma wins US approval"
+    assert items[0].published is not None
+    assert items[0].published.tzinfo is not None
 ```
 
 - [ ] **Step 2: Run tests to verify they fail**
@@ -178,6 +191,11 @@ def parse_rss(xml_text: str) -> list[NewsItem]:
                 published = parsedate_to_datetime(raw_date)
             except (TypeError, ValueError):
                 published = None
+            else:
+                if published.tzinfo is None:
+                    # zone-less RFC-2822 dates parse as naive datetimes (no
+                    # exception); normalize so aware comparisons never crash
+                    published = published.replace(tzinfo=timezone.utc)
         items.append(
             NewsItem(
                 title=title, link=link, published=published,

@@ -72,6 +72,11 @@ def parse_rss(xml_text: str) -> list[NewsItem]:
                 published = parsedate_to_datetime(raw_date)
             except (TypeError, ValueError):
                 published = None
+            else:
+                if published.tzinfo is None:
+                    # zone-less RFC-2822 dates parse as naive datetimes (no
+                    # exception); normalize so aware comparisons never crash
+                    published = published.replace(tzinfo=timezone.utc)
         items.append(
             NewsItem(
                 title=title, link=link, published=published,

@@ -1,0 +1,7 @@
+{
+  "buildCommand": "",
+  "outputDirectory": "site",
+  "functions": {
+    "api/quotes.py": { "includeFiles": "site/data.json" }
+  }
+}

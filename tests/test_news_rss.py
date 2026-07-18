@@ -117,3 +117,14 @@ def test_policy_items_tag_matching_sectors(tmp_path):
         "Semiconductors"
     ]
     assert by_title["New highway inaugurated"].sectors == []
+
+
+def test_parse_rss_drops_non_http_link_schemes():
+    # external feeds are untrusted: a javascript: URI would survive HTML
+    # autoescaping as a live clickable link on the published page
+    xml = GOOGLE_RSS.replace(
+        "https://example.com/a", "javascript:alert(document.cookie)//"
+    )
+    items = parse_rss(xml)
+    assert all(i.link.startswith(("http://", "https://")) for i in items)
+    assert not any("javascript" in i.link for i in items)

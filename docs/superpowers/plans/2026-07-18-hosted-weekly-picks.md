@@ -184,6 +184,11 @@ def parse_rss(xml_text: str) -> list[NewsItem]:
         link = (node.findtext("link") or "").strip()
         if not title or not link:
             continue
+        # feeds are external input: autoescape blocks markup injection in the
+        # published page but not scheme abuse — a javascript:/data: link would
+        # render as a live clickable URI, so only http(s) survives parsing
+        if not link.lower().startswith(("http://", "https://")):
+            continue
         published = None
         raw_date = node.findtext("pubDate")
         if raw_date:

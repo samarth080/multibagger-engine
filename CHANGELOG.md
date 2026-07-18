@@ -241,3 +241,43 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
   surfacing as "nan INR" across reports).
 - DCF fair value floored at 0 with a `debt_overhang_floor` flag (was showing
   negative per-share values for heavily levered names).
+
+## v0.10.0 — 2026-07-18 (hosted weekly picks: static publish pipeline)
+
+### Added
+- **RSS news & policy provider** (`src/mbe/data/news_rss.py`): Google News
+  headlines per company and a PIB government-policy feed tagged to sector
+  keywords, defusedxml-parsed. A feed failure degrades to an empty list
+  rather than failing the weekly build (blast-radius reasoning — context
+  must never sink a build); item counts are printed so an empty feed stays
+  visible, not silent.
+- **Static-site builder** (`src/mbe/publish.py`): `build_data` (top-25 +
+  sector table + tags + news + policy → `data.json`), `diff_weeks`
+  (week-over-week entered/exited strip), `render_site` (dark-theme
+  `index.html` + per-pick static report pages via markdown, autoescape on,
+  honest model-validation footer on every page).
+- **Delayed quotes function** (`api/quotes.py` + `vercel.json`): stdlib-only
+  Vercel serverless function serving ~15-min-delayed quotes for the
+  published tickers; whitelist sourced from `site/data.json`, `.NS`-regex +
+  30-symbol cap, fails open to regex+cap alone when `data.json` is
+  unavailable (deliberate — this is public delayed data).
+- **Weekly build orchestration** (`scripts/build_site.py`): throttled
+  provider (jittered sleep + 429 backoff retries) to survive datacenter-IP
+  rate limits, refuses to publish a degraded ranking (<100 of 250
+  analyzed), persists the run to DuckDB, then news → diff → render. First
+  live build: 250/250 analyzed, 21/25 picks with headlines, 12 policy
+  items.
+- **GitHub Actions weekly workflow** (`.github/workflows/weekly.yml`):
+  Mondays 02:30 UTC (08:00 IST, pre-open), Actions cache for `data/`,
+  commits `site/` to the repo — Vercel's git integration auto-deploys (no
+  CLI, no token).
+
+### Fixed
+- `.gitignore`'s `data/` and `reports/` patterns anchored to `/data/` and
+  `/reports/` — the unanchored forms were false-matching `src/mbe/data/`
+  and `site/reports/`, which must stay tracked.
+- News RSS: zone-less `pubDate`s (naive datetimes) now normalized to UTC —
+  they were crashing `dedupe_recent`'s aware-datetime comparisons.
+- News RSS: non-http(s) link schemes dropped at parse time — a
+  `javascript:` URI from a feed would otherwise survive autoescape as a
+  live clickable link.

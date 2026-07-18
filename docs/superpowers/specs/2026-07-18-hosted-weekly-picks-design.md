@@ -41,8 +41,9 @@ displayed, never scored; the model-validation status is printed on the page.
    DuckDB (artifact-cached) → pull news/policy RSS → write `site/data.json`,
    `site/index.html`, `site/reports/<ticker>.html` → compute week-over-week
    diff vs the committed previous `data.json`.
-3. Deploy `site/` to Vercel (CLI + `VERCEL_TOKEN` secret) and commit the new
-   `data.json` back to the repo (the next week's diff base).
+3. Commit the built `site/` back to the repo; Vercel's git integration
+   auto-deploys on that push (no CLI, no token). The committed
+   `site/data.json` is the next week's diff base.
 4. Throttling: jittered sleep between tickers; retry with backoff on 429s.
 
 **Stated risk:** Yahoo rate-limits datacenter IPs. Mitigations above; if GH
@@ -85,4 +86,4 @@ in the hosted page (needs a persistent backend — revisit only if wanted).
 ## Prerequisites (user, one-time)
 
 GitHub account + this repo pushed (private OK; ~130 Actions-min/month used
-of 2000 free); Vercel account connected to the repo; `VERCEL_TOKEN` secret.
+of 2000 free); Vercel account connected to the repo.

@@ -16,6 +16,7 @@ uv run mbe history MCX.NS               # score time series from the store
 uv run mbe backtest nifty-midcap150 --limit 60   # does the score predict returns?
 uv run mbe universes                    # curated + NSE index universes
 uv run mbe sectors nifty-midcap150     # industry momentum ranking + themes
+uv run python scripts/build_site.py     # build the weekly picks site -> site/
 uv run pytest                           # offline test suite
 ```
 
@@ -100,6 +101,27 @@ Specs and plans live in `docs/superpowers/`.
   descriptive-only — augmented beat base in only 1/4 samples. The engine
   shows sector context on every card and report but does not score it; the
   multibagger score is unaffected.
+
+## Hosted weekly picks (v0.10)
+
+Every Monday, GitHub Actions builds a public read-only page of the NIFTY
+Smallcap 250 multibagger ranking — the lab (`mbe serve`, CLI, backtests)
+stays local; the site is only its published output.
+
+- **What the page shows** — the top-25 multibagger/investment ranking,
+  week-over-week entries/exits, sector-momentum context, 3-5 recent
+  headlines per pick, government-policy (PIB) items mapped to the top
+  sectors, and delayed (~15 min) quotes.
+- **Architecture** — a GitHub Actions job runs the weekly build every
+  Monday pre-open IST and commits the rebuilt `site/` back to the repo;
+  Vercel's git integration auto-deploys on that push (no CLI, no token).
+  Delayed quotes are served by a single stdlib-only Vercel serverless
+  function scoped to the published tickers.
+- **Honesty carried over from the reports** — descriptive layers (sector
+  momentum, theme tags, news, policy) are shown, never scored; a build
+  that can't analyze at least 100 of the 250 names refuses to publish
+  rather than ship a degraded ranking; every page carries the same
+  model-validation footer as the research reports.
 
 ## Roadmap
 

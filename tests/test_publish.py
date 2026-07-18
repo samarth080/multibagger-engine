@@ -49,3 +49,34 @@ def test_diff_weeks_entered_exited_and_first_week():
     changes = diff_weeks(prev, new)
     assert changes == {"entered": ["C.NS"], "exited": ["A.NS"]}
     assert diff_weeks(None, new) == {"entered": ["B.NS", "C.NS"], "exited": []}
+
+
+import json
+
+from mbe.publish import VALIDATION_FOOTER, render_site
+
+
+def test_render_site_writes_index_reports_and_data(tmp_path):
+    result = _result()
+    data = build_data(result, {}, policy=[
+        NewsItem(title="Cabinet approves fab incentives", link="https://pib/1",
+                 published=NOW, sectors=["Semiconductors"]),
+    ], built_at=NOW)
+    changes = {"entered": ["S0.NS"], "exited": ["Z.NS"]}
+    render_site(data, changes, result, tmp_path)
+
+    index = (tmp_path / "index.html").read_text()
+    assert "S0.NS" in index and "Semiconductors" in index
+    assert "+S0.NS" in index  # changes strip: entry rendered
+    assert "-Z.NS" in index   # changes strip: exit rendered
+    assert VALIDATION_FOOTER[:40] in index
+    assert "delayed" in index.lower()  # quotes honesty label
+    assert "/api/quotes" in index  # quotes fetch wired
+    assert "Cabinet approves fab incentives" in index
+
+    saved = json.loads((tmp_path / "data.json").read_text())
+    assert saved["changes"] == changes
+    # a static report page exists per published pick
+    assert (tmp_path / "reports" / "S0_NS.html").exists()
+    report = (tmp_path / "reports" / "S0_NS.html").read_text()
+    assert "Multibagger" in report

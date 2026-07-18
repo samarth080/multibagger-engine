@@ -15,6 +15,7 @@ uv run mbe snapshot india-midsmall     # screen + persist to DuckDB store
 uv run mbe history MCX.NS               # score time series from the store
 uv run mbe backtest nifty-midcap150 --limit 60   # does the score predict returns?
 uv run mbe universes                    # curated + NSE index universes
+uv run mbe sectors nifty-midcap150     # industry momentum ranking + themes
 uv run pytest                           # offline test suite
 ```
 
@@ -83,6 +84,22 @@ Specs and plans live in `docs/superpowers/`.
   hit rate per cutoff. Known caveats printed in every report: survivorship bias
   (today's constituent lists), ~5y Yahoo statement depth limits cutoffs, no
   costs/slippage — a validation instrument, not a strategy simulator.
+
+## v0.9 additions
+
+- **Sector rotation & tailwind engine** — groups screened companies into
+  industries (with a sector-level pool fallback for thin industries), scores
+  each stock's industry momentum against its screened peers, and attaches a
+  leave-one-out per-stock Sector Momentum pillar (a stock's own momentum is
+  excluded from its group's medians, since that is already paid by the
+  Momentum pillar). `mbe sectors` ranks a universe's industries directly.
+- **Curated descriptive-only tailwind theme tags** (dated `CURATED_AS_OF`,
+  staleness always printed alongside them) surfaced in reports and screens.
+- **Validation status, stated plainly:** the pre-registered sector-momentum
+  ablation (4 samples, US + India, 2y horizon) demoted the pillar to
+  descriptive-only — augmented beat base in only 1/4 samples. The engine
+  shows sector context on every card and report but does not score it; the
+  multibagger score is unaffected.
 
 ## Roadmap
 

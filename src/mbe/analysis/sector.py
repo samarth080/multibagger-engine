@@ -149,9 +149,11 @@ def compute_sector_scores(bundles: list["AnalysisBundle"]) -> SectorContext:
 
 SECTOR_PILLAR_WEIGHT = 0.12  # pre-registered before ablation; never tuned on results
 
-# Flipped only by the scripts/ablation_sector.py verdict per the pre-registered
-# rule in the P2.4 spec. False = descriptive only (pillar evidence on the card,
-# multibagger score untouched) — the franchise/stewardship demotion treatment.
+# Pre-registered ablation (scripts/ablation_sector.py, run 2026-07-18):
+# augmented >= base in only 1/4 samples (us x2, india-primary/replication,
+# 2y horizon) -> DEMOTED to descriptive-only per the rule fixed in the P2.4
+# spec before results were seen. Sector-alone IC was positive in all 4
+# samples but too weak to improve the blend at the pre-registered 0.12.
 SECTOR_PILLAR_LIVE = False
 
 

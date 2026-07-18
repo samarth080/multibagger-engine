@@ -211,3 +211,33 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
   signal in the project (the US never had sample agreement). p ≈ 0.07;
   survivorship caveats hold; verdict stays "suggestive, not proven"; no
   recalibration.
+
+## v0.9.0 — 2026-07-18 (P2.4: sector rotation & tailwind intelligence)
+
+### Added
+- **Sector rotation & tailwind engine**: industry grouping over a screened
+  universe with sector-pool fallback for thin industries (`<Sector> (other)`),
+  leave-one-out sector-momentum pillar per stock, `mbe sectors` CLI command,
+  and curated descriptive-only theme tags dated `CURATED_AS_OF` (staleness
+  always printed alongside them).
+- Sector context surfaced in `screen()` output and in every research report.
+- Backtest harness gained `multibagger_sector` and `sector` score names
+  (for ablation) plus two new caveats now printed in every backtest report:
+  present-day sector labels applied to historical cutoffs (mild, disclosed
+  lookahead) and survivorship biting sector-momentum harder than stock
+  signals (hot sectors are where dead names died).
+
+### Measured — demoted per pre-registered rule (Addendum 14)
+- Ablation: augmented (`multibagger_sector`) beat base in only 1/4 samples
+  (us-smallcap-sample +0.098→+0.093, us-smallcap-sample2 -0.028→-0.034,
+  india-primary +0.163→+0.123, india-replication +0.104→+0.111) — Sector
+  Momentum is demoted to descriptive-only per the majority rule fixed before
+  results were seen. Sector-alone IC was positive in all four samples
+  (+0.034 / +0.042 / +0.081 / +0.319) but too weak to improve the blend at
+  the pre-registered 0.12 weight; either-way-recorded discipline maintained.
+
+### Fixed
+- NaN in-progress Yahoo price bars are now dropped at ingestion (was
+  surfacing as "nan INR" across reports).
+- DCF fair value floored at 0 with a `debt_overhang_floor` flag (was showing
+  negative per-share values for heavily levered names).

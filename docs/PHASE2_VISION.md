@@ -34,9 +34,10 @@ removed.**
 | **P2.1** | **Business-Quality / Franchise-Durability engine + Living Thesis + Self-Critique** (this increment) | Shifts the unit of analysis from a single-year snapshot to a decade-long business trajectory; states falsifiable assumptions and attacks them before recommending | **Ablation**: does a franchise-durability score carry forward-return IC the base score misses? |
 | P2.2 | Longitudinal company memory + prediction ledger (thesis persistence, change detection, prediction→outcome tracking) | Institutional memory; the scientific spine that lets every later module be scored | Calibration: are stated confidences borne out by outcomes? |
 | P2.3 | Management & capital-allocation intelligence (multi-year: dilution, buybacks, ROIIC, guidance vs delivery, reinvestment quality) | Judges stewardship over years, not quarters | Ablation vs forward returns |
-| P2.4 | Document intelligence (annual-report / con-call language & promise tracking) — *requires text ingestion; deterministic NLP first* | Reads the narrative, tracks promises | Promise-kept rate vs outcomes |
-| P2.5 | Causal knowledge graph (policy → beneficiary chains, supply-chain links) | Second/third-order reasoning | Event-study validation on known policy shocks |
-| P2.6 | Regime detection + portfolio intelligence | Context-adaptive sizing and correlation-aware construction | Regime-conditional backtest |
+| P2.4 | Sector rotation & tailwind intelligence (industry momentum pillar + curated theme tags) | Ranks industries, not just companies — the quantitative precursor to the causal graph | Ablation: demoted to descriptive-only (1/4 samples); sector table/tags/report context retained |
+| P2.5 | Document intelligence (annual-report / con-call language & promise tracking) — *requires text ingestion; deterministic NLP first* | Reads the narrative, tracks promises | Promise-kept rate vs outcomes |
+| P2.6 | Causal knowledge graph (policy → beneficiary chains, supply-chain links) | Second/third-order reasoning | Event-study validation on known policy shocks |
+| P2.7 | Regime detection + portfolio intelligence | Context-adaptive sizing and correlation-aware construction | Regime-conditional backtest |
 
 Each increment gets its own spec, TDD build, validation, and honest write-up.
 This file is the living roadmap; it is updated as increments land or are killed.

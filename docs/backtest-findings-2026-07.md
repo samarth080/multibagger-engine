@@ -448,3 +448,54 @@ is not purely the post-COVID regime.
 suggestive edge (~+0.12 IC at 2y) pending survivorship-robust confirmation.
 No recalibration on this evidence. Next: delisting-inclusive Indian universe,
 all 250 names per cutoff, and 3y horizons.
+
+## Addendum 14 — P2.4 sector-momentum ablation: demoted (1/4), sector-alone consistently positive but weak
+
+Pre-registered rule, same as Addenda 9 and 12: the pillar goes live only if
+augmented mean IC >= base mean IC in a strict majority (3+/4 samples), fixed
+in the P2.4 spec before results were seen. One identical analysis pass
+(`run_backtest_multi`) scored `multibagger` (base), `multibagger_sector`
+(+sector at the pre-registered 0.12 weight), and `sector` (sector-alone) per
+sample. 2y horizon; US samples = 12 cutoffs 2012-2023 (disjoint S&P600
+samples via EDGAR); India samples = 8 cutoffs 2016-2023 (nifty-smallcap250
+`[:50]` and `[50:100]` via NSE XBRL).
+
+| Sample | base IC | +sector IC | sector-alone IC |
+|---|---|---|---|
+| us-smallcap-sample | +0.098 | +0.093 | +0.034 |
+| us-smallcap-sample2 | -0.028 | -0.034 | +0.042 |
+| india-primary | +0.163 | +0.123 | +0.081 |
+| india-replication | +0.104 | +0.111 | +0.319 (>= base) |
+
+**Verdict: +sector >= base in 1/4 samples -> Sector Momentum is DEMOTED to
+descriptive-only** (pillar evidence stays on the card; the multibagger score
+is untouched) — the same demotion treatment as franchise (Addendum 9) and
+stewardship (Addendum 12).
+
+**Honest interpretation:**
+
+1. **Sector-alone IC was positive in all four samples** (+0.034 / +0.042 /
+   +0.081 / +0.319) — weak but consistently positive standalone signal, a
+   genuinely different pattern from franchise (which was outright anti-signal
+   on India). Yet blending it into the composite at the pre-registered 0.12
+   weight made the composite slightly *worse* in 3/4 samples — a positive
+   standalone signal does not automatically improve a blend it is added to.
+2. **The india-replication sector-alone reading (+0.319) is an outlier** on a
+   50-name sample; it is the only row that beat base, and it should not be
+   read as the pillar "actually working" on India — it did not survive the
+   pre-registered majority rule and the same sample's own base score
+   (+0.104) is far more stable across the two India cuts than sector-alone is.
+3. **Base multibagger reconfirmed cross-sample-consistent positive IC on
+   India** in this run (+0.163 primary / +0.104 replication) — consistent
+   with Addendum 13's standing verdict, on an independent (later) execution.
+4. **Two new caveats now print in every backtest report** as a result of this
+   work: present-day sector/industry labels applied to historical cutoffs are
+   a mild, disclosed lookahead (no historical taxonomy source exists); and
+   survivorship bias hits sector-momentum harder than stock-level signals,
+   because hot sectors are disproportionately where today's-absent dead names
+   died, which overstates sector IC on today's surviving constituents.
+
+**Shipped accordingly:** `SECTOR_PILLAR_LIVE` stays `False`; the sector table,
+industry grouping, curated descriptive-only theme tags, and report/CLI context
+are retained as risk/context disclosure, labelled unvalidated-for-returns like
+franchise and stewardship before it. No recalibration on this evidence.

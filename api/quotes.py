@@ -2,7 +2,8 @@
 
 Whitelist = tickers in site/data.json (bundled via vercel.json includeFiles)
 — this is not an open proxy: .NS symbols only, whitelist-filtered, capped at
-30. Stdlib only; the mbe package is not installed in this runtime."""
+30. If data.json is unavailable the whitelist fails OPEN to regex+cap only
+(any well-formed .NS symbol) — deliberate: quotes are public delayed data. Stdlib only; the mbe package is not installed in this runtime."""
 
 import json
 import re
@@ -17,7 +18,7 @@ CHART_URL = (
     "?interval=1d&range=1d"
 )
 _UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
-_SYMBOL_RE = re.compile(r"^[A-Z0-9&\-]{1,20}\.NS$")
+_SYMBOL_RE = re.compile(r"^[A-Z0-9&\-]{1,20}\.NS\Z")
 _MAX_SYMBOLS = 30
 
 

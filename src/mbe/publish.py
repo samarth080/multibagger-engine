@@ -133,10 +133,20 @@ details{margin:2px 0} summary{cursor:pointer}
 footer{margin:32px 0;padding:14px;border:1px solid #2a3350;border-radius:8px;
 color:#9aa4ba;font-size:13px}
 .tag-t{color:#5dd39e}.tag-h{color:#e0605e}
+.search{background:#161d33;border:1px solid #2a3350;border-radius:8px;padding:10px 14px;margin:14px 0}
+.search input{background:#0d1220;color:#d7dce6;border:1px solid #2a3350;border-radius:6px;padding:6px 10px;font-family:inherit}
+.search button{background:#e3b34c;color:#0d1220;border:none;border-radius:6px;padding:6px 14px;font-weight:700;cursor:pointer;font-family:inherit}
 </style></head><body>
 <h1>WEEKLY INDIA MULTIBAGGER PICKS</h1>
 <p class="muted">Universe: {{ d.universe }} · built {{ d.built_at[:16] }}Z ·
 quotes are delayed ~15 min · themes curated {{ d.curated_as_of }}</p>
+
+<div class="search"><form action="/api/analyze" method="get">
+<b>Search any stock:</b>
+<input name="ticker" placeholder="e.g. RELIANCE.NS or AAPL" required>
+<button type="submit">Analyze</button>
+<span class="muted">&mdash; live, not part of the weekly ranking, can take 10-30s</span>
+</form></div>
 
 <div class="chg"><b>Changes this week:</b>
 {% if changes.entered %}{% for t in changes.entered %}<span class="up">+{{ t }}</span> {% endfor %}{% endif %}

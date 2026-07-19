@@ -110,3 +110,12 @@ def test_render_report_page_custom_back_link():
     page = render_report_page(bundle, back_href="/")
     assert 'href="/"' in page
     assert 'href="../index.html"' not in page
+
+
+def test_render_site_index_has_search_form(tmp_path):
+    result = _result()
+    data = build_data(result, {}, policy=[], built_at=NOW)
+    render_site(data, {"entered": [], "exited": []}, result, tmp_path)
+    index = (tmp_path / "index.html").read_text()
+    assert 'action="/api/analyze"' in index
+    assert 'name="ticker"' in index

@@ -1,0 +1,11 @@
+/.git
+/.venv
+/.pytest_cache
+/data
+/docs
+/scripts
+/tests
+/reports
+/pyproject.toml
+/uv.lock
+*.duckdb

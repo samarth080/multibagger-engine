@@ -30,10 +30,12 @@ the CLI already shows).
 
 1. Visitor submits the search form → browser GETs `/api/analyze?ticker=X`.
 2. Function validates the ticker format (reject before touching Yahoo).
-3. `YahooProvider(DiskCache("/tmp/mbe-cache"))` — ephemeral, best-effort:
-   helps a still-warm instance skip re-fetching for a repeat search, no
-   cache shared across cold instances or users (accepted tradeoff of the
-   free-serverless choice).
+3. `YahooProvider(cache=None)` — no caching at all. A disk cache's price
+   writes are parquet, which needs a parquet engine (pyarrow/fastparquet)
+   not worth adding to the deliberately minimal `requirements.txt` just for
+   a best-effort, warm-instance-only benefit — every search is a fresh
+   Yahoo fetch (accepted tradeoff of the free-serverless choice, found
+   during implementation to be a firmer requirement than first scoped).
 4. `analyze_ticker(ticker, provider)` → `render_report(bundle)` → wrapped in
    the same dark report shell `src/mbe/publish.py` already uses for weekly
    report pages (shared, parametrized back-link — `publish.py`'s

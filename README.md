@@ -127,6 +127,30 @@ stays local; the site is only its published output.
   rather than ship a degraded ranking; every page carries the same
   model-validation footer as the research reports.
 
+## Live search-any-stock (v0.11)
+
+Type any ticker into the search box on the hosted page and get the full
+live research report — not just the weekly top-25, any name Yahoo covers.
+
+- **What it does** — a plain GET form on the hosted index posts a ticker to
+  `/api/analyze`, which runs the same `analyze_ticker()` pipeline as the CLI
+  and returns a full HTML report at a shareable URL. Labelled on the page as
+  live, not part of the weekly ranking, and can take 10-30s (a cold
+  serverless fetch against Yahoo, not a lookup from `data.json`).
+- **Architecture** — a free Vercel serverless function (`api/analyze.py`),
+  packaged with a scoped `requirements.txt` rather than the full project's
+  dependencies. No disk cache (`YahooProvider(cache=None)`) and no
+  prediction-ledger persistence — stateless serverless has no database to
+  write one to — so this is an honest one-shot report: full thesis,
+  critique, and evidence, same validation footer as everywhere else, just
+  no history across searches.
+- **Security** — a reflected XSS was found in the error page (a rejected
+  ticker was echoed back unescaped) and fixed before merge by HTML-escaping
+  every interpolated value and dropping exception detail from the client-
+  facing 500 page entirely. Recorded here in keeping with this project's
+  practice of stating real findings plainly rather than glossing over them;
+  usage is small right now, but the fix is in place regardless.
+
 ## Roadmap
 
 - **v0.3** — macro dashboard, government-policy/PLI mapping, news & sentiment,

@@ -289,3 +289,42 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
 - `render_site` now prunes `site/reports/` pages for tickers that dropped
   out of the top table — a stale report at a live URL would present last
   week's analysis as current.
+
+## v0.11.0 — 2026-07-20 (live search-any-stock)
+
+### Added
+- **Live search-any-stock** (`api/analyze.py`): a Vercel serverless function
+  that runs the real `analyze_ticker()` + report pipeline on demand for any
+  ticker typed by a visitor, and returns the full HTML research report as a
+  shareable URL. Ticker format validated before any network call; no disk
+  cache (`YahooProvider(cache=None)` — a parquet-backed cache isn't worth
+  the deployment weight for a best-effort, warm-instance-only benefit); no
+  prediction-ledger persistence (stateless serverless has no database) — an
+  honest one-shot report, not a regression from the CLI's ledger feature.
+  Errors render clean pages (400 bad ticker, 404 not found, 500 unexpected)
+  instead of raw crashes.
+- `src/mbe/publish.py` gained `render_report_page(bundle, back_href=...)`, a
+  shared, parametrized report-shell wrapper now used by both the weekly
+  static reports and the new live-search endpoint (verified byte-identical
+  output on the existing weekly path before/after the extraction).
+- Root `requirements.txt` + `vercel.json` update: a scoped Python dependency
+  list for `api/analyze.py` (pandas, numpy, yfinance, pydantic, jinja2,
+  markdown, defusedxml), deliberately excluding scipy/duckdb/pyarrow/
+  fastapi/uvicorn/typer/rich — traced against the function's actual import
+  graph rather than reusing the full project's dependencies.
+- Search form on the hosted weekly-picks page (`site/index.html`): plain GET
+  form (no JavaScript) posting to `/api/analyze`, labelled live, not part of
+  the weekly ranking, can take 10-30s.
+
+### Fixed
+- **Reflected XSS in the analyze error page**: the 400 branch fires exactly
+  when a ticker does *not* match `_TICKER_RE`, so the rejected raw string
+  was being echoed straight into the error page unescaped —
+  `?ticker=<script>...` rendered a live `<script>` tag. Manual adversarial
+  review had only checked whether a value *matching* the regex could be
+  dangerous, missing that the vulnerable branch is reached precisely when
+  it doesn't; caught by automated security review before merge. Fixed by
+  HTML-escaping every value interpolated into `_ERROR_PAGE`; the 500 path
+  no longer reflects exception details to the client at all (logged
+  server-side only, via Vercel's function logs). Two regression tests
+  added.

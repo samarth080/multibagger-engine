@@ -329,11 +329,11 @@ class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         qs = parse_qs(urlparse(self.path).query)
         ticker = qs.get("ticker", [""])[0].strip()
-        status, html = render_analysis(ticker)
+        status, body = render_analysis(ticker)
         self.send_response(status)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.end_headers()
-        self.wfile.write(html.encode())
+        self.wfile.write(body.encode())
 ```
 
 - [ ] **Step 4: Run tests**

@@ -389,8 +389,8 @@ Then insert this block right after the `<p class="muted">Universe: ...</p>` line
 
 ```html
 <div class="search"><form action="/api/analyze" method="get">
-<b>Search any stock:</b>
-<input name="ticker" placeholder="e.g. RELIANCE.NS or AAPL" required>
+<label for="ticker-input"><b>Search any stock:</b></label>
+<input id="ticker-input" name="ticker" placeholder="e.g. RELIANCE.NS or AAPL" required>
 <button type="submit">Analyze</button>
 <span class="muted">&mdash; live, not part of the weekly ranking, can take 10-30s</span>
 </form></div>

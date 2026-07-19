@@ -2,6 +2,7 @@
   "buildCommand": "",
   "outputDirectory": "site",
   "functions": {
-    "api/quotes.py": { "includeFiles": "site/data.json" }
+    "api/quotes.py": { "includeFiles": "site/data.json" },
+    "api/analyze.py": { "includeFiles": "src/mbe/**", "maxDuration": 60 }
   }
 }

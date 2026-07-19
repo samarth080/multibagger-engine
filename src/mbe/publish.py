@@ -16,7 +16,7 @@ import markdown as md
 from jinja2 import Environment
 
 from mbe.data.news_rss import NewsItem
-from mbe.pipeline import ScreenResult
+from mbe.pipeline import AnalysisBundle, ScreenResult
 from mbe.report.markdown import render_report
 from mbe.scoring.sector_themes import CURATED_AS_OF, themes_for
 
@@ -104,9 +104,18 @@ a{color:#e3b34c} table{border-collapse:collapse;width:100%;overflow-x:auto;displ
 td,th{border:1px solid #2a3350;padding:4px 8px;text-align:left}
 h1,h2,h3{color:#e3b34c}
 </style></head><body>
-<p><a href="../index.html">&larr; back to rankings</a></p>
+<p><a href="{{ back_href }}">&larr; back to rankings</a></p>
 {{ body | safe }}
 </body></html>""")
+
+
+def render_report_page(bundle: AnalysisBundle, back_href: str = "../index.html") -> str:
+    """Wrap one AnalysisBundle's markdown report in the shared dark shell.
+    Used by render_site() for weekly static reports and by api/analyze.py
+    for live single-ticker search — one shell, one back-link parameter."""
+    body = md.markdown(render_report(bundle), extensions=["tables"])
+    return _REPORT_SHELL.render(title=bundle.card.ticker, body=body, back_href=back_href)
+
 
 _INDEX = _ENV.from_string("""<!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -205,8 +214,7 @@ def render_site(data: dict, changes: dict, result: ScreenResult, out_dir) -> Non
             old.unlink()
     for b in result.ranked:
         if b.card.ticker in published:
-            body = md.markdown(render_report(b), extensions=["tables"])
-            page = _REPORT_SHELL.render(title=b.card.ticker, body=body)
+            page = render_report_page(b)
             name = b.card.ticker.replace(".", "_") + ".html"
             (out / "reports" / name).write_text(page)
     (out / "index.html").write_text(

@@ -92,3 +92,21 @@ def test_render_site_prunes_dropped_ticker_pages(tmp_path):
     render_site(data, {"entered": [], "exited": ["DROPPED.NS"]}, result, tmp_path)
     assert not (tmp_path / "reports" / "DROPPED_NS.html").exists()
     assert (tmp_path / "reports" / "S0_NS.html").exists()
+
+
+from mbe.publish import render_report_page
+
+
+def test_render_report_page_default_back_link():
+    bundle = make_bundle("S0.NS")
+    page = render_report_page(bundle)
+    assert 'href="../index.html"' in page
+    assert "Multibagger" in page
+    assert "<title>S0.NS</title>" in page
+
+
+def test_render_report_page_custom_back_link():
+    bundle = make_bundle("S0.NS")
+    page = render_report_page(bundle, back_href="/")
+    assert 'href="/"' in page
+    assert 'href="../index.html"' not in page

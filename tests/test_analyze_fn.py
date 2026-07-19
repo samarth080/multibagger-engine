@@ -42,3 +42,24 @@ def test_render_analysis_success_renders_report():
     assert "GOOD.NS" in html
     assert "Multibagger" in html
     assert 'href="/"' in html  # back-link points at the search page, not ../index.html
+
+
+def test_render_analysis_escapes_ticker_in_bad_format_error():
+    # the 400 branch fires exactly when the ticker did NOT pass validation,
+    # so the raw rejected string must never be echoed back unescaped
+    payload = "<script>alert(1)</script>"
+    status, html_out = analyze_fn.render_analysis(payload, provider=StubProvider())
+    assert status == 400
+    assert "<script>" not in html_out
+    assert "&lt;script&gt;" in html_out
+
+
+def test_render_analysis_500_never_reflects_exception_repr():
+    class BoomProvider(StubProvider):
+        def get_info(self, ticker):
+            raise ValueError("<img src=x onerror=alert(1)>")
+
+    status, html_out = analyze_fn.render_analysis("GOOD.NS", provider=BoomProvider())
+    assert status == 500
+    assert "onerror" not in html_out
+    assert "<img" not in html_out

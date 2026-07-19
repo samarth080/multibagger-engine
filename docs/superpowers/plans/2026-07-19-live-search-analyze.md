@@ -258,6 +258,7 @@ doesn't have) — this is an honest one-shot report: full thesis, critique,
 evidence, same validation footer as everywhere else, just no history.
 """
 
+import html
 import re
 import sys
 from http.server import BaseHTTPRequestHandler
@@ -271,7 +272,7 @@ from mbe.data.yahoo import YahooProvider  # noqa: E402
 from mbe.pipeline import analyze_ticker  # noqa: E402
 from mbe.publish import render_report_page  # noqa: E402
 
-_TICKER_RE = re.compile(r"^[A-Za-z0-9.\-]{1,15}$")
+_TICKER_RE = re.compile(r"^[A-Za-z0-9.\-]{1,15}\Z")
 
 _ERROR_PAGE = """<!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -293,24 +294,33 @@ def _default_provider():
 
 def render_analysis(ticker: str, provider=None) -> tuple[int, str]:
     """Returns (http_status, html). Pure function, no request/response
-    coupling — directly unit-testable with a stub provider."""
+    coupling — directly unit-testable with a stub provider.
+
+    Every ticker/reason interpolated into _ERROR_PAGE is HTML-escaped.
+    _TICKER_RE only constrains a VALID ticker — the 400 branch is reached
+    exactly when it does NOT match, so the rejected raw string still flows
+    into the page and must never be trusted as pre-sanitized."""
     if not ticker:
         return 400, _ERROR_PAGE.format(
             ticker="", reason="No ticker given &mdash; try ?ticker=RELIANCE.NS"
         )
     if not _TICKER_RE.match(ticker):
         return 400, _ERROR_PAGE.format(
-            ticker=ticker, reason="Not a valid ticker format."
+            ticker=html.escape(ticker), reason="Not a valid ticker format."
         )
     if provider is None:
         provider = _default_provider()
     try:
         bundle = analyze_ticker(ticker, provider)
     except ProviderError as exc:
-        return 404, _ERROR_PAGE.format(ticker=ticker, reason=str(exc))
-    except Exception as exc:  # honest error page, never a raw 500 blob
+        return 404, _ERROR_PAGE.format(
+            ticker=html.escape(ticker), reason=html.escape(str(exc))
+        )
+    except Exception as exc:  # honest error page; real detail stays server-side
+        print(f"analyze_ticker unexpected error for {ticker!r}: {exc!r}")
         return 500, _ERROR_PAGE.format(
-            ticker=ticker, reason=f"Unexpected error: {exc!r}"
+            ticker=html.escape(ticker),
+            reason="Unexpected error analyzing this ticker.",
         )
     return 200, render_report_page(bundle, back_href="/")
 

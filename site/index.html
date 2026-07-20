@@ -1,501 +1,640 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Weekly India Multibagger Picks</title>
-<style>
-body{background:#0d1220;color:#d7dce6;font-family:ui-monospace,Menlo,monospace;
-max-width:1080px;margin:24px auto;padding:0 16px;line-height:1.45}
-a{color:#e3b34c;text-decoration:none} a:hover{text-decoration:underline}
-h1,h2{color:#e3b34c;letter-spacing:.06em}
-table{border-collapse:collapse;width:100%} td,th{border-bottom:1px solid #2a3350;
-padding:6px 8px;text-align:left;font-size:14px}
-.up{color:#5dd39e}.down{color:#e0605e}.muted{color:#7c869c;font-size:12px}
-.chg{background:#161d33;border:1px solid #2a3350;border-radius:8px;padding:10px 14px;margin:14px 0}
-details{margin:2px 0} summary{cursor:pointer}
-footer{margin:32px 0;padding:14px;border:1px solid #2a3350;border-radius:8px;
-color:#9aa4ba;font-size:13px}
-.tag-t{color:#5dd39e}.tag-h{color:#e0605e}
-.search{background:#161d33;border:1px solid #2a3350;border-radius:8px;padding:10px 14px;margin:14px 0}
-.search input{background:#0d1220;color:#d7dce6;border:1px solid #2a3350;border-radius:6px;padding:6px 10px;font-family:inherit}
-.search button{background:#e3b34c;color:#0d1220;border:none;border-radius:6px;padding:6px 14px;font-weight:700;cursor:pointer;font-family:inherit}
+<script>(function(){try{
+if(localStorage.getItem("mbe-theme")==="light")
+document.documentElement.setAttribute("data-theme","light");
+}catch(e){}})()</script><style>
+:root{--bg:#1F2022;--surface:#252629;--text:#E4E6EB;--muted:#9B9EA4;
+--border:#333333;--border-soft:#2C2D30;--accent:#38A6F0;
+--gain:#4CAF50;--loss:#F44336;
+--chip-gain-bg:rgba(76,175,80,.15);--chip-loss-bg:rgba(244,67,54,.15)}
+[data-theme="light"]{--bg:#F3F4F6;--surface:#FFFFFF;--text:#2D343C;
+--muted:#6B7280;--border:#DDE4F0;--border-soft:#EEF1F6;--accent:#5076EE;
+--gain:#039955;--loss:#D32F2F;
+--chip-gain-bg:#E7F6EF;--chip-loss-bg:#FBEAEA}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+nav.topnav{position:sticky;top:0;z-index:10;display:flex;align-items:center;
+gap:18px;padding:10px 20px;background:var(--surface);
+border-bottom:1px solid var(--border)}
+.brand{font-weight:700;color:var(--accent);font-size:16px;letter-spacing:.02em}
+.navlink{color:var(--muted);font-size:13px;font-weight:500}
+.navlink:hover{color:var(--text);text-decoration:none}
+.theme-toggle{background:none;border:1px solid var(--border);border-radius:6px;
+color:var(--muted);padding:4px 10px;cursor:pointer;font-size:12px}
+main{max-width:1080px;margin:0 auto;padding:16px 20px 40px}
+.card{background:var(--surface);border:1px solid var(--border);
+border-radius:10px;overflow:hidden;margin:14px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--muted);font-size:11px;text-transform:uppercase;
+letter-spacing:.05em;text-align:left;font-weight:600}
+th,td{padding:9px 12px;border-bottom:1px solid var(--border-soft)}
+tr:last-child td{border-bottom:none}
+.gain{color:var(--gain)}.loss{color:var(--loss)}
+.muted{color:var(--muted)}.small{font-size:11px}
+.chip{display:inline-block;border-radius:5px;padding:2px 9px;
+font-size:11px;font-weight:600}
+.chip.gain{background:var(--chip-gain-bg)}.chip.loss{background:var(--chip-loss-bg)}
+.accent{color:var(--accent);font-weight:600}
+h2.sec{font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+color:var(--muted);margin:26px 0 4px}
+footer{margin:32px 0 0;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;color:var(--muted);font-size:12px;line-height:1.6}
+</style><style>
+.searchpill{display:flex;align-items:center;gap:6px;background:var(--bg);
+border:1px solid var(--border);border-radius:20px;padding:2px 4px 2px 14px}
+.searchpill input{background:none;border:none;outline:none;color:var(--text);
+font:inherit;font-size:12px;width:180px}
+.searchpill button{background:var(--accent);color:#fff;border:none;
+border-radius:16px;padding:5px 14px;font-weight:600;font-size:12px;cursor:pointer}
+.sr-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.metaline{color:var(--muted);font-size:12px;margin:14px 0 0}
+.changes{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0}
+.sub{color:var(--muted);font-size:11px}
+.tag-t{color:var(--gain);font-size:11px}.tag-h{color:var(--loss);font-size:11px}
+details{margin:2px 0}summary{cursor:pointer;color:var(--muted);font-size:11px}
+.num{text-align:right;padding-right:14px}
+@media (max-width:720px){.searchpill input{width:90px}
+th:nth-child(5),td:nth-child(5),th:nth-child(6),td:nth-child(6){display:none}}
 </style></head><body>
-<h1>WEEKLY INDIA MULTIBAGGER PICKS</h1>
-<p class="muted">Universe: nifty-smallcap250 · built 2026-07-19T20:24Z ·
-quotes are delayed ~15 min · themes curated 2026-07-17</p>
-
-<div class="search"><form action="/api/analyze" method="get">
-<label for="ticker-input"><b>Search any stock:</b></label>
-<input id="ticker-input" name="ticker" placeholder="e.g. RELIANCE.NS or AAPL" required>
+<nav class="topnav"><span class="brand">&#9670; MBE</span>
+<a class="navlink" href="#picks">Picks</a>
+<a class="navlink" href="#sectors">Sectors</a>
+<a class="navlink" href="#policy">Policy</a>
+<form class="searchpill" style="margin-left:auto" action="/api/analyze" method="get">
+<label class="sr-label" for="ticker-input">Search any stock</label>
+<input id="ticker-input" name="ticker" placeholder="Search any stock&hellip; e.g. RELIANCE.NS" required>
 <button type="submit">Analyze</button>
-<span class="muted">&mdash; live, not part of the weekly ranking, can take 10-30s</span>
-</form></div>
+</form><button class="theme-toggle" title="Toggle light/dark"
+onclick="(function(){var r=document.documentElement;
+var light=r.getAttribute('data-theme')==='light';
+if(light){r.removeAttribute('data-theme')}else{r.setAttribute('data-theme','light')}
+try{localStorage.setItem('mbe-theme',light?'dark':'light')}catch(e){}})()"
+>&#9788;/&#9789;</button></nav>
+<main>
+<p class="metaline">Universe: nifty-smallcap250 &middot; built 2026-07-20T00:41Z
+&middot; quotes delayed ~15 min &middot; themes curated 2026-07-17
+&middot; live search is not part of the weekly ranking and can take 10-30s</p>
 
-<div class="chg"><b>Changes this week:</b>
-<span class="up">+IEX.NS</span> 
-<span class="down">-LEMONTREE.NS</span> 
+<div class="changes"><b style="font-size:12px">Changes this week:</b>
 
+
+<span class="muted small">no changes vs last week</span>
 </div>
 
-<h2>TOP 25 BY MULTIBAGGER SCORE</h2>
-<table><tr><th>#</th><th>Ticker</th><th>Name</th><th>MB</th><th>Inv</th>
-<th>Conf</th><th>Risk</th><th>Trend</th><th>Quote</th><th>Industry (mom rank)</th></tr>
+<h2 class="sec" id="picks">Top 25 by Multibagger Score</h2>
+<div class="card"><table>
+<tr><th>#</th><th>Company</th><th>MB</th><th>Inv</th><th>Conf</th><th>Risk</th>
+<th>Trend</th><th class="num">Quote</th><th>Industry (mom rank)</th></tr>
 
-<tr><td>1</td>
-<td><a href="reports/BLS_NS.html">BLS.NS</a></td>
-<td>BLS INTL SERVS LTD</td><td>78.8</td><td>80.4</td>
-<td>0.98</td><td>0</td><td>strong_down</td>
-<td><span data-quote="BLS.NS" data-base="235.6999969482422"
-class="muted">…</span></td>
-<td>Industrials (other) (#14, 51)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">1</td>
+<td><a href="reports/BLS_NS.html"><b>BLS INTL SERVS LTD</b></a><br>
+<span class="sub">BLS.NS &middot; Industrials (other) (#14)</span></td>
+<td><span class="accent">78.8</span></td>
+<td>80.4</td><td>0.98</td><td>0</td>
+<td class="sub">strong_down</td>
+<td class="num"><span data-quote="BLS.NS" data-base="235.6999969482422"
+class="muted">&hellip;</span></td>
+<td class="sub">51</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxQYWVJZlA2SGZ3b1VtX1BLR3dONHlPbDRwNWdGc1BIRzJWS3lrVkRtV2NpUjNaSVpQZjBCRGd2MjZsbnBNdGs5eGhYeDdBb3p6SmxhVlZONW5rM2c3S0ZVMktBc3k2eTRMc2pZQTJuQjNrUVlFRVl3N3RkcFQ2TmF0ZEtwZjhWc3pWY3ctMEJINmlhQ3ZpZ1RLSld2eV8ya2tWekZReFl3WHdOcVM1MU4tcWU0VlFKYjZOZGlOb2lpU3I5X0lTcmZ4SWtsQTFNZTU3eEh5SzdTbw?oc=5">U.S. Import Export Prices Tick Higher In June – Latest U.S. Bureau Of Labor Statistics Data Released - Dallas Express</a>
-(Dallas Express)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxNWUpCVHNwVEVhak5Oc2pnUTRGYXFWREtZeVJsUElOOTFfbkxmYjZfY0p2bm5lMWdoU1ZMQURMNDNKaTFEODNjRkNETjRzXzBnNFIwUHVqOUs0QlpmR0Z6R2xiYWZVS0pia3dnM1ZfSi13UFFqX0daLUM5XzNEUHRsTEpWN2ZfZjZzakdRVGF0WjNFS09Wd1ZNdzdwWm5EbTdaLXp2VzVhZHJhaDQ?oc=5">Artificial intelligence, information technology, and employment, 2024–34 - Bureau of Labor Statistics (.gov)</a>
-(Bureau of Labor Statistics (.gov))</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5VOWh3aGVIZndrdnJ5X210Y0h3T052UW5OM0o0WHo1cmsxTGx5UFdzYjJ4VHNaTm1tdWtjaDQ5NEE3dzV0emVjd05aRnNodVRvd0N2cUF3Q2JqeG40TVZpQjMtZGRyempuc19rVkxwWmt6S1NlOXNwbEpKQ2hHZw?oc=5">BLS: Core inflation drops in June - AOL.com</a>
-(AOL.com)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMizwFBVV95cUxNQW9CSlNXclNKRkQ2dERMZjhNQjNQX0dKT1NDbnA0bEExZFBCZlpmRkJSVFAxSU5TakVtRGRibVFSUFdVbDFIV0QtQ09JV2dLN1ltcnNNNmNlVExxUHppdUlURFJ0Mk9XdDVZVFhhMTYtQUQ2Yk1qOVd3andmbXp4WGprcFJtWnozNUVxeGg3WV9fZkVvbkh5U2VSR1RNcFRHcmxMQlEyeERqXzJzS3IwNDFpVFlGUG04Si02ZXotU0hBb1NkeEl4TGphSW1hOVU?oc=5">World Youth Skills Day: BLS International Strengthens Focus on Building a Future-Ready Workforce - Passionate In Marketing</a>
-(Passionate In Marketing)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiX0FVX3lxTE4yNW9XQ2ZnWGVzWmhfeUVEcTRNZFh0cGUzNWctQzJ0dy1GdlNXalVqSWR1RE5JQ05leVFkQ3l3NGtTdVhEYVJWOEh0LThnY2UtX0NESkFfa3B2S0FNc21Z?oc=5">[Promotion Department Coach] BLS Training Session Held | School Report Details | FC Tokyo Official Website - FC-Tokyo</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxQYWVJZlA2SGZ3b1VtX1BLR3dONHlPbDRwNWdGc1BIRzJWS3lrVkRtV2NpUjNaSVpQZjBCRGd2MjZsbnBNdGs5eGhYeDdBb3p6SmxhVlZONW5rM2c3S0ZVMktBc3k2eTRMc2pZQTJuQjNrUVlFRVl3N3RkcFQ2TmF0ZEtwZjhWc3pWY3ctMEJINmlhQ3ZpZ1RLSld2eV8ya2tWekZReFl3WHdOcVM1MU4tcWU0VlFKYjZOZGlOb2lpU3I5X0lTcmZ4SWtsQTFNZTU3eEh5SzdTbw?oc=5">U.S. Import Export Prices Tick Higher In June – Latest U.S. Bureau Of Labor Statistics Data Released - Dallas Express</a>
+(Dallas Express)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxNWUpCVHNwVEVhak5Oc2pnUTRGYXFWREtZeVJsUElOOTFfbkxmYjZfY0p2bm5lMWdoU1ZMQURMNDNKaTFEODNjRkNETjRzXzBnNFIwUHVqOUs0QlpmR0Z6R2xiYWZVS0pia3dnM1ZfSi13UFFqX0daLUM5XzNEUHRsTEpWN2ZfZjZzakdRVGF0WjNFS09Wd1ZNdzdwWm5EbTdaLXp2VzVhZHJhaDQ?oc=5">Artificial intelligence, information technology, and employment, 2024–34 - Bureau of Labor Statistics (.gov)</a>
+(Bureau of Labor Statistics (.gov))</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5VOWh3aGVIZndrdnJ5X210Y0h3T052UW5OM0o0WHo1cmsxTGx5UFdzYjJ4VHNaTm1tdWtjaDQ5NEE3dzV0emVjd05aRnNodVRvd0N2cUF3Q2JqeG40TVZpQjMtZGRyempuc19rVkxwWmt6S1NlOXNwbEpKQ2hHZw?oc=5">BLS: Core inflation drops in June - AOL.com</a>
+(AOL.com)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMizwFBVV95cUxNQW9CSlNXclNKRkQ2dERMZjhNQjNQX0dKT1NDbnA0bEExZFBCZlpmRkJSVFAxSU5TakVtRGRibVFSUFdVbDFIV0QtQ09JV2dLN1ltcnNNNmNlVExxUHppdUlURFJ0Mk9XdDVZVFhhMTYtQUQ2Yk1qOVd3andmbXp4WGprcFJtWnozNUVxeGg3WV9fZkVvbkh5U2VSR1RNcFRHcmxMQlEyeERqXzJzS3IwNDFpVFlGUG04Si02ZXotU0hBb1NkeEl4TGphSW1hOVU?oc=5">World Youth Skills Day: BLS International Strengthens Focus on Building a Future-Ready Workforce - Passionate In Marketing</a>
+(Passionate In Marketing)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiX0FVX3lxTE4yNW9XQ2ZnWGVzWmhfeUVEcTRNZFh0cGUzNWctQzJ0dy1GdlNXalVqSWR1RE5JQ05leVFkQ3l3NGtTdVhEYVJWOEh0LThnY2UtX0NESkFfa3B2S0FNc21Z?oc=5">[Promotion Department Coach] BLS Training Session Held | School Report Details | FC Tokyo Official Website - FC-Tokyo</a>
 (FC-Tokyo)</div></details>
 </td></tr>
 
-<tr><td>2</td>
-<td><a href="reports/NATCOPHARM_NS.html">NATCOPHARM.NS</a></td>
-<td>NATCO PHARMA LTD.</td><td>75.5</td><td>80.1</td>
-<td>0.98</td><td>0</td><td>up</td>
-<td><span data-quote="NATCOPHARM.NS" data-base="945.0"
-class="muted">…</span></td>
-<td>Drug Manufacturers - Specialty (#13, 51)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">2</td>
+<td><a href="reports/NATCOPHARM_NS.html"><b>NATCO PHARMA LTD.</b></a><br>
+<span class="sub">NATCOPHARM.NS &middot; Drug Manufacturers - Speci (#13)</span></td>
+<td><span class="accent">75.5</span></td>
+<td>80.1</td><td>0.98</td><td>0</td>
+<td class="sub">up</td>
+<td class="num"><span data-quote="NATCOPHARM.NS" data-base="945.0"
+class="muted">&hellip;</span></td>
+<td class="sub">51</td></tr>
+<tr><td></td><td colspan="8">
 <span class="tag-t">▲ CDMO/China+1 supply-chain shift</span> &nbsp;
-<details><summary class="muted">4 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMiZkFVX3lxTFBfYnd5WldSMzVoSVZ2OHFheVFTeFhDU24tc0t5UVhSZnJ1MkU3RTRtV3pCZzhCbXFxZ25Ld1dRYUxzSU1uOWk2cnNaUlYxczZ2NjNZZVNvb0wyck9NUEdINktnSkx5dw?oc=5">Natco Pharma Share Price - Live NSE: NATCOPHARM Stock Price &amp; Chart - Upstox</a>
-(Upstox)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxQWWkzM21VQXBvZklEUjg4eUZ0dVJtdloyc2FfejVhbFplcFhUU1A2VGNrY1YzcEgtMmRrMktWbUdLb3MtNndmV2ZCWXA3M2I2UkI5S2ZDZmdaTVN0eW5zdWdTTGdzUE5JeGNqYVBMYWswS0ZFMmtjT2h3anVOVkl2RG5zWVFxQQ?oc=5">Natco Pharma Share Price Today, Natco Pharma Stock Price Live NSE/BSE Updates - The Economic Times</a>
-(The Economic Times)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxPNzdDRnktT19Udk9tY0JzV2ZqdlNpdXdZNGFPaWdkTzFTb0RFT3B2OWNCQ2FvSmZDelJVdXF4ZTJMdHdjVTVCQlc3VTltdmNkS0lNS3ZMUllmNURCVzQ5YXVSaldPWFRzRzZpR1luRmY4VU9OdC1PSS1UNjNTSHJ6X1ZlMmJOSi1FcFFmSWFrdlliUUxIUjlZWWFoUkhPcDVBVWRTcnNHTm5FbEk?oc=5">Natco Pharma Ltd. is Rated Hold by MarketsMOJO - MarketsMojo</a>
-(MarketsMojo)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxOd01VaGVFWEtsaTczcERHZjFaVVBjNXhZcGo4eWxnSWhmRmNBaXBsSjgyS2pyVHp2SS1XMDlsVVZZSVB5NGJVQXIzWUgzSHlVb3loVUdJMVhvRW0yRThpSkhJSkRuZnBxSWl2VGJkc1FaQl94VGJFdmRoRUlPYjNNSU90MUVJRTZQSU0waFluMkRHMHh3ck5KcjlBcHhZaTU2VFB3SHQybmZhdzlzcHBaQlVPRUxEaGZyNkN5OXhvMVBUaHFaVUlMYlV1ckxLS2xtenBzY3JDWnc?oc=5">Natco Pharma Ltd. Upgraded to Hold as Technicals Improve Despite Weak Financials - MarketsMojo</a>
+<details><summary>4 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiZkFVX3lxTFBfYnd5WldSMzVoSVZ2OHFheVFTeFhDU24tc0t5UVhSZnJ1MkU3RTRtV3pCZzhCbXFxZ25Ld1dRYUxzSU1uOWk2cnNaUlYxczZ2NjNZZVNvb0wyck9NUEdINktnSkx5dw?oc=5">Natco Pharma Share Price - Live NSE: NATCOPHARM Stock Price &amp; Chart - Upstox</a>
+(Upstox)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxQWWkzM21VQXBvZklEUjg4eUZ0dVJtdloyc2FfejVhbFplcFhUU1A2VGNrY1YzcEgtMmRrMktWbUdLb3MtNndmV2ZCWXA3M2I2UkI5S2ZDZmdaTVN0eW5zdWdTTGdzUE5JeGNqYVBMYWswS0ZFMmtjT2h3anVOVkl2RG5zWVFxQQ?oc=5">Natco Pharma Share Price Today, Natco Pharma Stock Price Live NSE/BSE Updates - The Economic Times</a>
+(The Economic Times)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxPNzdDRnktT19Udk9tY0JzV2ZqdlNpdXdZNGFPaWdkTzFTb0RFT3B2OWNCQ2FvSmZDelJVdXF4ZTJMdHdjVTVCQlc3VTltdmNkS0lNS3ZMUllmNURCVzQ5YXVSaldPWFRzRzZpR1luRmY4VU9OdC1PSS1UNjNTSHJ6X1ZlMmJOSi1FcFFmSWFrdlliUUxIUjlZWWFoUkhPcDVBVWRTcnNHTm5FbEk?oc=5">Natco Pharma Ltd. is Rated Hold by MarketsMOJO - MarketsMojo</a>
+(MarketsMojo)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxOd01VaGVFWEtsaTczcERHZjFaVVBjNXhZcGo4eWxnSWhmRmNBaXBsSjgyS2pyVHp2SS1XMDlsVVZZSVB5NGJVQXIzWUgzSHlVb3loVUdJMVhvRW0yRThpSkhJSkRuZnBxSWl2VGJkc1FaQl94VGJFdmRoRUlPYjNNSU90MUVJRTZQSU0waFluMkRHMHh3ck5KcjlBcHhZaTU2VFB3SHQybmZhdzlzcHBaQlVPRUxEaGZyNkN5OXhvMVBUaHFaVUlMYlV1ckxLS2xtenBzY3JDWnc?oc=5">Natco Pharma Ltd. Upgraded to Hold as Technicals Improve Despite Weak Financials - MarketsMojo</a>
 (MarketsMojo)</div></details>
 </td></tr>
 
-<tr><td>3</td>
-<td><a href="reports/CHALET_NS.html">CHALET.NS</a></td>
-<td>CHALET HOTELS LIMITED</td><td>72.7</td><td>60.3</td>
-<td>0.98</td><td>24</td><td>sideways</td>
-<td><span data-quote="CHALET.NS" data-base="862.5999755859375"
-class="muted">…</span></td>
-<td>Lodging (#15, 50)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">3</td>
+<td><a href="reports/CHALET_NS.html"><b>CHALET HOTELS LIMITED</b></a><br>
+<span class="sub">CHALET.NS &middot; Lodging (#15)</span></td>
+<td><span class="accent">72.7</span></td>
+<td>60.3</td><td>0.98</td><td>24</td>
+<td class="sub">sideways</td>
+<td class="num"><span data-quote="CHALET.NS" data-base="862.5999755859375"
+class="muted">&hellip;</span></td>
+<td class="sub">50</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxPLVpWZ1o5NUQtQ0JvWnJ3WllPOE53UFlxbTdpTmR4cWR5Ym5sa2VncFpjVlhYVlJIUEhOYXRTX29fcEF4aE9xUHM0Z1NFLXZrZkZyeTJTYVpBczkxcnNHZGpBRXJaSHQzNnpvbVVRV0JENWgzNm91cFM2NVl6WHA2bXZ0S3dyazJJRVZuT1Q3TkpURlBSSnVFdVR0NGFINWF5OVk5Z29Sc01yVzhkeVU1dkxPN1pXa2tERW1CN29yRGNjcm5zS3ZiNUN0UQ?oc=5">Chalet Hotels appoints Gautam Mehra as Independent Director for five years - scanx.trade</a>
-(scanx.trade)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxPa2l2MEFFZ0praXFjQ09xTEFjcUFjR2tXN3cyN09aRmtrVlN3M3BNN0tnczRCU2tlaFY5VDZtbWxkUC1jazd2cTNLVjhSazdWUUFZRU45WURXMjFlY2ZGQ3ZNOGluRm9QdUFhZGsweVMwQ3hpa2VBb3dQQlpBTnFVQlNvbDl1dDdJMnlZUEhDeTRlcXRXN2k2VERNUXRvU2NPZ0hKYVYxSWxjeVpOTHc?oc=5">Chalet Wedding Venue in Gibbon passes first year anniversary - Central Nebraska Today</a>
-(Central Nebraska Today)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE01U3k2OXJMMzFRZnJFbWdQQVNWOHVJMGluQW9iclVHeDlCbUpENzRQdkpFWGxoOHE3LUx1M05HOWRJN05xWVpRblAxbll3bTlIcXVKTXFmajlHaXlFTENvTDVTUkUxcjhvQ0Y4ZFI4bS1PYlMtSDBGeFkxdlB2ZjQ?oc=5">Chalet Hotels Ltd. Share Price Today - Chalet Hotels Ltd. Stock Price Live NSE/BSE - CNBC TV18</a>
-(CNBC TV18)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxNa1NSb1o2aUk0dDBtY3NQSng4R3o4N29MaWRSOExIZmFDcGlMSU9OU1N2aWJuNk82MVNHaktyZnBTTTVrckJpV0NNTDBYeVRnV3VxdXBYOC1vQTNLNHBldWNRSXpHMEIwdzcyRk05aHdiS0c3MjB6eUdkVUI5SVZmQjBNQS1GY0xpUTh6VXh3NlBDMkNGMUJadkxfSENXWVJYNTRmMWU3X0xuMGtLcjdhZzJyS0lpMWkxVXF0aVlXdjNXYkxndjcwOUx5ZGNsUExNOGfSAdcBQVVfeXFMUFpXMzhZVl9kOHFPRTFmcmcxRXc2aGR6NjJuWWRKSzI3V3Jmai1sU3dCM19iQTk0ekFSaDhsNWE0ai13U3VwWUxCc3B6VC1ZMkY0XzBNYjB1cVlibU93NjBnLWwtTFVaSExLY1hsMjJhQXpibVAxVVUxaDUyT01jTDBUNk9GYmZNeUhGb0xNQzlPb2lXOEJJTkszSi00SXBJTjVKMkFQQWstMEExX1Z3M2dOQ1dodWlVeW45VFVtaDJ6NWdHQnR4MnV6RTFTZDVNRWE5MVlmUms?oc=5">Breakout above key resistance makes Chalet Hotels a buy: Shitij Gandhi - The Economic Times</a>
-(The Economic Times)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMi8gFBVV95cUxQcklvWGZsc2pmZWZfQ1BsX01qOFpqb2E0TEpzVlNFdVVadm5uRDRHX3p6NldFNDZhSVpSQ1pfcVdWWk9KMEJVR0k3VlNnYTJ6bWdjU0ZSQnpkZnR0N1hFZ3dyaE9LNEUta3UzQWotdkdHNl9nRGsxVmNzVVpxWlNRZGR4MjFzRGJOV05xRlYtZ3dQR213b1F6cXhUT3YwT0JUV0pQV0FPbFVtSURuM0R3aHlGUUR0MmcxRFl3dHQ4MUU1U3B5QmtrOGtxdTltbG11aV93Z0hUX1NDcVFxTnNMMGF0Y2lvN0xuMlF4LXpkMkFaQdIB9wFBVV95cUxNbXRnZUFreXI0NW9ZeE9iU1J4X2pQc2FNWHVXUzhCS2RwdzFPbU55TnVpTUVGWjVHRUJ5NzA3amhhS3Fka3JCcFJYWGlFczE1LXJydkdoc0s0aTZwb3RZNGc0ODgzaWxRYktNeE9qbXFLS3llcUhUZ1BPZkVPUjl3NVpzZENQTWxST196R3BxRzV1SXBaU0xqcG4wSDJ0Z0JWYTVOYnQ4UHFBMEl4aWtLaHBqSVY1UDNEVkRaRUt1c1FMeEkxbHU5QmNycFBzNWVlNUFJS2NUYUhXS2JwWGVpdG1meExTaVJybVAzSmlETFUtdEpkaS1z?oc=5">Stock Radar: Chalet Hotels stock breaks out from Ascending Triangle pattern; time to buy? - The Economic Times</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxPLVpWZ1o5NUQtQ0JvWnJ3WllPOE53UFlxbTdpTmR4cWR5Ym5sa2VncFpjVlhYVlJIUEhOYXRTX29fcEF4aE9xUHM0Z1NFLXZrZkZyeTJTYVpBczkxcnNHZGpBRXJaSHQzNnpvbVVRV0JENWgzNm91cFM2NVl6WHA2bXZ0S3dyazJJRVZuT1Q3TkpURlBSSnVFdVR0NGFINWF5OVk5Z29Sc01yVzhkeVU1dkxPN1pXa2tERW1CN29yRGNjcm5zS3ZiNUN0UQ?oc=5">Chalet Hotels appoints Gautam Mehra as Independent Director for five years - scanx.trade</a>
+(scanx.trade)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxPa2l2MEFFZ0praXFjQ09xTEFjcUFjR2tXN3cyN09aRmtrVlN3M3BNN0tnczRCU2tlaFY5VDZtbWxkUC1jazd2cTNLVjhSazdWUUFZRU45WURXMjFlY2ZGQ3ZNOGluRm9QdUFhZGsweVMwQ3hpa2VBb3dQQlpBTnFVQlNvbDl1dDdJMnlZUEhDeTRlcXRXN2k2VERNUXRvU2NPZ0hKYVYxSWxjeVpOTHc?oc=5">Chalet Wedding Venue in Gibbon passes first year anniversary - Central Nebraska Today</a>
+(Central Nebraska Today)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE01U3k2OXJMMzFRZnJFbWdQQVNWOHVJMGluQW9iclVHeDlCbUpENzRQdkpFWGxoOHE3LUx1M05HOWRJN05xWVpRblAxbll3bTlIcXVKTXFmajlHaXlFTENvTDVTUkUxcjhvQ0Y4ZFI4bS1PYlMtSDBGeFkxdlB2ZjQ?oc=5">Chalet Hotels Ltd. Share Price Today - Chalet Hotels Ltd. Stock Price Live NSE/BSE - CNBC TV18</a>
+(CNBC TV18)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxNa1NSb1o2aUk0dDBtY3NQSng4R3o4N29MaWRSOExIZmFDcGlMSU9OU1N2aWJuNk82MVNHaktyZnBTTTVrckJpV0NNTDBYeVRnV3VxdXBYOC1vQTNLNHBldWNRSXpHMEIwdzcyRk05aHdiS0c3MjB6eUdkVUI5SVZmQjBNQS1GY0xpUTh6VXh3NlBDMkNGMUJadkxfSENXWVJYNTRmMWU3X0xuMGtLcjdhZzJyS0lpMWkxVXF0aVlXdjNXYkxndjcwOUx5ZGNsUExNOGfSAdcBQVVfeXFMUFpXMzhZVl9kOHFPRTFmcmcxRXc2aGR6NjJuWWRKSzI3V3Jmai1sU3dCM19iQTk0ekFSaDhsNWE0ai13U3VwWUxCc3B6VC1ZMkY0XzBNYjB1cVlibU93NjBnLWwtTFVaSExLY1hsMjJhQXpibVAxVVUxaDUyT01jTDBUNk9GYmZNeUhGb0xNQzlPb2lXOEJJTkszSi00SXBJTjVKMkFQQWstMEExX1Z3M2dOQ1dodWlVeW45VFVtaDJ6NWdHQnR4MnV6RTFTZDVNRWE5MVlmUms?oc=5">Breakout above key resistance makes Chalet Hotels a buy: Shitij Gandhi - The Economic Times</a>
+(The Economic Times)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi8gFBVV95cUxQcklvWGZsc2pmZWZfQ1BsX01qOFpqb2E0TEpzVlNFdVVadm5uRDRHX3p6NldFNDZhSVpSQ1pfcVdWWk9KMEJVR0k3VlNnYTJ6bWdjU0ZSQnpkZnR0N1hFZ3dyaE9LNEUta3UzQWotdkdHNl9nRGsxVmNzVVpxWlNRZGR4MjFzRGJOV05xRlYtZ3dQR213b1F6cXhUT3YwT0JUV0pQV0FPbFVtSURuM0R3aHlGUUR0MmcxRFl3dHQ4MUU1U3B5QmtrOGtxdTltbG11aV93Z0hUX1NDcVFxTnNMMGF0Y2lvN0xuMlF4LXpkMkFaQdIB9wFBVV95cUxNbXRnZUFreXI0NW9ZeE9iU1J4X2pQc2FNWHVXUzhCS2RwdzFPbU55TnVpTUVGWjVHRUJ5NzA3amhhS3Fka3JCcFJYWGlFczE1LXJydkdoc0s0aTZwb3RZNGc0ODgzaWxRYktNeE9qbXFLS3llcUhUZ1BPZkVPUjl3NVpzZENQTWxST196R3BxRzV1SXBaU0xqcG4wSDJ0Z0JWYTVOYnQ4UHFBMEl4aWtLaHBqSVY1UDNEVkRaRUt1c1FMeEkxbHU5QmNycFBzNWVlNUFJS2NUYUhXS2JwWGVpdG1meExTaVJybVAzSmlETFUtdEpkaS1z?oc=5">Stock Radar: Chalet Hotels stock breaks out from Ascending Triangle pattern; time to buy? - The Economic Times</a>
 (The Economic Times)</div></details>
 </td></tr>
 
-<tr><td>4</td>
-<td><a href="reports/FORCEMOT_NS.html">FORCEMOT.NS</a></td>
-<td>FORCE MOTORS LIMITED</td><td>72.3</td><td>77.8</td>
-<td>0.97</td><td>0</td><td>down</td>
-<td><span data-quote="FORCEMOT.NS" data-base="18244.0"
-class="muted">…</span></td>
-<td>Consumer Cyclical (other) (#27, 22)</td></tr>
+<tr><td class="muted">4</td>
+<td><a href="reports/FORCEMOT_NS.html"><b>FORCE MOTORS LIMITED</b></a><br>
+<span class="sub">FORCEMOT.NS &middot; Consumer Cyclical (other) (#27)</span></td>
+<td><span class="accent">72.3</span></td>
+<td>77.8</td><td>0.97</td><td>0</td>
+<td class="sub">down</td>
+<td class="num"><span data-quote="FORCEMOT.NS" data-base="18244.0"
+class="muted">&hellip;</span></td>
+<td class="sub">22</td></tr>
 
 
-<tr><td>5</td>
-<td><a href="reports/ZENTEC_NS.html">ZENTEC.NS</a></td>
-<td>ZEN TECHNOLOGIES LIMITED</td><td>72.1</td><td>60.6</td>
-<td>0.98</td><td>48</td><td>strong_up</td>
-<td><span data-quote="ZENTEC.NS" data-base="1769.699951171875"
-class="muted">…</span></td>
-<td>Industrials (other) (#14, 51)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">5</td>
+<td><a href="reports/ZENTEC_NS.html"><b>ZEN TECHNOLOGIES LIMITED</b></a><br>
+<span class="sub">ZENTEC.NS &middot; Industrials (other) (#14)</span></td>
+<td><span class="accent">72.1</span></td>
+<td>60.6</td><td>0.98</td><td>48</td>
+<td class="sub">strong_up</td>
+<td class="num"><span data-quote="ZENTEC.NS" data-base="1769.699951171875"
+class="muted">&hellip;</span></td>
+<td class="sub">51</td></tr>
+<tr><td></td><td colspan="8">
 <span class="tag-t">▲ Defence indigenization and export push</span> &nbsp;
 
 </td></tr>
 
-<tr><td>6</td>
-<td><a href="reports/ACE_NS.html">ACE.NS</a></td>
-<td>ACTION CONST EQUIP LTD</td><td>71.6</td><td>70.0</td>
-<td>0.98</td><td>0</td><td>sideways</td>
-<td><span data-quote="ACE.NS" data-base="987.4000244140625"
-class="muted">…</span></td>
-<td>Industrials (other) (#14, 51)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">6</td>
+<td><a href="reports/ACE_NS.html"><b>ACTION CONST EQUIP LTD</b></a><br>
+<span class="sub">ACE.NS &middot; Industrials (other) (#14)</span></td>
+<td><span class="accent">71.6</span></td>
+<td>70.0</td><td>0.98</td><td>0</td>
+<td class="sub">sideways</td>
+<td class="num"><span data-quote="ACE.NS" data-base="987.4000244140625"
+class="muted">&hellip;</span></td>
+<td class="sub">51</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMijwFBVV95cUxPUTg5ZU9Cdk85M3ZOWjJSQ0xwbFprcWItSG1fLVQwWGhldTVXU1FqbndMc0FKNXp5X0FPMjVHc1JONUxmelR1czlrUk1QSGM3TWNDM254OWhPdExBanRTMVlZSDlLdEJJOEN4REdoQ0pEZDdRN3FkMUtWeW1fZmZ1SFppQlhoXy1KMjZlOHNLTQ?oc=5">Dodgers Urged to Prioritize Catcher Over Ace at Trade Deadline - Yahoo Sports</a>
-(Yahoo Sports)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxQUDNGaGpGUmM3M00wV0lqZlNTVTlmVWZHZ1BrY1ZsR3ZPX05nQWJHcXRXdVZkd0swd1NvXzNwWS1WVHdkbVFlWEdsbGxSTmNHY0gxWnlPQTlDcXFUOVJHSHdhak5RMzlDVTdVRHl2bkFkbEZTSU1yal9CX0RBbzdkS29aUnhjMmdEcmRpQUxFd3R4TWh6dEswVlpZYWp4ZnVFTW1WeHJUdS0?oc=5">Rangers ace Jacob deGrom to return to the mound vs. White Sox - Dallas News</a>
-(Dallas News)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxPQ0xFTWU0S0VqcGlpbV9kUXNBbHpHWk1FM3NleXFCa05kWTJCV3ZXVTBoWjZkXzVwQ3Boc0xfMFZ5LWNKNUtXZWlvUUlDelJxZXJuV2dsLURBcmdYTGNTNldXa2hiV1RzM0FianBiT3BCNGw0a0djY0xKa0ZBb3dGSF9wbG8wYXhM?oc=5">“Kodai Senga Is Torturous to Watch” – Fans Criticize Mets Ace After Disappointing Relief Outing vs. Phillies - Yahoo Sports</a>
-(Yahoo Sports)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMimAFBVV95cUxQX1BYV3ZqMjU4ajRmeGM0QkhsZDVDRzk0MlJ2SzZYM2N3dGhGb0I4dW5QcWJmUjVUcFQwSzNaYTVjVnp3TmdTNWNDV29WaVROa1h4Rmd1SjA0TXo1WEZMMERlQW5JeC1lTnd4aHVtSU9ic1YzNjVfTXFMSTZaM1dSc0ozSmxMRm5Ga0U0RFMzQjJGVlU1NnAxdA?oc=5">ACE ROBOTICS Unveils Kairos 3.1 and Expands Its Embodied AI Stack from Data to Deployment at WAIC 2026 - Yahoo Finance</a>
-(Yahoo Finance)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxPQjBEV01kTl9vS2Nna0dHcjh0TGFXbFRUbmNaSmpjWW1XRFNyVFgtVXlMS2ZpSC1IdXlDUURhM1ZwRnY2aWxERDRHZ3hDeS1IbGpycHpxVG9qVk5UY3pVSkJfb05iTTJhc3I1anNmUkd0LU9NVEMtVVFkVHlFbGh4RUdINi1ud1daY1ZsWGVGWmk1d184cF9HZGZpdDM1UmFKTXkzaWd0ME1FbU1VSjVqcmt0eDhTS1RzQ1hjSUh0ajV6T3I2dWdGa3g0Uk5TUQ?oc=5">Former ATP ace Fabio Fognini compares his era to the present one - Tennis World USA</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMijwFBVV95cUxPUTg5ZU9Cdk85M3ZOWjJSQ0xwbFprcWItSG1fLVQwWGhldTVXU1FqbndMc0FKNXp5X0FPMjVHc1JONUxmelR1czlrUk1QSGM3TWNDM254OWhPdExBanRTMVlZSDlLdEJJOEN4REdoQ0pEZDdRN3FkMUtWeW1fZmZ1SFppQlhoXy1KMjZlOHNLTQ?oc=5">Dodgers Urged to Prioritize Catcher Over Ace at Trade Deadline - Yahoo Sports</a>
+(Yahoo Sports)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxQUDNGaGpGUmM3M00wV0lqZlNTVTlmVWZHZ1BrY1ZsR3ZPX05nQWJHcXRXdVZkd0swd1NvXzNwWS1WVHdkbVFlWEdsbGxSTmNHY0gxWnlPQTlDcXFUOVJHSHdhak5RMzlDVTdVRHl2bkFkbEZTSU1yal9CX0RBbzdkS29aUnhjMmdEcmRpQUxFd3R4TWh6dEswVlpZYWp4ZnVFTW1WeHJUdS0?oc=5">Rangers ace Jacob deGrom to return to the mound vs. White Sox - Dallas News</a>
+(Dallas News)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxPQ0xFTWU0S0VqcGlpbV9kUXNBbHpHWk1FM3NleXFCa05kWTJCV3ZXVTBoWjZkXzVwQ3Boc0xfMFZ5LWNKNUtXZWlvUUlDelJxZXJuV2dsLURBcmdYTGNTNldXa2hiV1RzM0FianBiT3BCNGw0a0djY0xKa0ZBb3dGSF9wbG8wYXhM?oc=5">“Kodai Senga Is Torturous to Watch” – Fans Criticize Mets Ace After Disappointing Relief Outing vs. Phillies - Yahoo Sports</a>
+(Yahoo Sports)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMimAFBVV95cUxQX1BYV3ZqMjU4ajRmeGM0QkhsZDVDRzk0MlJ2SzZYM2N3dGhGb0I4dW5QcWJmUjVUcFQwSzNaYTVjVnp3TmdTNWNDV29WaVROa1h4Rmd1SjA0TXo1WEZMMERlQW5JeC1lTnd4aHVtSU9ic1YzNjVfTXFMSTZaM1dSc0ozSmxMRm5Ga0U0RFMzQjJGVlU1NnAxdA?oc=5">ACE ROBOTICS Unveils Kairos 3.1 and Expands Its Embodied AI Stack from Data to Deployment at WAIC 2026 - Yahoo Finance</a>
+(Yahoo Finance)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxPQjBEV01kTl9vS2Nna0dHcjh0TGFXbFRUbmNaSmpjWW1XRFNyVFgtVXlMS2ZpSC1IdXlDUURhM1ZwRnY2aWxERDRHZ3hDeS1IbGpycHpxVG9qVk5UY3pVSkJfb05iTTJhc3I1anNmUkd0LU9NVEMtVVFkVHlFbGh4RUdINi1ud1daY1ZsWGVGWmk1d184cF9HZGZpdDM1UmFKTXkzaWd0ME1FbU1VSjVqcmt0eDhTS1RzQ1hjSUh0ajV6T3I2dWdGa3g0Uk5TUQ?oc=5">Former ATP ace Fabio Fognini compares his era to the present one - Tennis World USA</a>
 (Tennis World USA)</div></details>
 </td></tr>
 
-<tr><td>7</td>
-<td><a href="reports/VIJAYA_NS.html">VIJAYA.NS</a></td>
-<td>VIJAYA DIAGNOSTIC CEN LTD</td><td>70.5</td><td>60.5</td>
-<td>0.98</td><td>24</td><td>strong_up</td>
-<td><span data-quote="VIJAYA.NS" data-base="1341.300048828125"
-class="muted">…</span></td>
-<td>Diagnostics &amp; Research (#1, 81)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">7</td>
+<td><a href="reports/VIJAYA_NS.html"><b>VIJAYA DIAGNOSTIC CEN LTD</b></a><br>
+<span class="sub">VIJAYA.NS &middot; Diagnostics &amp; Research (#1)</span></td>
+<td><span class="accent">70.5</span></td>
+<td>60.5</td><td>0.98</td><td>24</td>
+<td class="sub">strong_up</td>
+<td class="num"><span data-quote="VIJAYA.NS" data-base="1341.300048828125"
+class="muted">&hellip;</span></td>
+<td class="sub">81</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxNQ2YtOWtKUmJ2QUgtc0ZNSy1TQXBiblhnbjBaaXg0SmhndTJIZlloLUhzOEF0bWlEb1Vya1RXQ1NsZko0bnhLcXFqUzdrN1RKaTgxS0lHSldOWUE1VWdfV3JoX0VtZjRUeHFnX183X0prdnVHS0cwakZVcUV0WmxNNmZMM3hEd0hLNkkwZ3h0WFNLRWlJWWVGU0R0Y0JqYV9WeFAzX2lhQUtQWURIVGtTOUxlZ24zOW9ZN3FUU3RJSU9FcHBlSmfSAcwBQVVfeXFMTzVyN2RMMnp6cGNNazltY2IzSFJ0MnBMek1Keldlc0NlNUhZYzFPVWNwbWlGWm96RmtTUVIxcHdMMmkzMUdHN243d1JtSVpEZURGa0NDQjB0Y3Y4RVJkR2RwcFVLWU9tY0VpWVduUGtUc1RyQ1puMWxlMkQ5MmNLOXY0Z0pNZmNUVzZjVVBhSUM5Y0F1dXlRcEhJRmlBZTlnUGxFNm15S1JhMVFwZndYUnN4WFo4ekpLdlRBNUdHZldjX0gyeGhMdHR3VlpZ?oc=5">Harish spreading false propaganda on drought: Vijaya Ramana - The Hindu</a>
-(The Hindu)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMigAFBVV95cUxNVXV3ejFmd1dYT2pNOVExOUtJTE5KYkhhVWlYemRTVnBTWXY4X2ptRE8wLVB6UjQ2dUd0QUpybHhKWUd5aDVmWmJBb3VJc1VDYnMzMmFockhjaGhkS0M0aHl0MEdHZWVpc2ZnTFZPUkFqY3RlaHFBbDdDVnNmSlZjcQ?oc=5">Vijaya Diagnostic Centre (VIJAYA) Q3 25/26 earnings summary - Quartr</a>
-(Quartr)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxPM01vd2VLLWVZeWlaaldNOHBrVzlfWUZoZDlhdGFZMHhnU1RUckpLaFlxSEZWOVB2cUpOdUZyUmtjRm95VGxnNlRxTUVyVUdTMjdCVkRuekQySGx6cUQtLVlnUkZqdFhjZGd6WGRtZlVmUEJuTEY3dmhSUm5uTVJ2cVo2V3Y0VlVLX3NhbzVyTEUxMTJHRWoxRjRLNlA0czhseUNSUWVyc2d0cVdVVDJJN1F2dzBaTjZJb3ZLNUZDNjNpZmU5OHBpeHlNUkVwdjBMZUkxblhFd0FOSlU?oc=5">AP HC seeks reasons from Sai Krishna’s mother over withdrawal of pleas; SC, NHRC see further developments - The South First</a>
-(The South First)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiSkFVX3lxTE9BWFgtaU1MMlJHaVZmRFJsRTdPS1drcG9iUG0xc0luRVpZTUhYUFpJT3FqRTlRLVRfLUlLem1hZ3ViR1lpdmVRLUtR?oc=5">Inauguration of Netaji Subhas Chandra Bose Police Training Institute, Sri Vijaya Puram - ANDAMAN SHEEKHA</a>
-(ANDAMAN SHEEKHA)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxNS1VKeUtJN0I2aGRQOHd2QUxCcDg0VjVyLWdKaUNCUnBOLU1uQWJ1YldsUjhEUlRpWmo4Qmo5NmlKRXU2SnRYV3VZUjAtUUVxRWRrcVpEbXVsdFdrNkM4U1dxUWNyRG8ydWVWbk1nV2NXTXNZazY1WFZ6ZmhVbDRJUThYamwyZWd6dDlHazFTWERsRUF6clg3VEM0elFfaW9zWGVoOE5iR1NSUUwtLVF6cTBfUlBwYk9wZTZnRkM4MmNPaHdITlhpT2RaLWjSAdIBQVVfeXFMTlBkT3BySU9Qa2V2MkduS0NxYUE1U3E4ZFVRSWNuN21ZNEk3azVRaExjaE1NV290X3hUUHVXZnpsUDVPMWc1WllaTF9hR25aMW0wV3VSZHlpUFBfQTdBaDE3NXNQaXAzT2xfaHdYcV9ybm43YXlpMnVkLXNyR1NpVGFUUXVMb2thVlE5ZkpEY0JYWEhvbVJXdWVORHcxVzNRVDhrU2p0Qm1GR1lrczB3d2FLSjN4WjVobnlLX1BIRGtJQXJ1RkhrODBZczZzbmlfVnZ3?oc=5">NCW Chief Vijaya Rahatkar Calls For POSH Act Review To Tackle AI-Driven Workplace Harassment - LawBeat</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxNQ2YtOWtKUmJ2QUgtc0ZNSy1TQXBiblhnbjBaaXg0SmhndTJIZlloLUhzOEF0bWlEb1Vya1RXQ1NsZko0bnhLcXFqUzdrN1RKaTgxS0lHSldOWUE1VWdfV3JoX0VtZjRUeHFnX183X0prdnVHS0cwakZVcUV0WmxNNmZMM3hEd0hLNkkwZ3h0WFNLRWlJWWVGU0R0Y0JqYV9WeFAzX2lhQUtQWURIVGtTOUxlZ24zOW9ZN3FUU3RJSU9FcHBlSmfSAcwBQVVfeXFMTzVyN2RMMnp6cGNNazltY2IzSFJ0MnBMek1Keldlc0NlNUhZYzFPVWNwbWlGWm96RmtTUVIxcHdMMmkzMUdHN243d1JtSVpEZURGa0NDQjB0Y3Y4RVJkR2RwcFVLWU9tY0VpWVduUGtUc1RyQ1puMWxlMkQ5MmNLOXY0Z0pNZmNUVzZjVVBhSUM5Y0F1dXlRcEhJRmlBZTlnUGxFNm15S1JhMVFwZndYUnN4WFo4ekpLdlRBNUdHZldjX0gyeGhMdHR3VlpZ?oc=5">Harish spreading false propaganda on drought: Vijaya Ramana - The Hindu</a>
+(The Hindu)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMigAFBVV95cUxNVXV3ejFmd1dYT2pNOVExOUtJTE5KYkhhVWlYemRTVnBTWXY4X2ptRE8wLVB6UjQ2dUd0QUpybHhKWUd5aDVmWmJBb3VJc1VDYnMzMmFockhjaGhkS0M0aHl0MEdHZWVpc2ZnTFZPUkFqY3RlaHFBbDdDVnNmSlZjcQ?oc=5">Vijaya Diagnostic Centre (VIJAYA) Q3 25/26 earnings summary - Quartr</a>
+(Quartr)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxPM01vd2VLLWVZeWlaaldNOHBrVzlfWUZoZDlhdGFZMHhnU1RUckpLaFlxSEZWOVB2cUpOdUZyUmtjRm95VGxnNlRxTUVyVUdTMjdCVkRuekQySGx6cUQtLVlnUkZqdFhjZGd6WGRtZlVmUEJuTEY3dmhSUm5uTVJ2cVo2V3Y0VlVLX3NhbzVyTEUxMTJHRWoxRjRLNlA0czhseUNSUWVyc2d0cVdVVDJJN1F2dzBaTjZJb3ZLNUZDNjNpZmU5OHBpeHlNUkVwdjBMZUkxblhFd0FOSlU?oc=5">AP HC seeks reasons from Sai Krishna’s mother over withdrawal of pleas; SC, NHRC see further developments - The South First</a>
+(The South First)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiSkFVX3lxTE9BWFgtaU1MMlJHaVZmRFJsRTdPS1drcG9iUG0xc0luRVpZTUhYUFpJT3FqRTlRLVRfLUlLem1hZ3ViR1lpdmVRLUtR?oc=5">Inauguration of Netaji Subhas Chandra Bose Police Training Institute, Sri Vijaya Puram - ANDAMAN SHEEKHA</a>
+(ANDAMAN SHEEKHA)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxNS1VKeUtJN0I2aGRQOHd2QUxCcDg0VjVyLWdKaUNCUnBOLU1uQWJ1YldsUjhEUlRpWmo4Qmo5NmlKRXU2SnRYV3VZUjAtUUVxRWRrcVpEbXVsdFdrNkM4U1dxUWNyRG8ydWVWbk1nV2NXTXNZazY1WFZ6ZmhVbDRJUThYamwyZWd6dDlHazFTWERsRUF6clg3VEM0elFfaW9zWGVoOE5iR1NSUUwtLVF6cTBfUlBwYk9wZTZnRkM4MmNPaHdITlhpT2RaLWjSAdIBQVVfeXFMTlBkT3BySU9Qa2V2MkduS0NxYUE1U3E4ZFVRSWNuN21ZNEk3azVRaExjaE1NV290X3hUUHVXZnpsUDVPMWc1WllaTF9hR25aMW0wV3VSZHlpUFBfQTdBaDE3NXNQaXAzT2xfaHdYcV9ybm43YXlpMnVkLXNyR1NpVGFUUXVMb2thVlE5ZkpEY0JYWEhvbVJXdWVORHcxVzNRVDhrU2p0Qm1GR1lrczB3d2FLSjN4WjVobnlLX1BIRGtJQXJ1RkhrODBZczZzbmlfVnZ3?oc=5">NCW Chief Vijaya Rahatkar Calls For POSH Act Review To Tackle AI-Driven Workplace Harassment - LawBeat</a>
 (LawBeat)</div></details>
 </td></tr>
 
-<tr><td>8</td>
-<td><a href="reports/WELCORP_NS.html">WELCORP.NS</a></td>
-<td>WELSPUN CORP LIMITED</td><td>70.4</td><td>73.1</td>
-<td>0.98</td><td>0</td><td>strong_up</td>
-<td><span data-quote="WELCORP.NS" data-base="1581.5"
-class="muted">…</span></td>
-<td>Steel (#5, 74)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">8</td>
+<td><a href="reports/WELCORP_NS.html"><b>WELSPUN CORP LIMITED</b></a><br>
+<span class="sub">WELCORP.NS &middot; Steel (#5)</span></td>
+<td><span class="accent">70.4</span></td>
+<td>73.1</td><td>0.98</td><td>0</td>
+<td class="sub">strong_up</td>
+<td class="num"><span data-quote="WELCORP.NS" data-base="1581.5"
+class="muted">&hellip;</span></td>
+<td class="sub">74</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">2 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMiV0FVX3lxTE9jcU1CUm8yZzN2RmhkTUxWUG9xb1A0cFU0XzNELTdiSkZsX1Npc0xDbEdFc01KcWlscndZNXJUbHczNmJBN1VrQkxXdkZCd2pDelFsbTYzUQ?oc=5">WELCORP Share Price Today - Welspun Corp on NSE/BSE - scanx.trade</a>
-(scanx.trade)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMingFBVV95cUxQWWtYeUFRWFJwYzl6bVVndlpiSFlfTndlN3BUZUJFSkdlVmdqdjNtSkk1LUxRVkVZNmsxVmJtem81dWszRG1NSGJtc3AtRWpkejk3ellHRDdZVTJ5a3M3bDh4bWJPTGFnTngxRE1kNncxWWVsb0dtWjRDVjAxeV9ZaFNYUFE5WGJGUFhsX09wem5iTlJKRDVKUDRyLXZ2dw?oc=5">Price to sales forward of Welspun Corp Limited – NSE:WELCORP - TradingView</a>
+<details><summary>2 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiV0FVX3lxTE9jcU1CUm8yZzN2RmhkTUxWUG9xb1A0cFU0XzNELTdiSkZsX1Npc0xDbEdFc01KcWlscndZNXJUbHczNmJBN1VrQkxXdkZCd2pDelFsbTYzUQ?oc=5">WELCORP Share Price Today - Welspun Corp on NSE/BSE - scanx.trade</a>
+(scanx.trade)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMingFBVV95cUxQWWtYeUFRWFJwYzl6bVVndlpiSFlfTndlN3BUZUJFSkdlVmdqdjNtSkk1LUxRVkVZNmsxVmJtem81dWszRG1NSGJtc3AtRWpkejk3ellHRDdZVTJ5a3M3bDh4bWJPTGFnTngxRE1kNncxWWVsb0dtWjRDVjAxeV9ZaFNYUFE5WGJGUFhsX09wem5iTlJKRDVKUDRyLXZ2dw?oc=5">Price to sales forward of Welspun Corp Limited – NSE:WELCORP - TradingView</a>
 (TradingView)</div></details>
 </td></tr>
 
-<tr><td>9</td>
-<td><a href="reports/CEATLTD_NS.html">CEATLTD.NS</a></td>
-<td>CEAT LIMITED</td><td>69.9</td><td>61.1</td>
-<td>0.98</td><td>12</td><td>sideways</td>
-<td><span data-quote="CEATLTD.NS" data-base="3549.89990234375"
-class="muted">…</span></td>
-<td>Auto Parts (#4, 76)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">9</td>
+<td><a href="reports/CEATLTD_NS.html"><b>CEAT LIMITED</b></a><br>
+<span class="sub">CEATLTD.NS &middot; Auto Parts (#4)</span></td>
+<td><span class="accent">69.9</span></td>
+<td>61.1</td><td>0.98</td><td>12</td>
+<td class="sub">sideways</td>
+<td class="num"><span data-quote="CEATLTD.NS" data-base="3549.89990234375"
+class="muted">&hellip;</span></td>
+<td class="sub">76</td></tr>
+<tr><td></td><td colspan="8">
 <span class="tag-t">▲ EV transition re-tooling opportunity</span> &nbsp;<span class="tag-h">▼ ICE-content obsolescence risk</span> &nbsp;
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxQY3hnc1J2Y3dFNzhkT3pDMElfVjhFV3l5S1NyV0RKd2xmQWFaWThodDdvUkhWaFh0d2FpWWo0RnlmeHdzUlNlNEg1LWNnYXRPOHlPSlRoQjhqeEl4SjJuUkJ5OFg3ZUdHSDdRY3ZOS0E3U05kUklwMUxEd3lWV1BFbjVyX2JjX3h0YjkwWk5ORlc5ek5wNmZ4VEJtVlY3QXQ2WEZxcWthWDVwckgtZmRrOXl1ZTdva3RPdlpSN0tTZnVzcDh3VHNWWWtvTVVVdGoxYU930gHTAUFVX3lxTFBjeGdzUnZjd0U3OGRPekMwSV9WOEVXeXlLU3JXREp3bGZBYVpZOGh0N29SSFZoWHR3YWlZajRGeWZ4d3NSU2U0SDUtY2dhdE84eU9KVGhCOGp4SXhKMm5SQnk4WDdlR0dIN1Fjdk5LQTdTTmRSSXAxTER3eVZXUEVuNXJfYmNfeHRiOTBaTk5GVzl6TnA2ZnhUQm1WVjdBdDZYRnFxa2FYNXBySC1mZGs5eXVlN29rdE92WlI3S1NmdXNwOHdUc1ZZa29NVVV0ajFhT3c?oc=5">CEAT Limited Just Missed EPS By 95%: Here&#39;s What Analysts Think Will Happen Next - simplywall.st</a>
-(simplywall.st)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMilwJBVV95cUxNbGwwZlNvWGhlb3JnNU45VVNHNktFWUlKaHNTNFBMWGltM2lfSGZ1MGtYX1A5Z2FXNnlKZmFJaTZwRDhRMlA5TGh0QnhyTERyRGw2RUxpd1BQRDJBMTFtSmNOMkdVeDBLQ1ZBZnNBeXhkTWI5T0t2QWxvWEZsakRpVVlxcEdMYmVXSjBqS3pKS1VlR2ZWOXNkaGRmSjYtOU5BRGctT1dJZHZveVg5RFMtSkJzcjNTMm00VUFYN1c2a1BJWURWZHJXVjhFeVRqYm1mN2xjaWF1R19PZGZFUUZWN1hoR1djYVk4c2liNXhuT0M3ZmJSXzdYQlIzSmZoYVBWZHVTMWRrUjA3aWM4T0FzalJOb0x3eFU?oc=5">CEATLTD: Strong revenue growth offset by margin pressure from input cost inflation and currency impact - TradingView</a>
-(TradingView)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMilgJBVV95cUxOYll0QUtMWldCQXFENUU0Z2pVOFprMkMxUWM4TXRkbVRXYzdKRFlHdFBuNTRjdkhEYUdZWjhDVWJPLUJkRG9EQzRDOGJscE9vMEo3ODNLeHNVdWxRZXlaVlVFLUZmemtGZWl1T3BSUjh0T21wSWxNcGJhVjh3VVNNUEdQX2QtWC1SQVRRczkxa3JqY3ZuWGNJbmd1VUVlQWZmREtOS2ZjcUd5d29ZdjlBRHZsLWdHb1YxSDFlajVhdWNGckt0ZnkwLW1tSnY5cUlWSl9tOS0xekhOVkhUUFJpaEZIaUNLcVgyaEFYd3BlUGQ0M2pXMm1tcmR4ZlJMN1NKQjJJY1dybmlJNHRsNEQ4SFV5bmloUQ?oc=5">CEATLTD: Strong revenue growth offset by margin pressure from input costs; further price hikes planned - TradingView</a>
-(TradingView)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiYEFVX3lxTFBYcGxKcGlBMHpUSE1lR0liWUliVEF4Vl9wT0VLbVFxd2VjTHpGaFYwVm53WjJxd1FsOGViSklvSHVEZDBFV3dDZWRsU2hTbWZRVVVzR3k2ZFVwRGdrY3pzbA?oc=5">CEAT Share Price - Live NSE: CEATLTD Stock Price &amp; Chart - Upstox</a>
-(Upstox)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQWkNfakJ5LVU3TzVyTHVkWGx0TXA2TXZzSXBIanp5WDVQLWtqUUlYLXFvUUpxSXhQd1ByMlRBSU9NN1o2Q1NOaVpEVEVkUGpPZG5WSkppSzdGRU8zcHQ5MlQtUXVMSEVqT092WFhXWlpVb0RoTXRJREw4WUNyOG44S0MzcW9qMExqcDBiNUp6bkZpOXRLREo2QkVsZUVNdzZ3aFB3Z2MzX0N3aEpuai0wdHlYR3lFY203bkd5eEtqUEJzV1lHZXNDeTdWSQ?oc=5">CEAT Limited Reports Earnings Results for the First Quarter Ended June 30, 2026 - marketscreener.com</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxQY3hnc1J2Y3dFNzhkT3pDMElfVjhFV3l5S1NyV0RKd2xmQWFaWThodDdvUkhWaFh0d2FpWWo0RnlmeHdzUlNlNEg1LWNnYXRPOHlPSlRoQjhqeEl4SjJuUkJ5OFg3ZUdHSDdRY3ZOS0E3U05kUklwMUxEd3lWV1BFbjVyX2JjX3h0YjkwWk5ORlc5ek5wNmZ4VEJtVlY3QXQ2WEZxcWthWDVwckgtZmRrOXl1ZTdva3RPdlpSN0tTZnVzcDh3VHNWWWtvTVVVdGoxYU930gHTAUFVX3lxTFBjeGdzUnZjd0U3OGRPekMwSV9WOEVXeXlLU3JXREp3bGZBYVpZOGh0N29SSFZoWHR3YWlZajRGeWZ4d3NSU2U0SDUtY2dhdE84eU9KVGhCOGp4SXhKMm5SQnk4WDdlR0dIN1Fjdk5LQTdTTmRSSXAxTER3eVZXUEVuNXJfYmNfeHRiOTBaTk5GVzl6TnA2ZnhUQm1WVjdBdDZYRnFxa2FYNXBySC1mZGs5eXVlN29rdE92WlI3S1NmdXNwOHdUc1ZZa29NVVV0ajFhT3c?oc=5">CEAT Limited Just Missed EPS By 95%: Here&#39;s What Analysts Think Will Happen Next - simplywall.st</a>
+(simplywall.st)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMilwJBVV95cUxNbGwwZlNvWGhlb3JnNU45VVNHNktFWUlKaHNTNFBMWGltM2lfSGZ1MGtYX1A5Z2FXNnlKZmFJaTZwRDhRMlA5TGh0QnhyTERyRGw2RUxpd1BQRDJBMTFtSmNOMkdVeDBLQ1ZBZnNBeXhkTWI5T0t2QWxvWEZsakRpVVlxcEdMYmVXSjBqS3pKS1VlR2ZWOXNkaGRmSjYtOU5BRGctT1dJZHZveVg5RFMtSkJzcjNTMm00VUFYN1c2a1BJWURWZHJXVjhFeVRqYm1mN2xjaWF1R19PZGZFUUZWN1hoR1djYVk4c2liNXhuT0M3ZmJSXzdYQlIzSmZoYVBWZHVTMWRrUjA3aWM4T0FzalJOb0x3eFU?oc=5">CEATLTD: Strong revenue growth offset by margin pressure from input cost inflation and currency impact - TradingView</a>
+(TradingView)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMilgJBVV95cUxOYll0QUtMWldCQXFENUU0Z2pVOFprMkMxUWM4TXRkbVRXYzdKRFlHdFBuNTRjdkhEYUdZWjhDVWJPLUJkRG9EQzRDOGJscE9vMEo3ODNLeHNVdWxRZXlaVlVFLUZmemtGZWl1T3BSUjh0T21wSWxNcGJhVjh3VVNNUEdQX2QtWC1SQVRRczkxa3JqY3ZuWGNJbmd1VUVlQWZmREtOS2ZjcUd5d29ZdjlBRHZsLWdHb1YxSDFlajVhdWNGckt0ZnkwLW1tSnY5cUlWSl9tOS0xekhOVkhUUFJpaEZIaUNLcVgyaEFYd3BlUGQ0M2pXMm1tcmR4ZlJMN1NKQjJJY1dybmlJNHRsNEQ4SFV5bmloUQ?oc=5">CEATLTD: Strong revenue growth offset by margin pressure from input costs; further price hikes planned - TradingView</a>
+(TradingView)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiYEFVX3lxTFBYcGxKcGlBMHpUSE1lR0liWUliVEF4Vl9wT0VLbVFxd2VjTHpGaFYwVm53WjJxd1FsOGViSklvSHVEZDBFV3dDZWRsU2hTbWZRVVVzR3k2ZFVwRGdrY3pzbA?oc=5">CEAT Share Price - Live NSE: CEATLTD Stock Price &amp; Chart - Upstox</a>
+(Upstox)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQWkNfakJ5LVU3TzVyTHVkWGx0TXA2TXZzSXBIanp5WDVQLWtqUUlYLXFvUUpxSXhQd1ByMlRBSU9NN1o2Q1NOaVpEVEVkUGpPZG5WSkppSzdGRU8zcHQ5MlQtUXVMSEVqT092WFhXWlpVb0RoTXRJREw4WUNyOG44S0MzcW9qMExqcDBiNUp6bkZpOXRLREo2QkVsZUVNdzZ3aFB3Z2MzX0N3aEpuai0wdHlYR3lFY203bkd5eEtqUEJzV1lHZXNDeTdWSQ?oc=5">CEAT Limited Reports Earnings Results for the First Quarter Ended June 30, 2026 - marketscreener.com</a>
 (marketscreener.com)</div></details>
 </td></tr>
 
-<tr><td>10</td>
-<td><a href="reports/CEMPRO_NS.html">CEMPRO.NS</a></td>
-<td>CEMINDIA PROJECTS LIMITED</td><td>69.9</td><td>66.4</td>
-<td>0.98</td><td>24</td><td>strong_up</td>
-<td><span data-quote="CEMPRO.NS" data-base="1615.0"
-class="muted">…</span></td>
-<td>Engineering &amp; Construction (#29, 15)</td></tr>
+<tr><td class="muted">10</td>
+<td><a href="reports/CEMPRO_NS.html"><b>CEMINDIA PROJECTS LIMITED</b></a><br>
+<span class="sub">CEMPRO.NS &middot; Engineering &amp; Construction (#29)</span></td>
+<td><span class="accent">69.9</span></td>
+<td>66.4</td><td>0.98</td><td>24</td>
+<td class="sub">strong_up</td>
+<td class="num"><span data-quote="CEMPRO.NS" data-base="1615.0"
+class="muted">&hellip;</span></td>
+<td class="sub">15</td></tr>
 
 
-<tr><td>11</td>
-<td><a href="reports/HBLENGINE_NS.html">HBLENGINE.NS</a></td>
-<td>HBL ENGINEERING LTD</td><td>69.8</td><td>66.1</td>
-<td>0.98</td><td>24</td><td>strong_down</td>
-<td><span data-quote="HBLENGINE.NS" data-base="741.9000244140625"
-class="muted">…</span></td>
-<td>Electrical Equipment &amp; Parts (#3, 76)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">11</td>
+<td><a href="reports/HBLENGINE_NS.html"><b>HBL ENGINEERING LTD</b></a><br>
+<span class="sub">HBLENGINE.NS &middot; Electrical Equipment &amp; Par (#3)</span></td>
+<td><span class="accent">69.8</span></td>
+<td>66.1</td><td>0.98</td><td>24</td>
+<td class="sub">strong_down</td>
+<td class="num"><span data-quote="HBLENGINE.NS" data-base="741.9000244140625"
+class="muted">&hellip;</span></td>
+<td class="sub">76</td></tr>
+<tr><td></td><td colspan="8">
 <span class="tag-t">▲ Grid capex and energy-transition buildout</span> &nbsp;
-<details><summary class="muted">1 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMiX0FVX3lxTFA0b2xQUDN5ekJRUTZMb0lfMXZ0TkEycnFuRENxWFVLOW9NZVlZX0ZHZFUtUUJiYzlaekgxc08wU1pJS0k3bHhnb1l3SlJ2NG8zQTVLZ2I0dk4wRUQxbU1R?oc=5">HBL Engineering Ltd accepts order worth Rs. 24 crores from ICT, Chennai - EquityBulls</a>
+<details><summary>1 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiX0FVX3lxTFA0b2xQUDN5ekJRUTZMb0lfMXZ0TkEycnFuRENxWFVLOW9NZVlZX0ZHZFUtUUJiYzlaekgxc08wU1pJS0k3bHhnb1l3SlJ2NG8zQTVLZ2I0dk4wRUQxbU1R?oc=5">HBL Engineering Ltd accepts order worth Rs. 24 crores from ICT, Chennai - EquityBulls</a>
 (EquityBulls)</div></details>
 </td></tr>
 
-<tr><td>12</td>
-<td><a href="reports/SARDAEN_NS.html">SARDAEN.NS</a></td>
-<td>SARDA ENERGY &amp; MIN LTD</td><td>69.5</td><td>64.3</td>
-<td>0.98</td><td>0</td><td>down</td>
-<td><span data-quote="SARDAEN.NS" data-base="499.5"
-class="muted">…</span></td>
-<td>Steel (#5, 74)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">12</td>
+<td><a href="reports/SARDAEN_NS.html"><b>SARDA ENERGY &amp; MIN LTD</b></a><br>
+<span class="sub">SARDAEN.NS &middot; Steel (#5)</span></td>
+<td><span class="accent">69.5</span></td>
+<td>64.3</td><td>0.98</td><td>0</td>
+<td class="sub">down</td>
+<td class="num"><span data-quote="SARDAEN.NS" data-base="499.5"
+class="muted">&hellip;</span></td>
+<td class="sub">74</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">1 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMic0FVX3lxTFAzYlNfRjM2QXVvTzY2MlVtWmNHNUR3cUpyX3Rja2I5eF9LenJyZ1pWeVQ5eWZnS3AzMUZGeE5CYm9WdFRSU1QxTG1GS0FBOTJWaWk4c21MUXo5eHdVRWUxSVQ1QVgzaGZoSkI1ZmQ2cjhrUTg?oc=5">SARDAEN Share Price | Sarda Energy &amp; Minerals Ltd Stock Analysis &amp; Recommendation - MarketsMojo</a>
+<details><summary>1 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMic0FVX3lxTFAzYlNfRjM2QXVvTzY2MlVtWmNHNUR3cUpyX3Rja2I5eF9LenJyZ1pWeVQ5eWZnS3AzMUZGeE5CYm9WdFRSU1QxTG1GS0FBOTJWaWk4c21MUXo5eHdVRWUxSVQ1QVgzaGZoSkI1ZmQ2cjhrUTg?oc=5">SARDAEN Share Price | Sarda Energy &amp; Minerals Ltd Stock Analysis &amp; Recommendation - MarketsMojo</a>
 (MarketsMojo)</div></details>
 </td></tr>
 
-<tr><td>13</td>
-<td><a href="reports/CAMS_NS.html">CAMS.NS</a></td>
-<td>COMPUTER AGE MNGT SER LTD</td><td>68.4</td><td>63.6</td>
-<td>0.98</td><td>24</td><td>up</td>
-<td><span data-quote="CAMS.NS" data-base="751.0999755859375"
-class="muted">…</span></td>
-<td>Information Technology Service (#25, 26)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">13</td>
+<td><a href="reports/CAMS_NS.html"><b>COMPUTER AGE MNGT SER LTD</b></a><br>
+<span class="sub">CAMS.NS &middot; Information Technology Ser (#25)</span></td>
+<td><span class="accent">68.4</span></td>
+<td>63.6</td><td>0.98</td><td>24</td>
+<td class="sub">up</td>
+<td class="num"><span data-quote="CAMS.NS" data-base="751.0999755859375"
+class="muted">&hellip;</span></td>
+<td class="sub">26</td></tr>
+<tr><td></td><td colspan="8">
 <span class="tag-h">▼ GenAI automation pressure on headcount-linked revenue</span> &nbsp;<span class="tag-t">▲ GenAI integration-services demand</span> &nbsp;
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxQeWVrNy1HbV9uN2YzZVBWZzFGdTFZTHU5QWpNQ2w2eUdfQ0VMMGxyMTNfcEpKWFkyV1RLWmRTMUpYRGJxbWZMb25nQTdZbUM1bzBfTmZvel9CdkxUYnlVaVZKM1VmTU02bG9nenFyQVg2NGZOc3V5XzNyckpmMzBrMVlYclpVdw?oc=5">Border Czar Says ICE Agents Will Wear Body Cams ‘Whenever Possible’ - News of the United States - NOTUS</a>
-(News of the United States - NOTUS)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxNTktIcFphcTFscUZKMXNUdXljR2NPZkFWbmtJS1FoUGxseVJ5UmJMTTlyRmN3N3k0MGFZYmFscjdvWnd5NTlUTUIweGlSUWpCN0hJd3VZNmxvWmZCa3VmdUllZ3hqcTVMaUkxOUtqcDZaRjZUTnlZMFFTd19ZMWpacjdLYlBEMDFTVXZ6U0MwZ21Ca2NjaF90S19NZGF3ZVc2SDIydTRUNEdFT2RnY1Q0WUJjMjZzY05MUThCc0xiVEpNakZ4YWp2N205UzQ?oc=5">Best car dash cams and accessories on amazon.ae 2026: Dependable protection for every drive - Gulf News</a>
-(Gulf News)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiXEFVX3lxTE5RaGItckYtX3RrRUxPcE1LSUNVS0RydzRsSEIxbTZkSTluRDBUV3Y4NXFvWTJaVFRXaWk4OTFtalFOSWpLdHZjbEdJaFNGejF2VmJsQ3BlNUM2YTZm?oc=5">29 BROKEN Valk Cams on Clubhouse They NEVER Check! 😳 | R6 Mobile - YouTube</a>
-(YouTube)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxOZUxLSkF1d3Q4cU90XzkxYU9VaTFIQlZ2ZTlXc1gzaGt0YzhuREttUURGcTRIUzUwazVUeThIcUVDbUNhWHZ4UGxqRk5JczE2UWxRVXhuTmgzTmhFWHo1U0Rpb0J1dnltS1U5N3dYa2ttamE4WHBFdndWSjVQdjJsWWszeHhiUlVtdnZ3aGhGdlhsVnN5Mzl0b1RLSno?oc=5">Howard County, Md., Sheriff Body Cams Get AI Language Translation - GovTech</a>
-(GovTech)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxQWnpSQVpja2d6SWlDZV82bTFJSFViWHdVb05sOXVMNl94S2NlRENIbVQ3TVAxRkk3RUo1N3ZVdktUOUplY2c2Tjl4OGJENkRHenJfcm5sb3dSbm85SnRtdkRmaUtiNGNIZUJLaTBfYlpQbXVOSFJRMTNCV2xLaEJvRHV1VjNaYXF1MmlfTTIwSEZ6T09DdGFna1BWMTNEYUFnaEFuWWFsdWJFZ3JCelhEN1d6ZnlhMlhZ?oc=5">John Cornyn calls lack of body cams on ICE agents a mistake - Houston Chronicle</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxQeWVrNy1HbV9uN2YzZVBWZzFGdTFZTHU5QWpNQ2w2eUdfQ0VMMGxyMTNfcEpKWFkyV1RLWmRTMUpYRGJxbWZMb25nQTdZbUM1bzBfTmZvel9CdkxUYnlVaVZKM1VmTU02bG9nenFyQVg2NGZOc3V5XzNyckpmMzBrMVlYclpVdw?oc=5">Border Czar Says ICE Agents Will Wear Body Cams ‘Whenever Possible’ - News of the United States - NOTUS</a>
+(News of the United States - NOTUS)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxNTktIcFphcTFscUZKMXNUdXljR2NPZkFWbmtJS1FoUGxseVJ5UmJMTTlyRmN3N3k0MGFZYmFscjdvWnd5NTlUTUIweGlSUWpCN0hJd3VZNmxvWmZCa3VmdUllZ3hqcTVMaUkxOUtqcDZaRjZUTnlZMFFTd19ZMWpacjdLYlBEMDFTVXZ6U0MwZ21Ca2NjaF90S19NZGF3ZVc2SDIydTRUNEdFT2RnY1Q0WUJjMjZzY05MUThCc0xiVEpNakZ4YWp2N205UzQ?oc=5">Best car dash cams and accessories on amazon.ae 2026: Dependable protection for every drive - Gulf News</a>
+(Gulf News)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiXEFVX3lxTE5RaGItckYtX3RrRUxPcE1LSUNVS0RydzRsSEIxbTZkSTluRDBUV3Y4NXFvWTJaVFRXaWk4OTFtalFOSWpLdHZjbEdJaFNGejF2VmJsQ3BlNUM2YTZm?oc=5">29 BROKEN Valk Cams on Clubhouse They NEVER Check! 😳 | R6 Mobile - YouTube</a>
+(YouTube)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxOZUxLSkF1d3Q4cU90XzkxYU9VaTFIQlZ2ZTlXc1gzaGt0YzhuREttUURGcTRIUzUwazVUeThIcUVDbUNhWHZ4UGxqRk5JczE2UWxRVXhuTmgzTmhFWHo1U0Rpb0J1dnltS1U5N3dYa2ttamE4WHBFdndWSjVQdjJsWWszeHhiUlVtdnZ3aGhGdlhsVnN5Mzl0b1RLSno?oc=5">Howard County, Md., Sheriff Body Cams Get AI Language Translation - GovTech</a>
+(GovTech)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxQWnpSQVpja2d6SWlDZV82bTFJSFViWHdVb05sOXVMNl94S2NlRENIbVQ3TVAxRkk3RUo1N3ZVdktUOUplY2c2Tjl4OGJENkRHenJfcm5sb3dSbm85SnRtdkRmaUtiNGNIZUJLaTBfYlpQbXVOSFJRMTNCV2xLaEJvRHV1VjNaYXF1MmlfTTIwSEZ6T09DdGFna1BWMTNEYUFnaEFuWWFsdWJFZ3JCelhEN1d6ZnlhMlhZ?oc=5">John Cornyn calls lack of body cams on ICE agents a mistake - Houston Chronicle</a>
 (Houston Chronicle)</div></details>
 </td></tr>
 
-<tr><td>14</td>
-<td><a href="reports/CANHLIFE_NS.html">CANHLIFE.NS</a></td>
-<td>CANARA HSBC LIFE INS CO L</td><td>68.2</td><td>71.6</td>
-<td>0.47</td><td>0</td><td>unknown</td>
-<td><span data-quote="CANHLIFE.NS" data-base="149.74000549316406"
-class="muted">…</span></td>
-<td>Financial Services (other) (#9, 60)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">14</td>
+<td><a href="reports/CANHLIFE_NS.html"><b>CANARA HSBC LIFE INS CO L</b></a><br>
+<span class="sub">CANHLIFE.NS &middot; Financial Services (other) (#9)</span></td>
+<td><span class="accent">68.2</span></td>
+<td>71.6</td><td>0.47</td><td>0</td>
+<td class="sub">unknown</td>
+<td class="num"><span data-quote="CANHLIFE.NS" data-base="149.74000549316406"
+class="muted">&hellip;</span></td>
+<td class="sub">60</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">1 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMidEFVX3lxTE1rUG9rcmd6WklRX3JKNmZiZnRBdnlSMUpMcXFlWWNiV1FudXJIeF92QVdpZjBnU09pa0VpVFJWVkFlNDJaRWZFRDc3dFBhRFNRUFZTUHVfXzQ5NVdJWmhOWUZFN1R0cjRMMEI0VDRGT012N2Vn?oc=5">CANHLIFE Share Price Today - Canara HSBC Life Insurance Company on NSE/BSE - scanx.trade</a>
+<details><summary>1 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMidEFVX3lxTE1rUG9rcmd6WklRX3JKNmZiZnRBdnlSMUpMcXFlWWNiV1FudXJIeF92QVdpZjBnU09pa0VpVFJWVkFlNDJaRWZFRDc3dFBhRFNRUFZTUHVfXzQ5NVdJWmhOWUZFN1R0cjRMMEI0VDRGT012N2Vn?oc=5">CANHLIFE Share Price Today - Canara HSBC Life Insurance Company on NSE/BSE - scanx.trade</a>
 (scanx.trade)</div></details>
 </td></tr>
 
-<tr><td>15</td>
-<td><a href="reports/JMFINANCIL_NS.html">JMFINANCIL.NS</a></td>
-<td>JM FINANCIAL LIMITED</td><td>67.6</td><td>58.3</td>
-<td>0.89</td><td>24</td><td>strong_down</td>
-<td><span data-quote="JMFINANCIL.NS" data-base="124.25"
-class="muted">…</span></td>
-<td>Capital Markets (#28, 16)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">15</td>
+<td><a href="reports/JMFINANCIL_NS.html"><b>JM FINANCIAL LIMITED</b></a><br>
+<span class="sub">JMFINANCIL.NS &middot; Capital Markets (#28)</span></td>
+<td><span class="accent">67.6</span></td>
+<td>58.3</td><td>0.89</td><td>24</td>
+<td class="sub">strong_down</td>
+<td class="num"><span data-quote="JMFINANCIL.NS" data-base="124.25"
+class="muted">&hellip;</span></td>
+<td class="sub">16</td></tr>
+<tr><td></td><td colspan="8">
 <span class="tag-t">▲ Financialization of household savings</span> &nbsp;
-<details><summary class="muted">2 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMi_wFBVV95cUxOM0oxdE44NWlnbUJDQWRka0IxNmdYNFY5bnBrbzV3akxvZm5kb2dyZ0g5ZG9tRkJFVUNfaE9pd3lKUVdfcll5X2tYel9EUzR0WF9NalVVT05oWTI1ZjgzVEJHSDJ4cVlpM3Y2dVUyQ3VMaFBKSTUtTzlyNzBHTE5DUjhNaUlRNDhCLXhYd2RYanVpUmF5a1NFUXlwYzRyTFhHZDdldF9NV2IzZ200Qk9GWjJaWmpHajZwalVYUFhrYzhDejZrb1VYWC1BQ2hiRUtRWkpUVkhGM1dNU2lFZS1nNC1GaUpfMU16LTM0czZ2Q21kTC1IaWttMEk2WmZzbGs?oc=5">SBI Funds Management IPO Likely to Open on July 14, Issue Size Reportedly Around ₹13,500 Crore - Dailyhunt</a>
-(Dailyhunt)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMi8AFBVV95cUxQZC1qUndNODJOck1ZOVhnRmkwSGNOaVpTLTV6bU9ka0tFLWJfUWpONDJHVGVYdzhoM2NyZkQwbnZEZVZnbjhWaVlDQUlFMlMzTGxabkoyUXFDeFlrcXk1VTJ0YU8wVjlOQ1NIMElNOVdpRnNBcV9yeGtSMEtzeWRqd21TZGp0WEE4aEJ6a1Fpcnd6bzdFdm5Jdm9tSE5hcFhRb045RGN1VFZyOHkzRnEtMjdVWGRBcXd4WF9RUEVxMzFmZTR0ME1OcUtNcndnVXg5NklxQ3ZQZWJKM09TbWJNUzJWUWVUbnRBS3cwN0t6UGk?oc=5">SBI Funds Management IPO Opens on July 14: Check Price Band and Key Issue Details - Dailyhunt</a>
+<details><summary>2 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi_wFBVV95cUxOM0oxdE44NWlnbUJDQWRka0IxNmdYNFY5bnBrbzV3akxvZm5kb2dyZ0g5ZG9tRkJFVUNfaE9pd3lKUVdfcll5X2tYel9EUzR0WF9NalVVT05oWTI1ZjgzVEJHSDJ4cVlpM3Y2dVUyQ3VMaFBKSTUtTzlyNzBHTE5DUjhNaUlRNDhCLXhYd2RYanVpUmF5a1NFUXlwYzRyTFhHZDdldF9NV2IzZ200Qk9GWjJaWmpHajZwalVYUFhrYzhDejZrb1VYWC1BQ2hiRUtRWkpUVkhGM1dNU2lFZS1nNC1GaUpfMU16LTM0czZ2Q21kTC1IaWttMEk2WmZzbGs?oc=5">SBI Funds Management IPO Likely to Open on July 14, Issue Size Reportedly Around ₹13,500 Crore - Dailyhunt</a>
+(Dailyhunt)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi8AFBVV95cUxQZC1qUndNODJOck1ZOVhnRmkwSGNOaVpTLTV6bU9ka0tFLWJfUWpONDJHVGVYdzhoM2NyZkQwbnZEZVZnbjhWaVlDQUlFMlMzTGxabkoyUXFDeFlrcXk1VTJ0YU8wVjlOQ1NIMElNOVdpRnNBcV9yeGtSMEtzeWRqd21TZGp0WEE4aEJ6a1Fpcnd6bzdFdm5Jdm9tSE5hcFhRb045RGN1VFZyOHkzRnEtMjdVWGRBcXd4WF9RUEVxMzFmZTR0ME1OcUtNcndnVXg5NklxQ3ZQZWJKM09TbWJNUzJWUWVUbnRBS3cwN0t6UGk?oc=5">SBI Funds Management IPO Opens on July 14: Check Price Band and Key Issue Details - Dailyhunt</a>
 (Dailyhunt)</div></details>
 </td></tr>
 
-<tr><td>16</td>
-<td><a href="reports/HINDCOPPER_NS.html">HINDCOPPER.NS</a></td>
-<td>HINDUSTAN COPPER LTD</td><td>67.1</td><td>65.1</td>
-<td>0.98</td><td>24</td><td>up</td>
-<td><span data-quote="HINDCOPPER.NS" data-base="486.1499938964844"
-class="muted">…</span></td>
-<td><span class="muted">ungrouped</span></td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">16</td>
+<td><a href="reports/HINDCOPPER_NS.html"><b>HINDUSTAN COPPER LTD</b></a><br>
+<span class="sub">HINDCOPPER.NS</span></td>
+<td><span class="accent">67.1</span></td>
+<td>65.1</td><td>0.98</td><td>24</td>
+<td class="sub">up</td>
+<td class="num"><span data-quote="HINDCOPPER.NS" data-base="486.1499938964844"
+class="muted">&hellip;</span></td>
+<td class="sub">ungrouped</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMi-gFBVV95cUxOU2E2Vjk5aktUNkEtVE1LT0k1S0hmX19HVjRUeF9UUGRJSlRNRlJTYkJQbWg4bWdqOEpuYzdzbVlIa1NVTzhBV1c1X0p2MzRiZWpPN0JDT1pXdGNOakJpX0tvREI3T2ItQk1YVDY5LTc0VV9VbExLckpmdnFTUlJYSmYzcW1yVE0wQ3hUZlQzQXRlaFpjcEFHRFN0VjJndDEzTGxRRERVbVZ1bTV4Z2FQVm96aTJxZ0hMNHE3THlFSjljTEs1NHNiYVBYSjh6ZmRlSGRtUGtkNE9ZME5QM0JmckoyMVE0RzhYcUMxRUVqX21FcV9FdmJST1VR0gH6AUFVX3lxTE5TYTZWOTlqS1Q2QS1UTUtPSTVLSGZfX0dWNFR4X1RQZElKVE1GUlNiQlBtaDhtZ2o4Sm5jN3NtWUhrU1VPOEFXVzVfSnYzNGJlak83QkNPWld0Y05qQmlfS29EQjdPYi1CTVhUNjktNzRVX1VsTEtySmZ2cVNSUlhKZjNxbXJUTTBDeFRmVDNBdGVoWmNwQUdEU3RWMmd0MTNMbFFERFVtVnVtNXhnYVBWb3ppMnFnSEw0cTdMeUVKOWNMSzU0c2JhUFhKOHpmZGVIZG1Qa2Q0T1kwTlAzQmZySjIxUTRHOFhxQzFFRWpfbUVxX0V2YlJPVVE?oc=5">Hindustan Copper Ltd working at fast pace to double Malanjkhand Copper Project capacity in MP by 2030: CMD - Moneycontrol.com</a>
-(Moneycontrol.com)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQSkJzNjMyQjJUZzlnX3Njckl5VDdLR1U2cWRMVjEtanRLbVZURERVWnhaUjQ3MERZTEp4TjNDVXR0TFZtNHkzMEZvR3I5cHVpajdHUnNkSy1qZlRmNGJadnBKUXF0cWFhd05sb21GU1lNRnJwMV9oUm5MQ3VRaVhMbGNUa2N3QzNORlB6MzBmZU1EVVNPMmQzTWRKd3N3aDNHdVAzd0QzQUVVTzVndEVIUmZPRVpIdw?oc=5">Hindustan Copper Ltd charts out roadmap in annual plan meeting (UPDATED) - Whispers In The Corridors</a>
-(Whispers In The Corridors)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxPYWxRU2dMUlZ0X2ZYNXZIMWVvbUZFa0J1V1dKOEs3Q2FUcGhQRUpIMmZYSzZmZTV4NmpBcjVmdkFNZzdqc2s0ZW1obk12bDd6dVBJUk5RTUhCM3FyUzJCcjNSX19ramhLM25CVFN5S2x4OXNhcklwX3BmOTJpeVpVLVR1TDZPWHFJTmRRZHE4VERJaVZfYlRTVUdKNGZuWmIwTENyWDN2RWZESTB6Q3JkV0VLVEQ4ZGM0Rzh5dmtReFhzbGd6amJfQXB3Y0VpQkxZSzdid9IB1AFBVV95cUxPYWxRU2dMUlZ0X2ZYNXZIMWVvbUZFa0J1V1dKOEs3Q2FUcGhQRUpIMmZYSzZmZTV4NmpBcjVmdkFNZzdqc2s0ZW1obk12bDd6dVBJUk5RTUhCM3FyUzJCcjNSX19ramhLM25CVFN5S2x4OXNhcklwX3BmOTJpeVpVLVR1TDZPWHFJTmRRZHE4VERJaVZfYlRTVUdKNGZuWmIwTENyWDN2RWZESTB6Q3JkV0VLVEQ4ZGM0Rzh5dmtReFhzbGd6amJfQXB3Y0VpQkxZSzdidw?oc=5">Hindustan Copper Ltd down for fifth straight session - Business Standard</a>
-(Business Standard)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMia0FVX3lxTFBlQXJXQi02SVlvaFFnOU00M3I4T0xDOWFWNmF2WHU5Z3BkeFhudDJEZ0dLOXJtV1hDUFo3eEx2N3JPeDd3LXhTUmx0S2MwMkJrczk5akpjM1E4OVVpakhIRjVzQUJZLUNtWUtV?oc=5">Hindustan Copper Share Price - Live NSE: HINDCOPPER Stock Price &amp; Chart - Upstox</a>
-(Upstox)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxQMUhSSHd3M0E3OHRYbFpvRTRielIyaG93X3BWTjZvbXkwb19YaFQtVzd0cFJkV3FNckxvV0NwWG0wOXk4ZEE4RndydTNfNmMyS1l2dm92eEhQUzB1UXIyS3F1MlU2cXB1NmNZc0VrM3drdzRGSVMxNHVDbXNrc3U5OThGTnhyTXVvTjRuUFN5Q09ZbVNfa0lvbkNVNDU2R0VxeFRmb1pPQU56SG9oWTVOTDdIQWVmSlQwZXc00gHCAUFVX3lxTE1fTjhoVzZma1dKVkJzTU9pZlFjNmF6STB0ZUdES1ZHNDFITmxWY0JxVDlYTkZTR0Q5UGNDXzBwamJWUVFjTmNCWkZxam5FTUZONDh0c1ZxemtvTzczQmJKTjBpeU13LXVvSEZEZVJiZGZYVDd6ZUxNWXFjWmNDdnlWX0R3aDBfeUVGQTBJMXh3U2JQbG5MWGpvdlZqS3pLaEI0NzI4V05lZ1paZVJ4MnZlQzNEeXFWenZSX3pXOGh0TEVR?oc=5">How a film book revived memories of small-town cine clubs - Frontline Magazine</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi-gFBVV95cUxOU2E2Vjk5aktUNkEtVE1LT0k1S0hmX19HVjRUeF9UUGRJSlRNRlJTYkJQbWg4bWdqOEpuYzdzbVlIa1NVTzhBV1c1X0p2MzRiZWpPN0JDT1pXdGNOakJpX0tvREI3T2ItQk1YVDY5LTc0VV9VbExLckpmdnFTUlJYSmYzcW1yVE0wQ3hUZlQzQXRlaFpjcEFHRFN0VjJndDEzTGxRRERVbVZ1bTV4Z2FQVm96aTJxZ0hMNHE3THlFSjljTEs1NHNiYVBYSjh6ZmRlSGRtUGtkNE9ZME5QM0JmckoyMVE0RzhYcUMxRUVqX21FcV9FdmJST1VR0gH6AUFVX3lxTE5TYTZWOTlqS1Q2QS1UTUtPSTVLSGZfX0dWNFR4X1RQZElKVE1GUlNiQlBtaDhtZ2o4Sm5jN3NtWUhrU1VPOEFXVzVfSnYzNGJlak83QkNPWld0Y05qQmlfS29EQjdPYi1CTVhUNjktNzRVX1VsTEtySmZ2cVNSUlhKZjNxbXJUTTBDeFRmVDNBdGVoWmNwQUdEU3RWMmd0MTNMbFFERFVtVnVtNXhnYVBWb3ppMnFnSEw0cTdMeUVKOWNMSzU0c2JhUFhKOHpmZGVIZG1Qa2Q0T1kwTlAzQmZySjIxUTRHOFhxQzFFRWpfbUVxX0V2YlJPVVE?oc=5">Hindustan Copper Ltd working at fast pace to double Malanjkhand Copper Project capacity in MP by 2030: CMD - Moneycontrol.com</a>
+(Moneycontrol.com)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQSkJzNjMyQjJUZzlnX3Njckl5VDdLR1U2cWRMVjEtanRLbVZURERVWnhaUjQ3MERZTEp4TjNDVXR0TFZtNHkzMEZvR3I5cHVpajdHUnNkSy1qZlRmNGJadnBKUXF0cWFhd05sb21GU1lNRnJwMV9oUm5MQ3VRaVhMbGNUa2N3QzNORlB6MzBmZU1EVVNPMmQzTWRKd3N3aDNHdVAzd0QzQUVVTzVndEVIUmZPRVpIdw?oc=5">Hindustan Copper Ltd charts out roadmap in annual plan meeting (UPDATED) - Whispers In The Corridors</a>
+(Whispers In The Corridors)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxPYWxRU2dMUlZ0X2ZYNXZIMWVvbUZFa0J1V1dKOEs3Q2FUcGhQRUpIMmZYSzZmZTV4NmpBcjVmdkFNZzdqc2s0ZW1obk12bDd6dVBJUk5RTUhCM3FyUzJCcjNSX19ramhLM25CVFN5S2x4OXNhcklwX3BmOTJpeVpVLVR1TDZPWHFJTmRRZHE4VERJaVZfYlRTVUdKNGZuWmIwTENyWDN2RWZESTB6Q3JkV0VLVEQ4ZGM0Rzh5dmtReFhzbGd6amJfQXB3Y0VpQkxZSzdid9IB1AFBVV95cUxPYWxRU2dMUlZ0X2ZYNXZIMWVvbUZFa0J1V1dKOEs3Q2FUcGhQRUpIMmZYSzZmZTV4NmpBcjVmdkFNZzdqc2s0ZW1obk12bDd6dVBJUk5RTUhCM3FyUzJCcjNSX19ramhLM25CVFN5S2x4OXNhcklwX3BmOTJpeVpVLVR1TDZPWHFJTmRRZHE4VERJaVZfYlRTVUdKNGZuWmIwTENyWDN2RWZESTB6Q3JkV0VLVEQ4ZGM0Rzh5dmtReFhzbGd6amJfQXB3Y0VpQkxZSzdidw?oc=5">Hindustan Copper Ltd down for fifth straight session - Business Standard</a>
+(Business Standard)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMia0FVX3lxTFBlQXJXQi02SVlvaFFnOU00M3I4T0xDOWFWNmF2WHU5Z3BkeFhudDJEZ0dLOXJtV1hDUFo3eEx2N3JPeDd3LXhTUmx0S2MwMkJrczk5akpjM1E4OVVpakhIRjVzQUJZLUNtWUtV?oc=5">Hindustan Copper Share Price - Live NSE: HINDCOPPER Stock Price &amp; Chart - Upstox</a>
+(Upstox)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxQMUhSSHd3M0E3OHRYbFpvRTRielIyaG93X3BWTjZvbXkwb19YaFQtVzd0cFJkV3FNckxvV0NwWG0wOXk4ZEE4RndydTNfNmMyS1l2dm92eEhQUzB1UXIyS3F1MlU2cXB1NmNZc0VrM3drdzRGSVMxNHVDbXNrc3U5OThGTnhyTXVvTjRuUFN5Q09ZbVNfa0lvbkNVNDU2R0VxeFRmb1pPQU56SG9oWTVOTDdIQWVmSlQwZXc00gHCAUFVX3lxTE1fTjhoVzZma1dKVkJzTU9pZlFjNmF6STB0ZUdES1ZHNDFITmxWY0JxVDlYTkZTR0Q5UGNDXzBwamJWUVFjTmNCWkZxam5FTUZONDh0c1ZxemtvTzczQmJKTjBpeU13LXVvSEZEZVJiZGZYVDd6ZUxNWXFjWmNDdnlWX0R3aDBfeUVGQTBJMXh3U2JQbG5MWGpvdlZqS3pLaEI0NzI4V05lZ1paZVJ4MnZlQzNEeXFWenZSX3pXOGh0TEVR?oc=5">How a film book revived memories of small-town cine clubs - Frontline Magazine</a>
 (Frontline Magazine)</div></details>
 </td></tr>
 
-<tr><td>17</td>
-<td><a href="reports/CAPLIPOINT_NS.html">CAPLIPOINT.NS</a></td>
-<td>CAPLIN POINT LAB LTD.</td><td>66.9</td><td>61.1</td>
-<td>0.98</td><td>24</td><td>up</td>
-<td><span data-quote="CAPLIPOINT.NS" data-base="2614.199951171875"
-class="muted">…</span></td>
-<td>Drug Manufacturers - Specialty (#13, 51)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">17</td>
+<td><a href="reports/CAPLIPOINT_NS.html"><b>CAPLIN POINT LAB LTD.</b></a><br>
+<span class="sub">CAPLIPOINT.NS &middot; Drug Manufacturers - Speci (#13)</span></td>
+<td><span class="accent">66.9</span></td>
+<td>61.1</td><td>0.98</td><td>24</td>
+<td class="sub">up</td>
+<td class="num"><span data-quote="CAPLIPOINT.NS" data-base="2614.199951171875"
+class="muted">&hellip;</span></td>
+<td class="sub">51</td></tr>
+<tr><td></td><td colspan="8">
 <span class="tag-t">▲ CDMO/China+1 supply-chain shift</span> &nbsp;
-<details><summary class="muted">1 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxQcDdRRmE3Y0ZRR1liUHlBT0JqSUFfR3RYMzlPZk1mM3Rab0NaamhFZjZLTWhMWF9uMXJLczdkeGhkeEJVb1RmNVdsZTFlNnA0S3NPSXBiQ3ROaWVGQTVJZEFnMmN2Vm1UdjN3c1JxM28wMVViRFFxNVNwQTlYTVJKNEkxT284RGxzZy1jTDBhTGEzV0F1N0JtR09ENVNnRlBvSnVKQ21jZTRmWUFRM3dxVQ?oc=5">Enterprise value to revenue forward of Caplin Point Laboratories Limited – BSE:CAPLIPOINT - TradingView</a>
+<details><summary>1 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxQcDdRRmE3Y0ZRR1liUHlBT0JqSUFfR3RYMzlPZk1mM3Rab0NaamhFZjZLTWhMWF9uMXJLczdkeGhkeEJVb1RmNVdsZTFlNnA0S3NPSXBiQ3ROaWVGQTVJZEFnMmN2Vm1UdjN3c1JxM28wMVViRFFxNVNwQTlYTVJKNEkxT284RGxzZy1jTDBhTGEzV0F1N0JtR09ENVNnRlBvSnVKQ21jZTRmWUFRM3dxVQ?oc=5">Enterprise value to revenue forward of Caplin Point Laboratories Limited – BSE:CAPLIPOINT - TradingView</a>
 (TradingView)</div></details>
 </td></tr>
 
-<tr><td>18</td>
-<td><a href="reports/NIVABUPA_NS.html">NIVABUPA.NS</a></td>
-<td>NIVA BUPA HEALTH INS CO L</td><td>66.9</td><td>65.3</td>
-<td>0.82</td><td>0</td><td>up</td>
-<td><span data-quote="NIVABUPA.NS" data-base="86.05999755859375"
-class="muted">…</span></td>
-<td>Financial Services (other) (#9, 60)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">18</td>
+<td><a href="reports/NIVABUPA_NS.html"><b>NIVA BUPA HEALTH INS CO L</b></a><br>
+<span class="sub">NIVABUPA.NS &middot; Financial Services (other) (#9)</span></td>
+<td><span class="accent">66.9</span></td>
+<td>65.3</td><td>0.82</td><td>0</td>
+<td class="sub">up</td>
+<td class="num"><span data-quote="NIVABUPA.NS" data-base="86.05999755859375"
+class="muted">&hellip;</span></td>
+<td class="sub">60</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">1 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMiXkFVX3lxTFBuM1lmZkVXQVNramx0dk1GOHdCaGw4RE5nX2hRbFM2YnF2U0d6eGN4ZTY0TEQyVFBjSWE3X3ZjNTFKVnhnbmJPMW12UjZLRTN5ejlaQVllSmRMNV9RX1E?oc=5">NIVABUPA Stock Price and Chart — NSE:NIVABUPA - TradingView</a>
+<details><summary>1 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiXkFVX3lxTFBuM1lmZkVXQVNramx0dk1GOHdCaGw4RE5nX2hRbFM2YnF2U0d6eGN4ZTY0TEQyVFBjSWE3X3ZjNTFKVnhnbmJPMW12UjZLRTN5ejlaQVllSmRMNV9RX1E?oc=5">NIVABUPA Stock Price and Chart — NSE:NIVABUPA - TradingView</a>
 (TradingView)</div></details>
 </td></tr>
 
-<tr><td>19</td>
-<td><a href="reports/CARTRADE_NS.html">CARTRADE.NS</a></td>
-<td>CARTRADE TECH LIMITED</td><td>66.3</td><td>63.6</td>
-<td>0.98</td><td>24</td><td>up</td>
-<td><span data-quote="CARTRADE.NS" data-base="2699.39990234375"
-class="muted">…</span></td>
-<td>Consumer Cyclical (other) (#27, 22)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">19</td>
+<td><a href="reports/CARTRADE_NS.html"><b>CARTRADE TECH LIMITED</b></a><br>
+<span class="sub">CARTRADE.NS &middot; Consumer Cyclical (other) (#27)</span></td>
+<td><span class="accent">66.3</span></td>
+<td>63.6</td><td>0.98</td><td>24</td>
+<td class="sub">up</td>
+<td class="num"><span data-quote="CARTRADE.NS" data-base="2699.39990234375"
+class="muted">&hellip;</span></td>
+<td class="sub">22</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxNRFA5amppNmZVRG80WFgyOS11LWhrc19uRjNZZ1AwM3hoOVo3M3RJZzk2WFJNMnBwYVFvcjU2NzhSUWJ3aXp0ZHB6M09GMTNGUG9WOXFBc0FvYVF0UmhXSFhrdHVoVjN0cWpEc1B2bjlfMER0WkduZlZOMElYNUh4RnlleHNYdWoyUy1aTmF3ajZqQjVZUUxmaHBJS1BqdUlodnAyWU5FRGZNQTJxdXVuOTNrUEs1SzNKNHc?oc=5">MacRitchie Investments reduces stake in CarTrade Tech to 7.75% - scanx.trade</a>
-(scanx.trade)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxOUTgyMUIzMjNfZ280STRycWpxU2VKa1hGTmdNVHoyM2pvSWo4UUJ5TDNNeFFaa2xSMVBlM0RLT2Vvd1M1RGE0a2pBdGJTdGVpSENxTXRBWUYxY2JDYzk0cHo0MjNXVjZ1UUdSRTc5ZTV1VEdQM1ZIOE5jbElycnpZbVRReEFZMWl1ZktBeTUzOG5fRDNCdnlPQVlTLWFJbTQ?oc=5">CarTrade Tech (NSEI:CARTRADE) Stock Sees Fair Value Lift As Growth Assumptions Improve - Yahoo Finance</a>
-(Yahoo Finance)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMizwFBVV95cUxNSzdsbmZzMVZ3NHRQNmlZbjB1S2paMUlKQ2ozZXdBU0lMbXp2VkJDT2JDdGZBallVRDByeFBsdE52Wjl6Z2RnOS05MmJzYmhZcjl3eUJRQ2o2ejVuR3BpNk4xRFNPaUdqLUZUOTl6RlY0U2xRSUNmcW5NOG9EZHl6R3d1RHc1Q3N2UmJoRXIyMm5CM3FqSmQ3WTUwOWJmSWk1emRvTWJRYUpjazJHLXBGbGVfMnZZYzNLWngwZk1zbUVIbzdSUXdVUTBkUUc3LTTSAdQBQVVfeXFMUGFFWGstRDRMaHd5ajRaQ3h6Mmt6T0J6eklDMFBkVWJkMTdDT0prVG1QMjNZNmlud3NfMHBZUFdHbThjVUU3OHc0MHBfcndlckY5bVZOYU9UNXpYSGh0M09iTVF6M0hGMkRZYnFXamk0LXVpblpEM2U5OTRxSWNUem0wbkc3Um4zYk83MVA2ZXMzN3k1UDVLYmRsTTZzYk5tYUcwa0g1cmNwX2NwWHpzUWE0N3dIZ3UxTUVqd21OVjZjdGF6N1JBUDJheFhBNjRqZmpDX0U?oc=5">CarTrade zooms 70% since June, hits 6-month high; UBS sees more upside - Business Standard</a>
-(Business Standard)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQdFA1TGdtNGdwS3lsVmQyMHlXSUM0dFZLdkM1TmVXQnc2eGh2aVIya1hKTWpoZFNsNW10ZVpSMF9XRmR1NzJ4eUNzaUZnOHc0eXVMdVF1OFpOUHptOGYwd2NOdXQ2UnBkbWJyOVJvdVdMelZZRmJia05nd0hLSXVFYndkTnVveDZuQ21MX2czbUhoVkhEbFlidEN3WWRxYjdjUE5xVXo1RE9oc2JrSDUzUmw0Z19BX2ppaFVwcW1TajNrcVU5eU5NaVBIaw?oc=5">UBS starts CarTrade Tech at Buy, sees upside from asset-light business model - Investing.com</a>
-(Investing.com)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMi8gFBVV95cUxNTVVLOVI4cno2RnBfQUlBWXlBUkk5Zk5VQWxSNmxVN2I2VENKNG92UjhQTlBsbG41QWxiSUZESmVYRUd4ZTdBNmlUVG40ZHhCTHA5SmRzdTNoUkZRZ1d2QkZFVjBvbFhUUktvVXJSaXBpcWhFV0JxN2VJNnoycWhNV2F1bVFZWjFkM1hma0Q4b1Qxb1pPdGgzM1p2a0ZrVDRNSlNhcVR2Q1g5ZEgweWVlVnlHTjhVaWlqSjZYWW9IRUtRcUVnX2Q3enU3US0zXzh2ZjM1UzJpcmh0RGQ4eG9pamFCVU8xM016MjV5X3dQaVQ2QQ?oc=5">UBS sees 42% upside in CarTrade Tech on growth, margin gains - MSN</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxNRFA5amppNmZVRG80WFgyOS11LWhrc19uRjNZZ1AwM3hoOVo3M3RJZzk2WFJNMnBwYVFvcjU2NzhSUWJ3aXp0ZHB6M09GMTNGUG9WOXFBc0FvYVF0UmhXSFhrdHVoVjN0cWpEc1B2bjlfMER0WkduZlZOMElYNUh4RnlleHNYdWoyUy1aTmF3ajZqQjVZUUxmaHBJS1BqdUlodnAyWU5FRGZNQTJxdXVuOTNrUEs1SzNKNHc?oc=5">MacRitchie Investments reduces stake in CarTrade Tech to 7.75% - scanx.trade</a>
+(scanx.trade)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxOUTgyMUIzMjNfZ280STRycWpxU2VKa1hGTmdNVHoyM2pvSWo4UUJ5TDNNeFFaa2xSMVBlM0RLT2Vvd1M1RGE0a2pBdGJTdGVpSENxTXRBWUYxY2JDYzk0cHo0MjNXVjZ1UUdSRTc5ZTV1VEdQM1ZIOE5jbElycnpZbVRReEFZMWl1ZktBeTUzOG5fRDNCdnlPQVlTLWFJbTQ?oc=5">CarTrade Tech (NSEI:CARTRADE) Stock Sees Fair Value Lift As Growth Assumptions Improve - Yahoo Finance</a>
+(Yahoo Finance)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMizwFBVV95cUxNSzdsbmZzMVZ3NHRQNmlZbjB1S2paMUlKQ2ozZXdBU0lMbXp2VkJDT2JDdGZBallVRDByeFBsdE52Wjl6Z2RnOS05MmJzYmhZcjl3eUJRQ2o2ejVuR3BpNk4xRFNPaUdqLUZUOTl6RlY0U2xRSUNmcW5NOG9EZHl6R3d1RHc1Q3N2UmJoRXIyMm5CM3FqSmQ3WTUwOWJmSWk1emRvTWJRYUpjazJHLXBGbGVfMnZZYzNLWngwZk1zbUVIbzdSUXdVUTBkUUc3LTTSAdQBQVVfeXFMUGFFWGstRDRMaHd5ajRaQ3h6Mmt6T0J6eklDMFBkVWJkMTdDT0prVG1QMjNZNmlud3NfMHBZUFdHbThjVUU3OHc0MHBfcndlckY5bVZOYU9UNXpYSGh0M09iTVF6M0hGMkRZYnFXamk0LXVpblpEM2U5OTRxSWNUem0wbkc3Um4zYk83MVA2ZXMzN3k1UDVLYmRsTTZzYk5tYUcwa0g1cmNwX2NwWHpzUWE0N3dIZ3UxTUVqd21OVjZjdGF6N1JBUDJheFhBNjRqZmpDX0U?oc=5">CarTrade zooms 70% since June, hits 6-month high; UBS sees more upside - Business Standard</a>
+(Business Standard)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQdFA1TGdtNGdwS3lsVmQyMHlXSUM0dFZLdkM1TmVXQnc2eGh2aVIya1hKTWpoZFNsNW10ZVpSMF9XRmR1NzJ4eUNzaUZnOHc0eXVMdVF1OFpOUHptOGYwd2NOdXQ2UnBkbWJyOVJvdVdMelZZRmJia05nd0hLSXVFYndkTnVveDZuQ21MX2czbUhoVkhEbFlidEN3WWRxYjdjUE5xVXo1RE9oc2JrSDUzUmw0Z19BX2ppaFVwcW1TajNrcVU5eU5NaVBIaw?oc=5">UBS starts CarTrade Tech at Buy, sees upside from asset-light business model - Investing.com</a>
+(Investing.com)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi8gFBVV95cUxNTVVLOVI4cno2RnBfQUlBWXlBUkk5Zk5VQWxSNmxVN2I2VENKNG92UjhQTlBsbG41QWxiSUZESmVYRUd4ZTdBNmlUVG40ZHhCTHA5SmRzdTNoUkZRZ1d2QkZFVjBvbFhUUktvVXJSaXBpcWhFV0JxN2VJNnoycWhNV2F1bVFZWjFkM1hma0Q4b1Qxb1pPdGgzM1p2a0ZrVDRNSlNhcVR2Q1g5ZEgweWVlVnlHTjhVaWlqSjZYWW9IRUtRcUVnX2Q3enU3US0zXzh2ZjM1UzJpcmh0RGQ4eG9pamFCVU8xM016MjV5X3dQaVQ2QQ?oc=5">UBS sees 42% upside in CarTrade Tech on growth, margin gains - MSN</a>
 (MSN)</div></details>
 </td></tr>
 
-<tr><td>20</td>
-<td><a href="reports/TRAVELFOOD_NS.html">TRAVELFOOD.NS</a></td>
-<td>TRAVEL FOOD SERVICES LTD</td><td>66.1</td><td>62.9</td>
-<td>0.85</td><td>24</td><td>up</td>
-<td><span data-quote="TRAVELFOOD.NS" data-base="1293.5999755859375"
-class="muted">…</span></td>
-<td>Consumer Cyclical (other) (#27, 22)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">20</td>
+<td><a href="reports/TRAVELFOOD_NS.html"><b>TRAVEL FOOD SERVICES LTD</b></a><br>
+<span class="sub">TRAVELFOOD.NS &middot; Consumer Cyclical (other) (#27)</span></td>
+<td><span class="accent">66.1</span></td>
+<td>62.9</td><td>0.85</td><td>24</td>
+<td class="sub">up</td>
+<td class="num"><span data-quote="TRAVELFOOD.NS" data-base="1293.5999755859375"
+class="muted">&hellip;</span></td>
+<td class="sub">22</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">1 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQRllCNHlhTlFrbTV2Sk9sa3EyZVlIOVp3Uk5Bb2QybVRPY1FnMjNBYlBIU0R5VkIySmV1eC10b3NzazhweW5SN2hFN1BqSFI1aFBJdG9GTDBxMm9lYXNXU19yS2lVb1FacDhXTkxodjJFRDJTdzRSU2pLWGdHNXU0ZUNSazRYQkVtNEJtNEJFLVA5a05XTzBNcUl6TTkzZHpZRUE?oc=5">Travel Food Services Ltd is Rated Hold - MarketsMojo</a>
+<details><summary>1 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQRllCNHlhTlFrbTV2Sk9sa3EyZVlIOVp3Uk5Bb2QybVRPY1FnMjNBYlBIU0R5VkIySmV1eC10b3NzazhweW5SN2hFN1BqSFI1aFBJdG9GTDBxMm9lYXNXU19yS2lVb1FacDhXTkxodjJFRDJTdzRSU2pLWGdHNXU0ZUNSazRYQkVtNEJtNEJFLVA5a05XTzBNcUl6TTkzZHpZRUE?oc=5">Travel Food Services Ltd is Rated Hold - MarketsMojo</a>
 (MarketsMojo)</div></details>
 </td></tr>
 
-<tr><td>21</td>
-<td><a href="reports/LALPATHLAB_NS.html">LALPATHLAB.NS</a></td>
-<td>DR. LAL PATH LABS LTD.</td><td>66.0</td><td>67.0</td>
-<td>0.98</td><td>24</td><td>up</td>
-<td><span data-quote="LALPATHLAB.NS" data-base="1687.4000244140625"
-class="muted">…</span></td>
-<td>Diagnostics &amp; Research (#1, 81)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">21</td>
+<td><a href="reports/LALPATHLAB_NS.html"><b>DR. LAL PATH LABS LTD.</b></a><br>
+<span class="sub">LALPATHLAB.NS &middot; Diagnostics &amp; Research (#1)</span></td>
+<td><span class="accent">66.0</span></td>
+<td>67.0</td><td>0.98</td><td>24</td>
+<td class="sub">up</td>
+<td class="num"><span data-quote="LALPATHLAB.NS" data-base="1687.4000244140625"
+class="muted">&hellip;</span></td>
+<td class="sub">81</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">2 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxOeFFhWlcwcmFOY0tYRWR3SHJXSVowUUxyRlVTUW5sMXZBNE1MT0RNakJ4QkI2ZGlWbWVIc3JDTC1Lb3JKbDRvWVh4QllyVXJDc2tkWGdzRWg4VkVQcm50ZU1sRTIzQjBLNHg0bzB3c0lvaVh0VkNmdFdwcTlXWnNuM3FrR3J5T19nMDNtWTdJMDQ3Wm5nNmEtWXlUN01TNTNfZnRVTGpOTjJQWXFQbzQ0YW9uT2JxYmtveDV4UlEtVFBral9iM0ZOeC1LeE43WDd3OTFCNWc4Wi1PWHM?oc=5">Lal Pathlabs Receives Appellate Order From Tax Department Allowing Appeal - TradingView</a>
-(TradingView)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPQW5RbkNiZGRmRW9IN253alhBMUlMY21sSTlHdTZLdmVSRmF3ZmgydzVwQkh5MnhPTjlGM1VZMG5WbjU0TGotZmpDVHpVUEZUZHMzWnRGbTlrNk5RNEhQQ0NuWGJpX0VpYUhPYllKcU1yTE85UEZuSkpDeW1FbWdEWlJ4RklCQ2VMYjRqSFNFbU5ISjVTeDZaVTBNcHkweTJB?oc=5">Price to book forward of Dr. Lal PathLabs Limited – BSE:LALPATHLAB - TradingView</a>
+<details><summary>2 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxOeFFhWlcwcmFOY0tYRWR3SHJXSVowUUxyRlVTUW5sMXZBNE1MT0RNakJ4QkI2ZGlWbWVIc3JDTC1Lb3JKbDRvWVh4QllyVXJDc2tkWGdzRWg4VkVQcm50ZU1sRTIzQjBLNHg0bzB3c0lvaVh0VkNmdFdwcTlXWnNuM3FrR3J5T19nMDNtWTdJMDQ3Wm5nNmEtWXlUN01TNTNfZnRVTGpOTjJQWXFQbzQ0YW9uT2JxYmtveDV4UlEtVFBral9iM0ZOeC1LeE43WDd3OTFCNWc4Wi1PWHM?oc=5">Lal Pathlabs Receives Appellate Order From Tax Department Allowing Appeal - TradingView</a>
+(TradingView)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPQW5RbkNiZGRmRW9IN253alhBMUlMY21sSTlHdTZLdmVSRmF3ZmgydzVwQkh5MnhPTjlGM1VZMG5WbjU0TGotZmpDVHpVUEZUZHMzWnRGbTlrNk5RNEhQQ0NuWGJpX0VpYUhPYllKcU1yTE85UEZuSkpDeW1FbWdEWlJ4RklCQ2VMYjRqSFNFbU5ISjVTeDZaVTBNcHkweTJB?oc=5">Price to book forward of Dr. Lal PathLabs Limited – BSE:LALPATHLAB - TradingView</a>
 (TradingView)</div></details>
 </td></tr>
 
-<tr><td>22</td>
-<td><a href="reports/IDBI_NS.html">IDBI.NS</a></td>
-<td>IDBI BANK LIMITED</td><td>66.0</td><td>74.8</td>
-<td>0.89</td><td>0</td><td>down</td>
-<td><span data-quote="IDBI.NS" data-base="87.0199966430664"
-class="muted">…</span></td>
-<td>Banks - Regional (#17, 47)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">22</td>
+<td><a href="reports/IDBI_NS.html"><b>IDBI BANK LIMITED</b></a><br>
+<span class="sub">IDBI.NS &middot; Banks - Regional (#17)</span></td>
+<td><span class="accent">66.0</span></td>
+<td>74.8</td><td>0.89</td><td>0</td>
+<td class="sub">down</td>
+<td class="num"><span data-quote="IDBI.NS" data-base="87.0199966430664"
+class="muted">&hellip;</span></td>
+<td class="sub">47</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMiygJBVV95cUxPejN3UzVGS1hTVnBsci1QNFJYNHBZM3J5bUI4YUQwUHVuSDJoLUFsaG9PdkVHMVlneHh5dy0tSHRtbWM0ZU5mWE80bEtvLWQ2Sm9BMjI5UlV4N04teVFwTXlaZDBoLUhOd3doVHNUNGdoNWJjTWtPN2xuS21vMi1xRzV2RHNLMi1Cd2lWbUpGWmlkVEJVZkpZOE5Qd1VjRl9MUTRLSHVtazZzOHF1dnFuRF9aaDJpTGN6c3cxWmh2SnpmdVo1azBHVnhmY051MHY2MkhGYW1KVXlYWUp4REJlb2NPbzVTeWtKTFpjLTg1dDZIX3h0OExvdUMwZVZTNnp1RUpoX1BFSXU2aFhZRGNNTC12ZkVGaWpnT3VzUWhXMk9zN0VVbGdSQVA1Q3l4NUk5NUViMjlSbkNxc2g0UG1QbDAza09QWHV5anc?oc=5">- The HinduBusinessLine - BusinessLine</a>
-(BusinessLine)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiX0FVX3lxTFBrNGJuS1YtT2FtdmJLQVdaelI4NUdPTThISE1fUEYyT0pfX1NkOWdMTjlPY0lKVGxpN0psX0wyYk9OZTRKbUJ0Ri1wRW5XTVF6Ykdwb1ZmUkdOQmdocENF?oc=5">IDBI Bank Limited Kicks Off FY 2026-27 with a 5% Rise in Net Profit to ₹2,115 Crore - EquityBulls</a>
-(EquityBulls)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxQUi1IanF5ZFN0T0lWUXZGcC05WWNYZ09TbUs5M05DazVYWXdTTUN2RklDQ3JkRElKanRLOWdSajR3WWxXRzVPbkhOVDlQNTNCVWE4TzcxT2pKWVlFOFNKQUpRS0l3elZPQXFmc1ZWTTZfcFRYQmE2NjhrSWtuX0FIRzlQVjNaSVVublp5VTR2UmhjSUZOYlBKMUQwMkNKQjZzTUZtWUY0cnB1VFdvMl9tSTdlMWM0VlQySlg2clNhWkNoQy00Zy16NWczUEYzWEJCNTkxZjFyY9IB3AFBVV95cUxPZUVlVHJWTXpOYnpHeV9HWW5yT1lsdmxkVUVjWXp5ZElJR3h3bFNTMFJ1cjAzRkR1T3UxN1JZeFVXS1MtckVZblI4aTFPZDhrRVp5SkJzNEFfdWNVU0NpS0U1UGNMRjYtaWN3ZE00RERONE5FRjBWYkVlQUc1aUZCWGZtSGJZSnVDTWFPeGM3Y25YbW1XZzRJTkMwSGJEQUI4SXVvMjBEU0tyenl5aDhqaFotWFQ1UF9JaGMyM2pSVnkwRmlfRjROaThSXzUtdEQwXzZfZjh0Z2xHTVpm?oc=5">IDBI employees&#39; forum seeks Parliament review of Fairfax stake sale - Business Standard</a>
-(Business Standard)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMie0FVX3lxTE5LUzhUb0VHaVdBQUc5M2pONXhURDFOWXpMT21xTHZOdmE3VXA0c29Bb25sT0t1YXlobDZRSEtVNWpXdnFtWWJENHlvcUxHQUZwN1JSMHJpOXN1U0lFM0ZHLUZqYkQwY1FUclFrNl9aMWFITTNUT19SM2UyRQ?oc=5">IDBI Bank Q1 Results: Profit Rises 5% as Business Grows - Lapaas Voice</a>
-(Lapaas Voice)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMi5AFBVV95cUxPTkNTOWp0YkttenhmNUZfN1QxUHRvUzZtNXM3ZFktMkZoYmNWUDctdVVJblQxUEhvOW5PZEFRUENWRXZwblFiN05ySnBVOU53V0FqcG9mR2pUQ3pHazUtWHhaSTFpQjZqdTZhVWNvZUdycFc0WkxFUFlUZkRUT3lrX1M4LWpFMnl3Vk8wRko1RUxFZjNpd2dqNnBrUl90TEIteFhyLWIxTWxGWHY2SjRrcWxhV2hUSktXOWpNNlRJVWRrbHBaT0NzMThoRWc5MmpXVktWbmVjUXQzVzlIRGh4eUdPR2nSAesBQVVfeXFMT3p2SkNfOFRwMHFwTDlfT0hMSUJBSm9oZHlWR1VBSUVUSHJRek8wS094OFJWSWMyT3VMT21QM2hnRVRTVUlmZHQ4aUNHUmdvelpyWnJTOG9EbWI0UTBSWmpSa3JxX1RqcUJJX2VEX0ZqSERXY0F1V1NfY2tocHNUbmhoWUZrZzZHSFNIazBZUFdZaXhpRkpmVkVQUlplYVNnbURKOVU5YW4tYjRXOV90TExhSl9FUnRxd1ZVZXlza2RRbW5EVUR6M0h0N1ZUM2NkeU1uOFdqTWVwaV9qNVd4SDJGeWF3WTY5dktUdw?oc=5">IDBI Bank sale move faces call for review on governance, sovereignty grounds - BusinessLine</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiygJBVV95cUxPejN3UzVGS1hTVnBsci1QNFJYNHBZM3J5bUI4YUQwUHVuSDJoLUFsaG9PdkVHMVlneHh5dy0tSHRtbWM0ZU5mWE80bEtvLWQ2Sm9BMjI5UlV4N04teVFwTXlaZDBoLUhOd3doVHNUNGdoNWJjTWtPN2xuS21vMi1xRzV2RHNLMi1Cd2lWbUpGWmlkVEJVZkpZOE5Qd1VjRl9MUTRLSHVtazZzOHF1dnFuRF9aaDJpTGN6c3cxWmh2SnpmdVo1azBHVnhmY051MHY2MkhGYW1KVXlYWUp4REJlb2NPbzVTeWtKTFpjLTg1dDZIX3h0OExvdUMwZVZTNnp1RUpoX1BFSXU2aFhZRGNNTC12ZkVGaWpnT3VzUWhXMk9zN0VVbGdSQVA1Q3l4NUk5NUViMjlSbkNxc2g0UG1QbDAza09QWHV5anc?oc=5">- The HinduBusinessLine - BusinessLine</a>
+(BusinessLine)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiX0FVX3lxTFBrNGJuS1YtT2FtdmJLQVdaelI4NUdPTThISE1fUEYyT0pfX1NkOWdMTjlPY0lKVGxpN0psX0wyYk9OZTRKbUJ0Ri1wRW5XTVF6Ykdwb1ZmUkdOQmdocENF?oc=5">IDBI Bank Limited Kicks Off FY 2026-27 with a 5% Rise in Net Profit to ₹2,115 Crore - EquityBulls</a>
+(EquityBulls)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxQUi1IanF5ZFN0T0lWUXZGcC05WWNYZ09TbUs5M05DazVYWXdTTUN2RklDQ3JkRElKanRLOWdSajR3WWxXRzVPbkhOVDlQNTNCVWE4TzcxT2pKWVlFOFNKQUpRS0l3elZPQXFmc1ZWTTZfcFRYQmE2NjhrSWtuX0FIRzlQVjNaSVVublp5VTR2UmhjSUZOYlBKMUQwMkNKQjZzTUZtWUY0cnB1VFdvMl9tSTdlMWM0VlQySlg2clNhWkNoQy00Zy16NWczUEYzWEJCNTkxZjFyY9IB3AFBVV95cUxPZUVlVHJWTXpOYnpHeV9HWW5yT1lsdmxkVUVjWXp5ZElJR3h3bFNTMFJ1cjAzRkR1T3UxN1JZeFVXS1MtckVZblI4aTFPZDhrRVp5SkJzNEFfdWNVU0NpS0U1UGNMRjYtaWN3ZE00RERONE5FRjBWYkVlQUc1aUZCWGZtSGJZSnVDTWFPeGM3Y25YbW1XZzRJTkMwSGJEQUI4SXVvMjBEU0tyenl5aDhqaFotWFQ1UF9JaGMyM2pSVnkwRmlfRjROaThSXzUtdEQwXzZfZjh0Z2xHTVpm?oc=5">IDBI employees&#39; forum seeks Parliament review of Fairfax stake sale - Business Standard</a>
+(Business Standard)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMie0FVX3lxTE5LUzhUb0VHaVdBQUc5M2pONXhURDFOWXpMT21xTHZOdmE3VXA0c29Bb25sT0t1YXlobDZRSEtVNWpXdnFtWWJENHlvcUxHQUZwN1JSMHJpOXN1U0lFM0ZHLUZqYkQwY1FUclFrNl9aMWFITTNUT19SM2UyRQ?oc=5">IDBI Bank Q1 Results: Profit Rises 5% as Business Grows - Lapaas Voice</a>
+(Lapaas Voice)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi5AFBVV95cUxPTkNTOWp0YkttenhmNUZfN1QxUHRvUzZtNXM3ZFktMkZoYmNWUDctdVVJblQxUEhvOW5PZEFRUENWRXZwblFiN05ySnBVOU53V0FqcG9mR2pUQ3pHazUtWHhaSTFpQjZqdTZhVWNvZUdycFc0WkxFUFlUZkRUT3lrX1M4LWpFMnl3Vk8wRko1RUxFZjNpd2dqNnBrUl90TEIteFhyLWIxTWxGWHY2SjRrcWxhV2hUSktXOWpNNlRJVWRrbHBaT0NzMThoRWc5MmpXVktWbmVjUXQzVzlIRGh4eUdPR2nSAesBQVVfeXFMT3p2SkNfOFRwMHFwTDlfT0hMSUJBSm9oZHlWR1VBSUVUSHJRek8wS094OFJWSWMyT3VMT21QM2hnRVRTVUlmZHQ4aUNHUmdvelpyWnJTOG9EbWI0UTBSWmpSa3JxX1RqcUJJX2VEX0ZqSERXY0F1V1NfY2tocHNUbmhoWUZrZzZHSFNIazBZUFdZaXhpRkpmVkVQUlplYVNnbURKOVU5YW4tYjRXOV90TExhSl9FUnRxd1ZVZXlza2RRbW5EVUR6M0h0N1ZUM2NkeU1uOFdqTWVwaV9qNVd4SDJGeWF3WTY5dktUdw?oc=5">IDBI Bank sale move faces call for review on governance, sovereignty grounds - BusinessLine</a>
 (BusinessLine)</div></details>
 </td></tr>
 
-<tr><td>23</td>
-<td><a href="reports/BBTC_NS.html">BBTC.NS</a></td>
-<td>BOMBAY BURMAH TRADING COR</td><td>65.6</td><td>70.5</td>
-<td>0.96</td><td>0</td><td>strong_down</td>
-<td><span data-quote="BBTC.NS" data-base="1493.5999755859375"
-class="muted">…</span></td>
-<td>Packaged Foods (#12, 55)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">23</td>
+<td><a href="reports/BBTC_NS.html"><b>BOMBAY BURMAH TRADING COR</b></a><br>
+<span class="sub">BBTC.NS &middot; Packaged Foods (#12)</span></td>
+<td><span class="accent">65.6</span></td>
+<td>70.5</td><td>0.96</td><td>0</td>
+<td class="sub">strong_down</td>
+<td class="num"><span data-quote="BBTC.NS" data-base="1493.5999755859375"
+class="muted">&hellip;</span></td>
+<td class="sub">55</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">1 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMiZEFVX3lxTE5GclhqNmpOdGVDR1JMMW50cEFpUTluR0R2ZXNkYm9xZHgtcU40Q29EVEZRRnZlQ2pUMHpjLVV6VjZBaDlibTlpTnNUTTl1UVZqSVdiZ0dWb2xIcV95dm9sV3h0d2I?oc=5">Baby Bitcoin Price Today in India | BBTC to INR Live Price &amp; Chart - Binance</a>
+<details><summary>1 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiZEFVX3lxTE5GclhqNmpOdGVDR1JMMW50cEFpUTluR0R2ZXNkYm9xZHgtcU40Q29EVEZRRnZlQ2pUMHpjLVV6VjZBaDlibTlpTnNUTTl1UVZqSVdiZ0dWb2xIcV95dm9sV3h0d2I?oc=5">Baby Bitcoin Price Today in India | BBTC to INR Live Price &amp; Chart - Binance</a>
 (Binance)</div></details>
 </td></tr>
 
-<tr><td>24</td>
-<td><a href="reports/INDIAMART_NS.html">INDIAMART.NS</a></td>
-<td>INDIAMART INTERMESH LTD</td><td>65.6</td><td>69.9</td>
-<td>0.98</td><td>0</td><td>strong_down</td>
-<td><span data-quote="INDIAMART.NS" data-base="1910.0999755859375"
-class="muted">…</span></td>
-<td>Communication Services (other) (#21, 36)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">24</td>
+<td><a href="reports/INDIAMART_NS.html"><b>INDIAMART INTERMESH LTD</b></a><br>
+<span class="sub">INDIAMART.NS &middot; Communication Services (ot (#21)</span></td>
+<td><span class="accent">65.6</span></td>
+<td>69.9</td><td>0.98</td><td>0</td>
+<td class="sub">strong_down</td>
+<td class="num"><span data-quote="INDIAMART.NS" data-base="1910.0999755859375"
+class="muted">&hellip;</span></td>
+<td class="sub">36</td></tr>
+<tr><td></td><td colspan="8">
 
-<details><summary class="muted">2 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxPLUMxVVdQenZzLTBlNnV6eXBGTF9wUGdMeUdfZGZzbzc2Ry1uRWtGNkpFMjdZRFJJNFF0ZVpoSFBnVnNkTGhqODJrOVZIekpjenp1Qmg2TXFGSDNtNzQ0YkQ2eDVpVVAyRm9FRkZHcVl1QkVPSEo0OC1CUGw0MDhsbGVwUE81cy1vM3hSMF9MaVlMZW9mUXJNUHNqU2NsU0drZU9QNG1xUEJ5RE5KbTUyZ2w4blBMd3ZRdGlzLWxjOXF6dkxWdDRUcWhFMUNySEpRTkNV?oc=5">IndiaMART InterMESH to Host Q1 FY27 Earnings Call on July 21 Following ₹50 Crore Q4 FY26 Net Profit - Sahi</a>
-(Sahi)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxPc05aYi1jTkVnajBlUi0zSGZXUmtXakgwSHlhRVJHY0ZVNm9CVkpORzlFajFVdnRtRldlRjNNN3lWVlZ2dHhSUnFLckswUXRWU1JKdnBuQVJHRV9GcUkxTnBhZUhwWjZqQUozajNWTDI4ZHlnU2gtc3BnazJPdld1REJHei1FWHpvejBxZXFjUFZwNUFUdEpJXzBBcEdVRjNfbEVMbGxRMHpBT0hKbFladldCek82QW9I?oc=5">IndiaMART InterMESH to Host Q1 FY27 Earnings Webinar on July 21 at 5 PM IST - scanx.trade</a>
+<details><summary>2 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxPLUMxVVdQenZzLTBlNnV6eXBGTF9wUGdMeUdfZGZzbzc2Ry1uRWtGNkpFMjdZRFJJNFF0ZVpoSFBnVnNkTGhqODJrOVZIekpjenp1Qmg2TXFGSDNtNzQ0YkQ2eDVpVVAyRm9FRkZHcVl1QkVPSEo0OC1CUGw0MDhsbGVwUE81cy1vM3hSMF9MaVlMZW9mUXJNUHNqU2NsU0drZU9QNG1xUEJ5RE5KbTUyZ2w4blBMd3ZRdGlzLWxjOXF6dkxWdDRUcWhFMUNySEpRTkNV?oc=5">IndiaMART InterMESH to Host Q1 FY27 Earnings Call on July 21 Following ₹50 Crore Q4 FY26 Net Profit - Sahi</a>
+(Sahi)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxPc05aYi1jTkVnajBlUi0zSGZXUmtXakgwSHlhRVJHY0ZVNm9CVkpORzlFajFVdnRtRldlRjNNN3lWVlZ2dHhSUnFLckswUXRWU1JKdnBuQVJHRV9GcUkxTnBhZUhwWjZqQUozajNWTDI4ZHlnU2gtc3BnazJPdld1REJHei1FWHpvejBxZXFjUFZwNUFUdEpJXzBBcEdVRjNfbEVMbGxRMHpBT0hKbFladldCek82QW9I?oc=5">IndiaMART InterMESH to Host Q1 FY27 Earnings Webinar on July 21 at 5 PM IST - scanx.trade</a>
 (scanx.trade)</div></details>
 </td></tr>
 
-<tr><td>25</td>
-<td><a href="reports/IEX_NS.html">IEX.NS</a></td>
-<td>INDIAN ENERGY EXC LTD</td><td>65.2</td><td>68.0</td>
-<td>0.98</td><td>0</td><td>strong_down</td>
-<td><span data-quote="IEX.NS" data-base="122.80000305175781"
-class="muted">…</span></td>
-<td>Capital Markets (#28, 16)</td></tr>
-<tr><td></td><td colspan="9">
+<tr><td class="muted">25</td>
+<td><a href="reports/IEX_NS.html"><b>INDIAN ENERGY EXC LTD</b></a><br>
+<span class="sub">IEX.NS &middot; Capital Markets (#28)</span></td>
+<td><span class="accent">65.2</span></td>
+<td>68.0</td><td>0.98</td><td>0</td>
+<td class="sub">strong_down</td>
+<td class="num"><span data-quote="IEX.NS" data-base="122.80000305175781"
+class="muted">&hellip;</span></td>
+<td class="sub">16</td></tr>
+<tr><td></td><td colspan="8">
 <span class="tag-t">▲ Financialization of household savings</span> &nbsp;
-<details><summary class="muted">5 headlines</summary>
-<div class="muted">· <a href="https://news.google.com/rss/articles/CBMi0wJBVV95cUxOeG56OHJOaFllOVpsYkt2N2EzNmVEZEVOamNXU0k4eE9jUkt0SVVTanU3S0ZFRmJYTmx5NWFsR3A4ZFR0OWdpaGI5clh6TXY2Y3Q3ZHhSelItMVdXWE1HU2VSZ25vUzBiaEt1d0ItcHJBNUdIVHFQRS0zV2Vwb1pGQmdZUmVERHhJWGZkT0l6OFB2ZTF6MkJGWXlPMmZXSzFrVzlzSnZMZkxiZTdMUVlzN1lndnJDTFFUZHhQMGdBaWhlNjJxM05CQVlXMzlOX0kzVHpXZkFiZ2JxS0N3UjBuU3pwR0tXblhSYzZ4VUhjaEtjazdpU0NuWkZhYTNqN3VwblJkR0hsZ0xsMmllOUNxcW54d3hKcmtERkdhRlNGcjYzSTUzekhMZEJTRTJhalhMVTRsMkhVQ3dYQ3htRnFlenpPQ1F2QzVlM1NSMEJyUDhZbkE?oc=5">Indian Gas Exchange files for IPO as parent IEX looks to pare stake - MSN</a>
-(MSN)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxPOXp4OEdrdjFxdzVLWW9Ma09CMmVEQUFKZ29IVk5Ha1NIaEJnNXNBM0w0RHFTakpWcENENVZiSXBHRkszN0Rzam83XzQ1T2xneVBEb2tTR0FSVjhmdG9FY3RGWGtTN3ZyeFJDcWpxNklNMFM0OVd1ZHZKQlBpU3ZFWHFjYTB6eXlVTWFJZzU4bHFjeTFCai1jZkI0NDVpSVdLSUlfOW9mNXlrVzdsSEg3b0h3?oc=5">Indian Gas Exchange Files IPO Papers With Sebi; IEX To Pare Stake To 25% - BW Businessworld</a>
-(BW Businessworld)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxQRVZfeGNuTTE5aHU5dXVFTjlrTG5kMXQ3Z3RQMTJDMGtoVXRBNU5xNVJWLTRTOEl1XzQ3SXVHSnF1T253bFVKXzdlU1Fndkk1X1BDMzJUYzJrc1RVNmFfRlRVaUFTREY5aFAyNE9RS2VPc0dvamE4NVVGZC03WGN2T0t0QjFSV3UzNkt0ejRKTktYZw?oc=5">Is IDEX (IEX) Outperforming Other Industrial Products Stocks This Year? - Yahoo Finance Singapore</a>
-(Yahoo Finance Singapore)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxNVEVMX1ZkOHUwR2wxbXBhakNldTNHWFFPbVFhUTViNTlZVk9JMjBMa0xILW80dXFDOWlxbWFwMWJzQnBVZ01ibG1lZWRwTi1sdmdLLWJ4YVk2MDRqQWUwT3ZXZFRHaEtoXzZjSjFuTmVHUDRSZkJPTFpTbU04cEZKWmNOM1NXZ1A3WFRJeXRVaXlpSkRSMXhQXy1leW0tWGdYSUlWalpmSXN5QQ?oc=5">IEX Maintains by RBC Capital -- Price Target Raised to $261 - GuruFocus</a>
-(GuruFocus)</div><div class="muted">· <a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxQQ2R0YlJqT08tVnRCdHYzTTNJN0g2T3FITE5DdHNlRWxROFg3T25KZHU2eUFKQnlWMFllTnVsTUhQSXZnVWxtNTFBeHV3c0R2bGw4di1rb2NzdDFlc21LczFTX0JSTlE1YnB4OWlhTWdQX2gwTTZsOTFsblVKWjNydjRScEJSLXJYWnk1eG53TG9IanhiM3pjalJnZHVySTNSWFM4SmVyOGNqYUpTTEtUZ1ZiSlZXRm5rbi1FNk1iSE9SU0XSAcgBQVVfeXFMTXFwMEtPczJJNHk2aFFlN3dxZjhndnVNczNQZmtUN3V3NnNCb01PaFVldUhVbzBTenR2SEttMnBOMVNBQUFaOWQ4RTFTZ2dCMzUwLVZUTm8tWERPX3QtdEdDWHg1bmMyMkZTX1RGUHRjeWFJRVQzSi0tcmNzMGxpNVFfaTNhT2JReVUxQWZLU2ZqV3JaUER5WU5RcGlUblo0aUdHOUZON3J1S2k5d2pEV24wTGg3U3lBNjVYVzB1VDVWS0ZvalU0SGs?oc=5">Slowing Organic Growth And Softer Returns Could Be A Game Changer For IDEX (IEX) - simplywall.st</a>
+<details><summary>5 headlines</summary>
+<div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMi0wJBVV95cUxOeG56OHJOaFllOVpsYkt2N2EzNmVEZEVOamNXU0k4eE9jUkt0SVVTanU3S0ZFRmJYTmx5NWFsR3A4ZFR0OWdpaGI5clh6TXY2Y3Q3ZHhSelItMVdXWE1HU2VSZ25vUzBiaEt1d0ItcHJBNUdIVHFQRS0zV2Vwb1pGQmdZUmVERHhJWGZkT0l6OFB2ZTF6MkJGWXlPMmZXSzFrVzlzSnZMZkxiZTdMUVlzN1lndnJDTFFUZHhQMGdBaWhlNjJxM05CQVlXMzlOX0kzVHpXZkFiZ2JxS0N3UjBuU3pwR0tXblhSYzZ4VUhjaEtjazdpU0NuWkZhYTNqN3VwblJkR0hsZ0xsMmllOUNxcW54d3hKcmtERkdhRlNGcjYzSTUzekhMZEJTRTJhalhMVTRsMkhVQ3dYQ3htRnFlenpPQ1F2QzVlM1NSMEJyUDhZbkE?oc=5">Indian Gas Exchange files for IPO as parent IEX looks to pare stake - MSN</a>
+(MSN)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxPOXp4OEdrdjFxdzVLWW9Ma09CMmVEQUFKZ29IVk5Ha1NIaEJnNXNBM0w0RHFTakpWcENENVZiSXBHRkszN0Rzam83XzQ1T2xneVBEb2tTR0FSVjhmdG9FY3RGWGtTN3ZyeFJDcWpxNklNMFM0OVd1ZHZKQlBpU3ZFWHFjYTB6eXlVTWFJZzU4bHFjeTFCai1jZkI0NDVpSVdLSUlfOW9mNXlrVzdsSEg3b0h3?oc=5">Indian Gas Exchange Files IPO Papers With Sebi; IEX To Pare Stake To 25% - BW Businessworld</a>
+(BW Businessworld)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxQRVZfeGNuTTE5aHU5dXVFTjlrTG5kMXQ3Z3RQMTJDMGtoVXRBNU5xNVJWLTRTOEl1XzQ3SXVHSnF1T253bFVKXzdlU1Fndkk1X1BDMzJUYzJrc1RVNmFfRlRVaUFTREY5aFAyNE9RS2VPc0dvamE4NVVGZC03WGN2T0t0QjFSV3UzNkt0ejRKTktYZw?oc=5">Is IDEX (IEX) Outperforming Other Industrial Products Stocks This Year? - Yahoo Finance Singapore</a>
+(Yahoo Finance Singapore)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxNVEVMX1ZkOHUwR2wxbXBhakNldTNHWFFPbVFhUTViNTlZVk9JMjBMa0xILW80dXFDOWlxbWFwMWJzQnBVZ01ibG1lZWRwTi1sdmdLLWJ4YVk2MDRqQWUwT3ZXZFRHaEtoXzZjSjFuTmVHUDRSZkJPTFpTbU04cEZKWmNOM1NXZ1A3WFRJeXRVaXlpSkRSMXhQXy1leW0tWGdYSUlWalpmSXN5QQ?oc=5">IEX Maintains by RBC Capital -- Price Target Raised to $261 - GuruFocus</a>
+(GuruFocus)</div><div class="sub">&middot; <a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxQQ2R0YlJqT08tVnRCdHYzTTNJN0g2T3FITE5DdHNlRWxROFg3T25KZHU2eUFKQnlWMFllTnVsTUhQSXZnVWxtNTFBeHV3c0R2bGw4di1rb2NzdDFlc21LczFTX0JSTlE1YnB4OWlhTWdQX2gwTTZsOTFsblVKWjNydjRScEJSLXJYWnk1eG53TG9IanhiM3pjalJnZHVySTNSWFM4SmVyOGNqYUpTTEtUZ1ZiSlZXRm5rbi1FNk1iSE9SU0XSAcgBQVVfeXFMTXFwMEtPczJJNHk2aFFlN3dxZjhndnVNczNQZmtUN3V3NnNCb01PaFVldUhVbzBTenR2SEttMnBOMVNBQUFaOWQ4RTFTZ2dCMzUwLVZUTm8tWERPX3QtdEdDWHg1bmMyMkZTX1RGUHRjeWFJRVQzSi0tcmNzMGxpNVFfaTNhT2JReVUxQWZLU2ZqV3JaUER5WU5RcGlUblo0aUdHOUZON3J1S2k5d2pEV24wTGg3U3lBNjVYVzB1VDVWS0ZvalU0SGs?oc=5">Slowing Organic Growth And Softer Returns Could Be A Game Changer For IDEX (IEX) - simplywall.st</a>
 (simplywall.st)</div></details>
 </td></tr>
-</table>
+</table></div>
 
-<h2>SECTOR MOMENTUM <span class="muted">(descriptive — failed its ablation as a
-score input; shown as context)</span></h2>
-<table><tr><th>#</th><th>Group</th><th>Level</th><th>Score</th><th>N</th></tr>
+<h2 class="sec" id="sectors">Sector momentum
+<span class="sub">(descriptive &mdash; failed its ablation as a score input; shown as context)</span></h2>
+<div class="card"><table>
+<tr><th>#</th><th>Group</th><th>Level</th><th>Score</th><th>N</th></tr>
 
-<tr><td>1</td><td>Diagnostics &amp; Research</td><td>industry</td>
-<td>81</td><td>4</td></tr>
+<tr><td class="muted">1</td><td>Diagnostics &amp; Research</td>
+<td class="sub">industry</td>
+<td><span class="accent">81</span></td>
+<td>4</td></tr>
 
-<tr><td>2</td><td>Oil &amp; Gas Refining &amp; Marketing</td><td>industry</td>
-<td>80</td><td>4</td></tr>
+<tr><td class="muted">2</td><td>Oil &amp; Gas Refining &amp; Marketing</td>
+<td class="sub">industry</td>
+<td><span class="accent">80</span></td>
+<td>4</td></tr>
 
-<tr><td>3</td><td>Electrical Equipment &amp; Parts</td><td>industry</td>
-<td>76</td><td>8</td></tr>
+<tr><td class="muted">3</td><td>Electrical Equipment &amp; Parts</td>
+<td class="sub">industry</td>
+<td><span class="accent">76</span></td>
+<td>8</td></tr>
 
-<tr><td>4</td><td>Auto Parts</td><td>industry</td>
-<td>76</td><td>13</td></tr>
+<tr><td class="muted">4</td><td>Auto Parts</td>
+<td class="sub">industry</td>
+<td><span class="accent">76</span></td>
+<td>13</td></tr>
 
-<tr><td>5</td><td>Steel</td><td>industry</td>
-<td>74</td><td>8</td></tr>
+<tr><td class="muted">5</td><td>Steel</td>
+<td class="sub">industry</td>
+<td><span class="accent">74</span></td>
+<td>8</td></tr>
 
-<tr><td>6</td><td>Consumer Defensive (other)</td><td>sector</td>
-<td>70</td><td>6</td></tr>
+<tr><td class="muted">6</td><td>Consumer Defensive (other)</td>
+<td class="sub">sector</td>
+<td><span class="accent">70</span></td>
+<td>6</td></tr>
 
-<tr><td>7</td><td>Medical Care Facilities</td><td>industry</td>
-<td>66</td><td>4</td></tr>
+<tr><td class="muted">7</td><td>Medical Care Facilities</td>
+<td class="sub">industry</td>
+<td><span class="accent">66</span></td>
+<td>4</td></tr>
 
-<tr><td>8</td><td>Asset Management</td><td>industry</td>
-<td>62</td><td>4</td></tr>
+<tr><td class="muted">8</td><td>Asset Management</td>
+<td class="sub">industry</td>
+<td><span class="accent">62</span></td>
+<td>4</td></tr>
 
-<tr><td>9</td><td>Financial Services (other)</td><td>sector</td>
-<td>60</td><td>4</td></tr>
+<tr><td class="muted">9</td><td>Financial Services (other)</td>
+<td class="sub">sector</td>
+<td><span class="accent">60</span></td>
+<td>4</td></tr>
 
-<tr><td>10</td><td>Building Materials</td><td>industry</td>
-<td>58</td><td>4</td></tr>
+<tr><td class="muted">10</td><td>Building Materials</td>
+<td class="sub">industry</td>
+<td><span class="accent">58</span></td>
+<td>4</td></tr>
 
-<tr><td>11</td><td>Mortgage Finance</td><td>industry</td>
-<td>58</td><td>7</td></tr>
+<tr><td class="muted">11</td><td>Mortgage Finance</td>
+<td class="sub">industry</td>
+<td><span class="accent">58</span></td>
+<td>7</td></tr>
 
-<tr><td>12</td><td>Packaged Foods</td><td>industry</td>
-<td>55</td><td>5</td></tr>
-</table>
+<tr><td class="muted">12</td><td>Packaged Foods</td>
+<td class="sub">industry</td>
+<td><span class="accent">55</span></td>
+<td>5</td></tr>
+</table></div>
 
-<h2>GOVERNMENT POLICY (PIB)</h2>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286413">गति शक्ति विश्वविद्यालय में चौथा दीक्षांत समारोह आयोजित। 121 छात्रों ने बी.टेक. और एमबीए कार्यक्रम से स्नातक किया</a>
+<h2 class="sec" id="policy">Government policy (PIB)</h2>
+<div class="card" style="padding:10px 14px">
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286413">गति शक्ति विश्वविद्यालय में चौथा दीक्षांत समारोह आयोजित। 121 छात्रों ने बी.टेक. और एमबीए कार्यक्रम से स्नातक किया</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286385">केन्द्रीय गृह एवं सहकारिता मंत्री श्री अमित शाह ने कोलकाता में अमूल बंगाल डेयरी परियोजना के अंतर्गत विश्व के सबसे बड़े दही उत्पादन संयंत्र का भूमि पूजन किया</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286385">केन्द्रीय गृह एवं सहकारिता मंत्री श्री अमित शाह ने कोलकाता में अमूल बंगाल डेयरी परियोजना के अंतर्गत विश्व के सबसे बड़े दही उत्पादन संयंत्र का भूमि पूजन किया</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286391">नमस्ते योजना सरकार की इस अटूट प्रतिबद्धता को दर्शाती है कि प्रत्येक सफाईकर्मी गरिमा, सुरक्षा और सामाजिक सुरक्षा के साथ काम कर सके; यह योजना सबका साथ, सबका विकास, सबका विश्वास, सबका प्रयास के दृष्टिकोण के अनुरूप है: केंद्रीय सामाजिक न्याय और अधिकारिता मंत्री डॉ. वीरेंद्र कुमार</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286391">नमस्ते योजना सरकार की इस अटूट प्रतिबद्धता को दर्शाती है कि प्रत्येक सफाईकर्मी गरिमा, सुरक्षा और सामाजिक सुरक्षा के साथ काम कर सके; यह योजना सबका साथ, सबका विकास, सबका विश्वास, सबका प्रयास के दृष्टिकोण के अनुरूप है: केंद्रीय सामाजिक न्याय और अधिकारिता मंत्री डॉ. वीरेंद्र कुमार</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286352">केन्द्रीय गृह एवं सहकारिता मंत्री श्री अमित शाह ने कोलकाता में ‘म्यूजियम ऑफ़ वर्ड’ के पहले फेज का उद्घाटन किया</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286352">केन्द्रीय गृह एवं सहकारिता मंत्री श्री अमित शाह ने कोलकाता में ‘म्यूजियम ऑफ़ वर्ड’ के पहले फेज का उद्घाटन किया</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286380">प्रधानमंत्री ने जापान ओपन 2026 का खिताब जीतने पर पीवी सिंधु को बधाई दी</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286380">प्रधानमंत्री ने जापान ओपन 2026 का खिताब जीतने पर पीवी सिंधु को बधाई दी</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286382">प्रधानमंत्री ने 37वें अंतरराष्ट्रीय बायोलॉजी ओलंपियाड में शानदार प्रदर्शन के लिए भारतीय टीम को बधाई दी</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286382">प्रधानमंत्री ने 37वें अंतरराष्ट्रीय बायोलॉजी ओलंपियाड में शानदार प्रदर्शन के लिए भारतीय टीम को बधाई दी</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286379">प्रधानमंत्री ने 58वें अंतरराष्ट्रीय केमिस्ट्री ओलंपियाड में स्वर्ण पदक जीतने पर भारतीय छात्रों को बधाई दी</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286379">प्रधानमंत्री ने 58वें अंतरराष्ट्रीय केमिस्ट्री ओलंपियाड में स्वर्ण पदक जीतने पर भारतीय छात्रों को बधाई दी</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286343">केन्द्रीय गृह एवं सहकारिता मंत्री श्री अमित शाह ने आज पश्चिम बंगाल की राजधानी कोलकाता में राज्य की कानून-व्यवस्था की समीक्षा बैठक की अध्यक्षता की</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286343">केन्द्रीय गृह एवं सहकारिता मंत्री श्री अमित शाह ने आज पश्चिम बंगाल की राजधानी कोलकाता में राज्य की कानून-व्यवस्था की समीक्षा बैठक की अध्यक्षता की</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286393">सीसीपीए ने पूर्व-निर्धारित रूप से सेवा शुल्क जोड़ने पर 41 रेस्तरां के विरुद्ध स्वतः संज्ञान लेते हुए कार्रवाई शुरू की; कार्रवाई राष्ट्रीय उपभोक्ता हेल्पलाइन के माध्यम से प्राप्त उपभोक्ता शिकायतों के आधार पर की गई</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286393">सीसीपीए ने पूर्व-निर्धारित रूप से सेवा शुल्क जोड़ने पर 41 रेस्तरां के विरुद्ध स्वतः संज्ञान लेते हुए कार्रवाई शुरू की; कार्रवाई राष्ट्रीय उपभोक्ता हेल्पलाइन के माध्यम से प्राप्त उपभोक्ता शिकायतों के आधार पर की गई</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286411">रक्षा राज्य मंत्री निखिल खडसे ने युवा अधिकारियों से राष्ट्र निर्माण का उत्‍प्रेरक बनने का आह्वान किया</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286411">रक्षा राज्य मंत्री निखिल खडसे ने युवा अधिकारियों से राष्ट्र निर्माण का उत्‍प्रेरक बनने का आह्वान किया</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286335">आज सरकार और राजनीतिक दलों के नेताओं की बैठक हुई</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286335">आज सरकार और राजनीतिक दलों के नेताओं की बैठक हुई</a>
 </div>
-<div>· <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286328">डॉ. जितेंद्र सिंह ने कैंसर, मधुमेह और मोटापे के खिलाफ जन आंदोलन का आह्वान किया; शीघ्र निदान और वैज्ञानिक जागरूकता पर जोर दिया</a>
+<div class="sub" style="padding:3px 0">&middot;
+<a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286328">डॉ. जितेंद्र सिंह ने कैंसर, मधुमेह और मोटापे के खिलाफ जन आंदोलन का आह्वान किया; शीघ्र निदान और वैज्ञानिक जागरूकता पर जोर दिया</a>
+</div>
 </div>
 
-
-<footer>Model validation status: the multibagger score showed a cross-sample-consistent 2-year IC of +0.16/+0.10 on disjoint Indian smallcap samples (2016-2023 cutoffs) — a modest, survivorship-biased edge, not a guarantee. Sector momentum failed its pre-registered ablation and is shown as context only, never scored. Research tooling, not investment advice.<br><span class="muted">Rebuilt every Monday by GitHub
+<footer>Model validation status: the multibagger score showed a cross-sample-consistent 2-year IC of +0.16/+0.10 on disjoint Indian smallcap samples (2016-2023 cutoffs) — a modest, survivorship-biased edge, not a guarantee. Sector momentum failed its pre-registered ablation and is shown as context only, never scored. Research tooling, not investment advice.<br><span class="small">Rebuilt every Monday by GitHub
 Actions. Quotes delayed ~15 min via Yahoo Finance.</span></footer>
-
+</main>
 <script>
 const spans = document.querySelectorAll('[data-quote]');
 const symbols = Array.from(spans).map(s => s.dataset.quote);
@@ -504,14 +643,31 @@ fetch('/api/quotes?symbols=' + symbols.join(','))
   .then(j => spans.forEach(s => {
     const q = j.quotes[s.dataset.quote];
     if (!q) { s.textContent = 'n/a'; return; }
-    let txt = q.price.toFixed(2);
+    const day = q.day_change_pct;
+    let l1 = q.price.toFixed(2);
+    let cls = 'muted';
+    if (typeof day === 'number') {
+      l1 += ' ' + (day >= 0 ? '+' : '') + day.toFixed(2) + '%';
+      cls = day >= 0 ? 'gain' : 'loss';
+    }
+    let l2 = '';
     const base = parseFloat(s.dataset.base);
     if (base > 0) {
-      const pct = (q.price / base - 1) * 100;
-      txt += ' (' + (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%)';
-      s.className = pct >= 0 ? 'up' : 'down';
+      const p = (q.price / base - 1) * 100;
+      l2 = 'since pick ' + (p >= 0 ? '+' : '') + p.toFixed(1) + '%';
     }
-    s.textContent = txt;
+    s.textContent = '';
+    const top = document.createElement('span');
+    top.className = cls;
+    top.textContent = l1;
+    s.appendChild(top);
+    if (l2) {
+      s.appendChild(document.createElement('br'));
+      const sub = document.createElement('span');
+      sub.className = 'sub';
+      sub.textContent = l2;
+      s.appendChild(sub);
+    }
   }))
   .catch(() => spans.forEach(s => s.textContent = 'n/a'));
 </script>

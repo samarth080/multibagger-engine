@@ -1,5 +1,5 @@
 {
- "built_at": "2026-07-19T20:24:42.409219+00:00",
+ "built_at": "2026-07-20T00:41:22.123552+00:00",
  "universe": "nifty-smallcap250",
  "curated_as_of": "2026-07-17",
  "top": [
@@ -1270,11 +1270,7 @@
   }
  ],
  "changes": {
-  "entered": [
-   "IEX.NS"
-  ],
-  "exited": [
-   "LEMONTREE.NS"
-  ]
+  "entered": [],
+  "exited": []
  }
 }

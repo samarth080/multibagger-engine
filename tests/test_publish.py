@@ -142,3 +142,13 @@ def test_theme_boot_applies_saved_theme_before_paint():
 def test_theme_toggle_persists_choice():
     assert "localStorage.setItem" in THEME_TOGGLE
     assert "theme-toggle" in THEME_TOGGLE
+
+
+def test_report_shell_is_themed():
+    page = render_report_page(make_bundle("S0.NS"))
+    assert "#1F2022" in page and "#F3F4F6" in page  # both palettes shipped
+    assert "mbe-theme" in page  # boot script present
+    assert "theme-toggle" in page  # toggle present
+    assert 'class="topnav"' in page
+    # content contract unchanged (existing tests also enforce this)
+    assert "<title>S0.NS</title>" in page and "Multibagger" in page

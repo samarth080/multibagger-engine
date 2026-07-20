@@ -158,15 +158,23 @@ _ENV = Environment(autoescape=True)
 _REPORT_SHELL = _ENV.from_string("""<!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{{ title }}</title>
-<style>
-body{background:#0d1220;color:#d7dce6;font-family:ui-monospace,Menlo,monospace;
-max-width:900px;margin:24px auto;padding:0 16px;line-height:1.5}
-a{color:#e3b34c} table{border-collapse:collapse;width:100%;overflow-x:auto;display:block}
-td,th{border:1px solid #2a3350;padding:4px 8px;text-align:left}
-h1,h2,h3{color:#e3b34c}
+""" + THEME_BOOT + THEME_CSS + """<style>
+.report{padding:6px 22px 22px}
+.report h1,.report h2,.report h3{color:var(--text);letter-spacing:.01em}
+.report h1{font-size:20px;border-bottom:1px solid var(--border);padding-bottom:8px}
+.report h2{font-size:15px;margin-top:26px}
+.report h3{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.report table{display:block;overflow-x:auto;margin:10px 0}
+.report td,.report th{border:1px solid var(--border-soft);white-space:nowrap}
+.report hr{border:none;border-top:1px solid var(--border)}
+.report blockquote{border-left:3px solid var(--accent);margin:10px 0;
+padding:2px 14px;color:var(--muted)}
+.report code{background:var(--bg);border-radius:4px;padding:1px 5px}
 </style></head><body>
-<p><a href="{{ back_href }}">&larr; back to rankings</a></p>
-{{ body | safe }}
+<nav class="topnav"><span class="brand">&#9670; MBE</span>
+<a class="navlink" href="{{ back_href }}">&larr; back to rankings</a>
+<span style="margin-left:auto"></span>""" + THEME_TOGGLE + """</nav>
+<main><div class="card report">{{ body | safe }}</div></main>
 </body></html>""")
 
 

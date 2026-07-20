@@ -106,7 +106,9 @@ Specs and plans live in `docs/superpowers/`.
 
 Every Monday, GitHub Actions builds a public read-only page of the NIFTY
 Smallcap 250 multibagger ranking — the lab (`mbe serve`, CLI, backtests)
-stays local; the site is only its published output.
+stays local; the site is only its published output. As of v0.12 the site
+wears a dual-theme trading-platform UI: Zerodha-Kite-inspired dark by
+default, Groww-inspired light behind a persistent ☀/☾ toggle.
 
 - **What the page shows** — the top-25 multibagger/investment ranking,
   week-over-week entries/exits, sector-momentum context, 3-5 recent

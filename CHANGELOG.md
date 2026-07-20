@@ -328,3 +328,32 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
   no longer reflects exception details to the client at all (logged
   server-side only, via Vercel's function logs). Two regression tests
   added.
+
+## v0.12.0 — 2026-07-20 (trading-platform UI)
+
+### Added
+- **Dual-theme trading-platform UI** across every rendered surface (index,
+  weekly report pages, live-search reports, analyze error pages):
+  Zerodha-Kite-inspired dark theme (`#1F2022` / `#38A6F0` / Material
+  green-red) as the default, Groww-inspired light theme (`#F3F4F6` /
+  `#5076EE` / `#039955`-`#D32F2F`) behind a persistent ☀/☾ toggle
+  (localStorage, applied pre-paint — no flash). Hand-rolled CSS custom
+  properties, deliberately no Tailwind: the pipeline has no build step and
+  none was added.
+- Index restyled trading-app style: sticky top nav (brand, section tabs,
+  in-nav search pill, theme toggle), changes-this-week as gain/loss chips,
+  card-contained tables with two-line company rows, quote cells showing
+  **LTP + day-change %** (from the existing `/api/quotes` response) with
+  the honest "since pick ±x%" line kept underneath. Quotes JS builds DOM
+  nodes via `textContent`/`createElement` — no `innerHTML`.
+- Validation footer wording unchanged — the styling changed, the honesty
+  did not.
+
+### Changed
+- Analyze error page migrated from a `str.format` template in
+  `api/analyze.py` to a jinja-autoescaped `render_error_page()` in
+  `mbe.publish` — escaping is now structural (template engine) rather than
+  per-call-site `html.escape`. The XSS regression test was tightened to
+  assert the precise property (raw payload absent, escaped form present,
+  exactly one script tag — our theme boot) since themed pages legitimately
+  carry one script of their own.

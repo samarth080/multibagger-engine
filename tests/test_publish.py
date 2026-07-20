@@ -166,3 +166,14 @@ def test_index_is_themed_with_nav_and_daychange_quotes(tmp_path):
     assert "since pick" in index      # honest since-pick line kept
     # anchor tabs for the sections
     assert 'href="#picks"' in index and 'href="#sectors"' in index
+
+
+from mbe.publish import render_error_page
+
+
+def test_render_error_page_is_themed_and_escapes():
+    page = render_error_page("<script>x</script>", "Not a valid ticker format.")
+    assert "&lt;script&gt;" in page and "<script>x" not in page
+    assert "#1F2022" in page and "theme-toggle" in page
+    assert 'href="/"' in page
+    assert "Not a valid ticker format." in page

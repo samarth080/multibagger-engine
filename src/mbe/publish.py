@@ -186,6 +186,26 @@ def render_report_page(bundle: AnalysisBundle, back_href: str = "../index.html")
     return _REPORT_SHELL.render(title=bundle.card.ticker, body=body, back_href=back_href)
 
 
+_ERROR_SHELL = _ENV.from_string("""<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Analyze - error</title>
+""" + THEME_BOOT + THEME_CSS + """</head><body>
+<nav class="topnav"><span class="brand">&#9670; MBE</span>
+<a class="navlink" href="/">&larr; back to rankings</a>
+<span style="margin-left:auto"></span>""" + THEME_TOGGLE + """</nav>
+<main><div class="card" style="padding:18px 22px">
+<h1 style="color:var(--loss);font-size:18px">Could not analyze &quot;{{ ticker }}&quot;</h1>
+<p class="muted">{{ reason }}</p>
+</div></main></body></html>""")
+
+
+def render_error_page(ticker: str, reason: str) -> str:
+    """Themed analyze-error page. Autoescape handles ticker/reason — callers
+    pass RAW strings (the api/analyze.py manual html.escape calls moved here
+    structurally: one rendering module, one escaping mechanism)."""
+    return _ERROR_SHELL.render(ticker=ticker, reason=reason)
+
+
 _INDEX = _ENV.from_string("""<!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Weekly India Multibagger Picks</title>

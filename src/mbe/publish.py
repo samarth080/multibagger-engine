@@ -189,75 +189,86 @@ def render_report_page(bundle: AnalysisBundle, back_href: str = "../index.html")
 _INDEX = _ENV.from_string("""<!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Weekly India Multibagger Picks</title>
-<style>
-body{background:#0d1220;color:#d7dce6;font-family:ui-monospace,Menlo,monospace;
-max-width:1080px;margin:24px auto;padding:0 16px;line-height:1.45}
-a{color:#e3b34c;text-decoration:none} a:hover{text-decoration:underline}
-h1,h2{color:#e3b34c;letter-spacing:.06em}
-table{border-collapse:collapse;width:100%} td,th{border-bottom:1px solid #2a3350;
-padding:6px 8px;text-align:left;font-size:14px}
-.up{color:#5dd39e}.down{color:#e0605e}.muted{color:#7c869c;font-size:12px}
-.chg{background:#161d33;border:1px solid #2a3350;border-radius:8px;padding:10px 14px;margin:14px 0}
-details{margin:2px 0} summary{cursor:pointer}
-footer{margin:32px 0;padding:14px;border:1px solid #2a3350;border-radius:8px;
-color:#9aa4ba;font-size:13px}
-.tag-t{color:#5dd39e}.tag-h{color:#e0605e}
-.search{background:#161d33;border:1px solid #2a3350;border-radius:8px;padding:10px 14px;margin:14px 0}
-.search input{background:#0d1220;color:#d7dce6;border:1px solid #2a3350;border-radius:6px;padding:6px 10px;font-family:inherit}
-.search button{background:#e3b34c;color:#0d1220;border:none;border-radius:6px;padding:6px 14px;font-weight:700;cursor:pointer;font-family:inherit}
+""" + THEME_BOOT + THEME_CSS + """<style>
+.searchpill{display:flex;align-items:center;gap:6px;background:var(--bg);
+border:1px solid var(--border);border-radius:20px;padding:2px 4px 2px 14px}
+.searchpill input{background:none;border:none;outline:none;color:var(--text);
+font:inherit;font-size:12px;width:180px}
+.searchpill button{background:var(--accent);color:#fff;border:none;
+border-radius:16px;padding:5px 14px;font-weight:600;font-size:12px;cursor:pointer}
+.sr-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.metaline{color:var(--muted);font-size:12px;margin:14px 0 0}
+.changes{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0}
+.sub{color:var(--muted);font-size:11px}
+.tag-t{color:var(--gain);font-size:11px}.tag-h{color:var(--loss);font-size:11px}
+details{margin:2px 0}summary{cursor:pointer;color:var(--muted);font-size:11px}
+.num{text-align:right;padding-right:14px}
+@media (max-width:720px){.searchpill input{width:90px}
+th:nth-child(5),td:nth-child(5),th:nth-child(6),td:nth-child(6){display:none}}
 </style></head><body>
-<h1>WEEKLY INDIA MULTIBAGGER PICKS</h1>
-<p class="muted">Universe: {{ d.universe }} · built {{ d.built_at[:16] }}Z ·
-quotes are delayed ~15 min · themes curated {{ d.curated_as_of }}</p>
-
-<div class="search"><form action="/api/analyze" method="get">
-<label for="ticker-input"><b>Search any stock:</b></label>
-<input id="ticker-input" name="ticker" placeholder="e.g. RELIANCE.NS or AAPL" required>
+<nav class="topnav"><span class="brand">&#9670; MBE</span>
+<a class="navlink" href="#picks">Picks</a>
+<a class="navlink" href="#sectors">Sectors</a>
+<a class="navlink" href="#policy">Policy</a>
+<form class="searchpill" style="margin-left:auto" action="/api/analyze" method="get">
+<label class="sr-label" for="ticker-input">Search any stock</label>
+<input id="ticker-input" name="ticker" placeholder="Search any stock&hellip; e.g. RELIANCE.NS" required>
 <button type="submit">Analyze</button>
-<span class="muted">&mdash; live, not part of the weekly ranking, can take 10-30s</span>
-</form></div>
+</form>""" + THEME_TOGGLE + """</nav>
+<main>
+<p class="metaline">Universe: {{ d.universe }} &middot; built {{ d.built_at[:16] }}Z
+&middot; quotes delayed ~15 min &middot; themes curated {{ d.curated_as_of }}
+&middot; live search is not part of the weekly ranking and can take 10-30s</p>
 
-<div class="chg"><b>Changes this week:</b>
-{% if changes.entered %}{% for t in changes.entered %}<span class="up">+{{ t }}</span> {% endfor %}{% endif %}
-{% if changes.exited %}{% for t in changes.exited %}<span class="down">-{{ t }}</span> {% endfor %}{% endif %}
-{% if not changes.entered and not changes.exited %}<span class="muted">no changes vs last week</span>{% endif %}
+<div class="changes"><b style="font-size:12px">Changes this week:</b>
+{% for t in changes.entered %}<span class="chip gain">+{{ t }}</span>{% endfor %}
+{% for t in changes.exited %}<span class="chip loss">-{{ t }}</span>{% endfor %}
+{% if not changes.entered and not changes.exited %}<span class="muted small">no changes vs last week</span>{% endif %}
 </div>
 
-<h2>TOP {{ d.top | length }} BY MULTIBAGGER SCORE</h2>
-<table><tr><th>#</th><th>Ticker</th><th>Name</th><th>MB</th><th>Inv</th>
-<th>Conf</th><th>Risk</th><th>Trend</th><th>Quote</th><th>Industry (mom rank)</th></tr>
+<h2 class="sec" id="picks">Top {{ d.top | length }} by Multibagger Score</h2>
+<div class="card"><table>
+<tr><th>#</th><th>Company</th><th>MB</th><th>Inv</th><th>Conf</th><th>Risk</th>
+<th>Trend</th><th class="num">Quote</th><th>Industry (mom rank)</th></tr>
 {% for r in d.top %}
-<tr><td>{{ loop.index }}</td>
-<td><a href="reports/{{ r.ticker.replace('.', '_') }}.html">{{ r.ticker }}</a></td>
-<td>{{ r.name[:26] }}</td><td>{{ r.mb }}</td><td>{{ r.inv }}</td>
-<td>{{ "%.2f" | format(r.conf) }}</td><td>{{ r.risk }}</td><td>{{ r.trend }}</td>
-<td><span data-quote="{{ r.ticker }}" data-base="{{ r.price_at_build or '' }}"
-class="muted">…</span></td>
-<td>{% if r.group %}{{ r.group[:30] }} (#{{ r.group_rank }}, {{ "%.0f" | format(r.group_score) }}){% else %}<span class="muted">ungrouped</span>{% endif %}</td></tr>
-{% if r.tags or r.news %}<tr><td></td><td colspan="9">
+<tr><td class="muted">{{ loop.index }}</td>
+<td><a href="reports/{{ r.ticker.replace('.', '_') }}.html"><b>{{ r.name[:28] }}</b></a><br>
+<span class="sub">{{ r.ticker }}{% if r.group %} &middot; {{ r.group[:26] }} (#{{ r.group_rank }}){% endif %}{% if r.gated %} &middot; GATED{% endif %}</span></td>
+<td><span class="accent">{{ r.mb }}</span></td>
+<td>{{ r.inv }}</td><td>{{ "%.2f" | format(r.conf) }}</td><td>{{ r.risk }}</td>
+<td class="sub">{{ r.trend }}</td>
+<td class="num"><span data-quote="{{ r.ticker }}" data-base="{{ r.price_at_build or '' }}"
+class="muted">&hellip;</span></td>
+<td class="sub">{% if r.group %}{{ "%.0f" | format(r.group_score) }}{% else %}ungrouped{% endif %}</td></tr>
+{% if r.tags or r.news %}<tr><td></td><td colspan="8">
 {% for t in r.tags %}<span class="{{ 'tag-t' if t.direction == 'tailwind' else 'tag-h' }}">{{ '▲' if t.direction == 'tailwind' else '▼' }} {{ t.theme }}</span> &nbsp;{% endfor %}
-{% if r.news %}<details><summary class="muted">{{ r.news | length }} headlines</summary>
-{% for n in r.news %}<div class="muted">· <a href="{{ n.link }}">{{ n.title }}</a>
+{% if r.news %}<details><summary>{{ r.news | length }} headlines</summary>
+{% for n in r.news %}<div class="sub">&middot; <a href="{{ n.link }}">{{ n.title }}</a>
 {% if n.source %}({{ n.source }}){% endif %}</div>{% endfor %}</details>{% endif %}
 </td></tr>{% endif %}
-{% endfor %}</table>
+{% endfor %}</table></div>
 
-<h2>SECTOR MOMENTUM <span class="muted">(descriptive — failed its ablation as a
-score input; shown as context)</span></h2>
-<table><tr><th>#</th><th>Group</th><th>Level</th><th>Score</th><th>N</th></tr>
+<h2 class="sec" id="sectors">Sector momentum
+<span class="sub">(descriptive &mdash; failed its ablation as a score input; shown as context)</span></h2>
+<div class="card"><table>
+<tr><th>#</th><th>Group</th><th>Level</th><th>Score</th><th>N</th></tr>
 {% for s in d.sectors[:12] %}
-<tr><td>{{ s.rank }}</td><td>{{ s.name }}</td><td>{{ s.level }}</td>
-<td>{{ "%.0f" | format(s.score) }}</td><td>{{ s.n }}</td></tr>
-{% endfor %}</table>
+<tr><td class="muted">{{ s.rank }}</td><td>{{ s.name }}</td>
+<td class="sub">{{ s.level }}</td>
+<td><span class="accent">{{ "%.0f" | format(s.score) }}</span></td>
+<td>{{ s.n }}</td></tr>
+{% endfor %}</table></div>
 
-{% if d.policy %}<h2>GOVERNMENT POLICY (PIB)</h2>
-{% for p in d.policy %}<div>· <a href="{{ p.link }}">{{ p.title }}</a>
+{% if d.policy %}<h2 class="sec" id="policy">Government policy (PIB)</h2>
+<div class="card" style="padding:10px 14px">
+{% for p in d.policy %}<div class="sub" style="padding:3px 0">&middot;
+<a href="{{ p.link }}">{{ p.title }}</a>
 {% for s in p.sectors %}<span class="tag-t">[{{ s }}]</span>{% endfor %}</div>
-{% endfor %}{% endif %}
+{% endfor %}</div>{% endif %}
 
-<footer>{{ footer }}<br><span class="muted">Rebuilt every Monday by GitHub
+<footer>{{ footer }}<br><span class="small">Rebuilt every Monday by GitHub
 Actions. Quotes delayed ~15 min via Yahoo Finance.</span></footer>
-
+</main>
 <script>
 const spans = document.querySelectorAll('[data-quote]');
 const symbols = Array.from(spans).map(s => s.dataset.quote);
@@ -266,14 +277,31 @@ fetch('/api/quotes?symbols=' + symbols.join(','))
   .then(j => spans.forEach(s => {
     const q = j.quotes[s.dataset.quote];
     if (!q) { s.textContent = 'n/a'; return; }
-    let txt = q.price.toFixed(2);
+    const day = q.day_change_pct;
+    let l1 = q.price.toFixed(2);
+    let cls = 'muted';
+    if (typeof day === 'number') {
+      l1 += ' ' + (day >= 0 ? '+' : '') + day.toFixed(2) + '%';
+      cls = day >= 0 ? 'gain' : 'loss';
+    }
+    let l2 = '';
     const base = parseFloat(s.dataset.base);
     if (base > 0) {
-      const pct = (q.price / base - 1) * 100;
-      txt += ' (' + (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%)';
-      s.className = pct >= 0 ? 'up' : 'down';
+      const p = (q.price / base - 1) * 100;
+      l2 = 'since pick ' + (p >= 0 ? '+' : '') + p.toFixed(1) + '%';
     }
-    s.textContent = txt;
+    s.textContent = '';
+    const top = document.createElement('span');
+    top.className = cls;
+    top.textContent = l1;
+    s.appendChild(top);
+    if (l2) {
+      s.appendChild(document.createElement('br'));
+      const sub = document.createElement('span');
+      sub.className = 'sub';
+      sub.textContent = l2;
+      s.appendChild(sub);
+    }
   }))
   .catch(() => spans.forEach(s => s.textContent = 'n/a'));
 </script>

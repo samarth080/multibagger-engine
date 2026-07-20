@@ -152,3 +152,17 @@ def test_report_shell_is_themed():
     assert 'class="topnav"' in page
     # content contract unchanged (existing tests also enforce this)
     assert "<title>S0.NS</title>" in page and "Multibagger" in page
+
+
+def test_index_is_themed_with_nav_and_daychange_quotes(tmp_path):
+    result = _result()
+    data = build_data(result, {}, policy=[], built_at=NOW)
+    render_site(data, {"entered": [], "exited": []}, result, tmp_path)
+    index = (tmp_path / "index.html").read_text()
+    assert "#1F2022" in index and "#F3F4F6" in index
+    assert "mbe-theme" in index and "theme-toggle" in index
+    assert "topnav" in index
+    assert "day_change_pct" in index  # quotes JS renders LTP + day change
+    assert "since pick" in index      # honest since-pick line kept
+    # anchor tabs for the sections
+    assert 'href="#picks"' in index and 'href="#sectors"' in index

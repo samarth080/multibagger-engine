@@ -1,5 +1,5 @@
 {
- "built_at": "2026-07-20T00:41:22.123552+00:00",
+ "built_at": "2026-07-20T06:00:17.987906+00:00",
  "universe": "nifty-smallcap250",
  "curated_as_of": "2026-07-17",
  "top": [
@@ -11,7 +11,7 @@
    "conf": 0.983,
    "risk": 0,
    "trend": "strong_down",
-   "price_at_build": 235.6999969482422,
+   "price_at_build": 235.4499969482422,
    "group": "Industrials (other)",
    "group_rank": 14,
    "group_score": 51.0,
@@ -32,13 +32,6 @@
      "sectors": []
     },
     {
-     "title": "BLS: Core inflation drops in June - AOL.com",
-     "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5VOWh3aGVIZndrdnJ5X210Y0h3T052UW5OM0o0WHo1cmsxTGx5UFdzYjJ4VHNaTm1tdWtjaDQ5NEE3dzV0emVjd05aRnNodVRvd0N2cUF3Q2JqeG40TVZpQjMtZGRyempuc19rVkxwWmt6S1NlOXNwbEpKQ2hHZw?oc=5",
-     "published": "2026-07-16T13:33:01Z",
-     "source": "AOL.com",
-     "sectors": []
-    },
-    {
      "title": "World Youth Skills Day: BLS International Strengthens Focus on Building a Future-Ready Workforce - Passionate In Marketing",
      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNQW9CSlNXclNKRkQ2dERMZjhNQjNQX0dKT1NDbnA0bEExZFBCZlpmRkJSVFAxSU5TakVtRGRibVFSUFdVbDFIV0QtQ09JV2dLN1ltcnNNNmNlVExxUHppdUlURFJ0Mk9XdDVZVFhhMTYtQUQ2Yk1qOVd3andmbXp4WGprcFJtWnozNUVxeGg3WV9fZkVvbkh5U2VSR1RNcFRHcmxMQlEyeERqXzJzS3IwNDFpVFlGUG04Si02ZXotU0hBb1NkeEl4TGphSW1hOVU?oc=5",
      "published": "2026-07-16T02:27:31Z",
@@ -50,6 +43,13 @@
      "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE4yNW9XQ2ZnWGVzWmhfeUVEcTRNZFh0cGUzNWctQzJ0dy1GdlNXalVqSWR1RE5JQ05leVFkQ3l3NGtTdVhEYVJWOEh0LThnY2UtX0NESkFfa3B2S0FNc21Z?oc=5",
      "published": "2026-07-16T01:59:30Z",
      "source": "FC-Tokyo",
+     "sectors": []
+    },
+    {
+     "title": "BLS: Core inflation drops in June - AOL.com",
+     "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5VOWh3aGVIZndrdnJ5X210Y0h3T052UW5OM0o0WHo1cmsxTGx5UFdzYjJ4VHNaTm1tdWtjaDQ5NEE3dzV0emVjd05aRnNodVRvd0N2cUF3Q2JqeG40TVZpQjMtZGRyempuc19rVkxwWmt6S1NlOXNwbEpKQ2hHZw?oc=5",
+     "published": "2026-07-15T14:58:30Z",
+     "source": "AOL.com",
      "sectors": []
     }
    ],
@@ -63,7 +63,7 @@
    "conf": 0.983,
    "risk": 0,
    "trend": "up",
-   "price_at_build": 945.0,
+   "price_at_build": 957.5499877929688,
    "group": "Drug Manufacturers - Specialty & Generic",
    "group_rank": 13,
    "group_score": 51.0,
@@ -79,13 +79,6 @@
      "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBfYnd5WldSMzVoSVZ2OHFheVFTeFhDU24tc0t5UVhSZnJ1MkU3RTRtV3pCZzhCbXFxZ25Ld1dRYUxzSU1uOWk2cnNaUlYxczZ2NjNZZVNvb0wyck9NUEdINktnSkx5dw?oc=5",
      "published": "2026-07-17T07:00:00Z",
      "source": "Upstox",
-     "sectors": []
-    },
-    {
-     "title": "Natco Pharma Share Price Today, Natco Pharma Stock Price Live NSE/BSE Updates - The Economic Times",
-     "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQWWkzM21VQXBvZklEUjg4eUZ0dVJtdloyc2FfejVhbFplcFhUU1A2VGNrY1YzcEgtMmRrMktWbUdLb3MtNndmV2ZCWXA3M2I2UkI5S2ZDZmdaTVN0eW5zdWdTTGdzUE5JeGNqYVBMYWswS0ZFMmtjT2h3anVOVkl2RG5zWVFxQQ?oc=5",
-     "published": "2026-07-16T21:53:00Z",
-     "source": "The Economic Times",
      "sectors": []
     },
     {
@@ -106,19 +99,42 @@
    "gated": false
   },
   {
+   "ticker": "FORCEMOT.NS",
+   "name": "FORCE MOTORS LIMITED",
+   "mb": 72.3,
+   "inv": 77.8,
+   "conf": 0.972,
+   "risk": 0,
+   "trend": "down",
+   "price_at_build": 18223.0,
+   "group": "Consumer Cyclical (other)",
+   "group_rank": 25,
+   "group_score": 29.5,
+   "tags": [],
+   "news": [],
+   "gated": false
+  },
+  {
    "ticker": "CHALET.NS",
    "name": "CHALET HOTELS LIMITED",
-   "mb": 72.7,
+   "mb": 72.2,
    "inv": 60.3,
    "conf": 0.983,
    "risk": 24,
    "trend": "sideways",
-   "price_at_build": 862.5999755859375,
+   "price_at_build": 855.2000122070312,
    "group": "Lodging",
    "group_rank": 15,
    "group_score": 50.0,
    "tags": [],
    "news": [
+    {
+     "title": "Harvey\u2019s / Swiss Chalet Midland Steps Up To Support Georgian Bay General Hospital - Muskoka411",
+     "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQUVBvbFg4bUdOMjBfUmgtTmgxSlVlSWQ3blNwYnJDRkZHX2ZfV1g4WmpDM0pPTmtTWlF5djk3WHVmM1RSX1FYdXN5M2hGS19hLVFsTkNJM2FwYnB3d0YtQkdpMGhYU0N1YzRId00zRlRuc2MzYjBiTE5Wd285dVdoQk52WmJuWXAtT01acmRvOVB6dzBXWUs2RlRkWVJQLVRsRE9UWQ?oc=5",
+     "published": "2026-07-19T17:48:50Z",
+     "source": "Muskoka411",
+     "sectors": []
+    },
     {
      "title": "Chalet Hotels appoints Gautam Mehra as Independent Director for five years - scanx.trade",
      "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPLVpWZ1o5NUQtQ0JvWnJ3WllPOE53UFlxbTdpTmR4cWR5Ym5sa2VncFpjVlhYVlJIUEhOYXRTX29fcEF4aE9xUHM0Z1NFLXZrZkZyeTJTYVpBczkxcnNHZGpBRXJaSHQzNnpvbVVRV0JENWgzNm91cFM2NVl6WHA2bXZ0S3dyazJJRVZuT1Q3TkpURlBSSnVFdVR0NGFINWF5OVk5Z29Sc01yVzhkeVU1dkxPN1pXa2tERW1CN29yRGNjcm5zS3ZiNUN0UQ?oc=5",
@@ -134,10 +150,10 @@
      "sectors": []
     },
     {
-     "title": "Chalet Hotels Ltd. Share Price Today - Chalet Hotels Ltd. Stock Price Live NSE/BSE - CNBC TV18",
-     "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE01U3k2OXJMMzFRZnJFbWdQQVNWOHVJMGluQW9iclVHeDlCbUpENzRQdkpFWGxoOHE3LUx1M05HOWRJN05xWVpRblAxbll3bTlIcXVKTXFmajlHaXlFTENvTDVTUkUxcjhvQ0Y4ZFI4bS1PYlMtSDBGeFkxdlB2ZjQ?oc=5",
-     "published": "2026-07-17T09:59:00Z",
-     "source": "CNBC TV18",
+     "title": "Inside a luxury ski chalet with its own spa - MSN",
+     "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNM2xvTnhRaHdhcUdISGROX2lhbGhUV3FhaHdsVDQxQWhpcVhXOV9UV05lOTA5UXlmM0dXdmhXbGJmMkxpWVk0amdEcjNsZ25uVjEzNWV1a3B1UFNTQXFqZ2NKSjlSbDVrMGU2Y3RjYkhYNzA4RDFFWUhUYkV4N21WLUVKODhoLXlLQS1lQ3ViQTRMdHdGQ3Z6NA?oc=5",
+     "published": "2026-07-16T11:19:53Z",
+     "source": "MSN",
      "sectors": []
     },
     {
@@ -146,42 +162,71 @@
      "published": "2026-07-16T01:33:18Z",
      "source": "The Economic Times",
      "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "ACE.NS",
+   "name": "ACTION CONST EQUIP LTD",
+   "mb": 71.6,
+   "inv": 70.0,
+   "conf": 0.983,
+   "risk": 0,
+   "trend": "sideways",
+   "price_at_build": 991.7000122070312,
+   "group": "Industrials (other)",
+   "group_rank": 14,
+   "group_score": 51.0,
+   "tags": [],
+   "news": [
+    {
+     "title": "Ashish Kacholia, Mukul Agrawal, other ace investors sell smallcaps again in Q1. Should you worry? - The Economic Times",
+     "link": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxPRUxSd1BzanMtSHJlaFpjX0hjamFGM2c1RGdRcWc1TndFLThGUGdHaDRmZ1E4ZEREdmZJb285SHlkWTE4X1l1c3dRSVpXZDlkSG1iekRYLVRMVGI5MTVmNUhUb1plVnlRM1NYLWpqYzQ5YmRfWjBxRkJybnp1NXlsVVhicFV2anZvd2VqbEdvSXV3VmxWaGhLM0xRMG94dUVkVzFKcHJhYkphSUQ1SllPTk9JRk45a3ZGUlJWMG96WFV3WVI1ZmhxZVhBUmE1UWdrNXprdVhCaTVoYmJST3VJdVZwRnRrZS1wMXkzLWZBYkFLdVU1MzF1czJ6RdIBgAJBVV95cUxPakZBdENza21odHg5a3QwaWFfNk00cjhYWTRIWDh0LTJzYndhckVsSXp6M3RmNmlZLXBRS3ZJUHR1TmRUa002QVR5dDduc210MXhBUGNxV200ckRqOXBtYndjSlpZV0FmUWgzNVlieEphSXh4dHJfemdKRUx6Q0VBOU54c0RvR3JrRm5BOGQ4SE9vaC05WkRuaWhWYnBfemdRYjlCM1dieEVESWxfdEtQRE9tRVJ1YTMyNllKR0J5OEVYOWQ2bWU4YWVJSG45NEJEQWNFNWJJQkVoejFrWlBoZ1pmUWl3QTgwaTlZOURYWHg1bUJfYS1xVGpLVThDQndz?oc=5",
+     "published": "2026-07-20T04:04:02Z",
+     "source": "The Economic Times",
+     "sectors": []
     },
     {
-     "title": "Stock Radar: Chalet Hotels stock breaks out from Ascending Triangle pattern; time to buy? - The Economic Times",
-     "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxQcklvWGZsc2pmZWZfQ1BsX01qOFpqb2E0TEpzVlNFdVVadm5uRDRHX3p6NldFNDZhSVpSQ1pfcVdWWk9KMEJVR0k3VlNnYTJ6bWdjU0ZSQnpkZnR0N1hFZ3dyaE9LNEUta3UzQWotdkdHNl9nRGsxVmNzVVpxWlNRZGR4MjFzRGJOV05xRlYtZ3dQR213b1F6cXhUT3YwT0JUV0pQV0FPbFVtSURuM0R3aHlGUUR0MmcxRFl3dHQ4MUU1U3B5QmtrOGtxdTltbG11aV93Z0hUX1NDcVFxTnNMMGF0Y2lvN0xuMlF4LXpkMkFaQdIB9wFBVV95cUxNbXRnZUFreXI0NW9ZeE9iU1J4X2pQc2FNWHVXUzhCS2RwdzFPbU55TnVpTUVGWjVHRUJ5NzA3amhhS3Fka3JCcFJYWGlFczE1LXJydkdoc0s0aTZwb3RZNGc0ODgzaWxRYktNeE9qbXFLS3llcUhUZ1BPZkVPUjl3NVpzZENQTWxST196R3BxRzV1SXBaU0xqcG4wSDJ0Z0JWYTVOYnQ4UHFBMEl4aWtLaHBqSVY1UDNEVkRaRUt1c1FMeEkxbHU5QmNycFBzNWVlNUFJS2NUYUhXS2JwWGVpdG1meExTaVJybVAzSmlETFUtdEpkaS1z?oc=5",
-     "published": "2026-07-15T23:30:00Z",
-     "source": "The Economic Times",
+     "title": "'Ace Combat 8: Wings of Sieve' PS5 Package Pre-orders Begin Tuesday, July 21 - Inven Global",
+     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOVnB0Ri1xd3UwXy11cXRXNWViTUFjM0syMlhiVUF3ZnpPVEVFZGVPR0Rabk5ndnlMTzZkVkhYTFJLUEx6aHdBaUo3LUZXQ3dpdHdIUm9UREFQa0R1SUdoVFc2LXl3ZFg5NUVrSElOY2JZajNLemFUVFQ1S2NZaWtkM1JqTVBEcExuYnAwUFh4ck9QY0FITlVSaktUSldHWEEzelM3RTEwdVZWblI1ZGFmbGF5TXh4Zw?oc=5",
+     "published": "2026-07-20T03:35:13Z",
+     "source": "Inven Global",
+     "sectors": []
+    },
+    {
+     "title": "Amateur baseball roundup: NLS Twins ace County Line test - West Central Tribune",
+     "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBxSG5FYlFFQlFNY0JmaXBOTU43ZXMxajUwOTltLW1qc200eHBKOF9leHhfWkJLbG5VVXA4RkZaZzZ0TEVvVVNEdzVoZVlVanNCWEFhTml6ZEtweE8xek5RTlhXY3lfdUhzaWpScnlsS0FvMFdH?oc=5",
+     "published": "2026-07-20T02:45:43Z",
+     "source": "West Central Tribune",
+     "sectors": []
+    },
+    {
+     "title": "Lufkin ISD ends Texas ACE after-school program after grant funding loss - cbs19.tv",
+     "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxOQ3h6QTVsN09Vd2NDOUVkSTJQNUM3bE5ab0xtd29HWVdqQkpJUzlBUU5qamxyM0d5SEkwOTVDQWR2ZC00aVdObnd2YTFDZGxlTnpadE83a2Z6SGlSOGk1UWs5alN1OWJ5NkNpUUxGcXMtQW41Ykk2WkZFaVlVRW9VY3ZzcjVUNXRFc3ZtdGMzbVlCLWJId01JTmFmNGc1TV9waXkxR3EtcEFFYWlOU1hqWDRONWtxNGh4SzNiQnFlNHJqYl9jMVBkWXZYRVk4Y0QtMl80TEJtdHprcjVyLWkwRGFmOXY0UEE?oc=5",
+     "published": "2026-07-20T01:28:00Z",
+     "source": "cbs19.tv",
+     "sectors": []
+    },
+    {
+     "title": "Dodgers\u2019 Dave Roberts drops \u2018ace\u2019 truth bomb on Yoshinobu Yamamoto after dominating Yankees - Yahoo Sports",
+     "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQVDdWNmVqbDFmOTRhQU1WM2EteDdtWkFGVko1WVpmcW1EaFdqVG9ia01oNnlCQ0FaRzlKY3F4TGk2WGNqVnYyWlFlNkRHQlJwTFdkcjFXc0gxaXFaNHBxZmN1dDNHRG5SMWktVmt2UThhNmJvYWFLRWU0amdscmx1azhMeHNXQQ?oc=5",
+     "published": "2026-07-20T00:01:00Z",
+     "source": "Yahoo Sports",
      "sectors": []
     }
    ],
    "gated": false
   },
   {
-   "ticker": "FORCEMOT.NS",
-   "name": "FORCE MOTORS LIMITED",
-   "mb": 72.3,
-   "inv": 77.8,
-   "conf": 0.973,
-   "risk": 0,
-   "trend": "down",
-   "price_at_build": 18244.0,
-   "group": "Consumer Cyclical (other)",
-   "group_rank": 27,
-   "group_score": 22.5,
-   "tags": [],
-   "news": [],
-   "gated": false
-  },
-  {
    "ticker": "ZENTEC.NS",
    "name": "ZEN TECHNOLOGIES LIMITED",
-   "mb": 72.1,
-   "inv": 60.6,
+   "mb": 71.6,
+   "inv": 60.0,
    "conf": 0.983,
    "risk": 48,
    "trend": "strong_up",
-   "price_at_build": 1769.699951171875,
+   "price_at_build": 1750.4000244140625,
    "group": "Industrials (other)",
    "group_rank": 14,
    "group_score": 51.0,
@@ -195,58 +240,6 @@
    "gated": false
   },
   {
-   "ticker": "ACE.NS",
-   "name": "ACTION CONST EQUIP LTD",
-   "mb": 71.6,
-   "inv": 70.0,
-   "conf": 0.983,
-   "risk": 0,
-   "trend": "sideways",
-   "price_at_build": 987.4000244140625,
-   "group": "Industrials (other)",
-   "group_rank": 14,
-   "group_score": 51.0,
-   "tags": [],
-   "news": [
-    {
-     "title": "Dodgers Urged to Prioritize Catcher Over Ace at Trade Deadline - Yahoo Sports",
-     "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPUTg5ZU9Cdk85M3ZOWjJSQ0xwbFprcWItSG1fLVQwWGhldTVXU1FqbndMc0FKNXp5X0FPMjVHc1JONUxmelR1czlrUk1QSGM3TWNDM254OWhPdExBanRTMVlZSDlLdEJJOEN4REdoQ0pEZDdRN3FkMUtWeW1fZmZ1SFppQlhoXy1KMjZlOHNLTQ?oc=5",
-     "published": "2026-07-19T18:20:05Z",
-     "source": "Yahoo Sports",
-     "sectors": []
-    },
-    {
-     "title": "Rangers ace Jacob deGrom to return to the mound vs. White Sox - Dallas News",
-     "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQUDNGaGpGUmM3M00wV0lqZlNTVTlmVWZHZ1BrY1ZsR3ZPX05nQWJHcXRXdVZkd0swd1NvXzNwWS1WVHdkbVFlWEdsbGxSTmNHY0gxWnlPQTlDcXFUOVJHSHdhak5RMzlDVTdVRHl2bkFkbEZTSU1yal9CX0RBbzdkS29aUnhjMmdEcmRpQUxFd3R4TWh6dEswVlpZYWp4ZnVFTW1WeHJUdS0?oc=5",
-     "published": "2026-07-19T17:50:54Z",
-     "source": "Dallas News",
-     "sectors": []
-    },
-    {
-     "title": "\u201cKodai Senga Is Torturous to Watch\u201d \u2013 Fans Criticize Mets Ace After Disappointing Relief Outing vs. Phillies - Yahoo Sports",
-     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPQ0xFTWU0S0VqcGlpbV9kUXNBbHpHWk1FM3NleXFCa05kWTJCV3ZXVTBoWjZkXzVwQ3Boc0xfMFZ5LWNKNUtXZWlvUUlDelJxZXJuV2dsLURBcmdYTGNTNldXa2hiV1RzM0FianBiT3BCNGw0a0djY0xKa0ZBb3dGSF9wbG8wYXhM?oc=5",
-     "published": "2026-07-19T16:15:50Z",
-     "source": "Yahoo Sports",
-     "sectors": []
-    },
-    {
-     "title": "ACE ROBOTICS Unveils Kairos 3.1 and Expands Its Embodied AI Stack from Data to Deployment at WAIC 2026 - Yahoo Finance",
-     "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQX1BYV3ZqMjU4ajRmeGM0QkhsZDVDRzk0MlJ2SzZYM2N3dGhGb0I4dW5QcWJmUjVUcFQwSzNaYTVjVnp3TmdTNWNDV29WaVROa1h4Rmd1SjA0TXo1WEZMMERlQW5JeC1lTnd4aHVtSU9ic1YzNjVfTXFMSTZaM1dSc0ozSmxMRm5Ga0U0RFMzQjJGVlU1NnAxdA?oc=5",
-     "published": "2026-07-19T13:35:00Z",
-     "source": "Yahoo Finance",
-     "sectors": []
-    },
-    {
-     "title": "Former ATP ace Fabio Fognini compares his era to the present one - Tennis World USA",
-     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPQjBEV01kTl9vS2Nna0dHcjh0TGFXbFRUbmNaSmpjWW1XRFNyVFgtVXlMS2ZpSC1IdXlDUURhM1ZwRnY2aWxERDRHZ3hDeS1IbGpycHpxVG9qVk5UY3pVSkJfb05iTTJhc3I1anNmUkd0LU9NVEMtVVFkVHlFbGh4RUdINi1ud1daY1ZsWGVGWmk1d184cF9HZGZpdDM1UmFKTXkzaWd0ME1FbU1VSjVqcmt0eDhTS1RzQ1hjSUh0ajV6T3I2dWdGa3g0Uk5TUQ?oc=5",
-     "published": "2026-07-19T12:00:00Z",
-     "source": "Tennis World USA",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
    "ticker": "VIJAYA.NS",
    "name": "VIJAYA DIAGNOSTIC CEN LTD",
    "mb": 70.5,
@@ -254,7 +247,7 @@
    "conf": 0.983,
    "risk": 24,
    "trend": "strong_up",
-   "price_at_build": 1341.300048828125,
+   "price_at_build": 1349.5,
    "group": "Diagnostics & Research",
    "group_rank": 1,
    "group_score": 81.0,
@@ -289,10 +282,79 @@
      "sectors": []
     },
     {
-     "title": "NCW Chief Vijaya Rahatkar Calls For POSH Act Review To Tackle AI-Driven Workplace Harassment - LawBeat",
-     "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNS1VKeUtJN0I2aGRQOHd2QUxCcDg0VjVyLWdKaUNCUnBOLU1uQWJ1YldsUjhEUlRpWmo4Qmo5NmlKRXU2SnRYV3VZUjAtUUVxRWRrcVpEbXVsdFdrNkM4U1dxUWNyRG8ydWVWbk1nV2NXTXNZazY1WFZ6ZmhVbDRJUThYamwyZWd6dDlHazFTWERsRUF6clg3VEM0elFfaW9zWGVoOE5iR1NSUUwtLVF6cTBfUlBwYk9wZTZnRkM4MmNPaHdITlhpT2RaLWjSAdIBQVVfeXFMTlBkT3BySU9Qa2V2MkduS0NxYUE1U3E4ZFVRSWNuN21ZNEk3azVRaExjaE1NV290X3hUUHVXZnpsUDVPMWc1WllaTF9hR25aMW0wV3VSZHlpUFBfQTdBaDE3NXNQaXAzT2xfaHdYcV9ybm43YXlpMnVkLXNyR1NpVGFUUXVMb2thVlE5ZkpEY0JYWEhvbVJXdWVORHcxVzNRVDhrU2p0Qm1GR1lrczB3d2FLSjN4WjVobnlLX1BIRGtJQXJ1RkhrODBZczZzbmlfVnZ3?oc=5",
-     "published": "2026-07-17T10:34:33Z",
-     "source": "LawBeat",
+     "title": "ICAR-CIARI, Sri Vijaya Puram Observes Khet Bachao Abhiyan across Andaman & Nicobar Islands - Indian Council Of Agricultural Research",
+     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNZUU1amZTV3gwaDJKbTFPakE3TGN4cE44NGpRTFlZQ3RYSXNhYk9lQ2V0YklMWlNaLXhVWFE4YXNKd3JDTDVqUm4zc3Nhdi0yZVg2YnNkbEh4MHpKbHdHLVZxRzZiVHJmdDVaTXl4ZE56OUduS0RpZXdTMnRWTGVaZlpId0lmaGYyeHRRRGxVblpTOFpLMUxCTkQ5eGpVNng1aXVQZ29XZm4tcTJuR0ZB?oc=5",
+     "published": "2026-07-17T11:53:47Z",
+     "source": "Indian Council Of Agricultural Research",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "SARDAEN.NS",
+   "name": "SARDA ENERGY & MIN LTD",
+   "mb": 70.0,
+   "inv": 65.0,
+   "conf": 0.983,
+   "risk": 0,
+   "trend": "down",
+   "price_at_build": 504.6000061035156,
+   "group": "Steel",
+   "group_rank": 3,
+   "group_score": 76.5,
+   "tags": [],
+   "news": [
+    {
+     "title": "SARDAEN Share Price | Sarda Energy & Minerals Ltd Stock Analysis & Recommendation - MarketsMojo",
+     "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAzYlNfRjM2QXVvTzY2MlVtWmNHNUR3cUpyX3Rja2I5eF9LenJyZ1pWeVQ5eWZnS3AzMUZGeE5CYm9WdFRSU1QxTG1GS0FBOTJWaWk4c21MUXo5eHdVRWUxSVQ1QVgzaGZoSkI1ZmQ2cjhrUTg?oc=5",
+     "published": "2026-07-13T10:33:30Z",
+     "source": "MarketsMojo",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "CEMPRO.NS",
+   "name": "CEMINDIA PROJECTS LIMITED",
+   "mb": 69.9,
+   "inv": 66.4,
+   "conf": 0.983,
+   "risk": 24,
+   "trend": "strong_up",
+   "price_at_build": 1616.9000244140625,
+   "group": "Engineering & Construction",
+   "group_rank": 28,
+   "group_score": 15.0,
+   "tags": [],
+   "news": [],
+   "gated": false
+  },
+  {
+   "ticker": "HBLENGINE.NS",
+   "name": "HBL ENGINEERING LTD",
+   "mb": 69.8,
+   "inv": 66.1,
+   "conf": 0.983,
+   "risk": 24,
+   "trend": "strong_down",
+   "price_at_build": 734.0,
+   "group": "Electrical Equipment & Parts",
+   "group_rank": 4,
+   "group_score": 75.5,
+   "tags": [
+    {
+     "theme": "Grid capex and energy-transition buildout",
+     "direction": "tailwind"
+    }
+   ],
+   "news": [
+    {
+     "title": "HBL Engineering Ltd accepts order worth Rs. 24 crores from ICT, Chennai - EquityBulls",
+     "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFA0b2xQUDN5ekJRUTZMb0lfMXZ0TkEycnFuRENxWFVLOW9NZVlZX0ZHZFUtUUJiYzlaekgxc08wU1pJS0k3bHhnb1l3SlJ2NG8zQTVLZ2I0dk4wRUQxbU1R?oc=5",
+     "published": "2026-07-15T07:31:28Z",
+     "source": "EquityBulls",
      "sectors": []
     }
    ],
@@ -301,24 +363,17 @@
   {
    "ticker": "WELCORP.NS",
    "name": "WELSPUN CORP LIMITED",
-   "mb": 70.4,
-   "inv": 73.1,
-   "conf": 0.977,
+   "mb": 69.8,
+   "inv": 72.2,
+   "conf": 0.976,
    "risk": 0,
    "trend": "strong_up",
-   "price_at_build": 1581.5,
+   "price_at_build": 1636.300048828125,
    "group": "Steel",
-   "group_rank": 5,
-   "group_score": 73.5,
+   "group_rank": 3,
+   "group_score": 76.5,
    "tags": [],
    "news": [
-    {
-     "title": "WELCORP Share Price Today - Welspun Corp on NSE/BSE - scanx.trade",
-     "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE9jcU1CUm8yZzN2RmhkTUxWUG9xb1A0cFU0XzNELTdiSkZsX1Npc0xDbEdFc01KcWlscndZNXJUbHczNmJBN1VrQkxXdkZCd2pDelFsbTYzUQ?oc=5",
-     "published": "2026-07-15T05:33:48Z",
-     "source": "scanx.trade",
-     "sectors": []
-    },
     {
      "title": "Price to sales forward of Welspun Corp Limited \u2013 NSE:WELCORP - TradingView",
      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQWWtYeUFRWFJwYzl6bVVndlpiSFlfTndlN3BUZUJFSkdlVmdqdjNtSkk1LUxRVkVZNmsxVmJtem81dWszRG1NSGJtc3AtRWpkejk3ellHRDdZVTJ5a3M3bDh4bWJPTGFnTngxRE1kNncxWWVsb0dtWjRDVjAxeV9ZaFNYUFE5WGJGUFhsX09wem5iTlJKRDVKUDRyLXZ2dw?oc=5",
@@ -332,14 +387,14 @@
   {
    "ticker": "CEATLTD.NS",
    "name": "CEAT LIMITED",
-   "mb": 69.9,
-   "inv": 61.1,
+   "mb": 69.2,
+   "inv": 60.1,
    "conf": 0.983,
    "risk": 12,
    "trend": "sideways",
-   "price_at_build": 3549.89990234375,
+   "price_at_build": 3489.5,
    "group": "Auto Parts",
-   "group_rank": 4,
+   "group_rank": 5,
    "group_score": 75.5,
    "tags": [
     {
@@ -391,69 +446,24 @@
    "gated": false
   },
   {
-   "ticker": "CEMPRO.NS",
-   "name": "CEMINDIA PROJECTS LIMITED",
-   "mb": 69.9,
-   "inv": 66.4,
-   "conf": 0.983,
-   "risk": 24,
-   "trend": "strong_up",
-   "price_at_build": 1615.0,
-   "group": "Engineering & Construction",
-   "group_rank": 29,
-   "group_score": 15.0,
-   "tags": [],
-   "news": [],
-   "gated": false
-  },
-  {
-   "ticker": "HBLENGINE.NS",
-   "name": "HBL ENGINEERING LTD",
-   "mb": 69.8,
-   "inv": 66.1,
-   "conf": 0.983,
-   "risk": 24,
-   "trend": "strong_down",
-   "price_at_build": 741.9000244140625,
-   "group": "Electrical Equipment & Parts",
-   "group_rank": 3,
-   "group_score": 75.5,
-   "tags": [
-    {
-     "theme": "Grid capex and energy-transition buildout",
-     "direction": "tailwind"
-    }
-   ],
-   "news": [
-    {
-     "title": "HBL Engineering Ltd accepts order worth Rs. 24 crores from ICT, Chennai - EquityBulls",
-     "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFA0b2xQUDN5ekJRUTZMb0lfMXZ0TkEycnFuRENxWFVLOW9NZVlZX0ZHZFUtUUJiYzlaekgxc08wU1pJS0k3bHhnb1l3SlJ2NG8zQTVLZ2I0dk4wRUQxbU1R?oc=5",
-     "published": "2026-07-15T07:31:28Z",
-     "source": "EquityBulls",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "SARDAEN.NS",
-   "name": "SARDA ENERGY & MIN LTD",
-   "mb": 69.5,
-   "inv": 64.3,
-   "conf": 0.983,
+   "ticker": "CANHLIFE.NS",
+   "name": "CANARA HSBC LIFE INS CO L",
+   "mb": 69.0,
+   "inv": 72.5,
+   "conf": 0.465,
    "risk": 0,
-   "trend": "down",
-   "price_at_build": 499.5,
-   "group": "Steel",
-   "group_rank": 5,
-   "group_score": 73.5,
+   "trend": "unknown",
+   "price_at_build": 150.35000610351562,
+   "group": "Financial Services (other)",
+   "group_rank": 11,
+   "group_score": 56.0,
    "tags": [],
    "news": [
     {
-     "title": "SARDAEN Share Price | Sarda Energy & Minerals Ltd Stock Analysis & Recommendation - MarketsMojo",
-     "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAzYlNfRjM2QXVvTzY2MlVtWmNHNUR3cUpyX3Rja2I5eF9LenJyZ1pWeVQ5eWZnS3AzMUZGeE5CYm9WdFRSU1QxTG1GS0FBOTJWaWk4c21MUXo5eHdVRWUxSVQ1QVgzaGZoSkI1ZmQ2cjhrUTg?oc=5",
-     "published": "2026-07-13T10:33:30Z",
-     "source": "MarketsMojo",
+     "title": "CANHLIFE Share Price Today - Canara HSBC Life Insurance Company on NSE/BSE - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1rUG9rcmd6WklRX3JKNmZiZnRBdnlSMUpMcXFlWWNiV1FudXJIeF92QVdpZjBnU09pa0VpVFJWVkFlNDJaRWZFRDc3dFBhRFNRUFZTUHVfXzQ5NVdJWmhOWUZFN1R0cjRMMEI0VDRGT012N2Vn?oc=5",
+     "published": "2026-07-17T08:30:51Z",
+     "source": "scanx.trade",
      "sectors": []
     }
    ],
@@ -462,14 +472,14 @@
   {
    "ticker": "CAMS.NS",
    "name": "COMPUTER AGE MNGT SER LTD",
-   "mb": 68.4,
-   "inv": 63.6,
+   "mb": 69.0,
+   "inv": 64.3,
    "conf": 0.983,
    "risk": 24,
    "trend": "up",
-   "price_at_build": 751.0999755859375,
+   "price_at_build": 767.2000122070312,
    "group": "Information Technology Services",
-   "group_rank": 25,
+   "group_rank": 27,
    "group_score": 25.5,
    "tags": [
     {
@@ -483,10 +493,17 @@
    ],
    "news": [
     {
-     "title": "Border Czar Says ICE Agents Will Wear Body Cams \u2018Whenever Possible\u2019 - News of the United States - NOTUS",
-     "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQeWVrNy1HbV9uN2YzZVBWZzFGdTFZTHU5QWpNQ2w2eUdfQ0VMMGxyMTNfcEpKWFkyV1RLWmRTMUpYRGJxbWZMb25nQTdZbUM1bzBfTmZvel9CdkxUYnlVaVZKM1VmTU02bG9nenFyQVg2NGZOc3V5XzNyckpmMzBrMVlYclpVdw?oc=5",
-     "published": "2026-07-19T19:44:47Z",
-     "source": "News of the United States - NOTUS",
+     "title": "ICE agents will be required to wear body cams during traffic stops, border czar says - Yahoo",
+     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOS0lsQ1BJY1VfXzNKc0kzYXBBNHV3eHNPczQ4TnZDY0pyVkVuMEZzUktPbXZqUHhPWWN0SVU3Ym5JLWM5QXU4UC1xSFZTSmpQQV9vb2ZEWXZVS3VlWHdFaUNHekJMb0wtYko5T2ZQbnM5UkxQV3VLZ3dwNTZnZUpFN2ZqVUI?oc=5",
+     "published": "2026-07-20T03:39:00Z",
+     "source": "Yahoo",
+     "sectors": []
+    },
+    {
+     "title": "Pen-cams in spy-style exam cheating racket busted by Punjab cops - The Times of India",
+     "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPOFBTMkZxdGUtY29HQXdVME1zaFhHMjd6a01aUk93ODlENGdUXzhma0tJQjI4WGJ0YVZnRzZlVW0tZGxCWHZRRmszeGNnVmF2bDdJNE95QldqNmhEV2lhcjhocFlJdzlobFhYWFRWbGFNdmlXbFJ2SHMxTXdENV8tU29qRkVDYmQ5SldBREtuc2dzSzdwRkRkZ1ZIRWhUVjZCWmVDX3cwNzRpUXlrQ2RDdnFvdWtvTWIxaE5KaEVpdFVRbVRTQWFLd1BmZVQwc1N1Si01VEFubnM2Z9IB3wFBVV95cUxNWk5wcVdPbk5MQ0VCT3FXRWE5ZDNfSFNPOTJWOGhsUU4xVkNSNDBocERhTXBrN3RhOEs0LUxmYXh0ZjNTN2o5TWlkalp6c2htN3pJci1SQjFWVGVVRjg0d2hrMmpZVHRxYVhEUlpLV2c0c3J4ZF9XVkdoUWhSc3BlekNpcE9Nc3JPYUxVOHJ6TW5JcE0xT1pLbW5maW83d291MWJsc1kxbkpZNWhnbDg0Y1M1emNqN1l6dmQ2aG52dW43ZVdHVkF3cVhydUdMRU1SY3ZpUE8yX1NoSnJrUS1J?oc=5",
+     "published": "2026-07-19T21:03:00Z",
+     "source": "The Times of India",
      "sectors": []
     },
     {
@@ -509,37 +526,6 @@
      "published": "2026-07-17T18:33:35Z",
      "source": "GovTech",
      "sectors": []
-    },
-    {
-     "title": "John Cornyn calls lack of body cams on ICE agents a mistake - Houston Chronicle",
-     "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQWnpSQVpja2d6SWlDZV82bTFJSFViWHdVb05sOXVMNl94S2NlRENIbVQ3TVAxRkk3RUo1N3ZVdktUOUplY2c2Tjl4OGJENkRHenJfcm5sb3dSbm85SnRtdkRmaUtiNGNIZUJLaTBfYlpQbXVOSFJRMTNCV2xLaEJvRHV1VjNaYXF1MmlfTTIwSEZ6T09DdGFna1BWMTNEYUFnaEFuWWFsdWJFZ3JCelhEN1d6ZnlhMlhZ?oc=5",
-     "published": "2026-07-17T11:04:18Z",
-     "source": "Houston Chronicle",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "CANHLIFE.NS",
-   "name": "CANARA HSBC LIFE INS CO L",
-   "mb": 68.2,
-   "inv": 71.6,
-   "conf": 0.465,
-   "risk": 0,
-   "trend": "unknown",
-   "price_at_build": 149.74000549316406,
-   "group": "Financial Services (other)",
-   "group_rank": 9,
-   "group_score": 60.0,
-   "tags": [],
-   "news": [
-    {
-     "title": "CANHLIFE Share Price Today - Canara HSBC Life Insurance Company on NSE/BSE - scanx.trade",
-     "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1rUG9rcmd6WklRX3JKNmZiZnRBdnlSMUpMcXFlWWNiV1FudXJIeF92QVdpZjBnU09pa0VpVFJWVkFlNDJaRWZFRDc3dFBhRFNRUFZTUHVfXzQ5NVdJWmhOWUZFN1R0cjRMMEI0VDRGT012N2Vn?oc=5",
-     "published": "2026-07-17T08:30:51Z",
-     "source": "scanx.trade",
-     "sectors": []
     }
    ],
    "gated": false
@@ -549,13 +535,13 @@
    "name": "JM FINANCIAL LIMITED",
    "mb": 67.6,
    "inv": 58.3,
-   "conf": 0.885,
+   "conf": 0.884,
    "risk": 24,
    "trend": "strong_down",
-   "price_at_build": 124.25,
+   "price_at_build": 123.5,
    "group": "Capital Markets",
-   "group_rank": 28,
-   "group_score": 15.5,
+   "group_rank": 31,
+   "group_score": 5.0,
    "tags": [
     {
      "theme": "Financialization of household savings",
@@ -588,24 +574,24 @@
    "conf": 0.983,
    "risk": 24,
    "trend": "up",
-   "price_at_build": 486.1499938964844,
+   "price_at_build": 488.45001220703125,
    "group": "",
    "group_rank": 0,
    "group_score": 0.0,
    "tags": [],
    "news": [
     {
+     "title": "Hindustan Copper Ltd charts out roadmap in annual plan meeting (UPDATED) - Whispers In The Corridors",
+     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQSkJzNjMyQjJUZzlnX3Njckl5VDdLR1U2cWRMVjEtanRLbVZURERVWnhaUjQ3MERZTEp4TjNDVXR0TFZtNHkzMEZvR3I5cHVpajdHUnNkSy1qZlRmNGJadnBKUXF0cWFhd05sb21GU1lNRnJwMV9oUm5MQ3VRaVhMbGNUa2N3QzNORlB6MzBmZU1EVVNPMmQzTWRKd3N3aDNHdVAzd0QzQUVVTzVndEVIUmZPRVpIdw?oc=5",
+     "published": "2026-07-18T19:12:51Z",
+     "source": "Whispers In The Corridors",
+     "sectors": []
+    },
+    {
      "title": "Hindustan Copper Ltd working at fast pace to double Malanjkhand Copper Project capacity in MP by 2030: CMD - Moneycontrol.com",
      "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOU2E2Vjk5aktUNkEtVE1LT0k1S0hmX19HVjRUeF9UUGRJSlRNRlJTYkJQbWg4bWdqOEpuYzdzbVlIa1NVTzhBV1c1X0p2MzRiZWpPN0JDT1pXdGNOakJpX0tvREI3T2ItQk1YVDY5LTc0VV9VbExLckpmdnFTUlJYSmYzcW1yVE0wQ3hUZlQzQXRlaFpjcEFHRFN0VjJndDEzTGxRRERVbVZ1bTV4Z2FQVm96aTJxZ0hMNHE3THlFSjljTEs1NHNiYVBYSjh6ZmRlSGRtUGtkNE9ZME5QM0JmckoyMVE0RzhYcUMxRUVqX21FcV9FdmJST1VR0gH6AUFVX3lxTE5TYTZWOTlqS1Q2QS1UTUtPSTVLSGZfX0dWNFR4X1RQZElKVE1GUlNiQlBtaDhtZ2o4Sm5jN3NtWUhrU1VPOEFXVzVfSnYzNGJlak83QkNPWld0Y05qQmlfS29EQjdPYi1CTVhUNjktNzRVX1VsTEtySmZ2cVNSUlhKZjNxbXJUTTBDeFRmVDNBdGVoWmNwQUdEU3RWMmd0MTNMbFFERFVtVnVtNXhnYVBWb3ppMnFnSEw0cTdMeUVKOWNMSzU0c2JhUFhKOHpmZGVIZG1Qa2Q0T1kwTlAzQmZySjIxUTRHOFhxQzFFRWpfbUVxX0V2YlJPVVE?oc=5",
      "published": "2026-07-18T12:02:12Z",
      "source": "Moneycontrol.com",
-     "sectors": []
-    },
-    {
-     "title": "Hindustan Copper Ltd charts out roadmap in annual plan meeting (UPDATED) - Whispers In The Corridors",
-     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQSkJzNjMyQjJUZzlnX3Njckl5VDdLR1U2cWRMVjEtanRLbVZURERVWnhaUjQ3MERZTEp4TjNDVXR0TFZtNHkzMEZvR3I5cHVpajdHUnNkSy1qZlRmNGJadnBKUXF0cWFhd05sb21GU1lNRnJwMV9oUm5MQ3VRaVhMbGNUa2N3QzNORlB6MzBmZU1EVVNPMmQzTWRKd3N3aDNHdVAzd0QzQUVVTzVndEVIUmZPRVpIdw?oc=5",
-     "published": "2026-07-18T01:48:23Z",
-     "source": "Whispers In The Corridors",
      "sectors": []
     },
     {
@@ -616,46 +602,41 @@
      "sectors": []
     },
     {
+     "title": "HINDCOPPER Outlook for the Week (July 20, 2026 \u2013 July 24, 2026) - Equitypandit",
+     "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE52OVg2WHRudjdZdzN3RUszaFdycUJyZ3lyY05qeUdZRXZPeGNRRlRRdkFUTHJEWXdFTThocGJ5czV4SjNscFY4bHN1YmZqMHRYZHhOMmFJZnFCTmt6cXg1RHo0T18tdUFoNlJIR25R?oc=5",
+     "published": "2026-07-17T07:00:00Z",
+     "source": "Equitypandit",
+     "sectors": []
+    },
+    {
      "title": "Hindustan Copper Share Price - Live NSE: HINDCOPPER Stock Price & Chart - Upstox",
      "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBlQXJXQi02SVlvaFFnOU00M3I4T0xDOWFWNmF2WHU5Z3BkeFhudDJEZ0dLOXJtV1hDUFo3eEx2N3JPeDd3LXhTUmx0S2MwMkJrczk5akpjM1E4OVVpakhIRjVzQUJZLUNtWUtV?oc=5",
      "published": "2026-07-17T07:00:00Z",
      "source": "Upstox",
-     "sectors": []
-    },
-    {
-     "title": "How a film book revived memories of small-town cine clubs - Frontline Magazine",
-     "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQMUhSSHd3M0E3OHRYbFpvRTRielIyaG93X3BWTjZvbXkwb19YaFQtVzd0cFJkV3FNckxvV0NwWG0wOXk4ZEE4RndydTNfNmMyS1l2dm92eEhQUzB1UXIyS3F1MlU2cXB1NmNZc0VrM3drdzRGSVMxNHVDbXNrc3U5OThGTnhyTXVvTjRuUFN5Q09ZbVNfa0lvbkNVNDU2R0VxeFRmb1pPQU56SG9oWTVOTDdIQWVmSlQwZXc00gHCAUFVX3lxTE1fTjhoVzZma1dKVkJzTU9pZlFjNmF6STB0ZUdES1ZHNDFITmxWY0JxVDlYTkZTR0Q5UGNDXzBwamJWUVFjTmNCWkZxam5FTUZONDh0c1ZxemtvTzczQmJKTjBpeU13LXVvSEZEZVJiZGZYVDd6ZUxNWXFjWmNDdnlWX0R3aDBfeUVGQTBJMXh3U2JQbG5MWGpvdlZqS3pLaEI0NzI4V05lZ1paZVJ4MnZlQzNEeXFWenZSX3pXOGh0TEVR?oc=5",
-     "published": "2026-07-14T08:49:17Z",
-     "source": "Frontline Magazine",
      "sectors": []
     }
    ],
    "gated": false
   },
   {
-   "ticker": "CAPLIPOINT.NS",
-   "name": "CAPLIN POINT LAB LTD.",
-   "mb": 66.9,
-   "inv": 61.1,
-   "conf": 0.983,
+   "ticker": "TRAVELFOOD.NS",
+   "name": "TRAVEL FOOD SERVICES LTD",
+   "mb": 67.0,
+   "inv": 64.2,
+   "conf": 0.854,
    "risk": 24,
    "trend": "up",
-   "price_at_build": 2614.199951171875,
-   "group": "Drug Manufacturers - Specialty & Generic",
-   "group_rank": 13,
-   "group_score": 51.0,
-   "tags": [
-    {
-     "theme": "CDMO/China+1 supply-chain shift",
-     "direction": "tailwind"
-    }
-   ],
+   "price_at_build": 1302.800048828125,
+   "group": "Consumer Cyclical (other)",
+   "group_rank": 25,
+   "group_score": 29.5,
+   "tags": [],
    "news": [
     {
-     "title": "Enterprise value to revenue forward of Caplin Point Laboratories Limited \u2013 BSE:CAPLIPOINT - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQcDdRRmE3Y0ZRR1liUHlBT0JqSUFfR3RYMzlPZk1mM3Rab0NaamhFZjZLTWhMWF9uMXJLczdkeGhkeEJVb1RmNVdsZTFlNnA0S3NPSXBiQ3ROaWVGQTVJZEFnMmN2Vm1UdjN3c1JxM28wMVViRFFxNVNwQTlYTVJKNEkxT284RGxzZy1jTDBhTGEzV0F1N0JtR09ENVNnRlBvSnVKQ21jZTRmWUFRM3dxVQ?oc=5",
-     "published": "2026-07-13T15:42:25Z",
-     "source": "TradingView",
+     "title": "Travel Food Services Ltd is Rated Hold - MarketsMojo",
+     "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQRllCNHlhTlFrbTV2Sk9sa3EyZVlIOVp3Uk5Bb2QybVRPY1FnMjNBYlBIU0R5VkIySmV1eC10b3NzazhweW5SN2hFN1BqSFI1aFBJdG9GTDBxMm9lYXNXU19yS2lVb1FacDhXTkxodjJFRDJTdzRSU2pLWGdHNXU0ZUNSazRYQkVtNEJtNEJFLVA5a05XTzBNcUl6TTkzZHpZRUE?oc=5",
+     "published": "2026-07-13T20:28:03Z",
+     "source": "MarketsMojo",
      "sectors": []
     }
    ],
@@ -669,10 +650,10 @@
    "conf": 0.825,
    "risk": 0,
    "trend": "up",
-   "price_at_build": 86.05999755859375,
+   "price_at_build": 86.02999877929688,
    "group": "Financial Services (other)",
-   "group_rank": 9,
-   "group_score": 60.0,
+   "group_rank": 11,
+   "group_score": 56.0,
    "tags": [],
    "news": [
     {
@@ -693,10 +674,10 @@
    "conf": 0.983,
    "risk": 24,
    "trend": "up",
-   "price_at_build": 2699.39990234375,
+   "price_at_build": 2772.39990234375,
    "group": "Consumer Cyclical (other)",
-   "group_rank": 27,
-   "group_score": 22.5,
+   "group_rank": 25,
+   "group_score": 29.5,
    "tags": [],
    "news": [
     {
@@ -738,131 +719,118 @@
    "gated": false
   },
   {
-   "ticker": "TRAVELFOOD.NS",
-   "name": "TRAVEL FOOD SERVICES LTD",
-   "mb": 66.1,
-   "inv": 62.9,
-   "conf": 0.854,
-   "risk": 24,
-   "trend": "up",
-   "price_at_build": 1293.5999755859375,
-   "group": "Consumer Cyclical (other)",
-   "group_rank": 27,
-   "group_score": 22.5,
-   "tags": [],
-   "news": [
-    {
-     "title": "Travel Food Services Ltd is Rated Hold - MarketsMojo",
-     "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQRllCNHlhTlFrbTV2Sk9sa3EyZVlIOVp3Uk5Bb2QybVRPY1FnMjNBYlBIU0R5VkIySmV1eC10b3NzazhweW5SN2hFN1BqSFI1aFBJdG9GTDBxMm9lYXNXU19yS2lVb1FacDhXTkxodjJFRDJTdzRSU2pLWGdHNXU0ZUNSazRYQkVtNEJtNEJFLVA5a05XTzBNcUl6TTkzZHpZRUE?oc=5",
-     "published": "2026-07-13T20:28:03Z",
-     "source": "MarketsMojo",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "LALPATHLAB.NS",
-   "name": "DR. LAL PATH LABS LTD.",
-   "mb": 66.0,
-   "inv": 67.0,
+   "ticker": "SCHNEIDER.NS",
+   "name": "SCHNEIDER ELECTRIC INFRA",
+   "mb": 66.3,
+   "inv": 60.0,
    "conf": 0.983,
    "risk": 24,
-   "trend": "up",
-   "price_at_build": 1687.4000244140625,
-   "group": "Diagnostics & Research",
-   "group_rank": 1,
-   "group_score": 81.0,
-   "tags": [],
+   "trend": "strong_up",
+   "price_at_build": 1321.800048828125,
+   "group": "Electrical Equipment & Parts",
+   "group_rank": 4,
+   "group_score": 75.5,
+   "tags": [
+    {
+     "theme": "Grid capex and energy-transition buildout",
+     "direction": "tailwind"
+    }
+   ],
    "news": [
     {
-     "title": "Lal Pathlabs Receives Appellate Order From Tax Department Allowing Appeal - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOeFFhWlcwcmFOY0tYRWR3SHJXSVowUUxyRlVTUW5sMXZBNE1MT0RNakJ4QkI2ZGlWbWVIc3JDTC1Lb3JKbDRvWVh4QllyVXJDc2tkWGdzRWg4VkVQcm50ZU1sRTIzQjBLNHg0bzB3c0lvaVh0VkNmdFdwcTlXWnNuM3FrR3J5T19nMDNtWTdJMDQ3Wm5nNmEtWXlUN01TNTNfZnRVTGpOTjJQWXFQbzQ0YW9uT2JxYmtveDV4UlEtVFBral9iM0ZOeC1LeE43WDd3OTFCNWc4Wi1PWHM?oc=5",
-     "published": "2026-07-17T14:11:44Z",
-     "source": "TradingView",
+     "title": "Toronto Blue Jays\u2019 John Schneider Drops Blunt Quote After Loss to White Sox - Yahoo Sports",
+     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNM3JsWmhzWmxsYzhsLWZ0MUhYUFpNZFdqbjBFT1VxeWpNdGJHRlplekFPSUtLci1zdFNNT25aRWItU1d0SkRDd21wLTV0UTVhY2RNc0t2VGt5U2hIOHlZeFFlN0FPSkZSNlNFUzdVYVlMSGdBdVNRRFo3eHVWS3JZYVdqaXVQME1l?oc=5",
+     "published": "2026-07-19T22:11:08Z",
+     "source": "Yahoo Sports",
      "sectors": []
     },
     {
-     "title": "Price to book forward of Dr. Lal PathLabs Limited \u2013 BSE:LALPATHLAB - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPQW5RbkNiZGRmRW9IN253alhBMUlMY21sSTlHdTZLdmVSRmF3ZmgydzVwQkh5MnhPTjlGM1VZMG5WbjU0TGotZmpDVHpVUEZUZHMzWnRGbTlrNk5RNEhQQ0NuWGJpX0VpYUhPYllKcU1yTE85UEZuSkpDeW1FbWdEWlJ4RklCQ2VMYjRqSFNFbU5ISjVTeDZaVTBNcHkweTJB?oc=5",
-     "published": "2026-07-12T21:46:29Z",
-     "source": "TradingView",
+     "title": "Schneider says Blue Jays \u2018have to start winning\u2019 as offensive woes continue - meadowlakeNOW",
+     "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQb2FmdEx1RTFSbm9fMWktMG9UaThFUUJwTllnREVpOS1HOTVxNGd2bUpkNG8xSFBYeUlvenpvZ09nWmxKR0IzZS1nd21NMmxjOTc3WkFrbjdaSTVmaFR2RE1wVUFFSnhXcGpxdW5CcW84SHBrRlcyNm1HRjJUR0VSbG55ZUJhekp5SFJ0RE1TVERiZDA1VVlBaUVXbnRFaF9KcGdiNGZ0WEZZbFVJZ3lGQg?oc=5",
+     "published": "2026-07-19T21:00:18Z",
+     "source": "meadowlakeNOW",
+     "sectors": []
+    },
+    {
+     "title": "John Schneider discusses 3-0 loss to White Sox - MLB.com",
+     "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1YQWpJSmN5dGxjSDJlbUNUbzRBTngtSl9jckFPM0hkbnFFLS1POFJaU2FQMXkwTnhhWFd2X09nbjFNNnV1OVBZNTBqY0xqTEdodDd1SXNCM0hxTGN0WFNqWG5qNWpnUnJpVkMtNjdaUFE4aGtLYVdiWGpKdWY?oc=5",
+     "published": "2026-07-19T20:05:55Z",
+     "source": "MLB.com",
+     "sectors": []
+    },
+    {
+     "title": "Blue Jays manager John Schneider running out of patient with pathetic offense after White Sox shutout - Yahoo Sports",
+     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNR0s5NVVqSjFQYVdHVVgwUFh0WDhnS2hNckRueVY3UGVRTHNmNW1GLWJCV1NvdHVjRzBJREFYUHpGSHdSY1BWWnl0djZnb0xfVWRMelItY0thamtzd18zYjVvZ0ozQVhMZkdTRDBNVElMRlc3SHRiRW1hcTBVellFa01FVkowY1hk?oc=5",
+     "published": "2026-07-19T19:38:54Z",
+     "source": "Yahoo Sports",
+     "sectors": []
+    },
+    {
+     "title": "Schneider frustrated with Blue Jays' scoring woes: 'Got to start winning' - theScore",
+     "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQbnNibFZPMzNMX2g1OGxyWHBOaW9ETFRya2t6d2VRNG1ER1ZjMGtjRlY0aE1WdXM2TmpqNm1Tb1VPcTd0NlNEVzB4UFE1VE9zWXl4MHFsTzBmVkF1VHFKTWM1a0x1Y2Q3eFNUUWY2NEtPVy1pWkh6eUxqV2R4cTFHaVJ3X1p4Z3h6bW1rS291WnJhZUtxWUlnMFN4VExLMXc0eFpkNVZyQ19qcm1CZUtaeQ?oc=5",
+     "published": "2026-07-19T19:25:41Z",
+     "source": "theScore",
      "sectors": []
     }
    ],
    "gated": false
   },
   {
-   "ticker": "IDBI.NS",
-   "name": "IDBI BANK LIMITED",
-   "mb": 66.0,
-   "inv": 74.8,
-   "conf": 0.885,
+   "ticker": "ECLERX.NS",
+   "name": "ECLERX SERVICES LTD",
+   "mb": 66.3,
+   "inv": 70.9,
+   "conf": 0.983,
    "risk": 0,
-   "trend": "down",
-   "price_at_build": 87.0199966430664,
-   "group": "Banks - Regional",
-   "group_rank": 17,
-   "group_score": 46.875,
-   "tags": [],
-   "news": [
+   "trend": "sideways",
+   "price_at_build": 1893.800048828125,
+   "group": "Information Technology Services",
+   "group_rank": 27,
+   "group_score": 25.5,
+   "tags": [
     {
-     "title": "- The HinduBusinessLine - BusinessLine",
-     "link": "https://news.google.com/rss/articles/CBMiygJBVV95cUxPejN3UzVGS1hTVnBsci1QNFJYNHBZM3J5bUI4YUQwUHVuSDJoLUFsaG9PdkVHMVlneHh5dy0tSHRtbWM0ZU5mWE80bEtvLWQ2Sm9BMjI5UlV4N04teVFwTXlaZDBoLUhOd3doVHNUNGdoNWJjTWtPN2xuS21vMi1xRzV2RHNLMi1Cd2lWbUpGWmlkVEJVZkpZOE5Qd1VjRl9MUTRLSHVtazZzOHF1dnFuRF9aaDJpTGN6c3cxWmh2SnpmdVo1azBHVnhmY051MHY2MkhGYW1KVXlYWUp4REJlb2NPbzVTeWtKTFpjLTg1dDZIX3h0OExvdUMwZVZTNnp1RUpoX1BFSXU2aFhZRGNNTC12ZkVGaWpnT3VzUWhXMk9zN0VVbGdSQVA1Q3l4NUk5NUViMjlSbkNxc2g0UG1QbDAza09QWHV5anc?oc=5",
-     "published": "2026-07-19T19:58:43Z",
-     "source": "BusinessLine",
-     "sectors": []
+     "theme": "GenAI automation pressure on headcount-linked revenue",
+     "direction": "headwind"
     },
     {
-     "title": "IDBI Bank Limited Kicks Off FY 2026-27 with a 5% Rise in Net Profit to \u20b92,115 Crore - EquityBulls",
-     "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBrNGJuS1YtT2FtdmJLQVdaelI4NUdPTThISE1fUEYyT0pfX1NkOWdMTjlPY0lKVGxpN0psX0wyYk9OZTRKbUJ0Ri1wRW5XTVF6Ykdwb1ZmUkdOQmdocENF?oc=5",
-     "published": "2026-07-19T18:15:56Z",
-     "source": "EquityBulls",
-     "sectors": []
-    },
-    {
-     "title": "IDBI employees' forum seeks Parliament review of Fairfax stake sale - Business Standard",
-     "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQUi1IanF5ZFN0T0lWUXZGcC05WWNYZ09TbUs5M05DazVYWXdTTUN2RklDQ3JkRElKanRLOWdSajR3WWxXRzVPbkhOVDlQNTNCVWE4TzcxT2pKWVlFOFNKQUpRS0l3elZPQXFmc1ZWTTZfcFRYQmE2NjhrSWtuX0FIRzlQVjNaSVVublp5VTR2UmhjSUZOYlBKMUQwMkNKQjZzTUZtWUY0cnB1VFdvMl9tSTdlMWM0VlQySlg2clNhWkNoQy00Zy16NWczUEYzWEJCNTkxZjFyY9IB3AFBVV95cUxPZUVlVHJWTXpOYnpHeV9HWW5yT1lsdmxkVUVjWXp5ZElJR3h3bFNTMFJ1cjAzRkR1T3UxN1JZeFVXS1MtckVZblI4aTFPZDhrRVp5SkJzNEFfdWNVU0NpS0U1UGNMRjYtaWN3ZE00RERONE5FRjBWYkVlQUc1aUZCWGZtSGJZSnVDTWFPeGM3Y25YbW1XZzRJTkMwSGJEQUI4SXVvMjBEU0tyenl5aDhqaFotWFQ1UF9JaGMyM2pSVnkwRmlfRjROaThSXzUtdEQwXzZfZjh0Z2xHTVpm?oc=5",
-     "published": "2026-07-19T13:27:54Z",
-     "source": "Business Standard",
-     "sectors": []
-    },
-    {
-     "title": "IDBI Bank Q1 Results: Profit Rises 5% as Business Grows - Lapaas Voice",
-     "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5LUzhUb0VHaVdBQUc5M2pONXhURDFOWXpMT21xTHZOdmE3VXA0c29Bb25sT0t1YXlobDZRSEtVNWpXdnFtWWJENHlvcUxHQUZwN1JSMHJpOXN1U0lFM0ZHLUZqYkQwY1FUclFrNl9aMWFITTNUT19SM2UyRQ?oc=5",
-     "published": "2026-07-19T06:17:15Z",
-     "source": "Lapaas Voice",
-     "sectors": []
-    },
-    {
-     "title": "IDBI Bank sale move faces call for review on governance, sovereignty grounds - BusinessLine",
-     "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPTkNTOWp0YkttenhmNUZfN1QxUHRvUzZtNXM3ZFktMkZoYmNWUDctdVVJblQxUEhvOW5PZEFRUENWRXZwblFiN05ySnBVOU53V0FqcG9mR2pUQ3pHazUtWHhaSTFpQjZqdTZhVWNvZUdycFc0WkxFUFlUZkRUT3lrX1M4LWpFMnl3Vk8wRko1RUxFZjNpd2dqNnBrUl90TEIteFhyLWIxTWxGWHY2SjRrcWxhV2hUSktXOWpNNlRJVWRrbHBaT0NzMThoRWc5MmpXVktWbmVjUXQzVzlIRGh4eUdPR2nSAesBQVVfeXFMT3p2SkNfOFRwMHFwTDlfT0hMSUJBSm9oZHlWR1VBSUVUSHJRek8wS094OFJWSWMyT3VMT21QM2hnRVRTVUlmZHQ4aUNHUmdvelpyWnJTOG9EbWI0UTBSWmpSa3JxX1RqcUJJX2VEX0ZqSERXY0F1V1NfY2tocHNUbmhoWUZrZzZHSFNIazBZUFdZaXhpRkpmVkVQUlplYVNnbURKOVU5YW4tYjRXOV90TExhSl9FUnRxd1ZVZXlza2RRbW5EVUR6M0h0N1ZUM2NkeU1uOFdqTWVwaV9qNVd4SDJGeWF3WTY5dktUdw?oc=5",
-     "published": "2026-07-19T05:25:59Z",
-     "source": "BusinessLine",
-     "sectors": []
+     "theme": "GenAI integration-services demand",
+     "direction": "tailwind"
     }
    ],
-   "gated": false
-  },
-  {
-   "ticker": "BBTC.NS",
-   "name": "BOMBAY BURMAH TRADING COR",
-   "mb": 65.6,
-   "inv": 70.5,
-   "conf": 0.958,
-   "risk": 0,
-   "trend": "strong_down",
-   "price_at_build": 1493.5999755859375,
-   "group": "Packaged Foods",
-   "group_rank": 12,
-   "group_score": 55.0,
-   "tags": [],
    "news": [
     {
-     "title": "Baby Bitcoin Price Today in India | BBTC to INR Live Price & Chart - Binance",
-     "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5GclhqNmpOdGVDR1JMMW50cEFpUTluR0R2ZXNkYm9xZHgtcU40Q29EVEZRRnZlQ2pUMHpjLVV6VjZBaDlibTlpTnNUTTl1UVZqSVdiZ0dWb2xIcV95dm9sV3h0d2I?oc=5",
-     "published": "2026-07-13T19:33:00Z",
-     "source": "Binance",
+     "title": "eClerx Services - Positive Breakout: These 9 stocks cross above their 200 DMAs - The Economic Times",
+     "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQNWFzekxSQzhWSWIwUFM5c21qam50YXFvSk50YUxrX3Y2N3F3eGUwRXhfRFBUV3ROMThxWTRxRXFFa2h3WGQta3VwcXNQZVZSYW1Ebk1aZE11X1VpZkxKa2lMcklVZzVGbXVGVmZEUzJoSURJZEY4UjFYdC1EUkRKbm1fOWlpUHhkYWc1emc2MGJSZmVOTWNVbGV3VldIemdqbUw1Q0l2bFVVYW1mNTdnSGN6OUZHZ193OFVlNnhnZXRtWDVvQmZwVnZkOGdfelM1aVBYajI0MlFiUEo1NVA4bQ?oc=5",
+     "published": "2026-07-20T02:11:17Z",
+     "source": "The Economic Times",
+     "sectors": []
+    },
+    {
+     "title": "BSE Services Index Price Today, BSE Services share price, BSE Services Live Charts - Business Today",
+     "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE92V0Q4NzN5VTlRa0hSa1VlVnJDWlA3RjlnM1JGTmZxdlJvOHRwTXFManRPcERFRWk3dFJDMG9penhScmYwWEsyNjhzTUprWkRYX3BXQUF6N1dKVXBnLUZ4TXN3?oc=5",
+     "published": "2026-07-17T07:00:00Z",
+     "source": "Business Today",
+     "sectors": []
+    },
+    {
+     "title": "eClerx Services Ltd appoints Hoshi Mistry as Principal \u2013 Customer Experience - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPQkJKRU80dkV6VFhoa3dZMFYyeWhBZDZmRWFyQTFlWG5LMkRPSk5fdFlVOVNtZ2Mtc3RQMzktNGRJaHBEbUxVYlc5UjlTaGdJNnM5YzVzeHA5MHJpRWticzE2VnlxVTF0U1p1aW80SHZoZDVzN0ItdXJ1M2szUDExQTBFb3ZoMmZrRXZGTTUtZF9zVzRqTUNLRFI1czdUMVlSWnVKZDZ2c05qUVFFUWVuY2t2LTE4SjRGOUY4RnRiVFFlMWd6SnotNU5ZYw?oc=5",
+     "published": "2026-07-14T16:26:01Z",
+     "source": "scanx.trade",
+     "sectors": []
+    },
+    {
+     "title": "Eclerx Services Limited Announces Appointment of Hoshi Mistry as Principal ? Customer Experience, Effective July 10, 2026 - marketscreener.com",
+     "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxNT3U5LW1HNWtEaUtWMkVYOHo0MDVFQk1NM01xWTF4ajVVSWNWaEI3c0FxNVRYTHZOQVlnYlN1dDB3V0VzTWRhOUV5MVUzYV91VDVHWlFtdHpOSmN1NHZRaVlaUVBoRGNlclFwcHcxaGNyRWhuTUxhZm1saEJCWWN6eEFZN3h2Wm4zbDBwUXpZTHdrTEZVaWF3TlVoMWxrSXRGVWNQZmRUWEYyRUNDUmoycmlWUzJOTV9MN2JfMks4ZlUtdXZ6dkdGZmxBVnFPcGFwUTBEYjZHOTRqcm16QlYwODJKQmY?oc=5",
+     "published": "2026-07-14T13:50:00Z",
+     "source": "marketscreener.com",
+     "sectors": []
+    },
+    {
+     "title": "Naukri, Zensar Technologies and Eclerx Services share price soars over 20% in July; here is why - Upstox",
+     "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPSDRiNzhSaENQOHVSQi1hNklxbC04MUNGeHFGMGxfLWdkMWlDWVluMUlaVEtnRHR3WXhGQ2RGbDFiYVhmQTcwT3Y4eTA5X1czcXJEQ3pTT09fS010TEVZLUZxU1NMbWhCWTZqX2VfVVpHMXJPYTB5WmpQZ2hlMFpkZUlncW9SQ2JGb09Ib2YzRE9YV1pLbzFSOVhHd1F0bXlRV3BleWE3Ny1UNzVra1BIY2lUeU14a3lZOFU3MWVKX0pFOERMQ2lRbFNuMjlBUHJCdnRKU1pTajRkQzR2UHZ0cE0zdGtIdw?oc=5",
+     "published": "2026-07-14T08:11:36Z",
+     "source": "Upstox",
      "sectors": []
     }
    ],
@@ -871,14 +839,14 @@
   {
    "ticker": "INDIAMART.NS",
    "name": "INDIAMART INTERMESH LTD",
-   "mb": 65.6,
-   "inv": 69.9,
+   "mb": 66.1,
+   "inv": 70.6,
    "conf": 0.983,
    "risk": 0,
    "trend": "strong_down",
-   "price_at_build": 1910.0999755859375,
+   "price_at_build": 1932.4000244140625,
    "group": "Communication Services (other)",
-   "group_rank": 21,
+   "group_rank": 22,
    "group_score": 35.5,
    "tags": [],
    "news": [
@@ -900,17 +868,41 @@
    "gated": false
   },
   {
+   "ticker": "LALPATHLAB.NS",
+   "name": "DR. LAL PATH LABS LTD.",
+   "mb": 66.0,
+   "inv": 67.0,
+   "conf": 0.983,
+   "risk": 24,
+   "trend": "up",
+   "price_at_build": 1702.0999755859375,
+   "group": "Diagnostics & Research",
+   "group_rank": 1,
+   "group_score": 81.0,
+   "tags": [],
+   "news": [
+    {
+     "title": "Lal Pathlabs Receives Appellate Order From Tax Department Allowing Appeal - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOeFFhWlcwcmFOY0tYRWR3SHJXSVowUUxyRlVTUW5sMXZBNE1MT0RNakJ4QkI2ZGlWbWVIc3JDTC1Lb3JKbDRvWVh4QllyVXJDc2tkWGdzRWg4VkVQcm50ZU1sRTIzQjBLNHg0bzB3c0lvaVh0VkNmdFdwcTlXWnNuM3FrR3J5T19nMDNtWTdJMDQ3Wm5nNmEtWXlUN01TNTNfZnRVTGpOTjJQWXFQbzQ0YW9uT2JxYmtveDV4UlEtVFBral9iM0ZOeC1LeE43WDd3OTFCNWc4Wi1PWHM?oc=5",
+     "published": "2026-07-17T14:11:44Z",
+     "source": "TradingView",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
    "ticker": "IEX.NS",
    "name": "INDIAN ENERGY EXC LTD",
-   "mb": 65.2,
-   "inv": 68.0,
-   "conf": 0.977,
+   "mb": 65.6,
+   "inv": 68.5,
+   "conf": 0.976,
    "risk": 0,
-   "trend": "strong_down",
-   "price_at_build": 122.80000305175781,
+   "trend": "down",
+   "price_at_build": 123.5,
    "group": "Capital Markets",
-   "group_rank": 28,
-   "group_score": 15.5,
+   "group_rank": 31,
+   "group_score": 5.0,
    "tags": [
     {
      "theme": "Financialization of household savings",
@@ -918,13 +910,6 @@
     }
    ],
    "news": [
-    {
-     "title": "Indian Gas Exchange files for IPO as parent IEX looks to pare stake - MSN",
-     "link": "https://news.google.com/rss/articles/CBMi0wJBVV95cUxOeG56OHJOaFllOVpsYkt2N2EzNmVEZEVOamNXU0k4eE9jUkt0SVVTanU3S0ZFRmJYTmx5NWFsR3A4ZFR0OWdpaGI5clh6TXY2Y3Q3ZHhSelItMVdXWE1HU2VSZ25vUzBiaEt1d0ItcHJBNUdIVHFQRS0zV2Vwb1pGQmdZUmVERHhJWGZkT0l6OFB2ZTF6MkJGWXlPMmZXSzFrVzlzSnZMZkxiZTdMUVlzN1lndnJDTFFUZHhQMGdBaWhlNjJxM05CQVlXMzlOX0kzVHpXZkFiZ2JxS0N3UjBuU3pwR0tXblhSYzZ4VUhjaEtjazdpU0NuWkZhYTNqN3VwblJkR0hsZ0xsMmllOUNxcW54d3hKcmtERkdhRlNGcjYzSTUzekhMZEJTRTJhalhMVTRsMkhVQ3dYQ3htRnFlenpPQ1F2QzVlM1NSMEJyUDhZbkE?oc=5",
-     "published": "2026-07-19T09:28:06Z",
-     "source": "MSN",
-     "sectors": []
-    },
     {
      "title": "Indian Gas Exchange Files IPO Papers With Sebi; IEX To Pare Stake To 25% - BW Businessworld",
      "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPOXp4OEdrdjFxdzVLWW9Ma09CMmVEQUFKZ29IVk5Ha1NIaEJnNXNBM0w0RHFTakpWcENENVZiSXBHRkszN0Rzam83XzQ1T2xneVBEb2tTR0FSVjhmdG9FY3RGWGtTN3ZyeFJDcWpxNklNMFM0OVd1ZHZKQlBpU3ZFWHFjYTB6eXlVTWFJZzU4bHFjeTFCai1jZkI0NDVpSVdLSUlfOW9mNXlrVzdsSEg3b0h3?oc=5",
@@ -952,6 +937,65 @@
      "published": "2026-07-17T05:04:32Z",
      "source": "simplywall.st",
      "sectors": []
+    },
+    {
+     "title": "IEX among 5 stocks with bullish RSI crossover - The Economic Times",
+     "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQT1ltdVRETF9ORjBEbjN4ejhaVlEtNnhOMGN2dDBuR3kwUk1uRHJQLWhfdmJST3hFYkhHTWdkM1lRcVE1ckpxbHlKV3RHbWhVTWRCTHA1dnRsX1dZcVVRemczMXI5MEp5eHlRNGZXRVhYUTFrUUFISUZoTWZpSXJCOGpITkxZZWZ5ZU1PZjQ3bGpIdC1Ybk9kb0JUazEyZGdGNzJEd1F0LXpQVFlqLWQ3cXhEQklybnc0YlhtNm02ZlFiYmhjZ1pvNA?oc=5",
+     "published": "2026-07-17T03:50:06Z",
+     "source": "The Economic Times",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "IDBI.NS",
+   "name": "IDBI BANK LIMITED",
+   "mb": 65.5,
+   "inv": 74.1,
+   "conf": 0.884,
+   "risk": 0,
+   "trend": "down",
+   "price_at_build": 85.88999938964844,
+   "group": "Banks - Regional",
+   "group_rank": 18,
+   "group_score": 43.125,
+   "tags": [],
+   "news": [
+    {
+     "title": "- The HinduBusinessLine - BusinessLine",
+     "link": "https://news.google.com/rss/articles/CBMiygJBVV95cUxPejN3UzVGS1hTVnBsci1QNFJYNHBZM3J5bUI4YUQwUHVuSDJoLUFsaG9PdkVHMVlneHh5dy0tSHRtbWM0ZU5mWE80bEtvLWQ2Sm9BMjI5UlV4N04teVFwTXlaZDBoLUhOd3doVHNUNGdoNWJjTWtPN2xuS21vMi1xRzV2RHNLMi1Cd2lWbUpGWmlkVEJVZkpZOE5Qd1VjRl9MUTRLSHVtazZzOHF1dnFuRF9aaDJpTGN6c3cxWmh2SnpmdVo1azBHVnhmY051MHY2MkhGYW1KVXlYWUp4REJlb2NPbzVTeWtKTFpjLTg1dDZIX3h0OExvdUMwZVZTNnp1RUpoX1BFSXU2aFhZRGNNTC12ZkVGaWpnT3VzUWhXMk9zN0VVbGdSQVA1Q3l4NUk5NUViMjlSbkNxc2g0UG1QbDAza09QWHV5anc?oc=5",
+     "published": "2026-07-20T04:58:43Z",
+     "source": "BusinessLine",
+     "sectors": []
+    },
+    {
+     "title": "IDBI Bank divestment sparks quota rights debate - Lapaas Voice",
+     "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE8zRmpuNmtSbmhRVVoxUFdqV2tWV21nMmkxRmdvQnRobjB3ZjF1TllJcC1BQk0zM3BzQ2JfeGllajdyUC0yN3UxV2JOb2NKVmRPWnFOVjFoQ0lwVzhrUldqNWFBVmpJa1dPYjU0?oc=5",
+     "published": "2026-07-20T04:40:32Z",
+     "source": "Lapaas Voice",
+     "sectors": []
+    },
+    {
+     "title": "IDBI Bank Q1 PAT jumps 5% YoY to Rs 2,115 cr - Business Standard",
+     "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPVTI3SlhGWElYal95Z2h5LThLb01LOUQxVU14YXZyd3EyZ0toYkozQU1LWFlUdjQzSkpaUU1ONWNjUDRYSGd1RnNUNDlrekZsUkthMVJIbUo3MjhKeGpWMmlreldicVRiQzVtLUk3aFhqUVRtQWp3SFRyM09kdUstTGxZdFFzSnh2QWZsMjJZR0xqS1Z3RGNuVzZnOURQa3JncXcwajBpN2J2WXYzdkZOX2VycUhvNi05eU50dEozZGJGRkXSAcgBQVVfeXFMT2ktb3VXT3dUWXhuRDRBSXl5UklneE43Qm1WZkFaaDdKMWNjNDF2UkZRazB5eDUwTS1YSlUyZXNaUHFlLUNjVzZxVVB5US0wX2Uya2VpdC15aS1aekM2MC1USkxYV2ZPY1VycDRTZVRWXzRRalJ6b3Rjb1FLRENFb0lMTjZ6a0FkanRYOGdzMVUzWGRsTXFqdFFoTUQ0NWwzWk13V0FvZ3F3UnhUcTQ1Y0ozNkdPUDE2NFgyZ3p4Z2tLMnAxcklGMnk?oc=5",
+     "published": "2026-07-20T04:21:03Z",
+     "source": "Business Standard",
+     "sectors": []
+    },
+    {
+     "title": "IDBI Bank Employees Forum Disagrees With Planned Stake Sale To Fairfax, Requests Review - Sahi",
+     "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOa0Ytd1V2d1dEaFk3UGhFd0plNnlfREVmRC1kMHdUbTUyU3JGQ215dlAyd2Itek01VThfVXNtRlhoWTR6QnR3bFhfaXpJM1g3QWc4elZfb3BRNjhSX3ZGZjJjSGY3UktYYkZlQ3RNRzgyU1NYTkVfbFV0NUJydHI1QXlyMG51VDZuSlhQUTBXZWdERTVaY185a2hwd2tFVERBR1NOeUZNOVdkaVJqV1RwOENVT1RKRmF3MDZUSVlWTzdJRGc?oc=5",
+     "published": "2026-07-20T03:56:15Z",
+     "source": "Sahi",
+     "sectors": []
+    },
+    {
+     "title": "IDBI Bank divestment unjust to SC/ST/OBC staff cause: Former Secretary EAS Sarma - BusinessLine",
+     "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPVE5OVloxSjB6OF9mcmRtckZZT2M2QnMyVG1xSmtIR1RkYlY1bW5GbkIxSHg3bVFVOXZaS3BOdlVpZXM1SUlNejN0SWNQWHpPbG4xR3F6dVgxYUhUSFNlblJVbUg5MXl3dG5NME5EWm4tQ01wVDRrQ2d1UkNkbGxfWWx3a2ROaDdOYlFjZ1hmUFJmTWlUSnh0aWphMENuQjNVZzBHQ3otVjJqbnZfUWZFN0FEZWhKRnFZRGlmTmxMSUIxclk1UG9hUXVhZ09laXJ1N1Ntd2RaT0kzNXdBa09EWmxydWoyTEHSAe4BQVVfeXFMTms4U0tFNjJsVlZRRnk3ZkJMaFpFVWlQTGRfNXZJSWJSblFtR2lCUC1rNXBhcUJ0OUE0SzZnUmNTWDJQTnBVcFNMUmlsbF9NS2FEZUN1R0F4ZjJxSGp0bUtQMk1USENuOXlwMUlJakdTUnpxa3BSLVd1djI3bnZkbEh0ZE55V1lMSlI0UWlzY0FDLUJrTWFtc2xoMVNLQnprNVRiV0toekpTdnVkLUhFVXN4NjM2TGFLTjlLSXhTUnVuWnZhbEl0bEduNDdMWE4zMm9qa1ZzMTN6TXR1UnBuZGNUT0w4NjNtZ3ozdzlXdw?oc=5",
+     "published": "2026-07-20T03:34:30Z",
+     "source": "BusinessLine",
+     "sectors": []
     }
    ],
    "gated": false
@@ -974,24 +1018,24 @@
   },
   {
    "rank": 3,
+   "name": "Steel",
+   "level": "industry",
+   "score": 76.5,
+   "n": 8
+  },
+  {
+   "rank": 4,
    "name": "Electrical Equipment & Parts",
    "level": "industry",
    "score": 75.5,
    "n": 8
   },
   {
-   "rank": 4,
+   "rank": 5,
    "name": "Auto Parts",
    "level": "industry",
    "score": 75.5,
    "n": 13
-  },
-  {
-   "rank": 5,
-   "name": "Steel",
-   "level": "industry",
-   "score": 73.5,
-   "n": 8
   },
   {
    "rank": 6,
@@ -1016,24 +1060,24 @@
   },
   {
    "rank": 9,
-   "name": "Financial Services (other)",
-   "level": "sector",
-   "score": 60.0,
-   "n": 4
-  },
-  {
-   "rank": 10,
    "name": "Building Materials",
    "level": "industry",
    "score": 58.5,
    "n": 4
   },
   {
-   "rank": 11,
+   "rank": 10,
    "name": "Mortgage Finance",
    "level": "industry",
    "score": 57.5,
    "n": 7
+  },
+  {
+   "rank": 11,
+   "name": "Financial Services (other)",
+   "level": "sector",
+   "score": 56.0,
+   "n": 4
   },
   {
    "rank": 12,
@@ -1065,115 +1109,115 @@
   },
   {
    "rank": 16,
+   "name": "Utilities (other)",
+   "level": "sector",
+   "score": 49.0,
+   "n": 6
+  },
+  {
+   "rank": 17,
    "name": "Specialty Industrial Machinery",
    "level": "industry",
    "score": 47.0,
    "n": 7
   },
   {
-   "rank": 17,
+   "rank": 18,
    "name": "Banks - Regional",
    "level": "industry",
-   "score": 46.875,
+   "score": 43.125,
    "n": 9
   },
   {
-   "rank": 18,
+   "rank": 19,
    "name": "Metal Fabrication",
    "level": "industry",
    "score": 43.0,
    "n": 4
   },
   {
-   "rank": 19,
-   "name": "Utilities (other)",
-   "level": "sector",
-   "score": 43.0,
-   "n": 6
+   "rank": 20,
+   "name": "Chemicals",
+   "level": "industry",
+   "score": 37.5,
+   "n": 4
   },
   {
-   "rank": 20,
+   "rank": 21,
    "name": "Credit Services",
    "level": "industry",
    "score": 35.5,
    "n": 10
   },
   {
-   "rank": 21,
+   "rank": 22,
    "name": "Communication Services (other)",
    "level": "sector",
    "score": 35.5,
    "n": 9
   },
   {
-   "rank": 22,
+   "rank": 23,
    "name": "Specialty Chemicals",
    "level": "industry",
    "score": 33.0,
    "n": 9
   },
   {
-   "rank": 23,
-   "name": "Chemicals",
-   "level": "industry",
-   "score": 33.0,
-   "n": 4
+   "rank": 24,
+   "name": "Healthcare (other)",
+   "level": "sector",
+   "score": 32.5,
+   "n": 8
   },
   {
-   "rank": 24,
+   "rank": 25,
+   "name": "Consumer Cyclical (other)",
+   "level": "sector",
+   "score": 29.5,
+   "n": 19
+  },
+  {
+   "rank": 26,
    "name": "Conglomerates",
    "level": "industry",
    "score": 26.0,
    "n": 7
   },
   {
-   "rank": 25,
+   "rank": 27,
    "name": "Information Technology Services",
    "level": "industry",
    "score": 25.5,
    "n": 8
   },
   {
-   "rank": 26,
-   "name": "Healthcare (other)",
-   "level": "sector",
-   "score": 25.5,
-   "n": 8
-  },
-  {
-   "rank": 27,
-   "name": "Consumer Cyclical (other)",
-   "level": "sector",
-   "score": 22.5,
-   "n": 19
-  },
-  {
    "rank": 28,
-   "name": "Capital Markets",
-   "level": "industry",
-   "score": 15.5,
-   "n": 5
-  },
-  {
-   "rank": 29,
    "name": "Engineering & Construction",
    "level": "industry",
    "score": 15.0,
    "n": 10
   },
   {
-   "rank": 30,
+   "rank": 29,
    "name": "Technology (other)",
    "level": "sector",
    "score": 15.0,
    "n": 14
   },
   {
-   "rank": 31,
+   "rank": 30,
    "name": "Real Estate - Development",
    "level": "industry",
    "score": 12.0,
    "n": 4
+  },
+  {
+   "rank": 31,
+   "name": "Capital Markets",
+   "level": "industry",
+   "score": 5.0,
+   "n": 5
   },
   {
    "rank": 32,
@@ -1184,6 +1228,13 @@
   }
  ],
  "policy": [
+  {
+   "title": "\u0938\u0902\u0938\u0926 \u0915\u0947 \u092e\u093e\u0928\u0938\u0942\u0928 \u0938\u0924\u094d\u0930 2026 \u0915\u0940 \u0936\u0941\u0930\u0941\u0906\u0924 \u092e\u0947\u0902 \u092a\u094d\u0930\u0927\u093e\u0928\u092e\u0902\u0924\u094d\u0930\u0940 \u0915\u0947 \u0938\u0902\u092c\u094b\u0927\u0928 \u0915\u093e \u092e\u0942\u0932 \u092a\u093e\u0920",
+   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286457",
+   "published": null,
+   "source": null,
+   "sectors": []
+  },
   {
    "title": "\u0917\u0924\u093f \u0936\u0915\u094d\u0924\u093f \u0935\u093f\u0936\u094d\u0935\u0935\u093f\u0926\u094d\u092f\u093e\u0932\u092f \u092e\u0947\u0902 \u091a\u094c\u0925\u093e \u0926\u0940\u0915\u094d\u0937\u093e\u0902\u0924 \u0938\u092e\u093e\u0930\u094b\u0939 \u0906\u092f\u094b\u091c\u093f\u0924\u0964 121 \u091b\u093e\u0924\u094d\u0930\u094b\u0902 \u0928\u0947 \u092c\u0940.\u091f\u0947\u0915. \u0914\u0930 \u090f\u092e\u092c\u0940\u090f \u0915\u093e\u0930\u094d\u092f\u0915\u094d\u0930\u092e \u0938\u0947 \u0938\u094d\u0928\u093e\u0924\u0915 \u0915\u093f\u092f\u093e",
    "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286413",
@@ -1201,6 +1252,13 @@
   {
    "title": "\u0928\u092e\u0938\u094d\u0924\u0947 \u092f\u094b\u091c\u0928\u093e \u0938\u0930\u0915\u093e\u0930 \u0915\u0940 \u0907\u0938 \u0905\u091f\u0942\u091f \u092a\u094d\u0930\u0924\u093f\u092c\u0926\u094d\u0927\u0924\u093e \u0915\u094b \u0926\u0930\u094d\u0936\u093e\u0924\u0940 \u0939\u0948 \u0915\u093f \u092a\u094d\u0930\u0924\u094d\u092f\u0947\u0915 \u0938\u092b\u093e\u0908\u0915\u0930\u094d\u092e\u0940 \u0917\u0930\u093f\u092e\u093e, \u0938\u0941\u0930\u0915\u094d\u0937\u093e \u0914\u0930 \u0938\u093e\u092e\u093e\u091c\u093f\u0915 \u0938\u0941\u0930\u0915\u094d\u0937\u093e \u0915\u0947 \u0938\u093e\u0925 \u0915\u093e\u092e \u0915\u0930 \u0938\u0915\u0947; \u092f\u0939 \u092f\u094b\u091c\u0928\u093e \u0938\u092c\u0915\u093e \u0938\u093e\u0925, \u0938\u092c\u0915\u093e \u0935\u093f\u0915\u093e\u0938, \u0938\u092c\u0915\u093e \u0935\u093f\u0936\u094d\u0935\u093e\u0938, \u0938\u092c\u0915\u093e \u092a\u094d\u0930\u092f\u093e\u0938 \u0915\u0947 \u0926\u0943\u0937\u094d\u091f\u093f\u0915\u094b\u0923 \u0915\u0947 \u0905\u0928\u0941\u0930\u0942\u092a \u0939\u0948: \u0915\u0947\u0902\u0926\u094d\u0930\u0940\u092f \u0938\u093e\u092e\u093e\u091c\u093f\u0915 \u0928\u094d\u092f\u093e\u092f \u0914\u0930 \u0905\u0927\u093f\u0915\u093e\u0930\u093f\u0924\u093e \u092e\u0902\u0924\u094d\u0930\u0940 \u0921\u0949. \u0935\u0940\u0930\u0947\u0902\u0926\u094d\u0930 \u0915\u0941\u092e\u093e\u0930",
    "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286391",
+   "published": null,
+   "source": null,
+   "sectors": []
+  },
+  {
+   "title": "\u0915\u0947\u0902\u0926\u094d\u0930\u0940\u092f \u0935\u093e\u0923\u093f\u091c\u094d\u092f \u090f\u0935\u0902 \u0909\u0926\u094d\u092f\u094b\u0917 \u092e\u0902\u0924\u094d\u0930\u0940 \u0936\u094d\u0930\u0940 \u092a\u0940\u092f\u0942\u0937 \u0917\u094b\u092f\u0932 \u0928\u0947 \u0938\u094d\u092a\u0947\u0928, \u092c\u0947\u0932\u094d\u091c\u093f\u092f\u092e, \u092b\u093f\u0928\u0932\u0948\u0902\u0921 \u0914\u0930 \u090f\u0938\u094d\u091f\u094b\u0928\u093f\u092f\u093e \u0915\u0940 \u0938\u092b\u0932 \u092f\u093e\u0924\u094d\u0930\u093e \u092a\u0942\u0930\u094d\u0923 \u0915\u0940\u0902; \u0907\u0938\u0938\u0947 \u092f\u0942\u0930\u094b\u092a \u0915\u0947 \u0938\u093e\u0925 \u092d\u093e\u0930\u0924 \u0915\u0940 \u0906\u0930\u094d\u0925\u093f\u0915 \u0938\u093e\u091d\u0947\u0926\u093e\u0930\u0940 \u0914\u0930 \u092e\u091c\u092c\u0942\u0924 \u0939\u0941\u0908",
+   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286433",
    "published": null,
    "source": null,
    "sectors": []
@@ -1253,24 +1311,16 @@
    "published": null,
    "source": null,
    "sectors": []
-  },
-  {
-   "title": "\u0906\u091c \u0938\u0930\u0915\u093e\u0930 \u0914\u0930 \u0930\u093e\u091c\u0928\u0940\u0924\u093f\u0915 \u0926\u0932\u094b\u0902 \u0915\u0947 \u0928\u0947\u0924\u093e\u0913\u0902 \u0915\u0940 \u092c\u0948\u0920\u0915 \u0939\u0941\u0908",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286335",
-   "published": null,
-   "source": null,
-   "sectors": []
-  },
-  {
-   "title": "\u0921\u0949. \u091c\u093f\u0924\u0947\u0902\u0926\u094d\u0930 \u0938\u093f\u0902\u0939 \u0928\u0947 \u0915\u0948\u0902\u0938\u0930, \u092e\u0927\u0941\u092e\u0947\u0939 \u0914\u0930 \u092e\u094b\u091f\u093e\u092a\u0947 \u0915\u0947 \u0916\u093f\u0932\u093e\u092b \u091c\u0928 \u0906\u0902\u0926\u094b\u0932\u0928 \u0915\u093e \u0906\u0939\u094d\u0935\u093e\u0928 \u0915\u093f\u092f\u093e; \u0936\u0940\u0918\u094d\u0930 \u0928\u093f\u0926\u093e\u0928 \u0914\u0930 \u0935\u0948\u091c\u094d\u091e\u093e\u0928\u093f\u0915 \u091c\u093e\u0917\u0930\u0942\u0915\u0924\u093e \u092a\u0930 \u091c\u094b\u0930 \u0926\u093f\u092f\u093e",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2286328",
-   "published": null,
-   "source": null,
-   "sectors": []
   }
  ],
  "changes": {
-  "entered": [],
-  "exited": []
+  "entered": [
+   "SCHNEIDER.NS",
+   "ECLERX.NS"
+  ],
+  "exited": [
+   "CAPLIPOINT.NS",
+   "BBTC.NS"
+  ]
  }
 }

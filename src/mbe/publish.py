@@ -31,6 +31,67 @@ VALIDATION_FOOTER = (
     "advice."
 )
 
+# ---------------------------------------------------------------------------
+# Theme foundation (spec: Zerodha-dark default, Groww-light toggle — the
+# user's exact palette tokens). Shared by the index, report shell, and the
+# analyze error page. Deliberately hand-rolled CSS custom properties, not
+# Tailwind: this pipeline has no build step and adding one (or a CDN script
+# with its render flash) isn't worth it for ~150 lines of CSS.
+# ---------------------------------------------------------------------------
+
+THEME_BOOT = """<script>(function(){try{
+if(localStorage.getItem("mbe-theme")==="light")
+document.documentElement.setAttribute("data-theme","light");
+}catch(e){}})()</script>"""
+
+THEME_TOGGLE = """<button class="theme-toggle" title="Toggle light/dark"
+onclick="(function(){var r=document.documentElement;
+var light=r.getAttribute('data-theme')==='light';
+if(light){r.removeAttribute('data-theme')}else{r.setAttribute('data-theme','light')}
+try{localStorage.setItem('mbe-theme',light?'dark':'light')}catch(e){}})()"
+>&#9788;/&#9789;</button>"""
+
+THEME_CSS = """<style>
+:root{--bg:#1F2022;--surface:#252629;--text:#E4E6EB;--muted:#9B9EA4;
+--border:#333333;--border-soft:#2C2D30;--accent:#38A6F0;
+--gain:#4CAF50;--loss:#F44336;
+--chip-gain-bg:rgba(76,175,80,.15);--chip-loss-bg:rgba(244,67,54,.15)}
+[data-theme="light"]{--bg:#F3F4F6;--surface:#FFFFFF;--text:#2D343C;
+--muted:#6B7280;--border:#DDE4F0;--border-soft:#EEF1F6;--accent:#5076EE;
+--gain:#039955;--loss:#D32F2F;
+--chip-gain-bg:#E7F6EF;--chip-loss-bg:#FBEAEA}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+nav.topnav{position:sticky;top:0;z-index:10;display:flex;align-items:center;
+gap:18px;padding:10px 20px;background:var(--surface);
+border-bottom:1px solid var(--border)}
+.brand{font-weight:700;color:var(--accent);font-size:16px;letter-spacing:.02em}
+.navlink{color:var(--muted);font-size:13px;font-weight:500}
+.navlink:hover{color:var(--text);text-decoration:none}
+.theme-toggle{background:none;border:1px solid var(--border);border-radius:6px;
+color:var(--muted);padding:4px 10px;cursor:pointer;font-size:12px}
+main{max-width:1080px;margin:0 auto;padding:16px 20px 40px}
+.card{background:var(--surface);border:1px solid var(--border);
+border-radius:10px;overflow:hidden;margin:14px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--muted);font-size:11px;text-transform:uppercase;
+letter-spacing:.05em;text-align:left;font-weight:600}
+th,td{padding:9px 12px;border-bottom:1px solid var(--border-soft)}
+tr:last-child td{border-bottom:none}
+.gain{color:var(--gain)}.loss{color:var(--loss)}
+.muted{color:var(--muted)}.small{font-size:11px}
+.chip{display:inline-block;border-radius:5px;padding:2px 9px;
+font-size:11px;font-weight:600}
+.chip.gain{background:var(--chip-gain-bg)}.chip.loss{background:var(--chip-loss-bg)}
+.accent{color:var(--accent);font-weight:600}
+h2.sec{font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+color:var(--muted);margin:26px 0 4px}
+footer{margin:32px 0 0;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;color:var(--muted);font-size:12px;line-height:1.6}
+</style>"""
+
 
 def build_data(
     result: ScreenResult,

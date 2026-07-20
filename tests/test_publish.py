@@ -119,3 +119,26 @@ def test_render_site_index_has_search_form(tmp_path):
     index = (tmp_path / "index.html").read_text()
     assert 'action="/api/analyze"' in index
     assert 'name="ticker"' in index
+
+
+from mbe.publish import THEME_BOOT, THEME_CSS, THEME_TOGGLE
+
+
+def test_theme_css_carries_both_palettes():
+    # dark defaults on :root, light overrides under [data-theme="light"]
+    assert ":root" in THEME_CSS and '[data-theme="light"]' in THEME_CSS
+    for token in ("#1F2022", "#38A6F0", "#4CAF50", "#F44336"):
+        assert token in THEME_CSS  # Zerodha-dark set
+    for token in ("#F3F4F6", "#5076EE", "#039955", "#D32F2F", "#DDE4F0", "#2D343C"):
+        assert token in THEME_CSS  # Groww-light set
+
+
+def test_theme_boot_applies_saved_theme_before_paint():
+    assert "localStorage.getItem" in THEME_BOOT
+    assert "mbe-theme" in THEME_BOOT
+    assert "data-theme" in THEME_BOOT
+
+
+def test_theme_toggle_persists_choice():
+    assert "localStorage.setItem" in THEME_TOGGLE
+    assert "theme-toggle" in THEME_TOGGLE

@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date
-from statistics import median
+from statistics import median, quantiles
 from typing import TYPE_CHECKING
 
 from mbe.analysis.valuation import spike_ratio
@@ -118,8 +118,26 @@ def build_anchor(
         raw = peer_pe
         notes.append("no own-history P/E available — anchored on peers alone")
     elif own_pe is not None:
-        raw = min(own_pe, ANCHOR_MAX)
-        notes.append("no peer P/E available — anchored on own history alone")
+        # No peer median to cap the own history against, so take the lower
+        # quartile rather than the median. Our price window is short and covers
+        # one regime: a stock that spent three years re-rating has a median
+        # multiple describing that re-rating, not a defensible exit assumption,
+        # and on this path there is nothing else to check it against. The
+        # quartile is the one conservatism still available.
+        # method="inclusive": we want a multiple this stock demonstrably traded
+        # at, not an extrapolated population quantile, which on a short series
+        # can fall below anything ever observed.
+        own_low = (
+            float(quantiles(own_pes, n=4, method="inclusive")[0])
+            if len(own_pes) >= 4
+            else min(own_pes)
+        )
+        raw = min(own_low, ANCHOR_MAX)
+        notes.append(
+            f"no peer P/E available — anchored on the lower quartile of own "
+            f"history ({own_low:.1f}x, against a median of {own_pe:.1f}x), the "
+            f"only check available without peers"
+        )
     else:
         notes.append("neither peer nor own-history P/E available — no anchor")
         return MultipleAnchor(

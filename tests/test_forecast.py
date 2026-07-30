@@ -169,9 +169,28 @@ def test_anchor_falls_back_to_single_source():
     assert peers_only.anchor == pytest.approx(21.0 * 1.025)
     assert any("own-history" in n for n in peers_only.notes)
 
+    # too few points to take a quartile from: fall back to the lowest observed
     own_only = build_anchor([], [28.0, 32.0], 30.0, 50.0)
-    assert own_only.anchor == pytest.approx(30.0 * 1.025)
+    assert own_only.anchor == pytest.approx(28.0 * 1.025)
     assert any("peer" in n for n in own_only.notes)
+
+
+def test_own_only_anchor_uses_the_lower_quartile_not_the_median():
+    """With no peer median to cap a regime-inflated own history against, the
+    median of a single bull run is not a defensible exit assumption. Drop to
+    the lower quartile — the one conservatism available when the only evidence
+    is the stock's own re-rating."""
+    from mbe.analysis.forecast import build_anchor
+
+    own = [10.0, 20.0, 30.0, 40.0]  # median 25.0, lower quartile 17.5
+    own_only = build_anchor([], own, 20.0, 50.0)
+    assert own_only.anchor == pytest.approx(17.5 * 1.025)
+    assert own_only.own_pe_median == pytest.approx(25.0)  # still reported
+    assert any("lower quartile" in n for n in own_only.notes)
+
+    # a peer median present means the blend path, which keeps using the median
+    with_peers = build_anchor([24.0, 26.0], own, 20.0, 50.0)
+    assert with_peers.own_pe_capped == pytest.approx(25.0)
 
 
 def test_anchor_absent_when_no_multiple_source():

@@ -137,3 +137,54 @@ def build_anchor(
         anchor=clamped,
         notes=notes,
     )
+
+
+def fade(start: float, end: float, years: int) -> list[float]:
+    """Linear fade from start to end, inclusive of both endpoints."""
+    if years <= 1:
+        return [end]
+    return [start + (end - start) * i / (years - 1) for i in range(years)]
+
+
+def terminal_growth(peer_growths: list[float]) -> float:
+    """The rate growth fades toward: the peer median, clamped to a plausible
+    band. Falls back to a fixed rate when there is no peer set (single-ticker
+    path), which is why the fallback is stated rather than silently zero.
+    """
+    present = [g for g in peer_growths if g is not None]
+    if not present:
+        return TERMINAL_GROWTH_FALLBACK
+    return min(max(float(median(present)), TERMINAL_GROWTH_MIN), TERMINAL_GROWTH_MAX)
+
+
+def growth_paths(
+    g0: float, g_term: float, spiked: bool
+) -> dict[str, tuple[float, float]]:
+    """(start, end) revenue growth per scenario.
+
+    Driven by delivered revenue CAGR alone. v0.1 took a median across
+    revenue/profit/FCF CAGRs — non-comparable series whose median then had to
+    be clipped to 25%, which made the report's "delivered-growth median" label
+    false and capped every bull case at 30%.
+    """
+    start = min(max(g0, 0.0), GROWTH_CAP)
+    bear_mult = BEAR_GROWTH_MULT_SPIKED if spiked else BEAR_GROWTH_MULT
+    return {
+        "bull": (start, max(start * 0.7, g_term)),
+        "base": (start, g_term),
+        "bear": (start * bear_mult, g_term * 0.5),
+    }
+
+
+def margin_paths(m0: float, m3: float, m_best: float) -> dict[str, float]:
+    """Terminal net margin per scenario.
+
+    This is where "was the latest year a peak, or the new normal?" is argued
+    explicitly: bull treats it as the new normal, base splits the difference
+    with the 3-year mean, bear reverts fully.
+    """
+    return {
+        "bull": min(m0 * 1.05, m_best),
+        "base": (m0 + m3) / 2,
+        "bear": min(m0, m3),
+    }

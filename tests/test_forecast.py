@@ -177,3 +177,81 @@ def test_anchor_absent_when_no_multiple_source():
     a = build_anchor([], [], None, 50.0)
     assert a.anchor is None
     assert any("neither" in n for n in a.notes)
+
+
+def test_fade_is_linear_and_inclusive():
+    from mbe.analysis.forecast import fade
+
+    assert fade(0.30, 0.10, 3) == pytest.approx([0.30, 0.20, 0.10])
+    assert fade(0.10, 0.10, 3) == pytest.approx([0.10, 0.10, 0.10])
+
+
+def test_growth_paths_ordered_and_driven_by_revenue_cagr():
+    from mbe.analysis.forecast import growth_paths
+
+    paths = growth_paths(g0=0.345, g_term=0.10, spiked=False)
+    assert paths["base"] == (pytest.approx(0.345), pytest.approx(0.10))
+    # bull holds growth up: it fades only to 70% of the start
+    assert paths["bull"][1] == pytest.approx(0.345 * 0.7)
+    # bear starts at 40% of delivered growth and ends at half the terminal rate
+    assert paths["bear"] == (pytest.approx(0.345 * 0.4), pytest.approx(0.05))
+    assert paths["bear"][0] < paths["base"][0] <= paths["bull"][0]
+
+
+def test_spiked_earnings_produce_a_harsher_bear_start():
+    from mbe.analysis.forecast import growth_paths
+
+    normal = growth_paths(g0=0.345, g_term=0.10, spiked=False)
+    spiked = growth_paths(g0=0.345, g_term=0.10, spiked=True)
+    assert spiked["bear"][0] < normal["bear"][0]
+    assert spiked["base"] == normal["base"]   # only the bear path tightens
+
+
+def test_growth_start_capped_and_floored():
+    from mbe.analysis.forecast import GROWTH_CAP, growth_paths
+
+    assert growth_paths(g0=0.90, g_term=0.10, spiked=False)["base"][0] == pytest.approx(
+        GROWTH_CAP
+    )
+    assert growth_paths(g0=-0.20, g_term=0.10, spiked=False)["base"][0] == pytest.approx(
+        0.0
+    )
+
+
+def test_terminal_growth_clamped_with_fallback():
+    from mbe.analysis.forecast import (
+        TERMINAL_GROWTH_FALLBACK, TERMINAL_GROWTH_MAX, TERMINAL_GROWTH_MIN,
+        terminal_growth,
+    )
+
+    assert terminal_growth([]) == pytest.approx(TERMINAL_GROWTH_FALLBACK)
+    assert terminal_growth([0.11, 0.12, 0.13]) == pytest.approx(0.12)
+    assert terminal_growth([0.40, 0.45]) == pytest.approx(TERMINAL_GROWTH_MAX)
+    assert terminal_growth([-0.05, 0.0]) == pytest.approx(TERMINAL_GROWTH_MIN)
+
+
+def test_margin_paths_argue_peak_versus_new_normal():
+    from mbe.analysis.forecast import margin_paths
+
+    # HBL shape: latest 24.7%, 3y mean 17.1%, best ever 24.7%
+    m = margin_paths(m0=0.247, m3=0.171, m_best=0.247)
+    assert m["bull"] == pytest.approx(0.247)              # capped by own best
+    assert m["base"] == pytest.approx((0.247 + 0.171) / 2)
+    assert m["bear"] == pytest.approx(0.171)              # full reversion
+    assert m["bear"] < m["base"] < m["bull"]
+
+
+def test_bull_margin_expansion_capped_by_own_best_year():
+    from mbe.analysis.forecast import margin_paths
+
+    m = margin_paths(m0=0.20, m3=0.18, m_best=0.30)
+    assert m["bull"] == pytest.approx(0.21)   # 0.20 * 1.05, below the 0.30 ceiling
+
+
+def test_bear_margin_takes_the_worse_of_latest_and_mean():
+    """A business improving off a low base must not have its bear case set
+    above where it currently is."""
+    from mbe.analysis.forecast import margin_paths
+
+    m = margin_paths(m0=0.10, m3=0.16, m_best=0.16)
+    assert m["bear"] == pytest.approx(0.10)

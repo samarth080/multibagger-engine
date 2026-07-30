@@ -1,5 +1,5 @@
 {
- "built_at": "2026-07-30T15:29:14.072834+00:00",
+ "built_at": "2026-07-30T15:56:18.588658+00:00",
  "universe": "nifty-smallcap250",
  "curated_as_of": "2026-07-17",
  "top": [
@@ -1295,19 +1295,7 @@
   }
  ],
  "changes": {
-  "entered": [
-   "LEMONTREE.NS",
-   "ECLERX.NS",
-   "KPIL.NS",
-   "IGIL.NS",
-   "CCL.NS"
-  ],
-  "exited": [
-   "TRAVELFOOD.NS",
-   "LALPATHLAB.NS",
-   "IDBI.NS",
-   "BBTC.NS",
-   "IEX.NS"
-  ]
+  "entered": [],
+  "exited": []
  }
 }

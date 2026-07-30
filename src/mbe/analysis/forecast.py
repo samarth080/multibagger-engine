@@ -253,3 +253,43 @@ def apply_bull_guard(
         f"bull exit multiple trimmed {exit_multiple:.1f}x -> {needed:.1f}x to respect "
         f"the {BULL_CAGR_CAP:.0%}/yr sanity bound"
     ]
+
+
+VETO_SHIFT = 0.15
+
+
+def scenario_probabilities(
+    mean_assumption_support: float, franchise_score: float, veto: bool
+) -> dict[str, float]:
+    """Weights drawn from evidence the engine already computes: how often this
+    company's own assumptions have held, and how durable the franchise looks.
+    A vetoed thesis moves weight from bull to bear.
+    """
+    quality = 0.5 * mean_assumption_support + 0.5 * (franchise_score / 100.0)
+    p_bull = 0.10 + 0.30 * quality
+    p_bear = 0.40 - 0.25 * quality
+    if veto:
+        shift = min(VETO_SHIFT, p_bull)
+        p_bull -= shift
+        p_bear += shift
+    return {"bull": p_bull, "base": 1.0 - p_bull - p_bear, "bear": p_bear}
+
+
+def expected_outcome(
+    targets: dict[str, float], probs: dict[str, float], price: float
+) -> tuple[float | None, float | None, float]:
+    """Returns (expected_target, expected_cagr_3y, downside_probability).
+
+    The expectation is taken over *prices* and only then annualised. Averaging
+    the scenario CAGRs directly would be a different — and wrong — number,
+    because CAGR is non-linear in price.
+    """
+    expected_target = sum(probs[name] * targets[name] for name in targets)
+    downside = sum(probs[name] for name in targets if targets[name] < price)
+    if price <= 0 or expected_target <= 0:
+        return expected_target or None, None, downside
+    return (
+        expected_target,
+        (expected_target / price) ** (1 / HORIZON_YEARS) - 1,
+        downside,
+    )

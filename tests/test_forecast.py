@@ -326,3 +326,62 @@ def test_bull_guard_is_a_no_op_below_the_cap():
     )
     assert trimmed == pytest.approx(20.0)
     assert evidence == []
+
+
+def test_probabilities_sum_to_one_and_track_quality():
+    from mbe.analysis.forecast import scenario_probabilities
+
+    strong = scenario_probabilities(0.87, 91.7, veto=False)   # HBL's real inputs
+    weak = scenario_probabilities(0.35, 20.0, veto=False)
+    for p in (strong, weak):
+        assert sum(p.values()) == pytest.approx(1.0)
+        assert all(v >= 0 for v in p.values())
+    assert strong["bull"] > weak["bull"]
+    assert strong["bear"] < weak["bear"]
+    assert strong["bull"] == pytest.approx(0.368, abs=0.002)
+    assert strong["bear"] == pytest.approx(0.177, abs=0.002)
+
+
+def test_veto_shifts_weight_from_bull_to_bear():
+    from mbe.analysis.forecast import scenario_probabilities
+
+    clean = scenario_probabilities(0.80, 80.0, veto=False)
+    vetoed = scenario_probabilities(0.80, 80.0, veto=True)
+    assert vetoed["bull"] == pytest.approx(clean["bull"] - 0.15)
+    assert vetoed["bear"] == pytest.approx(clean["bear"] + 0.15)
+    assert sum(vetoed.values()) == pytest.approx(1.0)
+
+
+def test_veto_cannot_drive_bull_probability_negative():
+    from mbe.analysis.forecast import scenario_probabilities
+
+    p = scenario_probabilities(0.0, 0.0, veto=True)
+    assert p["bull"] >= 0.0
+    assert sum(p.values()) == pytest.approx(1.0)
+
+
+def test_expected_value_is_computed_on_prices_not_by_averaging_cagrs():
+    """CAGR is non-linear in price, so averaging CAGRs is not the same thing.
+    A wide spread makes the two answers differ measurably."""
+    from mbe.analysis.forecast import expected_outcome
+
+    targets = {"bull": 4000.0, "base": 1000.0, "bear": 250.0}
+    probs = {"bull": 0.3, "base": 0.5, "bear": 0.2}
+    exp_target, exp_cagr, downside = expected_outcome(targets, probs, price=1000.0)
+
+    assert exp_target == pytest.approx(0.3 * 4000 + 0.5 * 1000 + 0.2 * 250)
+    assert exp_cagr == pytest.approx((exp_target / 1000.0) ** (1 / 3) - 1)
+    naive = sum(
+        probs[k] * ((targets[k] / 1000.0) ** (1 / 3) - 1) for k in targets
+    )
+    assert exp_cagr != pytest.approx(naive, abs=1e-4)
+    assert downside == pytest.approx(0.2)
+
+
+def test_downside_probability_counts_every_scenario_below_price():
+    from mbe.analysis.forecast import expected_outcome
+
+    targets = {"bull": 1200.0, "base": 900.0, "bear": 500.0}
+    probs = {"bull": 0.3, "base": 0.5, "bear": 0.2}
+    _, _, downside = expected_outcome(targets, probs, price=1000.0)
+    assert downside == pytest.approx(0.7)

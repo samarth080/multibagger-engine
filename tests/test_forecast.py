@@ -257,6 +257,22 @@ def test_bear_margin_takes_the_worse_of_latest_and_mean():
     assert m["bear"] == pytest.approx(0.10)
 
 
+def test_bull_margin_assumes_recovery_and_margins_stay_monotone():
+    """A business that has slipped below its own 3-year average gets a bull case
+    that climbs back to it, rather than one treating its worst period as
+    permanent. Monotone bear <= base <= bull is the analogue of the target-price
+    ordering invariant: a scenario table whose bull margin sits under its base
+    margin reads as broken however the target prices come out."""
+    from mbe.analysis.forecast import margin_paths
+
+    slipped = margin_paths(m0=0.10, m3=0.16, m_best=0.16)
+    assert slipped["bull"] == pytest.approx(0.16)   # recovery, not 0.10 * 1.05
+
+    for m0, m3, m_best in ((0.247, 0.171, 0.247), (0.10, 0.16, 0.16)):
+        m = margin_paths(m0=m0, m3=m3, m_best=m_best)
+        assert m["bear"] <= m["base"] <= m["bull"]
+
+
 def test_project_compounds_revenue_and_dilution():
     from mbe.analysis.forecast import project
 

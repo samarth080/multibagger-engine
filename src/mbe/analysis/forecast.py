@@ -183,9 +183,16 @@ def margin_paths(m0: float, m3: float, m_best: float) -> dict[str, float]:
     This is where "was the latest year a peak, or the new normal?" is argued
     explicitly: bull treats it as the new normal, base splits the difference
     with the 3-year mean, bear reverts fully.
+
+    The bull leg is the current margin plus a little *or* a recovery to the
+    3-year average, whichever is higher, capped by the best year the business
+    has actually delivered. Without the recovery term, a company that has
+    slipped below its own average gets a bull margin beneath its own base case
+    — a scenario table that reads as broken, and a bull case that assumes the
+    worst stretch of the record is permanent.
     """
     return {
-        "bull": min(m0 * 1.05, m_best),
+        "bull": min(max(m0 * 1.05, m3), m_best),
         "base": (m0 + m3) / 2,
         "bear": min(m0, m3),
     }

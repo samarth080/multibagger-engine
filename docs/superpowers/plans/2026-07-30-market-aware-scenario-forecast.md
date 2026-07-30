@@ -1306,6 +1306,17 @@ def test_build_forecast_returns_none_without_any_multiple_source(hbl_bundle):
     assert build_forecast(hbl_bundle, [], []) is None
 
 
+def test_build_forecast_declines_on_a_loss_making_latest_year(hbl_bundle):
+    """The exit multiple is a P/E. A target price built on negative earnings is
+    not a conservative forecast, it is a meaningless one — so decline."""
+    from mbe.analysis.forecast import build_forecast
+
+    hbl_bundle.fin.data["net_income"] = {
+        2023: 98.7, 2024: 280.9, 2025: 276.9, 2026: -120.0
+    }
+    assert build_forecast(hbl_bundle, [20.0, 22.0, 24.0], [0.12]) is None
+
+
 def test_build_forecast_bear_is_harsher_for_a_spiked_earner(hbl_bundle):
     from mbe.analysis.forecast import build_forecast
 
@@ -1436,6 +1447,11 @@ def build_forecast(
         return None
 
     base_year, m0 = margins[-1]
+    if m0 <= 0:
+        # The exit multiple is a P/E, so a target price built on negative
+        # earnings is not conservative, it is meaningless. Decline rather than
+        # emit a number, the same contract as a missing anchor below.
+        return None
     recent = [m for _, m in margins[-3:]]
     m3 = sum(recent) / len(recent)
     m_best = max(m for _, m in margins)

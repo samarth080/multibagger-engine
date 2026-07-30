@@ -26,7 +26,7 @@ from mbe.models.analysis import (
     TechnicalState,
     ValuationResult,
 )
-from mbe.models.company import CompanyInfo, FinancialHistory
+from mbe.models.company import CompanyInfo, FinancialHistory, PriceHistory
 from mbe.models.scoring import ScoreCard
 from mbe.models.sector import SectorScore
 from mbe.models.stewardship import StewardshipProfile
@@ -42,6 +42,7 @@ class AnalysisBundle(BaseModel):
     fin: FinancialHistory
     fund: FundamentalMetrics
     tech: TechnicalState
+    prices: PriceHistory | None = None
     val: ValuationResult
     risk: RiskAssessment
     card: ScoreCard
@@ -82,7 +83,7 @@ def analyze_ticker(ticker: str, provider: DataProvider) -> AnalysisBundle:
     critique = critique_thesis(thesis, fund, business, val, risk)
 
     return AnalysisBundle(
-        info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk,
+        info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk, prices=prices,
         card=card, as_of=date.today(),
         business=business, stewardship=stewardship, thesis=thesis, critique=critique,
     )

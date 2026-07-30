@@ -19,10 +19,15 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
 from statistics import median
+from typing import TYPE_CHECKING
 
+from mbe.analysis.valuation import spike_ratio
 from mbe.backtest.pointintime import availability_date
 from mbe.models.company import CompanyInfo, FinancialHistory, PriceHistory
-from mbe.models.forecast import MultipleAnchor
+from mbe.models.forecast import MultipleAnchor, PriceForecast, ScenarioPath
+
+if TYPE_CHECKING:  # avoid a runtime cycle: pipeline imports this module
+    from mbe.pipeline import AnalysisBundle
 
 HORIZON_YEARS = 3
 GROWTH_CAP = 0.40             # cap on the starting revenue growth rate
@@ -313,4 +318,143 @@ def expected_outcome(
         expected_target,
         (expected_target / price) ** (1 / HORIZON_YEARS) - 1,
         downside,
+    )
+
+
+def _mean_assumption_support(bundle: "AnalysisBundle") -> float:
+    """Mean historical support across the thesis assumptions — the same
+    quantity build_thesis uses for thesis_confidence. 0.5 when unknown, so an
+    unmeasurable company sits at the midpoint rather than at either extreme."""
+    if bundle.thesis is None or not bundle.thesis.assumptions:
+        return 0.5
+    supports = [a.historical_support for a in bundle.thesis.assumptions]
+    return sum(supports) / len(supports)
+
+
+def _net_margins(fin: FinancialHistory) -> list[tuple[int, float]]:
+    revenue = dict(fin.series("revenue"))
+    return [
+        (year, ni / revenue[year])
+        for year, ni in fin.series("net_income")
+        if revenue.get(year) not in (None, 0)
+    ]
+
+
+def earnings_spiked(fin: FinancialHistory) -> bool:
+    """Did the latest year stand far enough above its own recent record that
+    "it does not repeat" is the real bear case?
+
+    True when either cash flow or accounting profit spiked, because either one
+    carrying the latest year is enough to make the bear path load-bearing.
+    """
+    return any(
+        (ratio := spike_ratio(fin, field)) is not None and ratio >= SPIKE_THRESHOLD
+        for field in ("fcf", "net_income")
+    )
+
+
+def build_forecast(
+    bundle: "AnalysisBundle", peer_pes: list[float], peer_growths: list[float]
+) -> PriceForecast | None:
+    """Three-year bull/base/bear target prices for one company.
+
+    Returns None when no exit multiple can be anchored — neither peers nor a
+    usable own-P/E history. A forecast without an anchor would be arithmetic
+    dressed up as a view.
+    """
+    fin, info, fund, val = bundle.fin, bundle.info, bundle.fund, bundle.val
+    price = val.price
+    margins = _net_margins(fin)
+    revenue_0 = fin.latest("revenue")
+    shares_0 = fin.latest("shares_diluted") or info.shares_outstanding
+    if not margins or not revenue_0 or not shares_0 or price <= 0:
+        return None
+
+    base_year, m0 = margins[-1]
+    if m0 <= 0:
+        # The exit multiple is a P/E, so a target price built on negative
+        # earnings is not conservative, it is meaningless. Decline rather than
+        # emit a number, the same contract as a missing anchor below.
+        return None
+    recent = [m for _, m in margins[-3:]]
+    m3 = sum(recent) / len(recent)
+    m_best = max(m for _, m in margins)
+
+    own_pes = (
+        own_pe_series(bundle.prices, fin, info) if bundle.prices is not None else []
+    )
+    franchise = bundle.business.franchise_score if bundle.business else 0.0
+    anchor = build_anchor(peer_pes, own_pes, val.pe, franchise)
+    if anchor.anchor is None:
+        return None
+
+    spiked = earnings_spiked(fin)
+
+    g_term = terminal_growth(peer_growths)
+    growth = growth_paths(fund.revenue_cagr_3y or 0.0, g_term, spiked)
+    margin = margin_paths(m0, m3, m_best)
+    probs = scenario_probabilities(
+        _mean_assumption_support(bundle),
+        franchise,
+        veto=bool(bundle.critique and bundle.critique.veto),
+    )
+    multiples = {
+        "bull": anchor.anchor * MULT_BULL,
+        "base": anchor.anchor * MULT_BASE,
+        "bear": anchor.anchor * MULT_BEAR,
+    }
+    share_cagr = fund.share_count_cagr_3y or 0.0
+
+    scenarios: list[ScenarioPath] = []
+    targets: dict[str, float] = {}
+    for name in ("bull", "base", "bear"):
+        start, end = growth[name]
+        path = fade(start, end, HORIZON_YEARS)
+        exit_multiple = multiples[name]
+        p = project(revenue_0, path, margin[name], shares_0, share_cagr,
+                    exit_multiple, price)
+        evidence = [
+            f"revenue grows {start:.0%} fading to {end:.0%} over {HORIZON_YEARS} years",
+            f"net margin ends at {margin[name]:.1%} (latest {m0:.1%}, "
+            f"3y mean {m3:.1%})",
+            f"exits at {exit_multiple:.1f}x earnings "
+            f"({exit_multiple / anchor.anchor:.1f}x the {anchor.anchor:.1f}x anchor)",
+        ]
+        if name == "bull":
+            exit_multiple, guard_notes = apply_bull_guard(
+                p.eps_fy3, exit_multiple, multiples["base"], price
+            )
+            if guard_notes:
+                p = project(revenue_0, path, margin[name], shares_0, share_cagr,
+                            exit_multiple, price)
+                evidence[-1] = f"exits at {exit_multiple:.1f}x earnings"
+                evidence.extend(guard_notes)
+        if spiked and name == "bear":
+            evidence.append(
+                "the latest year stands well above its own 3y record, so this bear "
+                "path assumes the step change does not repeat"
+            )
+        scenarios.append(ScenarioPath(
+            name=name, probability=probs[name], growth_start=start, growth_end=end,
+            terminal_net_margin=margin[name], exit_multiple=exit_multiple,
+            revenue_fy3=p.revenue_fy3, eps_fy3=p.eps_fy3,
+            target_price=p.target_price, cagr_3y=p.cagr_3y, evidence=evidence,
+        ))
+        targets[name] = p.target_price
+
+    expected_target, expected_cagr, downside = expected_outcome(targets, probs, price)
+    present = [
+        anchor.peer_pe is not None,
+        bool(own_pes),
+        fund.revenue_cagr_3y is not None,
+        True,                                   # net margin, guaranteed above
+        fin.latest("shares_diluted") is not None,
+        bundle.business is not None,
+        bundle.thesis is not None and bool(bundle.thesis.assumptions),
+    ]
+    return PriceForecast(
+        ticker=info.ticker, base_fiscal_year=base_year, price=price, anchor=anchor,
+        scenarios=scenarios, expected_target=expected_target,
+        expected_cagr_3y=expected_cagr, downside_probability=downside,
+        completeness=sum(present) / len(present),
     )

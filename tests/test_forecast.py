@@ -1,6 +1,10 @@
+from datetime import date
+
 import pandas as pd
 import pytest
 
+from mbe.analysis.fundamentals import compute_fundamentals
+from mbe.analysis.valuation import compute_valuation
 from mbe.models.company import CompanyInfo, FinancialHistory, PriceHistory
 from mbe.models.forecast import MultipleAnchor, PriceForecast, ScenarioPath
 
@@ -69,7 +73,6 @@ def test_own_pe_series_uses_only_published_earnings():
 
 def test_own_pe_series_honours_explicit_filed_dates():
     from mbe.analysis.forecast import own_pe_series
-    from datetime import date
 
     fin = FinancialHistory(
         data={
@@ -419,3 +422,134 @@ def test_downside_probability_counts_every_scenario_below_price():
     probs = {"bull": 0.3, "base": 0.5, "bear": 0.2}
     _, _, downside = expected_outcome(targets, probs, price=1000.0)
     assert downside == pytest.approx(0.7)
+
+
+@pytest.fixture
+def hbl_bundle():
+    """HBL Engineering's real shape: revenue +68% and net margin 12.6% -> 24.7%
+    in FY26, debt-free, no dilution."""
+    from mbe.analysis.business import assess_business
+    from mbe.analysis.risk import assess_risk
+    from mbe.analysis.technicals import compute_technicals
+    from mbe.pipeline import AnalysisBundle
+    from mbe.scoring.engine import build_scorecard
+    from mbe.thesis.engine import build_thesis, critique_thesis
+
+    years = [2023, 2024, 2025, 2026]
+    fin = FinancialHistory(
+        data={
+            "revenue": dict(zip(years, [1357.6, 2221.5, 1967.2, 3302.8])),
+            "gross_profit": dict(zip(years, [376.1, 736.8, 996.3, 1921.1])),
+            "operating_income": dict(zip(years, [116.6, 383.9, 347.9, 1062.4])),
+            "ebitda": dict(zip(years, [171.0, 427.3, 417.2, 1140.7])),
+            "net_income": dict(zip(years, [98.7, 280.9, 276.9, 814.9])),
+            "interest_expense": dict(zip(years, [5.7, 9.3, 13.0, 14.7])),
+            "cfo": dict(zip(years, [122.4, 270.3, 246.7, 738.4])),
+            "capex": dict(zip(years, [63.9, 74.1, 152.8, 150.3])),
+            "fcf": dict(zip(years, [58.6, 196.2, 93.9, 588.1])),
+            "shares_diluted": dict(zip(years, [27.7, 27.7, 27.8, 27.7])),
+            "total_assets": dict(zip(years, [1294.2, 1654.1, 1979.5, 2941.7])),
+            "total_equity": dict(zip(years, [951.4, 1220.5, 1482.7, 2214.2])),
+            "total_debt": dict(zip(years, [86.0, 67.5, 74.3, 66.9])),
+            "cash": dict(zip(years, [132.0, 223.5, 117.0, 528.2])),
+            "current_assets": dict(zip(years, [800.0, 1000.0, 1200.0, 2025.0])),
+            "current_liabilities": dict(zip(years, [300.0, 350.0, 400.0, 567.0])),
+        }
+    )
+    info = CompanyInfo(
+        ticker="HBLTEST.NS", name="HBL Test", sector="Industrials",
+        industry="Electrical Equipment & Parts",
+        market_cap=20574.0, shares_outstanding=27.7, price=741.9,
+    )
+    dates = pd.date_range("2023-08-01", periods=740, freq="B")
+    closes = [400.0 + i * 0.6 for i in range(740)]
+    prices = PriceHistory(
+        df=pd.DataFrame(
+            {"open": closes, "high": closes, "low": closes,
+             "close": closes, "volume": [1e6] * 740},
+            index=dates,
+        )
+    )
+    fund = compute_fundamentals(fin, info)
+    tech = compute_technicals(prices, None)
+    val = compute_valuation(fin, info, fund, price=741.9)
+    risk = assess_risk(fin, fund, tech, val, info)
+    card = build_scorecard(info, fund, tech, val, risk, fin, price_days=len(prices.df))
+    business = assess_business(fin, info, fund)
+    thesis = build_thesis(info, fund, business, val, risk)
+    critique = critique_thesis(thesis, fund, business, val, risk)
+    return AnalysisBundle(
+        info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk, card=card,
+        as_of=date(2026, 7, 20), business=business, thesis=thesis, critique=critique,
+        prices=prices,
+    )
+
+
+def test_build_forecast_produces_ordered_positive_scenarios(hbl_bundle):
+    from mbe.analysis.forecast import build_forecast
+
+    fc = build_forecast(hbl_bundle, peer_pes=[20.0, 22.0, 24.0, 26.0],
+                        peer_growths=[0.12, 0.14, 0.10, 0.16])
+    assert fc is not None
+    assert fc.base_fiscal_year == 2026
+    assert [s.name for s in fc.scenarios] == ["bull", "base", "bear"]
+    bull, base, bear = fc.scenarios
+    assert bear.target_price < base.target_price < bull.target_price
+    assert fc.expected_cagr_3y is not None
+    assert sum(s.probability for s in fc.scenarios) == pytest.approx(1.0)
+    # the whole point: a debt-free 33% ROCE compounder at its cheapest multiple
+    # in three years must not show downside in its base case
+    assert base.cagr_3y > 0
+    assert all(s.evidence for s in fc.scenarios)
+
+
+def test_build_forecast_degrades_without_peers(hbl_bundle):
+    from mbe.analysis.forecast import build_forecast
+
+    with_peers = build_forecast(hbl_bundle, [20.0, 22.0, 24.0], [0.12, 0.14])
+    without = build_forecast(hbl_bundle, [], [])
+    assert without is not None
+    assert without.completeness < with_peers.completeness
+    assert without.anchor.peer_pe is None
+    assert any("peer" in n for n in without.anchor.notes)
+
+
+def test_build_forecast_returns_none_without_any_multiple_source(hbl_bundle):
+    """No peers and no usable own P/E history means no anchor, and a forecast
+    with no anchor is not a forecast."""
+    from mbe.analysis.forecast import build_forecast
+
+    hbl_bundle.prices = PriceHistory(
+        df=pd.DataFrame(
+            {"open": [], "high": [], "low": [], "close": [], "volume": []},
+            index=pd.to_datetime([]),
+        )
+    )
+    assert build_forecast(hbl_bundle, [], []) is None
+
+
+def test_build_forecast_declines_on_a_loss_making_latest_year(hbl_bundle):
+    """The exit multiple is a P/E. A target price built on negative earnings is
+    not a conservative forecast, it is a meaningless one — so decline."""
+    from mbe.analysis.forecast import build_forecast
+
+    hbl_bundle.fin.data["net_income"] = {
+        2023: 98.7, 2024: 280.9, 2025: 276.9, 2026: -120.0
+    }
+    assert build_forecast(hbl_bundle, [20.0, 22.0, 24.0], [0.12]) is None
+
+
+def test_build_forecast_bear_is_harsher_for_a_spiked_earner(hbl_bundle):
+    from mbe.analysis.forecast import build_forecast
+
+    spiked = build_forecast(hbl_bundle, [20.0, 22.0, 24.0], [0.12])
+    # flatten the step change: same latest year, no spike
+    steady = hbl_bundle.model_copy(deep=True)
+    steady.fin.data["net_income"] = {2023: 600.0, 2024: 680.0, 2025: 740.0, 2026: 814.9}
+    steady.fin.data["fcf"] = {2023: 430.0, 2024: 490.0, 2025: 530.0, 2026: 588.1}
+    steady.fund = compute_fundamentals(steady.fin, steady.info)
+    steady.val = compute_valuation(steady.fin, steady.info, steady.fund, price=741.9)
+    steady_fc = build_forecast(steady, [20.0, 22.0, 24.0], [0.12])
+    spiked_bear = next(s for s in spiked.scenarios if s.name == "bear")
+    steady_bear = next(s for s in steady_fc.scenarios if s.name == "bear")
+    assert spiked_bear.growth_start < steady_bear.growth_start

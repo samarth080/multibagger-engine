@@ -70,9 +70,9 @@ def _avg_last3(fin: FinancialHistory, field: str) -> float | None:
     return sum(vals) / len(vals) if vals else None
 
 
-def fcf_spike_ratio(fin: FinancialHistory) -> float | None:
-    """How far the latest year's free cash flow stands out from its own recent
-    past: latest / 3y mean, the mean including the latest year.
+def spike_ratio(fin: FinancialHistory, field: str) -> float | None:
+    """How far the latest year of `field` stands out from its own recent past:
+    latest / 3y mean, the mean including the latest year.
 
     A pure diagnostic. It is never used to reduce base FCF — a suspected peak
     year belongs to the bear scenario, not to an input all three scenarios
@@ -94,7 +94,7 @@ def fcf_spike_ratio(fin: FinancialHistory) -> float | None:
     non-positive latest year — "did it spike?" is meaningless of a year that
     burned cash.
     """
-    window = fin.series("fcf")[-3:]
+    window = fin.series(field)[-3:]
     if len(window) < 3:
         return None
     years = [y for y, _ in window]
@@ -115,7 +115,7 @@ def _base_fcf(fin: FinancialHistory) -> tuple[float | None, bool]:
     growing, and no averaging window can absorb a step change — measured on
     HBLENGINE.NS, every smoothing variant landed within 20% of the biased
     result. The risk that the latest year was a peak belongs to the *bear
-    scenario* (see `fcf_spike_ratio`), not to a haircut applied to all three
+    scenario* (see `spike_ratio`), not to a haircut applied to all three
     scenarios at once, which is what made even bull cases show downside.
     """
     latest_fcf = fin.latest("fcf")
@@ -164,7 +164,7 @@ def compute_valuation(
     g_bull = min(g_base * 1.2, 0.35)
 
     base_fcf, proxy_used = _base_fcf(fin)
-    spike_ratio = fcf_spike_ratio(fin)
+    fcf_spike = spike_ratio(fin, "fcf")
 
     # Owner-earnings floor: growth capex heavy enough to swamp reported FCF
     # would wreck the DCF for a reinvestment-phase compounder. When earnings
@@ -250,7 +250,7 @@ def compute_valuation(
             "g_base": g_base,
             "g_bull": g_bull,
             "base_fcf": base_fcf if base_fcf is not None else float("nan"),
-            "fcf_spike_ratio": spike_ratio if spike_ratio is not None else float("nan"),
+            "fcf_spike_ratio": fcf_spike if fcf_spike is not None else float("nan"),
             "growth_defaulted": growth_defaulted,
             "owner_earnings_floor": owner_earnings_floor,
             "debt_overhang_floor": debt_overhang_floor,

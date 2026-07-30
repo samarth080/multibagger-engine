@@ -74,25 +74,30 @@ def spike_ratio(fin: FinancialHistory, field: str) -> float | None:
     """How far the latest year of `field` stands out from its own recent past:
     latest / 3y mean, the mean including the latest year.
 
-    A pure diagnostic. It is never used to reduce base FCF — a suspected peak
-    year belongs to the bear scenario, not to an input all three scenarios
-    share. Reported so that scenario construction can consume it deliberately.
+    Field-agnostic: it serves `fcf` for compute_valuation and `net_income` for
+    the forecast's spike test, and the arithmetic below cares only that the
+    series is a level in money terms.
+
+    A pure diagnostic. It never reduces the base input a valuation is built on
+    — a suspected peak year belongs to the bear scenario, not to an input all
+    three scenarios share. Reported so that scenario construction can consume
+    it deliberately.
 
     Scale: the denominator contains the numerator, so the ratio is
     3L/(a+b+L) — bounded above by 3.0, and `>= 1.5` is algebraically
-    `L >= a + b`, i.e. the latest year alone out-earned the two before it
+    `L >= a + b`, i.e. the latest year alone matched or beat the two before it
     combined. Steady compounding does not reach that bar: 25%/yr scores 1.23,
     40% scores 1.35, 60% scores 1.49, while HBLENGINE.NS's genuine step change
-    scores 2.01. Excluding the latest year from the mean was considered and
-    rejected for exactly this reason — it puts a steady 25% compounder at 1.54,
-    so a 1.5 threshold would punish the bear case of every healthy compounder
-    and could not tell a step change from ordinary growth.
+    scores 2.01 on FCF. Excluding the latest year from the mean was considered
+    and rejected for exactly this reason — it puts a steady 25% compounder at
+    1.54, so a 1.5 threshold would punish the bear case of every healthy
+    compounder and could not tell a step change from ordinary growth.
 
     None rather than a neutral-looking 1.0 whenever the question has no honest
     answer: fewer than 3 consecutive fiscal years (a gap year means no valid
     comparison, not a skippable one), a non-positive mean to divide by, or a
-    non-positive latest year — "did it spike?" is meaningless of a year that
-    burned cash.
+    non-positive latest year — "did it spike?" is meaningless of a year in the
+    red, whether that is cash burned or a loss booked.
     """
     window = fin.series(field)[-3:]
     if len(window) < 3:

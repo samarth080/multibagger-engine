@@ -178,6 +178,20 @@ Statement data completeness: {{ (fund.completeness * 100) | round(0) | int }}%.
 - Expected 5y CAGR if price converges to base fair value: **{{ val.expected_cagr_5y | pct }}**
 - Assumptions: discount {{ val.assumptions.get("discount") | pct }}, terminal {{ val.assumptions.get("terminal") | pct }}{% if val.fcf_proxy_used %}; **FCF proxy used** (0.8 x avg net income — treat DCF with extra skepticism){% endif %}
 
+{# spike == spike is a NaN test, not a tautology: fcf_spike_ratio is stored as
+   NaN when no 3-year mean is definable, and NaN != NaN. Do not "simplify" it.
+   The `is not none` is a separate guard, for an assumptions dict that never had
+   the key at all (ValuationResult() defaults to {}) — None == None is True, so
+   the NaN test alone lets a missing key through into format() and raises.
+   The blank lines are load-bearing too: trim_blocks eats the newline after
+   every block tag, so without them this paragraph is glued onto the
+   Assumptions bullet above and renders inside it. #}
+{% set spike = val.assumptions.get("fcf_spike_ratio") %}
+{% if spike is not none and spike == spike %}
+
+Base FCF is the latest year's, not a trailing average — it stands at {{ "%.1f" | format(spike) }}x the 3-year mean. The risk that it does not repeat is carried by the bear scenario in the 3-Year Price Forecast below, not by a haircut to all three.
+{% endif %}
+
 ## Risk Analysis
 
 Risk score: **{{ risk.risk_score | int }}/100** — {{ risk.permanent_loss_bucket }} probability of permanent capital loss.
@@ -192,11 +206,52 @@ Risk score: **{{ risk.risk_score | int }}/100** — {{ risk.permanent_loss_bucke
 No risk flags triggered by the current rule set.
 {% endif %}
 
-## Bull / Base / Bear
+## 3-Year Price Forecast
 
-- **Bull:** growth sustains at {{ val.assumptions.get("g_bull") | pct }}, fair value {{ val.fair_value_bull | num }} ({{ pct_vs(val.fair_value_bull, val.price) }}).
-- **Base:** delivered-growth median of {{ val.assumptions.get("g_base") | pct }} continues 5 years then fades, fair value {{ val.fair_value_base | num }} ({{ pct_vs(val.fair_value_base, val.price) }}).
-- **Bear:** growth decays to {{ val.assumptions.get("g_bear") | pct }}, fair value {{ val.fair_value_bear | num }} ({{ pct_vs(val.fair_value_bear, val.price) }}).
+{% if forecast %}
+Where the price could be in {{ forecast.horizon_years }} years, projected from FY{{ forecast.base_fiscal_year }} revenue and net margin against an exit multiple. Each scenario moves growth, margin **and** the multiple — not one knob three ways.
+
+| Scenario | Prob. | Revenue growth | Net margin | Exit multiple | FY+3 EPS | Target | 3y CAGR |
+|---|---|---|---|---|---|---|---|
+{% for s in forecast.scenarios %}
+| **{{ s.name | capitalize }}** | {{ s.probability | pct }} | {{ s.growth_start | pct }} → {{ s.growth_end | pct }} | {{ s.terminal_net_margin | pct }} | {{ "%.1f" | format(s.exit_multiple) }}x | {{ s.eps_fy3 | num }} | {{ s.target_price | num }} | {{ s.cagr_3y | pct }} |
+{% endfor %}
+
+**Probability-weighted:** target {{ forecast.expected_target | num }}, expected 3y CAGR {{ forecast.expected_cagr_3y | pct }}. Probability of a target below today's price: {{ forecast.downside_probability | pct }}.
+
+**Exit multiple anchor — {{ "%.1f" | format(forecast.anchor.anchor) }}x**
+
+| Input | Value |
+|---|---|
+| Peer median P/E ({{ forecast.anchor.peer_n }} peers, leave-one-out) | {% if forecast.anchor.peer_pe %}{{ "%.1f" | format(forecast.anchor.peer_pe) }}x{% else %}not available{% endif %} |
+| Own history median P/E | {% if forecast.anchor.own_pe_median %}{{ "%.1f" | format(forecast.anchor.own_pe_median) }}x{% else %}not available{% endif %} |
+| Today's P/E within own history | {% if forecast.anchor.own_pe_percentile_now is not none %}{{ forecast.anchor.own_pe_percentile_now | pct }} percentile{% else %}not available{% endif %} |
+| Quality multiplier (franchise score) | {{ "%.2f" | format(forecast.anchor.quality_multiplier) }}x |
+
+{% for note in forecast.anchor.notes %}
+- {{ note }}
+{% endfor %}
+
+**Scenario assumptions**
+
+{# The blank lines are load-bearing: trim_blocks eats the newline after every
+   block tag, so without them all three scenarios collapse into one paragraph
+   with literal "- " dashes instead of three labelled lists. #}
+{% for s in forecast.scenarios %}
+*{{ s.name | capitalize }}:*
+
+{% for e in s.evidence %}
+- {{ e }}
+{% endfor %}
+
+{% endfor %}
+*Forecast completeness {{ forecast.completeness | pct }}. A scenario model with
+stated assumptions, not a prediction — see Model validation status.*
+{% else %}
+No forecast: no exit multiple could be anchored to either peer or own-history
+multiples, and a forecast without an anchor would be arithmetic dressed up as a
+view.
+{% endif %}
 
 ## Entry & Exit Framework
 
@@ -307,6 +362,7 @@ def render_report(bundle: AnalysisBundle) -> str:
         stewardship=bundle.stewardship,
         thesis=bundle.thesis,
         critique=bundle.critique,
+        forecast=bundle.forecast,
         as_of=bundle.as_of,
         market_cap_str=_money(bundle.info.market_cap, bundle.info.currency),
         pct_vs=pct_vs,

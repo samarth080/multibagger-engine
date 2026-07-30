@@ -116,7 +116,7 @@ def test_report_contains_all_sections():
         "Technical Analysis",
         "Valuation",
         "Risk Analysis",
-        "Bull / Base / Bear",
+        "3-Year Price Forecast",
         "Entry & Exit Framework",
         "Position Sizing",
         "Score Evidence Appendix",
@@ -176,6 +176,21 @@ def test_report_has_stewardship_section():
     assert "Management & capital allocation" in text
     assert bundle.stewardship is not None
     assert "share count CAGR" in text
+
+
+def test_report_spike_disclosure_survives_an_absent_ratio():
+    """The disclosure is guarded by a NaN test *and* a None test. An assumptions
+    dict that never had the key — ValuationResult() defaults to {} — must render
+    the report with the line omitted, not raise inside format()."""
+    from mbe.report.markdown import render_report
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    assert "Base FCF is the latest year's" in render_report(bundle)
+
+    for assumptions in ({}, {"fcf_spike_ratio": float("nan")}):
+        val = bundle.val.model_copy(update={"assumptions": assumptions})
+        text = render_report(bundle.model_copy(update={"val": val}))
+        assert "Base FCF is the latest year's" not in text
 
 
 def test_screen_populates_forecasts_with_peer_anchors():

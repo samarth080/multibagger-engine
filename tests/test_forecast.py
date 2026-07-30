@@ -255,3 +255,74 @@ def test_bear_margin_takes_the_worse_of_latest_and_mean():
 
     m = margin_paths(m0=0.10, m3=0.16, m_best=0.16)
     assert m["bear"] == pytest.approx(0.10)
+
+
+def test_project_compounds_revenue_and_dilution():
+    from mbe.analysis.forecast import project
+
+    p = project(
+        revenue_0=1000.0, growth_path=[0.20, 0.15, 0.10], margin=0.20,
+        shares_0=10.0, share_cagr=0.0, exit_multiple=20.0, price=40.0,
+    )
+    revenue = 1000.0 * 1.20 * 1.15 * 1.10
+    assert p.revenue_fy3 == pytest.approx(revenue)
+    assert p.eps_fy3 == pytest.approx(revenue * 0.20 / 10.0)
+    assert p.target_price == pytest.approx(revenue * 0.20 / 10.0 * 20.0)
+    assert p.cagr_3y == pytest.approx((p.target_price / 40.0) ** (1 / 3) - 1)
+
+
+def test_project_dilution_reduces_eps():
+    from mbe.analysis.forecast import project
+
+    clean = project(1000.0, [0.10] * 3, 0.20, 10.0, 0.00, 20.0, 40.0)
+    diluting = project(1000.0, [0.10] * 3, 0.20, 10.0, 0.05, 20.0, 40.0)
+    assert diluting.eps_fy3 < clean.eps_fy3
+
+
+def test_bull_guard_trims_exit_multiple_and_records_it():
+    from mbe.analysis.forecast import BULL_CAGR_CAP, apply_bull_guard
+
+    trimmed, evidence = apply_bull_guard(
+        eps_fy3=60.0, exit_multiple=49.0, base_exit_multiple=35.0, price=741.9
+    )
+    cagr = (60.0 * trimmed / 741.9) ** (1 / 3) - 1
+    assert cagr == pytest.approx(BULL_CAGR_CAP, abs=1e-6)
+    assert trimmed < 49.0
+    assert any("trimmed" in e for e in evidence)
+
+
+def test_bull_guard_floors_at_base_multiple_on_hbl_bull_earnings():
+    """HBL's measured 5x bull case: eps_fy3 75 at a 741.9 price and a 49x bull
+    multiple. Here the *base* multiple alone already implies 52%/yr, so the cap
+    cannot be honoured without inverting the scenarios. The guard still removes
+    most of the excess (5.0x -> 3.5x) and says it could not reach the bound."""
+    from mbe.analysis.forecast import apply_bull_guard
+
+    trimmed, evidence = apply_bull_guard(
+        eps_fy3=75.0, exit_multiple=49.0, base_exit_multiple=35.0, price=741.9
+    )
+    assert trimmed == pytest.approx(35.0)
+    assert any("could not" in e for e in evidence)
+    assert 75.0 * trimmed / 741.9 == pytest.approx(3.538, abs=0.001)  # was 4.95x
+
+
+def test_bull_guard_never_inverts_scenario_ordering():
+    """If the cap cannot be met even at the base multiple, the earnings path
+    alone implies a tripling — surface it, do not clamp below base."""
+    from mbe.analysis.forecast import apply_bull_guard
+
+    trimmed, evidence = apply_bull_guard(
+        eps_fy3=500.0, exit_multiple=49.0, base_exit_multiple=35.0, price=100.0
+    )
+    assert trimmed == pytest.approx(35.0)
+    assert any("could not" in e for e in evidence)
+
+
+def test_bull_guard_is_a_no_op_below_the_cap():
+    from mbe.analysis.forecast import apply_bull_guard
+
+    trimmed, evidence = apply_bull_guard(
+        eps_fy3=10.0, exit_multiple=20.0, base_exit_multiple=15.0, price=150.0
+    )
+    assert trimmed == pytest.approx(20.0)
+    assert evidence == []

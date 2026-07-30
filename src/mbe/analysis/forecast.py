@@ -16,6 +16,7 @@ and PriceForecast.completeness records it.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import date
 from statistics import median
 
@@ -188,3 +189,67 @@ def margin_paths(m0: float, m3: float, m_best: float) -> dict[str, float]:
         "base": (m0 + m3) / 2,
         "bear": min(m0, m3),
     }
+
+
+@dataclass(frozen=True)
+class Projection:
+    revenue_fy3: float
+    eps_fy3: float
+    target_price: float
+    cagr_3y: float
+
+
+def project(
+    revenue_0: float,
+    growth_path: list[float],
+    margin: float,
+    shares_0: float,
+    share_cagr: float,
+    exit_multiple: float,
+    price: float,
+) -> Projection:
+    """Compound revenue along the growth path, apply the terminal margin and
+    projected share count, then the exit multiple."""
+    revenue = revenue_0
+    for g in growth_path:
+        revenue *= 1 + g
+    shares = shares_0 * (1 + max(share_cagr, 0.0)) ** HORIZON_YEARS
+    eps = revenue * margin / shares
+    target = eps * exit_multiple
+    return Projection(
+        revenue_fy3=revenue,
+        eps_fy3=eps,
+        target_price=target,
+        cagr_3y=(target / price) ** (1 / HORIZON_YEARS) - 1 if price > 0 else 0.0,
+    )
+
+
+def apply_bull_guard(
+    eps_fy3: float, exit_multiple: float, base_exit_multiple: float, price: float
+) -> tuple[float, list[str]]:
+    """Keep the bull case from stacking every knob at its optimum.
+
+    Sustained growth AND expanded margins AND a full re-rating compound into
+    fantasy (5x in three years, measured on HBLENGINE.NS) — the mirror image of
+    the v0.1 failure. One knob is trimmed, the exit multiple, and the trim is
+    reported. It never goes below the base case's multiple: that would invert
+    the scenario ordering, and a bull case still above the cap at the base
+    multiple is a finding about the earnings path, not something to hide.
+    """
+    if price <= 0 or eps_fy3 <= 0:
+        return exit_multiple, []
+    cagr = (eps_fy3 * exit_multiple / price) ** (1 / HORIZON_YEARS) - 1
+    if cagr <= BULL_CAGR_CAP:
+        return exit_multiple, []
+    needed = price * (1 + BULL_CAGR_CAP) ** HORIZON_YEARS / eps_fy3
+    if needed < base_exit_multiple:
+        return base_exit_multiple, [
+            f"bull {cagr:.0%}/yr exceeds the {BULL_CAGR_CAP:.0%}/yr sanity bound and "
+            f"could not be trimmed to it without dropping the bull exit multiple "
+            f"below the base case's {base_exit_multiple:.1f}x — the earnings path "
+            f"alone implies this move"
+        ]
+    return needed, [
+        f"bull exit multiple trimmed {exit_multiple:.1f}x -> {needed:.1f}x to respect "
+        f"the {BULL_CAGR_CAP:.0%}/yr sanity bound"
+    ]

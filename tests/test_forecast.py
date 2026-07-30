@@ -553,3 +553,59 @@ def test_build_forecast_bear_is_harsher_for_a_spiked_earner(hbl_bundle):
     spiked_bear = next(s for s in spiked.scenarios if s.name == "bear")
     steady_bear = next(s for s in steady_fc.scenarios if s.name == "bear")
     assert spiked_bear.growth_start < steady_bear.growth_start
+
+
+def test_multiple_at_low_fires_at_the_bottom_of_own_history(hbl_bundle):
+    """HBL today: trailing P/E 25.2x against a 3y median of 74.3x — the
+    cheapest it has been in the whole window."""
+    from mbe.analysis.forecast import build_forecast, forecast_flags
+
+    fc = build_forecast(hbl_bundle, [20.0, 22.0, 24.0], [0.12])
+    fc.anchor.own_pe_percentile_now = 0.02
+    codes = [f.code for f in forecast_flags(hbl_bundle, fc)]
+    assert "MULTIPLE_AT_LOW" in codes
+
+    fc.anchor.own_pe_percentile_now = 0.60
+    assert "MULTIPLE_AT_LOW" not in [f.code for f in forecast_flags(hbl_bundle, fc)]
+
+
+def test_earnings_spike_flag_fires_and_is_informational(hbl_bundle):
+    from mbe.analysis.forecast import build_forecast, forecast_flags
+
+    fc = build_forecast(hbl_bundle, [20.0, 22.0, 24.0], [0.12])
+    spike = [f for f in forecast_flags(hbl_bundle, fc) if f.code == "EARNINGS_SPIKE"]
+    assert len(spike) == 1
+    assert spike[0].severity == 1
+
+
+def test_forecast_incoherent_fires_when_bull_is_below_the_market(hbl_bundle):
+    """The exact v0.1 failure: the model's most optimistic case sits below what
+    the market already pays for. That is a model error, not a finding."""
+    from mbe.analysis.forecast import build_forecast, forecast_flags
+
+    fc = build_forecast(hbl_bundle, [20.0, 22.0, 24.0], [0.12])
+    hbl_bundle.val.implied_growth = 0.90     # market prices 90% growth
+    bull = next(s for s in fc.scenarios if s.name == "bull")
+    assert bull.growth_start < 0.90
+    codes = [f.code for f in forecast_flags(hbl_bundle, fc)]
+    assert "FORECAST_INCOHERENT" in codes
+
+    hbl_bundle.val.implied_growth = 0.05
+    assert "FORECAST_INCOHERENT" not in [
+        f.code for f in forecast_flags(hbl_bundle, fc)
+    ]
+
+
+def test_coherence_flags_do_not_change_risk_score(hbl_bundle):
+    from mbe.analysis.forecast import build_forecast, forecast_flags
+
+    before = hbl_bundle.risk.risk_score
+    fc = build_forecast(hbl_bundle, [20.0, 22.0, 24.0], [0.12])
+    hbl_bundle.risk.flags.extend(forecast_flags(hbl_bundle, fc))
+    assert hbl_bundle.risk.risk_score == pytest.approx(before)
+
+
+def test_no_flags_without_a_forecast(hbl_bundle):
+    from mbe.analysis.forecast import forecast_flags
+
+    assert forecast_flags(hbl_bundle, None) == []

@@ -23,6 +23,7 @@ from typing import TYPE_CHECKING
 
 from mbe.analysis.valuation import spike_ratio
 from mbe.backtest.pointintime import availability_date
+from mbe.models.analysis import RiskFlag
 from mbe.models.company import CompanyInfo, FinancialHistory, PriceHistory
 from mbe.models.forecast import MultipleAnchor, PriceForecast, ScenarioPath
 
@@ -458,3 +459,56 @@ def build_forecast(
         expected_cagr_3y=expected_cagr, downside_probability=downside,
         completeness=sum(present) / len(present),
     )
+
+
+MULTIPLE_LOW_PERCENTILE = 0.10
+
+
+def forecast_flags(
+    bundle: "AnalysisBundle", forecast: PriceForecast | None
+) -> list[RiskFlag]:
+    """Coherence checks on the forecast against observable market facts.
+
+    Reported, never scored: risk_score is already computed by the time these
+    are known, and the spec keeps the only scoring change confined to
+    margin_of_safety. FORECAST_INCOHERENT exists so the v0.1 failure — the
+    model's bull case sitting below the growth the market already pays for —
+    cannot recur without saying so out loud.
+    """
+    if forecast is None:
+        return []
+    flags: list[RiskFlag] = []
+
+    pctile = forecast.anchor.own_pe_percentile_now
+    if pctile is not None and pctile <= MULTIPLE_LOW_PERCENTILE:
+        flags.append(RiskFlag(
+            code="MULTIPLE_AT_LOW", severity=1,
+            detail=(
+                f"Trades at the {pctile:.0%} percentile of its own multiple history "
+                f"(median {forecast.anchor.own_pe_median:.1f}x) — cheap relative to "
+                "its own past, not just to peers"
+            ),
+        ))
+
+    ni_ratio = spike_ratio(bundle.fin, "net_income")
+    if ni_ratio is not None and ni_ratio >= SPIKE_THRESHOLD:
+        flags.append(RiskFlag(
+            code="EARNINGS_SPIKE", severity=1,
+            detail=(
+                f"Latest earnings are {ni_ratio:.1f}x their 3y mean — the bear "
+                "scenario is load-bearing here"
+            ),
+        ))
+
+    bull = next((s for s in forecast.scenarios if s.name == "bull"), None)
+    implied = bundle.val.implied_growth
+    if bull is not None and implied is not None and bull.growth_start < implied:
+        flags.append(RiskFlag(
+            code="FORECAST_INCOHERENT", severity=2,
+            detail=(
+                f"Bull case assumes {bull.growth_start:.0%} growth but the market "
+                f"already prices {implied:.0%} — the model's most optimistic case is "
+                "below consensus, so treat the forecast as understated"
+            ),
+        ))
+    return flags

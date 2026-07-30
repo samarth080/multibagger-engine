@@ -12,6 +12,7 @@ from datetime import date
 from pydantic import BaseModel, ConfigDict
 
 from mbe.analysis.business import assess_business
+from mbe.analysis.forecast import apply_forecasts, build_forecast, forecast_flags
 from mbe.analysis.sector import apply_sector_pillar, compute_sector_scores
 from mbe.analysis.stewardship import assess_stewardship
 from mbe.analysis.fundamentals import compute_fundamentals
@@ -27,6 +28,7 @@ from mbe.models.analysis import (
     ValuationResult,
 )
 from mbe.models.company import CompanyInfo, FinancialHistory, PriceHistory
+from mbe.models.forecast import PriceForecast
 from mbe.models.scoring import ScoreCard
 from mbe.models.sector import SectorScore
 from mbe.models.stewardship import StewardshipProfile
@@ -51,6 +53,7 @@ class AnalysisBundle(BaseModel):
     stewardship: StewardshipProfile | None = None
     thesis: InvestmentThesis | None = None
     critique: Critique | None = None
+    forecast: PriceForecast | None = None
 
 
 class ScreenResult(BaseModel):
@@ -82,11 +85,15 @@ def analyze_ticker(ticker: str, provider: DataProvider) -> AnalysisBundle:
     thesis = build_thesis(info, fund, business, val, risk)
     critique = critique_thesis(thesis, fund, business, val, risk)
 
-    return AnalysisBundle(
+    bundle = AnalysisBundle(
         info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk, prices=prices,
         card=card, as_of=date.today(),
         business=business, stewardship=stewardship, thesis=thesis, critique=critique,
     )
+    # no universe on this path: the peer term is absent and completeness says so
+    bundle.forecast = build_forecast(bundle, peer_pes=[], peer_growths=[])
+    bundle.risk.flags.extend(forecast_flags(bundle, bundle.forecast))
+    return bundle
 
 
 def screen(tickers: list[str], provider: DataProvider) -> ScreenResult:
@@ -103,6 +110,7 @@ def screen(tickers: list[str], provider: DataProvider) -> ScreenResult:
     if bundles:
         context = compute_sector_scores(bundles)
         apply_sector_pillar(bundles, context)  # score adjust gated by ablation verdict
+        apply_forecasts(bundles, context)  # peer-anchored, overrides the solo pass
         sector_scores = sorted(
             context.groups.values(), key=lambda s: s.score, reverse=True
         )

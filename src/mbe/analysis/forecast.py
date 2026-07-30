@@ -28,6 +28,7 @@ from mbe.models.company import CompanyInfo, FinancialHistory, PriceHistory
 from mbe.models.forecast import MultipleAnchor, PriceForecast, ScenarioPath
 
 if TYPE_CHECKING:  # avoid a runtime cycle: pipeline imports this module
+    from mbe.models.sector import SectorContext
     from mbe.pipeline import AnalysisBundle
 
 HORIZON_YEARS = 3
@@ -512,3 +513,52 @@ def forecast_flags(
             ),
         ))
     return flags
+
+
+# Every code forecast_flags can emit. Kept beside it so the two cannot drift:
+# apply_forecasts needs to know which of a bundle's flags it owns in order to
+# replace rather than duplicate them.
+FORECAST_FLAG_CODES = frozenset(
+    {"MULTIPLE_AT_LOW", "EARNINGS_SPIKE", "FORECAST_INCOHERENT"}
+)
+
+
+def apply_forecasts(
+    bundles: list["AnalysisBundle"], context: "SectorContext"
+) -> None:
+    """Post-pass: give every bundle a forecast with a leave-one-out peer anchor.
+
+    Cross-sectional by nature, the same contract as analysis/sector.py — the
+    same stock legitimately gets a different peer anchor in a different
+    universe. Mutates bundles in place and appends coherence flags.
+
+    Replace-not-append: analyze_ticker has already attached a peerless solo
+    forecast and its flags by the time this runs, so the flags this pass owns
+    are dropped first. Appending would put a second MULTIPLE_AT_LOW in every
+    screened report, and skipping bundles that already have a forecast would
+    keep the solo anchor — the worse of the two, since the peer term is the
+    whole reason this pass exists. Only codes in FORECAST_FLAG_CODES are
+    touched; flags from assess_risk are none of this function's business.
+    """
+    by_group: dict[str, list["AnalysisBundle"]] = {}
+    for bundle in bundles:
+        group = context.membership.get(bundle.info.ticker)
+        if group is not None:
+            by_group.setdefault(group, []).append(bundle)
+
+    for bundle in bundles:
+        group = context.membership.get(bundle.info.ticker)
+        peers = [
+            b for b in by_group.get(group, [])
+            if b.info.ticker != bundle.info.ticker
+        ] if group is not None else []
+        peer_pes = [b.val.pe for b in peers if b.val.pe is not None]
+        peer_growths = [
+            b.fund.revenue_cagr_3y for b in peers
+            if b.fund.revenue_cagr_3y is not None
+        ]
+        bundle.forecast = build_forecast(bundle, peer_pes, peer_growths)
+        bundle.risk.flags = [
+            f for f in bundle.risk.flags if f.code not in FORECAST_FLAG_CODES
+        ]
+        bundle.risk.flags.extend(forecast_flags(bundle, bundle.forecast))

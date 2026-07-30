@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from mbe.analysis.fundamentals import compute_fundamentals
@@ -76,7 +78,10 @@ def test_dcf_scenarios_ordered_and_mos_consistent(bundle):
     assert v.assumptions["terminal"] == pytest.approx(0.04)
 
 
-def test_negative_fcf_uses_ni_proxy():
+@pytest.fixture
+def all_negative_fcf():
+    """Every year's FCF negative, so both the latest and the 3y mean are
+    unusable and the DCF has to fall through to the net-income proxy."""
     years = [2022, 2023, 2024]
     fin = FinancialHistory(
         data={
@@ -86,7 +91,11 @@ def test_negative_fcf_uses_ni_proxy():
         }
     )
     info = CompanyInfo(ticker="X.NS", market_cap=300.0, shares_outstanding=10.0)
-    fund = compute_fundamentals(fin, info)
+    return fin, info, compute_fundamentals(fin, info)
+
+
+def test_negative_fcf_uses_ni_proxy(all_negative_fcf):
+    fin, info, fund = all_negative_fcf
     v = compute_valuation(fin, info, fund, price=30.0)
     assert v.fcf_proxy_used
     assert v.fair_value_base is not None
@@ -122,8 +131,9 @@ def test_owner_earnings_floor_for_capex_heavy_compounder():
     fund = compute_fundamentals(fin, info)
     assert fund.cash_conversion is not None and fund.cash_conversion >= 0.8
     v = compute_valuation(fin, info, fund, price=200.0)
-    # floor = 0.7 * avg NI(88, 97, 107) = 0.7 * 97.33 = 68.13 >> avg FCF 16.33
-    assert v.assumptions["base_fcf"] == pytest.approx(0.7 * (88 + 97 + 107) / 3, abs=0.01)
+    # floor = 0.7 * latest NI 107 = 74.9 >> latest FCF 18.0, so it engages;
+    # latest NI, not a 3y average, for the same reason the base is unsmoothed
+    assert v.assumptions["base_fcf"] == pytest.approx(0.7 * 107, abs=0.01)
     assert v.assumptions["owner_earnings_floor"] == 1.0
 
 
@@ -196,51 +206,102 @@ def test_base_fcf_uses_latest_not_trailing_mean():
     # 588.1 / mean(196.2, 93.9, 588.1) = 588.1 / 292.73
     assert v.assumptions["fcf_spike_ratio"] == pytest.approx(2.009, abs=0.005)
     assert not v.fcf_proxy_used
+    # the reported bug: this business showed downside in *every* scenario,
+    # bull included, off a base that was 54% of last year's actual cash flow
+    assert v.fair_value_bull > 741.9
 
 
 def test_declining_fcf_uses_latest_not_flattering_mean():
     """Symmetry check: a business whose cash flow is shrinking must read as
-    shrinking, not be propped up by its own better past.
-
-    The decline is deliberately gentle and capex trivial so that the
-    owner-earnings floor (0.7 x 3y-avg NI = 63.0) stays below the latest FCF
-    and cannot rescue the base. That isolates the base-FCF rule itself: a
-    steeper decline would engage the floor and measure two behaviours at once.
-    """
+    shrinking, not be propped up by its own better past — neither by the base
+    rule nor by the owner-earnings floor, which at 0.7 x latest NI 50 = 35.0
+    sits below the latest FCF and correctly does not bind."""
     years = [2023, 2024, 2025, 2026]
     fin = FinancialHistory(
         data={
             "revenue": dict(zip(years, [1000.0, 1000.0, 1000.0, 1000.0])),
-            "net_income": dict(zip(years, [100.0, 95.0, 90.0, 85.0])),
-            "cfo": dict(zip(years, [100.0, 95.0, 90.0, 85.0])),
+            "net_income": dict(zip(years, [100.0, 90.0, 70.0, 50.0])),
+            "cfo": dict(zip(years, [110.0, 95.0, 72.0, 52.0])),
             "capex": dict(zip(years, [10.0, 10.0, 10.0, 10.0])),
-            "fcf": dict(zip(years, [90.0, 85.0, 80.0, 75.0])),
+            "fcf": dict(zip(years, [100.0, 85.0, 62.0, 42.0])),
             "shares_diluted": dict(zip(years, [10.0, 10.0, 10.0, 10.0])),
         }
     )
     info = CompanyInfo(ticker="FADE.NS", market_cap=800.0, shares_outstanding=10.0)
     fund = compute_fundamentals(fin, info)
     v = compute_valuation(fin, info, fund, price=80.0)
-    # latest 75.0, not the flattering mean(85, 80, 75) = 80.0
-    assert v.assumptions["base_fcf"] == pytest.approx(75.0, abs=0.01)
+    assert v.assumptions["base_fcf"] == pytest.approx(42.0, abs=0.01)
     assert v.assumptions["owner_earnings_floor"] == 0.0
-    assert v.assumptions["fcf_spike_ratio"] == pytest.approx(75.0 / 80.0, abs=0.005)
+    assert v.assumptions["fcf_spike_ratio"] == pytest.approx(42.0 / 63.0, abs=0.005)
 
 
-def test_spike_ratio_nan_when_trailing_mean_non_positive():
-    """No spike ratio is definable against a non-positive mean; the DCF must
-    still produce a value via the NI proxy."""
-    years = [2022, 2023, 2024]
+def test_spike_ratio_nan_when_trailing_mean_non_positive(all_negative_fcf):
+    """Nothing to divide by and nothing to divide: with every year negative
+    there is no spike to measure, and the DCF must still produce a value via
+    the NI proxy."""
+    fin, info, fund = all_negative_fcf
+    v = compute_valuation(fin, info, fund, price=30.0)
+    assert v.fcf_proxy_used
+    assert math.isnan(v.assumptions["fcf_spike_ratio"])
+
+
+def test_spike_ratio_nan_when_latest_year_negative_but_mean_positive():
+    """The one branch this change repurposed: a cash-burning latest year
+    demotes the base to the 3y mean, so the ratio would be describing
+    latest-vs-mean while the base is the mean. 'Did it spike?' is not a
+    meaningful question of a year that burned cash — report absence."""
+    years = [2024, 2025, 2026]
     fin = FinancialHistory(
         data={
-            "net_income": dict(zip(years, [10.0, 12.0, 15.0])),
-            "fcf": dict(zip(years, [-5.0, -3.0, -2.0])),
+            "revenue": dict(zip(years, [500.0, 500.0, 500.0])),
+            "net_income": dict(zip(years, [40.0, 35.0, 30.0])),
+            "cfo": dict(zip(years, [105.0, 85.0, 35.0])),
+            "capex": dict(zip(years, [5.0, 5.0, 95.0])),  # capex spike, not a loss
+            "fcf": dict(zip(years, [100.0, 80.0, -60.0])),
             "shares_diluted": dict(zip(years, [10.0, 10.0, 10.0])),
         }
     )
-    info = CompanyInfo(ticker="X.NS", market_cap=300.0, shares_outstanding=10.0)
+    info = CompanyInfo(ticker="BURN.NS", market_cap=400.0, shares_outstanding=10.0)
     fund = compute_fundamentals(fin, info)
-    v = compute_valuation(fin, info, fund, price=30.0)
-    assert v.fcf_proxy_used
-    import math
+    v = compute_valuation(fin, info, fund, price=40.0)
+    # latest is non-positive, so the base falls back to mean(100, 80, -60)
+    assert v.assumptions["base_fcf"] == pytest.approx(40.0, abs=0.01)
+    assert v.assumptions["owner_earnings_floor"] == 0.0  # 0.7 x 30 = 21 < 40
+    assert not v.fcf_proxy_used
+    assert math.isnan(v.assumptions["fcf_spike_ratio"])
+
+
+def test_spike_ratio_nan_when_history_shorter_than_three_years():
+    """Two years cannot establish what a normal year looks like; a confident
+    1.0-ish ratio off a 2-year mean would be fake context."""
+    years = [2025, 2026]
+    fin = FinancialHistory(
+        data={
+            "net_income": dict(zip(years, [70.0, 90.0])),
+            "fcf": dict(zip(years, [80.0, 100.0])),
+            "shares_diluted": dict(zip(years, [10.0, 10.0])),
+        }
+    )
+    info = CompanyInfo(ticker="NEW.NS", market_cap=900.0, shares_outstanding=10.0)
+    fund = compute_fundamentals(fin, info)
+    v = compute_valuation(fin, info, fund, price=90.0)
+    assert v.assumptions["base_fcf"] == pytest.approx(100.0, abs=0.01)
+    assert math.isnan(v.assumptions["fcf_spike_ratio"])
+
+
+def test_spike_ratio_nan_across_a_gap_year():
+    """Three data points spanning eight years are not three consecutive years.
+    Same convention as sector.revenue_acceleration: a gap year means no valid
+    comparison, not a skippable one."""
+    fin = FinancialHistory(
+        data={
+            "net_income": {2018: 40.0, 2025: 70.0, 2026: 90.0},
+            "fcf": {2018: 50.0, 2025: 80.0, 2026: 100.0},
+            "shares_diluted": {2018: 10.0, 2025: 10.0, 2026: 10.0},
+        }
+    )
+    info = CompanyInfo(ticker="GAP.NS", market_cap=900.0, shares_outstanding=10.0)
+    fund = compute_fundamentals(fin, info)
+    v = compute_valuation(fin, info, fund, price=90.0)
+    assert v.assumptions["base_fcf"] == pytest.approx(100.0, abs=0.01)
     assert math.isnan(v.assumptions["fcf_spike_ratio"])

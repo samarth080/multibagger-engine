@@ -209,13 +209,27 @@ def project(
     price: float,
 ) -> Projection:
     """Compound revenue along the growth path, apply the terminal margin and
-    projected share count, then the exit multiple."""
+    projected share count, then the exit multiple.
+
+    A bear path can legitimately project a loss-making terminal year — the bear
+    margin is min(latest, 3y mean), so one loss year in the window is enough —
+    and a P/E on negative earnings gives a negative target. Equity has limited
+    liability, the same reason compute_valuation floors a debt-overhang DCF at
+    zero: the honest expression of "this scenario is a wipeout" is a target of
+    zero and a total loss over the horizon, not a negative share price and not
+    the imaginary number that (negative) ** (1/3) actually returns. EPS is left
+    negative, because that is the projection talking.
+    """
     revenue = revenue_0
     for g in growth_path:
         revenue *= 1 + g
     shares = shares_0 * (1 + max(share_cagr, 0.0)) ** HORIZON_YEARS
     eps = revenue * margin / shares
     target = eps * exit_multiple
+    if target <= 0:
+        return Projection(
+            revenue_fy3=revenue, eps_fy3=eps, target_price=0.0, cagr_3y=-1.0
+        )
     return Projection(
         revenue_fy3=revenue,
         eps_fy3=eps,

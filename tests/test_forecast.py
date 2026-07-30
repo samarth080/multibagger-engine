@@ -279,6 +279,24 @@ def test_project_dilution_reduces_eps():
     assert diluting.eps_fy3 < clean.eps_fy3
 
 
+def test_project_floors_a_wipeout_bear_case_at_zero():
+    """A loss year anywhere in the 3-year window drives margin_paths' bear leg
+    negative, since it takes min(m0, m3). A negative share price is not a real
+    outcome and (negative) ** (1/3) is not even a real number, so the wipeout
+    is reported as zero and a total loss."""
+    from mbe.analysis.forecast import margin_paths, project
+
+    # 4% latest margin, a loss year inside the 3y window pulling the mean to -2%
+    bear_margin = margin_paths(m0=0.04, m3=-0.02, m_best=0.08)["bear"]
+    assert bear_margin < 0            # the realistic route into this branch
+
+    p = project(1000.0, [0.05] * 3, bear_margin, 10.0, 0.0, 18.0, 100.0)
+    assert p.eps_fy3 < 0              # the projected earnings really are negative
+    assert p.target_price == 0.0
+    assert p.cagr_3y == pytest.approx(-1.0)
+    assert isinstance(p.cagr_3y, float)
+
+
 def test_bull_guard_trims_exit_multiple_and_records_it():
     from mbe.analysis.forecast import BULL_CAGR_CAP, apply_bull_guard
 

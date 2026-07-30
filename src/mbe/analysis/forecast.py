@@ -21,6 +21,7 @@ from statistics import median
 
 from mbe.backtest.pointintime import availability_date
 from mbe.models.company import CompanyInfo, FinancialHistory, PriceHistory
+from mbe.models.forecast import MultipleAnchor
 
 HORIZON_YEARS = 3
 GROWTH_CAP = 0.40             # cap on the starting revenue growth rate
@@ -73,3 +74,66 @@ def percentile_of(values: list[float], x: float) -> float | None:
     if not values:
         return None
     return sum(1 for v in values if v <= x) / len(values)
+
+
+def build_anchor(
+    peer_pes: list[float],
+    own_pes: list[float],
+    current_pe: float | None,
+    franchise_score: float,
+) -> MultipleAnchor:
+    """Base-case exit multiple, blended from what peers trade at, what this
+    stock has traded at, and how good the business is.
+
+    The own-history term is capped against the peer median because our price
+    window is short and regime-bound: a name whose own median is 74x in a
+    three-year bull run has not earned a 74x exit assumption.
+    """
+    notes: list[str] = []
+    usable = [p for p in peer_pes if PEER_PE_MIN <= p <= PEER_PE_MAX]
+    peer_pe = float(median(usable)) if usable else None
+    own_pe = float(median(own_pes)) if own_pes else None
+    pctile = percentile_of(own_pes, current_pe) if current_pe is not None else None
+    quality_multiplier = 0.85 + 0.35 * (franchise_score / 100.0)
+
+    own_capped: float | None = None
+    if peer_pe is not None and own_pe is not None:
+        own_capped = min(own_pe, OWN_PE_CAP_VS_PEER * peer_pe)
+        if own_capped < own_pe:
+            notes.append(
+                f"own-history P/E median {own_pe:.1f}x capped to {own_capped:.1f}x "
+                f"({OWN_PE_CAP_VS_PEER:g}x the peer median) — our price window is "
+                "short and covers one regime"
+            )
+        raw = 0.6 * peer_pe + 0.4 * own_capped
+    elif peer_pe is not None:
+        raw = peer_pe
+        notes.append("no own-history P/E available — anchored on peers alone")
+    elif own_pe is not None:
+        raw = min(own_pe, ANCHOR_MAX)
+        notes.append("no peer P/E available — anchored on own history alone")
+    else:
+        notes.append("neither peer nor own-history P/E available — no anchor")
+        return MultipleAnchor(
+            own_pe_percentile_now=pctile,
+            quality_multiplier=quality_multiplier,
+            notes=notes,
+        )
+
+    anchor = raw * quality_multiplier
+    clamped = min(max(anchor, ANCHOR_MIN), ANCHOR_MAX)
+    if clamped != anchor:
+        notes.append(
+            f"anchor {anchor:.1f}x clamped to {clamped:.1f}x "
+            f"(bounds {ANCHOR_MIN:g}x-{ANCHOR_MAX:g}x)"
+        )
+    return MultipleAnchor(
+        peer_pe=peer_pe,
+        peer_n=len(usable),
+        own_pe_median=own_pe,
+        own_pe_percentile_now=pctile,
+        own_pe_capped=own_capped,
+        quality_multiplier=quality_multiplier,
+        anchor=clamped,
+        notes=notes,
+    )

@@ -176,3 +176,31 @@ def test_run_backtest_multi_returns_raw_panel_when_asked():
     score, fwd = day["A.NS"]
     assert 0 <= score <= 100
     assert isinstance(fwd, float)
+
+
+def test_forecast_error_signs_under_and_over_estimates():
+    """Signed on purpose: the failure this measures was systematic
+    understatement, which a mean absolute error would have concealed."""
+    from mbe.backtest.harness import forecast_error
+
+    assert forecast_error(predicted=1500.0, realized=1500.0) == pytest.approx(0.0)
+    assert forecast_error(predicted=1500.0, realized=750.0) == pytest.approx(-0.5)
+    assert forecast_error(predicted=1000.0, realized=2000.0) == pytest.approx(1.0)
+
+
+def test_forecast_error_none_on_missing_or_unusable_inputs():
+    from mbe.backtest.harness import forecast_error
+
+    assert forecast_error(predicted=None, realized=1500.0) is None
+    assert forecast_error(predicted=1500.0, realized=None) is None
+    assert forecast_error(predicted=0.0, realized=1500.0) is None
+    assert forecast_error(predicted=-10.0, realized=1500.0) is None
+
+
+def test_cutoff_result_carries_a_signed_mean_forecast_error():
+    from mbe.backtest.harness import CutoffResult
+
+    assert CutoffResult(
+        cutoff=date(2024, 1, 1), ic=None, top_q_mean=None, bottom_q_mean=None,
+        spread=None, hit_rate=None, n=0,
+    ).forecast_mean_error is None

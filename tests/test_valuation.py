@@ -140,7 +140,9 @@ def test_owner_earnings_floor_skipped_when_earnings_not_cash_backed():
     info = CompanyInfo(ticker="ACCRUAL.NS", market_cap=2000.0, shares_outstanding=10.0)
     fund = compute_fundamentals(fin, info)
     v = compute_valuation(fin, info, fund, price=200.0)
-    assert v.assumptions["base_fcf"] == pytest.approx((15 + 16 + 18) / 3, abs=0.01)
+    # base is current earning power (latest FCF), not the 3y mean; the
+    # owner-earnings floor is correctly skipped because CFO/NI is only ~0.37
+    assert v.assumptions["base_fcf"] == pytest.approx(18.0, abs=0.01)
     assert v.assumptions["owner_earnings_floor"] == 0.0
 
 
@@ -168,3 +170,77 @@ def test_high_leverage_floors_fair_value_at_zero_not_negative():
     assert v.fair_value_bear is not None and v.fair_value_bear >= 0.0
     assert v.assumptions["debt_overhang_floor"] == 1.0
     assert v.assumptions["owner_earnings_floor"] == 0.0  # never engaged, as intended
+
+
+def test_base_fcf_uses_latest_not_trailing_mean():
+    """A step change in cash flow must not be averaged away. HBL-shaped:
+    revenue +68% and net margin 12.6% -> 24.7% in the latest year."""
+    years = [2023, 2024, 2025, 2026]
+    fin = FinancialHistory(
+        data={
+            "revenue": dict(zip(years, [1357.6, 2221.5, 1967.2, 3302.8])),
+            "net_income": dict(zip(years, [98.7, 280.9, 276.9, 814.9])),
+            "cfo": dict(zip(years, [122.4, 270.3, 246.7, 738.4])),
+            "capex": dict(zip(years, [63.9, 74.1, 152.8, 150.3])),
+            "fcf": dict(zip(years, [58.6, 196.2, 93.9, 588.1])),
+            "shares_diluted": dict(zip(years, [27.7, 27.7, 27.8, 27.7])),
+            "total_equity": dict(zip(years, [951.4, 1220.5, 1482.7, 2214.2])),
+            "total_debt": dict(zip(years, [86.0, 67.5, 74.3, 66.9])),
+            "cash": dict(zip(years, [132.0, 223.5, 117.0, 528.2])),
+        }
+    )
+    info = CompanyInfo(ticker="STEP.NS", market_cap=20574.0, shares_outstanding=27.7)
+    fund = compute_fundamentals(fin, info)
+    v = compute_valuation(fin, info, fund, price=741.9)
+    assert v.assumptions["base_fcf"] == pytest.approx(588.1, abs=0.01)
+    # 588.1 / mean(196.2, 93.9, 588.1) = 588.1 / 292.73
+    assert v.assumptions["fcf_spike_ratio"] == pytest.approx(2.009, abs=0.005)
+    assert not v.fcf_proxy_used
+
+
+def test_declining_fcf_uses_latest_not_flattering_mean():
+    """Symmetry check: a business whose cash flow is shrinking must read as
+    shrinking, not be propped up by its own better past.
+
+    The decline is deliberately gentle and capex trivial so that the
+    owner-earnings floor (0.7 x 3y-avg NI = 63.0) stays below the latest FCF
+    and cannot rescue the base. That isolates the base-FCF rule itself: a
+    steeper decline would engage the floor and measure two behaviours at once.
+    """
+    years = [2023, 2024, 2025, 2026]
+    fin = FinancialHistory(
+        data={
+            "revenue": dict(zip(years, [1000.0, 1000.0, 1000.0, 1000.0])),
+            "net_income": dict(zip(years, [100.0, 95.0, 90.0, 85.0])),
+            "cfo": dict(zip(years, [100.0, 95.0, 90.0, 85.0])),
+            "capex": dict(zip(years, [10.0, 10.0, 10.0, 10.0])),
+            "fcf": dict(zip(years, [90.0, 85.0, 80.0, 75.0])),
+            "shares_diluted": dict(zip(years, [10.0, 10.0, 10.0, 10.0])),
+        }
+    )
+    info = CompanyInfo(ticker="FADE.NS", market_cap=800.0, shares_outstanding=10.0)
+    fund = compute_fundamentals(fin, info)
+    v = compute_valuation(fin, info, fund, price=80.0)
+    # latest 75.0, not the flattering mean(85, 80, 75) = 80.0
+    assert v.assumptions["base_fcf"] == pytest.approx(75.0, abs=0.01)
+    assert v.assumptions["owner_earnings_floor"] == 0.0
+    assert v.assumptions["fcf_spike_ratio"] == pytest.approx(75.0 / 80.0, abs=0.005)
+
+
+def test_spike_ratio_nan_when_trailing_mean_non_positive():
+    """No spike ratio is definable against a non-positive mean; the DCF must
+    still produce a value via the NI proxy."""
+    years = [2022, 2023, 2024]
+    fin = FinancialHistory(
+        data={
+            "net_income": dict(zip(years, [10.0, 12.0, 15.0])),
+            "fcf": dict(zip(years, [-5.0, -3.0, -2.0])),
+            "shares_diluted": dict(zip(years, [10.0, 10.0, 10.0])),
+        }
+    )
+    info = CompanyInfo(ticker="X.NS", market_cap=300.0, shares_outstanding=10.0)
+    fund = compute_fundamentals(fin, info)
+    v = compute_valuation(fin, info, fund, price=30.0)
+    assert v.fcf_proxy_used
+    import math
+    assert math.isnan(v.assumptions["fcf_spike_ratio"])

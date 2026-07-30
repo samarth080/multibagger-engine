@@ -1,8 +1,10 @@
 """Valuation engine: scenario DCF, reverse DCF, relative multiples.
 
 Model choices (v0.1, all recorded in ValuationResult.assumptions):
-- Base FCF = 3y average FCF (smooths capex cycles); latest FCF if the average
-  is non-positive; 0.8 x 3y-avg net income as a flagged proxy otherwise.
+- Base FCF = latest FCF (current earning power); the 3y average only when the
+  latest is non-positive; 0.8 x 3y-avg net income as a flagged proxy otherwise.
+  Deliberately unsmoothed: averaging a growing level series understates it, and
+  conservatism belongs in the bear scenario, not in the input all three share.
 - Two-stage DCF: growth g1 for years 1-5, g1/2 for years 6-10, then terminal.
 - Discount rate 13% and terminal 4% for Indian listings (.NS/.BO);
   10% / 3% otherwise. Crude cost-of-equity proxies, deliberately explicit.
@@ -65,18 +67,35 @@ def _avg_last3(fin: FinancialHistory, field: str) -> float | None:
     return sum(vals) / len(vals) if vals else None
 
 
-def _base_fcf(fin: FinancialHistory) -> tuple[float | None, bool]:
-    """Returns (base_fcf, proxy_used)."""
+def _base_fcf(fin: FinancialHistory) -> tuple[float | None, bool, float | None]:
+    """Returns (base_fcf, proxy_used, spike_ratio).
+
+    Current earning power, deliberately NOT a smoothed average. A trailing mean
+    of a level series systematically understates a business whose cash flow is
+    growing, and no averaging window can absorb a step change — measured on
+    HBLENGINE.NS, every smoothing variant landed within 20% of the biased
+    result. The risk that the latest year was a peak belongs to the *bear
+    scenario* (see analysis/forecast.py), not to a haircut applied to all three
+    scenarios at once, which is what made even bull cases show downside.
+
+    `spike_ratio` (latest / 3y mean) quantifies how far the latest year stands
+    out. It is reported, never used to reduce the base.
+    """
     avg_fcf = _avg_last3(fin, "fcf")
-    if avg_fcf is not None and avg_fcf > 0:
-        return avg_fcf, False
     latest_fcf = fin.latest("fcf")
+    spike_ratio = (
+        latest_fcf / avg_fcf
+        if latest_fcf is not None and avg_fcf is not None and avg_fcf > 0
+        else None
+    )
     if latest_fcf is not None and latest_fcf > 0:
-        return latest_fcf, False
+        return latest_fcf, False, spike_ratio
+    if avg_fcf is not None and avg_fcf > 0:
+        return avg_fcf, False, spike_ratio
     avg_ni = _avg_last3(fin, "net_income")
     if avg_ni is not None and avg_ni > 0:
-        return 0.8 * avg_ni, True
-    return None, False
+        return 0.8 * avg_ni, True, spike_ratio
+    return None, False, spike_ratio
 
 
 def compute_valuation(
@@ -112,7 +131,7 @@ def compute_valuation(
     g_bear = g_base * 0.6
     g_bull = min(g_base * 1.2, 0.35)
 
-    base_fcf, proxy_used = _base_fcf(fin)
+    base_fcf, proxy_used, spike_ratio = _base_fcf(fin)
 
     # Owner-earnings floor: heavy growth capex depresses trailing FCF and
     # would wreck the DCF for reinvestment-phase compounders. When earnings
@@ -194,6 +213,7 @@ def compute_valuation(
             "g_base": g_base,
             "g_bull": g_bull,
             "base_fcf": base_fcf if base_fcf is not None else float("nan"),
+            "fcf_spike_ratio": spike_ratio if spike_ratio is not None else float("nan"),
             "growth_defaulted": growth_defaulted,
             "owner_earnings_floor": owner_earnings_floor,
             "debt_overhang_floor": debt_overhang_floor,

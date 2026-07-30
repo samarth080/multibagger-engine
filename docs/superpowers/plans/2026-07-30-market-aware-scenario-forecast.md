@@ -1357,13 +1357,26 @@ and add `PriceHistory` to the existing `from mbe.models.company import CompanyIn
 Run: `.venv/bin/python -m pytest tests/test_forecast.py -v`
 Expected: FAIL with `ImportError: cannot import name 'build_forecast'`
 
-- [ ] **Step 4: Implement `build_forecast`**
+- [ ] **Step 4a: Generalize the spike ratio in `valuation.py` first**
+
+Task 1 landed `fcf_spike_ratio(fin) -> float | None` in `src/mbe/analysis/valuation.py`. You now need exactly the same computation on `net_income`, so generalize rather than writing a second copy. Rename it and add a field parameter:
+
+```python
+def spike_ratio(fin: FinancialHistory, field: str) -> float | None:
+```
+
+Keep the body and the whole docstring rationale identical — only the series being read changes. Then update its one existing call site in `compute_valuation` to `spike_ratio(fin, "fcf")`, and update the Task 1 tests that reference the old name. Run `.venv/bin/python -m pytest tests/test_valuation.py` and confirm the same count as before the rename: this step must change no behaviour whatsoever.
+
+Do not skip this and write a local copy in `forecast.py`. Task 1's version encodes a specific calibration decision (the mean includes the latest year, so `>= 1.5` means the latest year exceeded the sum of the two before it) plus a consecutive-years guard. Two copies of that will drift.
+
+- [ ] **Step 4b: Implement `build_forecast`**
 
 Add to `src/mbe/analysis/forecast.py`. Extend the imports at the top with:
 
 ```python
 from typing import TYPE_CHECKING
 
+from mbe.analysis.valuation import spike_ratio
 from mbe.models.forecast import MultipleAnchor, PriceForecast, ScenarioPath
 
 if TYPE_CHECKING:  # avoid a runtime cycle: pipeline imports this module
@@ -1390,6 +1403,19 @@ def _net_margins(fin: FinancialHistory) -> list[tuple[int, float]]:
         for year, ni in fin.series("net_income")
         if revenue.get(year) not in (None, 0)
     ]
+
+
+def earnings_spiked(fin: FinancialHistory) -> bool:
+    """Did the latest year stand far enough above its own recent record that
+    "it does not repeat" is the real bear case?
+
+    True when either cash flow or accounting profit spiked, because either one
+    carrying the latest year is enough to make the bear path load-bearing.
+    """
+    return any(
+        (ratio := spike_ratio(fin, field)) is not None and ratio >= SPIKE_THRESHOLD
+        for field in ("fcf", "net_income")
+    )
 
 
 def build_forecast(
@@ -1422,13 +1448,7 @@ def build_forecast(
     if anchor.anchor is None:
         return None
 
-    spike = val.assumptions.get("fcf_spike_ratio")
-    ni_recent = [ni for _, ni in fin.series("net_income")[-3:]]
-    ni_mean = sum(ni_recent) / len(ni_recent) if ni_recent else 0.0
-    ni_latest = fin.latest("net_income") or 0.0
-    spiked = (ni_mean > 0 and ni_latest / ni_mean >= SPIKE_THRESHOLD) or (
-        spike is not None and spike == spike and spike >= SPIKE_THRESHOLD
-    )
+    spiked = earnings_spiked(fin)
 
     g_term = terminal_growth(peer_growths)
     growth = growth_paths(fund.revenue_cagr_3y or 0.0, g_term, spiked)
@@ -1471,8 +1491,8 @@ def build_forecast(
                 evidence.extend(guard_notes)
         if spiked and name == "bear":
             evidence.append(
-                f"latest earnings are {ni_latest / ni_mean:.1f}x their 3y mean, so "
-                "this bear path assumes the step change does not repeat"
+                "the latest year stands well above its own 3y record, so this bear "
+                "path assumes the step change does not repeat"
             )
         scenarios.append(ScenarioPath(
             name=name, probability=probs[name], growth_start=start, growth_end=end,
@@ -1622,15 +1642,13 @@ def forecast_flags(
             ),
         ))
 
-    ni_recent = [ni for _, ni in bundle.fin.series("net_income")[-3:]]
-    ni_mean = sum(ni_recent) / len(ni_recent) if ni_recent else 0.0
-    ni_latest = bundle.fin.latest("net_income") or 0.0
-    if ni_mean > 0 and ni_latest / ni_mean >= SPIKE_THRESHOLD:
+    ni_ratio = spike_ratio(bundle.fin, "net_income")
+    if ni_ratio is not None and ni_ratio >= SPIKE_THRESHOLD:
         flags.append(RiskFlag(
             code="EARNINGS_SPIKE", severity=1,
             detail=(
-                f"Latest earnings are {ni_latest / ni_mean:.1f}x their 3y mean — the "
-                "bear scenario is load-bearing here"
+                f"Latest earnings are {ni_ratio:.1f}x their 3y mean — the bear "
+                "scenario is load-bearing here"
             ),
         ))
 

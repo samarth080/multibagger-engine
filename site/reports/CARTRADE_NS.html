@@ -65,7 +65,7 @@ if(light){r.removeAttribute('data-theme')}else{r.setAttribute('data-theme','ligh
 try{localStorage.setItem('mbe-theme',light?'dark':'light')}catch(e){}})()"
 >&#9788;/&#9789;</button></nav>
 <main><div class="card report"><h1>Equity Research Report: CARTRADE TECH LIMITED (CARTRADE.NS)</h1>
-<p><em>Generated 2026-07-20 by Multibagger Engine v0.1 — evidence-driven, confidence-scored.</em></p>
+<p><em>Generated 2026-07-30 by Multibagger Engine v0.1 — evidence-driven, confidence-scored.</em></p>
 <h2>Executive Summary</h2>
 <table>
 <thead>
@@ -101,7 +101,7 @@ try{localStorage.setItem('mbe-theme',light?'dark':'light')}catch(e){}})()"
 </tr>
 <tr>
 <td><strong>Base fair value (DCF)</strong></td>
-<td>934.81 — margin of safety -65.4%</td>
+<td>1,595.41 — margin of safety -40.9%</td>
 </tr>
 <tr>
 <td><strong>Market cap</strong></td>
@@ -114,7 +114,7 @@ try{localStorage.setItem('mbe-theme',light?'dark':'light')}catch(e){}})()"
 <li><strong>Quality 54/100</strong> (data coverage 100%): High return on capital employed is the engine of compounding — roce_3y = 0.050087.</li>
 <li><strong>Growth 94/100</strong> (data coverage 100%): Top-line growth is the rawest demand signal — revenue_cagr_3y = 0.289652.</li>
 <li><strong>Financial Strength 92/100</strong> (data coverage 100%): Low leverage survives downturns and funds opportunity — debt_to_equity = 0.056548.</li>
-<li><strong>Valuation 45/100</strong> (data coverage 100%): Price below conservatively-estimated intrinsic value — margin_of_safety = -0.653697.</li>
+<li><strong>Valuation 45/100</strong> (data coverage 100%): Price below conservatively-estimated intrinsic value — margin_of_safety = -0.408974.</li>
 <li><strong>Momentum 64/100</strong> (data coverage 100%): Stage-2 uptrends are where big moves happen (Minervini template) — trend_state = up.</li>
 <li><strong>Size Runway 75/100</strong> (data coverage 100%): Multibaggers are far more common below institutional radar size — market_cap = 130046377984.0.</li>
 <li><strong>Reinvestment 40/100</strong> (data coverage 100%): Compounding needs somewhere productive to redeploy cash — reinvestment_rate = 0.0787.</li>
@@ -324,27 +324,28 @@ directions) — treat it as a list of concerns to weigh, not a validated filter.
 <tbody>
 <tr>
 <td>Bear (g = 15.0%)</td>
-<td>539.73</td>
-<td>-80%</td>
+<td>927.76</td>
+<td>-66%</td>
 </tr>
 <tr>
 <td>Base (g = 25.0%)</td>
-<td>934.81</td>
-<td>-65%</td>
+<td>1,595.41</td>
+<td>-41%</td>
 </tr>
 <tr>
 <td>Bull (g = 30.0%)</td>
-<td>1,220.93</td>
-<td>-55%</td>
+<td>2,078.94</td>
+<td>-23%</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li>Reverse DCF: the market is pricing <strong>45.5%</strong> FCF growth (delivered: 87.2% profit CAGR).</li>
+<li>Reverse DCF: the market is pricing <strong>35.1%</strong> FCF growth (delivered: 87.2% profit CAGR).</li>
 <li>Multiples: P/E 58.3 | PEG 0.67 | EV/EBITDA 38.5 | P/S 16.7 | FCF yield 1.8%</li>
-<li>Expected 5y CAGR if price converges to base fair value: <strong>1.1%</strong></li>
+<li>Expected 5y CAGR if price converges to base fair value: <strong>12.5%</strong></li>
 <li>Assumptions: discount 13.0%, terminal 4.0%</li>
 </ul>
+<p>Base FCF is the latest year's, not a trailing average — it stands at 1.7x the 3-year mean. The risk that it does not repeat is carried by the bear scenario in the 3-Year Price Forecast below, not by a haircut to all three.</p>
 <h2>Risk Analysis</h2>
 <p>Risk score: <strong>24/100</strong> — low probability of permanent capital loss.</p>
 <table>
@@ -359,16 +360,127 @@ directions) — treat it as a list of concerns to weigh, not a validated filter.
 <tr>
 <td>VALUATION_HOT</td>
 <td>warning</td>
-<td>Market pricing 46% growth — little room for error</td>
+<td>Market pricing 35% growth — little room for error</td>
+</tr>
+<tr>
+<td>MULTIPLE_AT_LOW</td>
+<td>info</td>
+<td>Trades at the 0% percentile of its own multiple history (median 107.5x) — cheap relative to its own past, not just to peers</td>
+</tr>
+<tr>
+<td>EARNINGS_SPIKE</td>
+<td>info</td>
+<td>Latest earnings are 1.8x their 3y mean — the bear scenario is load-bearing here</td>
+</tr>
+<tr>
+<td>FORECAST_INCOHERENT</td>
+<td>warning</td>
+<td>Bull case assumes 29% growth but the market already prices 35% — the model's most optimistic case is below consensus, so treat the forecast as understated</td>
 </tr>
 </tbody>
 </table>
-<h2>Bull / Base / Bear</h2>
+<h2>3-Year Price Forecast</h2>
+<p>Where the price could be in 3 years, projected from FY2026 revenue and net margin against an exit multiple. Each scenario moves growth, margin <strong>and</strong> the multiple — not one knob three ways.</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Prob.</th>
+<th>Revenue growth</th>
+<th>Net margin</th>
+<th>Exit multiple</th>
+<th>FY+3 EPS</th>
+<th>Target</th>
+<th>3y CAGR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bull</strong></td>
+<td>29.3%</td>
+<td>29.0% → 20.3%</td>
+<td>28.6%</td>
+<td>63.0x</td>
+<td>86.21</td>
+<td>5,431.44</td>
+<td>26.2%</td>
+</tr>
+<tr>
+<td><strong>Base</strong></td>
+<td>46.8%</td>
+<td>29.0% → 11.3%</td>
+<td>23.1%</td>
+<td>45.0x</td>
+<td>62.02</td>
+<td>2,790.92</td>
+<td>1.1%</td>
+</tr>
+<tr>
+<td><strong>Bear</strong></td>
+<td>23.9%</td>
+<td>5.8% → 5.7%</td>
+<td>17.5%</td>
+<td>27.0x</td>
+<td>32.26</td>
+<td>870.96</td>
+<td>-31.4%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Probability-weighted:</strong> target 3,103.92, expected 3y CAGR 4.8%. Probability of a target below today's price: 23.9%.</p>
+<p><strong>Exit multiple anchor — 45.0x</strong></p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Peer median P/E (9 peers, leave-one-out)</td>
+<td>38.9x</td>
+</tr>
+<tr>
+<td>Own history median P/E</td>
+<td>107.5x</td>
+</tr>
+<tr>
+<td>Today's P/E within own history</td>
+<td>0.0% percentile</td>
+</tr>
+<tr>
+<td>Quality multiplier (franchise score)</td>
+<td>1.03x</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><strong>Bull:</strong> growth sustains at 30.0%, fair value 1,220.93 (-55%).</li>
-<li><strong>Base:</strong> delivered-growth median of 25.0% continues 5 years then fades, fair value 934.81 (-65%).</li>
-<li><strong>Bear:</strong> growth decays to 15.0%, fair value 539.73 (-80%).</li>
+<li>own-history P/E median 107.5x capped to 58.3x (1.5x the peer median) — our price window is short and covers one regime</li>
+<li>anchor 47.9x clamped to 45.0x (bounds 8x-45x)</li>
 </ul>
+<p><strong>Scenario assumptions</strong></p>
+<p><em>Bull:</em></p>
+<ul>
+<li>revenue grows 29% fading to 20% over 3 years</li>
+<li>net margin ends at 28.6% (latest 28.6%, 3y mean 17.5%)</li>
+<li>exits at 63.0x earnings (1.4x the 45.0x anchor)</li>
+</ul>
+<p><em>Base:</em></p>
+<ul>
+<li>revenue grows 29% fading to 11% over 3 years</li>
+<li>net margin ends at 23.1% (latest 28.6%, 3y mean 17.5%)</li>
+<li>exits at 45.0x earnings (1.0x the 45.0x anchor)</li>
+</ul>
+<p><em>Bear:</em></p>
+<ul>
+<li>revenue grows 6% fading to 6% over 3 years</li>
+<li>net margin ends at 17.5% (latest 28.6%, 3y mean 17.5%)</li>
+<li>exits at 27.0x earnings (0.6x the 45.0x anchor)</li>
+<li>the latest year stands well above its own 3y record, so this bear path assumes the step change does not repeat</li>
+</ul>
+<p><em>Forecast completeness 100.0%. A scenario model with
+stated assumptions, not a prediction — see Model validation status.</em></p>
 <h2>Entry &amp; Exit Framework</h2>
 <ul>
 <li>Trend state is <strong>up</strong>; pullbacks toward the 50-day MA within an intact uptrend are the preferred accumulation zone.</li>
@@ -535,7 +647,7 @@ directions) — treat it as a list of concerns to weigh, not a validated filter.
 <tbody>
 <tr>
 <td>margin_of_safety</td>
-<td>-0.653697</td>
+<td>-0.408974</td>
 <td>below lowest threshold, floor 5</td>
 <td>5</td>
 <td>0.4</td>
@@ -549,7 +661,7 @@ directions) — treat it as a list of concerns to weigh, not a validated filter.
 </tr>
 <tr>
 <td>implied_growth_gap</td>
-<td>-0.41665</td>
+<td>-0.521101</td>
 <td>&lt;= -0.05 earns 90</td>
 <td>90</td>
 <td>0.2</td>
@@ -591,7 +703,7 @@ directions) — treat it as a list of concerns to weigh, not a validated filter.
 </tr>
 <tr>
 <td>relative_strength_63d</td>
-<td>0.521298</td>
+<td>0.521213</td>
 <td>&gt;= 0.15 earns 90</td>
 <td>90</td>
 <td>0.25</td>

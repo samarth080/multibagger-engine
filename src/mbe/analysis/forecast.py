@@ -39,6 +39,7 @@ TERMINAL_GROWTH_FALLBACK = 0.10
 PEER_PE_MIN, PEER_PE_MAX = 5.0, 80.0   # sanity filter on peer P/E inputs
 OWN_PE_CAP_VS_PEER = 1.5
 ANCHOR_MIN, ANCHOR_MAX = 8.0, 45.0
+BASE_RERATE_CAP = 1.5         # most the base case may re-rate off today's P/E
 MULT_BEAR, MULT_BASE, MULT_BULL = 0.6, 1.0, 1.4
 BULL_CAGR_CAP = 0.45          # ~3x in 3 years; the optimism-side guard
 SPIKE_THRESHOLD = 1.5
@@ -153,6 +154,30 @@ def build_anchor(
             f"anchor {anchor:.1f}x clamped to {clamped:.1f}x "
             f"(bounds {ANCHOR_MIN:g}x-{ANCHOR_MAX:g}x)"
         )
+
+    # The base-side guard, the counterpart to apply_bull_guard. Everything above
+    # this line reasons from peers, own history and quality and never once looks
+    # at what the market is paying right now — so for any stock trading at a
+    # discount to its peers the base case silently assumed full convergence.
+    # Measured on the real screen: BLS trades at 14.2x against 44x peers, and
+    # the blend anchored its *base* case at 45.0x, a +217% re-rating that
+    # produced a "base" 3y CAGR of +73%/yr. Full convergence is a bull thesis.
+    # The live price is evidence too, and a base case does not get to assume the
+    # market is wholesale wrong. One-directional on purpose: it limits optimism
+    # and never imports it, so a richly-priced stock keeps its blend. It may
+    # take the anchor below ANCHOR_MIN, which is intended — a traded multiple is
+    # better evidence than a generic floor.
+    if current_pe is not None and current_pe > 0:
+        rerate_cap = current_pe * BASE_RERATE_CAP
+        if rerate_cap < clamped:
+            notes.append(
+                f"base-case re-rating capped: anchor {clamped:.1f}x cut to "
+                f"{rerate_cap:.1f}x, at most {BASE_RERATE_CAP:g}x today's "
+                f"{current_pe:.1f}x — the rest of the re-rating to peers is a "
+                f"bull assumption, not a base one"
+            )
+            clamped = rerate_cap
+
     return MultipleAnchor(
         peer_pe=peer_pe,
         peer_n=len(usable),

@@ -628,3 +628,50 @@ def test_no_flags_without_a_forecast(hbl_bundle):
     from mbe.analysis.forecast import forecast_flags
 
     assert forecast_flags(hbl_bundle, None) == []
+
+
+def test_base_anchor_caps_the_re_rating_against_todays_multiple():
+    """A base case may not assume the market is wholesale wrong about a stock.
+
+    BLS's real shape: trades at 14.2x while its peers sit at 44x. Without this
+    cap the blend anchors the *base* case at 45.0x — a +217% re-rating — which
+    produced a "base" 3y CAGR of +73%/yr. Full convergence to peers is a bull
+    thesis; the base case gets at most BASE_RERATE_CAP.
+    """
+    from mbe.analysis.forecast import BASE_RERATE_CAP, build_anchor
+
+    a = build_anchor(
+        peer_pes=[42.0, 44.0, 46.0], own_pes=[49.2], current_pe=14.2,
+        franchise_score=100.0,
+    )
+    assert a.anchor == pytest.approx(14.2 * BASE_RERATE_CAP)
+    assert any("re-rating" in n for n in a.notes)
+
+
+def test_base_anchor_untouched_when_the_blend_implies_a_modest_re_rating():
+    from mbe.analysis.forecast import build_anchor
+
+    # blend = 0.6*30 + 0.4*30 = 30.0, quality 1.0 at franchise ~42.9 -> 30.0x
+    # against a current 28.0x, well inside the cap, so nothing binds
+    a = build_anchor([30.0], [30.0], current_pe=28.0, franchise_score=100.0)
+    assert a.anchor == pytest.approx(30.0 * 1.2)
+    assert not any("re-rating" in n for n in a.notes)
+
+
+def test_base_anchor_cap_skipped_without_a_current_multiple():
+    """A loss-making or unpriced name has no live multiple to anchor against,
+    so the cap has nothing to say and must not silently zero the anchor."""
+    from mbe.analysis.forecast import build_anchor
+
+    a = build_anchor([20.0, 22.0], [30.0], current_pe=None, franchise_score=50.0)
+    assert a.anchor is not None and a.anchor > 0
+    assert not any("re-rating" in n for n in a.notes)
+
+
+def test_base_anchor_cap_never_raises_a_rich_multiple():
+    """One-directional: it limits optimism, it does not import it. A stock
+    already trading richer than its blend keeps the blend."""
+    from mbe.analysis.forecast import build_anchor
+
+    a = build_anchor([20.0, 22.0], [24.0], current_pe=90.0, franchise_score=50.0)
+    assert a.anchor == pytest.approx((0.6 * 21.0 + 0.4 * 24.0) * 1.025)

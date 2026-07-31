@@ -17,6 +17,7 @@ from jinja2 import Environment
 
 from mbe.data.news_rss import NewsItem
 from mbe.pipeline import AnalysisBundle, ScreenResult
+from mbe.report.charts import build_charts
 from mbe.report.markdown import render_report
 from mbe.scoring.sector_themes import CURATED_AS_OF, themes_for
 
@@ -194,17 +195,38 @@ padding:2px 14px;color:var(--muted)}
 </body></html>""")
 
 
+def peer_bundles(result: ScreenResult, ticker: str) -> list[AnalysisBundle]:
+    """The screened bundles in this ticker's industry group, including itself.
+
+    Peer comparison is only meaningful against names analysed in the same run
+    with the same data vintage, which is exactly what a ScreenResult holds.
+    An ungrouped ticker (its industry had fewer than MIN_GROUP members)
+    returns [], and the report says so rather than comparing against nothing."""
+    for group in result.sector_scores:
+        if ticker in group.members:
+            by_ticker = {b.card.ticker: b for b in result.ranked}
+            return [by_ticker[t] for t in group.members if t in by_ticker]
+    return []
+
+
 def render_report_page(
     bundle: AnalysisBundle,
     back_href: str = "../index.html",
     news: list[NewsItem] | None = None,
     policy: list[NewsItem] | None = None,
+    peers: list[AnalysisBundle] | None = None,
 ) -> str:
     """Wrap one AnalysisBundle's markdown report in the shared dark shell.
     Used by render_site() for weekly static reports and by api/analyze.py
-    for live single-ticker search — one shell, one back-link parameter."""
-    body = md.markdown(render_report(bundle, news=news, policy=policy),
-                       extensions=["tables"])
+    for live single-ticker search — one shell, one back-link parameter.
+
+    Charts are built here rather than in render_report so the renderer stays
+    pure and the CLI's markdown output keeps its tables."""
+    body = md.markdown(
+        render_report(bundle, news=news, policy=policy,
+                      charts=build_charts(bundle, peers)),
+        extensions=["tables"],
+    )
     return _REPORT_SHELL.render(title=bundle.card.ticker, body=body, back_href=back_href)
 
 
@@ -368,7 +390,9 @@ def render_site(data: dict, changes: dict, result: ScreenResult, out_dir) -> Non
     for b in result.ranked:
         if b.card.ticker in published:
             page = render_report_page(
-                b, policy=[NewsItem(**p) for p in data.get("policy", [])]
+                b,
+                policy=[NewsItem(**p) for p in data.get("policy", [])],
+                peers=peer_bundles(result, b.card.ticker),
             )
             name = b.card.ticker.replace(".", "_") + ".html"
             (out / "reports" / name).write_text(page)

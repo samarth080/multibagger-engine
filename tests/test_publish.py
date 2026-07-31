@@ -230,3 +230,34 @@ def test_render_error_page_is_themed_and_escapes():
     assert "#1F2022" in page and "theme-toggle" in page
     assert 'href="/"' in page
     assert "Not a valid ticker format." in page
+
+
+def test_peer_bundles_returns_the_group_containing_the_ticker():
+    from mbe.publish import peer_bundles
+
+    result = _result()   # 4 bundles, one "Semiconductors" group
+    peers = peer_bundles(result, "S0.NS")
+    assert {b.card.ticker for b in peers} == {"S0.NS", "S1.NS", "S2.NS", "S3.NS"}
+
+
+def test_peer_bundles_is_empty_for_an_ungrouped_ticker():
+    from mbe.publish import peer_bundles
+
+    assert peer_bundles(_result(), "NOTINANYGROUP.NS") == []
+
+
+def test_render_site_puts_charts_on_report_pages(tmp_path):
+    result = _result()
+    data = build_data(result, {}, policy=[], built_at=NOW)
+    render_site(data, {"entered": [], "exited": []}, result, tmp_path)
+    report = (tmp_path / "reports" / "S0_NS.html").read_text()
+
+    assert "<svg" in report
+    assert "Peer Comparison" in report
+    # the group's other members are named on the page
+    assert "S1.NS" in report or "S1" in report
+    # and no svg was split across paragraphs by markdown
+    import re
+    svgs = re.findall(r"<svg\b.*?</svg>", report, re.S)
+    assert len(svgs) == report.count("<svg")
+    assert all("</p>" not in s for s in svgs)

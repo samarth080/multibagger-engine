@@ -689,3 +689,38 @@ Addendum 16 is resolved.
 **Shipped accordingly:** no change. The dilution gate and the pillar metric both
 stay as they are. First verdict in this document derived against a pinned,
 re-runnable sample.
+
+---
+
+## Protocol amendment (pre-registered 2026-07-31, before reading the franchise/sector re-runs)
+
+**The promotion rule now requires a margin.** A sample counts as a win for a
+candidate score only when `IC_score >= IC_base + 0.05`. Majority-of-samples is
+unchanged.
+
+**Why.** The original rule counted any `IC_score >= IC_base` as a win, with no
+regard for effect size. Spearman IC has a standard error near `1/sqrt(n-3)` per
+cutoff, and averaging over `k` cutoffs divides it by `sqrt(k)`:
+
+| sample | n/cutoff | cutoffs | SE of mean IC |
+|---|---|---|---|
+| us-smallcap-sample | ~30 | 12 | ±0.055 |
+| nifty-smallcap250 (3 cutoffs) | 50 | 3 | ±0.084 |
+| nifty-smallcap250 (8 cutoffs) | 50 | 8 | ±0.052 |
+
+Differences below ~0.05 are indistinguishable from noise at these sample sizes.
+Addendum 16's stewardship re-run produced a "win" of **0.005** — about one tenth
+of one standard error — which under the old rule counted as evidence toward
+wiring a score into the published ranking. 0.05 is chosen as roughly one SE: a
+weak bar, deliberately, since two SEs (~0.10-0.16) would be unmeetable on
+samples this small.
+
+**Recorded before the franchise and sector re-runs were read**, so it cannot be
+fitted to their outcome. This is the whole point: the previous rule's failure
+was only visible after it returned an absurd verdict, and adjusting it then
+would have been hindsight.
+
+**Retroactive effect on Addendum 16 (stewardship):** margins were +0.091,
++0.005, −0.051 → **1/3, demoted.** The judgment call made there — decline the
+nominal 2/3 promotion — is what the amended rule produces mechanically. Verdict
+unchanged; it now follows from the protocol rather than from an override.

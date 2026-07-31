@@ -180,3 +180,57 @@ def test_tag_fallbacks_merge_across_eras():
     assert fin.value("revenue", 2016) == 50.0   # primary-tag era
     assert fin.value("revenue", 2023) == 90.0   # fallback-tag era merged in
     assert fin.value("revenue", 2018) == 70.0   # primary wins conflicts
+
+
+def test_share_counts_parse_from_the_shares_unit_not_usd():
+    """EDGAR reports share counts under units["shares"]; only USD was read, so
+    shares_diluted came back empty for every US ticker. That silently disabled
+    the forecast's own-P/E history (which needs EPS) across the whole EDGAR
+    path, and left share_count_cagr_3y unmeasurable."""
+    facts = {
+        "cik": 1,
+        "entityName": "Share Co",
+        "facts": {
+            "us-gaap": {
+                "WeightedAverageNumberOfDilutedSharesOutstanding": {
+                    "units": {
+                        "shares": [
+                            {"start": "2021-01-01", "end": "2021-12-31",
+                             "val": 10_000_000.0, "form": "10-K",
+                             "filed": "2022-02-15"},
+                            {"start": "2022-01-01", "end": "2022-12-31",
+                             "val": 10_500_000.0, "form": "10-K",
+                             "filed": "2023-02-20"},
+                        ]
+                    }
+                },
+            }
+        },
+    }
+    fin = parse_companyfacts(facts)
+    assert fin.series("shares_diluted") == [
+        (2021, 10_000_000.0),
+        (2022, 10_500_000.0),
+    ]
+
+
+def test_usd_fields_still_ignore_a_shares_unit():
+    """The unit choice is per-field, not a free-for-all: a money field must not
+    start picking up share-denominated facts."""
+    facts = {
+        "cik": 1,
+        "entityName": "Odd Co",
+        "facts": {
+            "us-gaap": {
+                "Revenues": {
+                    "units": {
+                        "shares": [
+                            {"start": "2021-01-01", "end": "2021-12-31",
+                             "val": 999.0, "form": "10-K", "filed": "2022-02-15"},
+                        ]
+                    }
+                },
+            }
+        },
+    }
+    assert parse_companyfacts(facts).series("revenue") == []

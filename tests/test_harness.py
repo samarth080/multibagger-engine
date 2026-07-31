@@ -204,3 +204,17 @@ def test_cutoff_result_carries_a_signed_mean_forecast_error():
         cutoff=date(2024, 1, 1), ic=None, top_q_mean=None, bottom_q_mean=None,
         spread=None, hit_rate=None, n=0,
     ).forecast_mean_error is None
+
+
+def test_analyze_as_of_carries_truncated_prices_for_the_forecast():
+    """The forecast's own-P/E history reads bundle.prices. If analyze_as_of
+    leaves it None the whole forecast silently vanishes from the backtest, and
+    if it passes the *untruncated* series the P/E history looks ahead. It must
+    be the cutoff-truncated one."""
+    from mbe.backtest.harness import analyze_as_of
+
+    cutoff = date(2024, 1, 2)
+    bundle, full_prices = analyze_as_of("GOOD.NS", StubProvider(), cutoff)
+    assert bundle.prices is not None, "forecast has no price history to anchor on"
+    assert bundle.prices.df.index.max().date() <= cutoff
+    assert len(bundle.prices.df) < len(full_prices.df), "prices were not truncated"

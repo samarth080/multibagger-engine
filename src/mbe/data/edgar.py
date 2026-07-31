@@ -63,6 +63,7 @@ TAG_MAP: dict[str, list[str]] = {
 }
 
 _ABS_FIELDS = {"capex", "dividends_paid"}
+_UNITS = {"shares_diluted": "shares"}  # EDGAR unit per field; everything else USD
 _ANNUAL_DURATION = (340, 390)  # days; excludes quarterly/comparative stubs
 
 
@@ -88,10 +89,15 @@ def resolve_cik(ticker: str, cache: DiskCache | None, fetcher=default_http) -> i
     raise ProviderError(f"no CIK found for ticker {ticker!r}")
 
 
-def _annual_facts(tag_payload: dict) -> list[dict]:
-    """All USD facts from 10-K filings that represent a full fiscal year."""
+def _annual_facts(tag_payload: dict, unit: str = "USD") -> list[dict]:
+    """Facts in `unit` from 10-K filings that represent a full fiscal year.
+
+    The unit is per-field, not global: EDGAR files money under "USD" and share
+    counts under "shares". Reading only USD — as this did — left shares_diluted
+    empty for every US ticker, which is invisible until something needs EPS.
+    """
     out = []
-    for fact in tag_payload.get("units", {}).get("USD", []):
+    for fact in tag_payload.get("units", {}).get(unit, []):
         if not str(fact.get("form", "")).startswith("10-K"):
             continue
         if "start" in fact and fact["start"]:
@@ -118,7 +124,7 @@ def parse_companyfacts(payload: dict) -> FinancialHistory:
             if tag not in gaap:
                 continue
             by_year: dict[int, tuple[date, float]] = {}
-            for fact in _annual_facts(gaap[tag]):
+            for fact in _annual_facts(gaap[tag], _UNITS.get(field, "USD")):
                 year = datetime.fromisoformat(fact["end"]).year
                 filed_on = date.fromisoformat(fact["filed"])
                 # keep the ORIGINAL (earliest-filed) value; amendments leak the future

@@ -200,6 +200,11 @@ def analyze_as_of(
         info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk,
         card=card, as_of=cutoff, business=business, stewardship=stewardship,
         thesis=thesis, critique=critique,
+        # Truncated, never full_prices: the forecast's own-P/E history reads
+        # this field, so the untruncated series would look ahead. Omitting it
+        # is worse than it looks — build_forecast finds no anchor and returns
+        # None for every ticker, so forecast accuracy silently measures nothing.
+        prices=prices,
     )
     return bundle, full_prices
 

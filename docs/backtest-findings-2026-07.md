@@ -499,3 +499,67 @@ stewardship (Addendum 12).
 industry grouping, curated descriptive-only theme tags, and report/CLI context
 are retained as risk/context disclosure, labelled unvalidated-for-returns like
 franchise and stewardship before it. No recalibration on this evidence.
+
+---
+
+## Addendum 15 — 3-year scenario forecast: accuracy is measurable, and it reads low
+
+**Run:** 2026-07-31, `us-smallcap-sample` and `us-smallcap-sample2`, first 30
+tickers each, cutoffs 2016/2018/2020/2022-07-15, horizon 1095 days, EDGAR
+fundamentals, strict point-in-time. Metric is the **mean signed error** of the
+forecast's base-case target against the realized price
+(`realized / predicted - 1`); positive means the forecast came in too low.
+Signed rather than absolute on purpose: the defect this release fixed was
+systematic understatement, which an absolute error would have concealed.
+
+| cutoff | sample 1 | sample 2 |
+|---|---|---|
+| 2016-07-15 | +129.9% | +71.2% |
+| 2018-07-15 | +81.7% | +128.5% |
+| 2020-07-15 | +68.1% | +133.3% |
+| 2022-07-15 | +180.2% | +47.2% |
+| **mean** | **+115.0%** | **+95.1%** |
+
+**All 8 cutoffs are positive.** The realized price averaged roughly twice the
+base-case target. Cross-sample agreement is strong on *direction* and weak on
+magnitude (+115% vs +95%, individual cutoffs ranging +47% to +180%).
+
+**Two prerequisite bugs this run surfaced**, both of which had silently
+disabled the measurement rather than failing loudly:
+
+1. `analyze_as_of` built its bundle without `prices`, so `build_forecast` found
+   no own-P/E history, produced no anchor, and returned `None` for every
+   ticker. Forecast accuracy reported `n/a` while appearing to run.
+2. `edgar._annual_facts` read only `units["USD"]`. EDGAR files share counts
+   under `units["shares"]`, so `shares_diluted` was empty for **every US
+   ticker** — a pre-existing bug that made EPS, and therefore any P/E-anchored
+   forecast, structurally impossible on the entire EDGAR path. Also left
+   `share_count_cagr_3y` unmeasurable for US names.
+
+**Honest interpretation:**
+
+1. **The forecast is not over-optimistic.** That was the live concern after the
+   base-case re-rating cap was added (BLS was anchoring its base case at 45.0x
+   against a traded 14.2x). 8/8 positive cutoffs across two independent samples
+   say the residual bias runs the other way.
+2. **Whether it is *too* conservative cannot be settled on this evidence.**
+   Both universes are today's constituents, so dead names are absent and
+   realized returns are flattered; and 2016-2025 was among the strongest US
+   smallcap stretches on record. "The model did not forecast a bull market" is
+   not a defect worth correcting by making the model more bullish.
+3. **The guards are visibly binding.** `BASE_RERATE_CAP` (1.5x today's
+   multiple), `ANCHOR_MAX` (45x) and the base margin path (midpoint of latest
+   and the 3-year mean) each pull the base case down, and on a survivorship-
+   biased bull sample they pull it below what happened. That is the designed
+   behaviour, not evidence they are miscalibrated.
+4. **IC is unchanged in character**: +0.429 / +0.071 / -0.048 / -0.049 and
+   -0.232 / +0.184 / +0.245 / +0.204 — no consistent sign across samples,
+   consistent with the standing verdict that no score here shows a demonstrated
+   persistent edge.
+
+**Shipped accordingly:** the forecast feeds **no score** and stays
+descriptive-only, the same treatment as franchise (Addendum 9), stewardship
+(Addendum 12) and sector (Addendum 14). No recalibration on this evidence — a
+survivorship-biased sample in a bull regime is not grounds to loosen guards
+that exist to stop the model assuming the market is wholesale wrong. Re-testing
+against a survivorship-free sample is the open item.

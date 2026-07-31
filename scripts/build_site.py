@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from mbe.data.cache import DiskCache
-from mbe.data.news_rss import company_news, policy_items
+from mbe.data.news_rss import company_news, sector_policy
 from mbe.data.universe_nse import CACHE_TTL_HOURS
 from mbe.data.yahoo import YahooProvider
 from mbe.pipeline import screen
@@ -89,28 +89,22 @@ def main() -> None:
         )
         for b in result.ranked[:TOP_N]
     }
-    policy = policy_items([s.name for s in result.sector_scores], cache=cache)
+    industries = {
+        b.info.industry or b.info.sector
+        for b in result.ranked[:TOP_N]
+        if (b.info.industry or b.info.sector)
+    }
+    policy = [
+        item
+        for key in sorted(industries)
+        for item in sector_policy(None, key, cache=cache)
+    ]
     with_news = sum(1 for v in news.values() if v)
-    tagged = sum(1 for p in policy if p.sectors)
     print(
-        f"news for {with_news}/{TOP_N} picks | {len(policy)} policy items "
-        f"({tagged} tagged to a sector)",
+        f"news for {with_news}/{TOP_N} picks | "
+        f"{len(policy)} policy items across {len(industries)} sectors",
         flush=True,
     )
-    if policy and not tagged:
-        # Known broken as of 2026-07-31, and it fails silently, which is why
-        # this warning exists. PIB's RSS at PIB_RSS_URL serves Hindi headlines
-        # (Lang= and Regid= variants all return Hindi or an empty feed), while
-        # POLICY_KEYWORDS matches lowercase English. Nothing has ever tagged.
-        # The page therefore prints untitled-for-purpose Hindi items under a
-        # "Government policy" heading with no sector relevance behind them.
-        # Fixing it needs an English-language source, not a parameter tweak.
-        print(
-            "  WARNING: 0 policy items tagged to any sector — the PIB feed is "
-            "Hindi and POLICY_KEYWORDS is English, so tagging cannot match. "
-            "Policy relevance on the site is not real.",
-            flush=True,
-        )
 
     prev_path = SITE / "data.json"
     prev = json.loads(prev_path.read_text()) if prev_path.exists() else None

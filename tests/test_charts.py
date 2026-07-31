@@ -103,3 +103,89 @@ def test_ownership_conflict_says_when_it_could_not_run():
     note = charts.ownership_conflict(_info(float_shares=None))
     assert note is not None
     assert "could not be cross-checked" in note
+
+
+def _peer(ticker, name, roce, growth, pe, score, mcap):
+    return charts.PeerRow(ticker=ticker, name=name, roce=roce, growth=growth,
+                          pe=pe, score=score, market_cap=mcap,
+                          is_subject=(ticker == "HBLENGINE.NS"))
+
+
+def _hbl_group():
+    """HBL's real 8-name Electrical Equipment & Parts group, 2026-08-01."""
+    return [
+        _peer("HBLENGINE.NS", "HBL ENGINEERING", 0.329, 0.345, 24.5, 76.6, 199.2e9),
+        _peer("SCHNEIDER.NS", "SCHNEIDER ELEC", 0.343, 0.179, 155.0, 65.3, 327.6e9),
+        _peer("RRKABEL.NS", "R R KABEL", 0.199, 0.201, 48.9, 58.4, 297.4e9),
+        _peer("ARE&M.NS", "AMARA RAJA", 0.141, 0.100, 18.1, 44.5, 166.7e9),
+        _peer("FINCABLES.NS", "FINOLEX CABLES", 0.097, 0.127, 21.2, 43.3, 151.1e9),
+        _peer("HEG.NS", "HEG LTD", 0.049, 0.016, 35.1, 35.8, 126.8e9),
+        _peer("TARIL.NS", "TRANS & RECTI", 0.175, 0.223, 34.7, 35.0, 89.8e9),
+        _peer("GRAPHITE.NS", "GRAPHITE INDIA", 0.002, -0.031, 73.1, 34.3, 128.4e9),
+    ]
+
+
+def test_peer_table_lists_every_peer_and_marks_the_subject():
+    out = charts.peer_table(_hbl_group())
+    assert out is not None
+    for name in ("HBL ENGINEERING", "SCHNEIDER ELEC", "GRAPHITE INDIA"):
+        assert name in out
+    assert "32.9%" in out          # subject ROCE
+    assert svg.SUBJECT in out      # subject highlighted
+    assert "lower is cheaper" in out   # P/E column direction stated
+    assert "\n\n" not in out
+
+
+def test_peer_table_escapes_a_hostile_name():
+    rows = [_peer("X.NS", '<script>alert(1)</script> & Co', 0.2, 0.1, 20.0, 50.0, 1e9)]
+    out = charts.peer_table(rows)
+    assert "<script>" not in out
+    assert "&amp;" in out
+
+
+def test_peer_table_leaves_a_missing_metric_blank_not_zero():
+    rows = _hbl_group()
+    rows[1] = _peer("SCHNEIDER.NS", "SCHNEIDER ELEC", None, 0.179, 155.0, 65.3, 327.6e9)
+    out = charts.peer_table(rows)
+    assert out is not None
+    assert out.count(">n/a<") == 1        # the one absent metric, stated as absent
+    # never imputed to zero. Matched on the whole text node, because a bare
+    # "0.0%" substring also matches Amara Raja's real "10.0%".
+    assert ">0.0%<" not in out
+    assert ">10.0%<" in out               # the real 10.0% is untouched
+
+
+def test_peer_scatter_plots_the_group_and_highlights_the_subject():
+    out = charts.peer_scatter(_hbl_group())
+    assert out is not None
+    assert "ROCE" in out and "Revenue CAGR" in out
+    assert out.count("<circle") >= 8
+    assert svg.SUBJECT in out
+    assert "\n\n" not in out
+
+
+def test_peer_scatter_works_at_the_smallest_real_group_size():
+    """MIN_GROUP is 4, so a 4-name group is the smallest that reaches a
+    report page — it must still draw rather than falling back to text."""
+    four = [
+        _peer("HBLENGINE.NS", "HBL ENGINEERING", 0.329, 0.345, 24.5, 76.6, 199.2e9),
+        _peer("SCHNEIDER.NS", "SCHNEIDER ELEC", 0.343, 0.179, 155.0, 65.3, 327.6e9),
+        _peer("RRKABEL.NS", "R R KABEL", 0.199, 0.201, 48.9, 58.4, 297.4e9),
+        _peer("HEG.NS", "HEG LTD", 0.049, 0.016, 35.1, 35.8, 126.8e9),
+    ]
+    out = charts.peer_scatter(four)
+    assert out is not None
+    assert out.count("<circle") >= 4
+    assert charts.peer_table(four) is not None
+
+
+def test_peer_scatter_needs_three_plottable_points():
+    thin = [_peer("A.NS", "A", 0.2, 0.1, 10.0, 50.0, 1e9),
+            _peer("B.NS", "B", None, None, 10.0, 40.0, 1e9),
+            _peer("C.NS", "C", None, None, 10.0, 30.0, 1e9)]
+    assert charts.peer_scatter(thin) is None
+
+
+def test_peer_charts_are_none_for_an_empty_group():
+    assert charts.peer_table([]) is None
+    assert charts.peer_scatter([]) is None

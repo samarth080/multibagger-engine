@@ -155,3 +155,126 @@ def ownership_conflict(info: CompanyInfo) -> str | None:
     return (f"Yahoo reports {info.insider_pct * 100:.1f}% insider, but its own "
             f"float figure implies {implied * 100:.0f}% — the source "
             f"contradicts itself and neither number is verified here")
+
+
+@dataclass(frozen=True)
+class PeerRow:
+    """One company's line in its industry group. `None` means not computable."""
+
+    ticker: str
+    name: str
+    roce: float | None
+    growth: float | None
+    pe: float | None
+    score: float
+    market_cap: float | None
+    is_subject: bool
+
+
+def peer_rows(subject_ticker: str, group: list) -> list[PeerRow]:
+    """Build comparison rows from a group of AnalysisBundles.
+
+    Takes bundles rather than pre-extracted numbers because the caller
+    (`publish.render_report_page`) has them and nothing else needs the
+    extraction. Sorted best-score-first, which is how the site ranks."""
+    rows = [
+        PeerRow(
+            ticker=b.card.ticker,
+            name=(b.info.name or b.card.ticker)[:22],
+            roce=b.fund.roce_3y,
+            growth=b.fund.revenue_cagr_3y,
+            pe=b.info.trailing_pe,
+            score=b.card.multibagger_score,
+            market_cap=b.info.market_cap,
+            is_subject=b.card.ticker == subject_ticker,
+        )
+        for b in group
+    ]
+    return sorted(rows, key=lambda r: -r.score)
+
+
+_PEER_COLUMNS = (
+    ("ROCE 3y", "roce", True),
+    ("Rev CAGR 3y", "growth", True),
+    ("P/E (lower is cheaper)", "pe", False),
+)
+ROW_H = 20.0
+
+
+def _cell(value: float | None, best: float, x: float, y: float,
+          colour: str, as_pct: bool) -> list[str]:
+    if value is None:
+        return [svg.text(x, y, "n/a", fill=svg.MUTED, size=8)]
+    width = 0.0 if best <= 0 else max(0.0, min(1.0, value / best)) * 78.0
+    label = f"{value * 100:.1f}%" if as_pct else f"{value:.1f}x"
+    return [svg.rect(x, y - 8, width, 8, colour), svg.text(x + 82, y, label, size=8)]
+
+
+def peer_table(rows: list[PeerRow]) -> str | None:
+    """One row per peer, a proportional bar per metric.
+
+    Bar length is the value relative to the group's best, so a missing metric
+    has no bar at all — it renders "n/a" rather than a zero-length bar that
+    reads as "worst in group"."""
+    if not rows:
+        return None
+    height = int(46 + ROW_H * len(rows))
+    parts = [svg.text(8, 14, "Peer group", size=10, weight="600")]
+    for i, (title, _attr, _pct) in enumerate(_PEER_COLUMNS):
+        parts.append(svg.text(120 + i * 120, 14, title, fill=svg.MUTED, size=8))
+    parts.append(svg.line(8, 22, 460, 22))
+
+    for r, row in enumerate(rows):
+        y = 40.0 + r * ROW_H
+        colour = svg.SUBJECT if row.is_subject else svg.PEER
+        parts.append(svg.text(8, y, row.name, fill=colour, size=9,
+                              weight="600" if row.is_subject else "normal"))
+        for i, (_title, attr, as_pct) in enumerate(_PEER_COLUMNS):
+            values = [getattr(p, attr) for p in rows if getattr(p, attr) is not None]
+            best = max(values) if values else 0.0
+            parts.extend(_cell(getattr(row, attr), best, 120 + i * 120, y,
+                               colour, as_pct))
+    return svg.document(470, height, "Peer group comparison", parts)
+
+
+def peer_scatter(rows: list[PeerRow]) -> str | None:
+    """Quality against growth, bubble area by market cap.
+
+    Needs three plottable points: two make a line and one makes a dot, and
+    neither says anything about where a company sits in its group."""
+    points = [r for r in rows if r.roce is not None and r.growth is not None]
+    if len(points) < 3:
+        return None
+
+    xs = [p.roce for p in points]
+    ys = [p.growth for p in points]
+    x_lo, x_hi = min(xs + [0.0]), max(xs)
+    y_lo, y_hi = min(ys + [0.0]), max(ys)
+    caps = [p.market_cap for p in points if p.market_cap]
+    cap_max = max(caps) if caps else 0.0
+
+    left, right, top, bottom = 44.0, 300.0, 22.0, 158.0
+    parts = [
+        svg.text(8, 14, "Quality vs growth", size=10, weight="600"),
+        svg.line(left, bottom, right, bottom),
+        svg.line(left, top, left, bottom),
+        svg.text((left + right) / 2, 176, "ROCE 3y",
+                 fill=svg.MUTED, size=8, anchor="middle"),
+        svg.text(12, (top + bottom) / 2, "Revenue CAGR",
+                 fill=svg.MUTED, size=8, anchor="middle"),
+    ]
+    if y_lo < 0:
+        zero = svg.scale(0.0, y_lo, y_hi, bottom, top)
+        parts.append(svg.line(left, zero, right, zero, dash="3 3"))
+
+    for p in points:
+        cx = svg.scale(p.roce, x_lo, x_hi, left, right)
+        cy = svg.scale(p.growth, y_lo, y_hi, bottom, top)
+        r = 5.0 if not cap_max or not p.market_cap else 4.0 + 6.0 * (p.market_cap / cap_max)
+        parts.append(svg.circle(cx, cy, r,
+                                svg.SUBJECT if p.is_subject else svg.PEER,
+                                1.0 if p.is_subject else 0.7))
+        if p.is_subject:
+            parts.append(svg.text(cx, cy - r - 4, p.name, fill=svg.SUBJECT,
+                                  size=8, anchor="middle"))
+    return svg.document(320, 190, "Quality versus growth against peers", parts)

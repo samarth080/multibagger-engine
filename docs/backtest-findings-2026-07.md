@@ -628,3 +628,64 @@ anti-signal on US smallcaps. Now answerable, against the pinned sample.
 
 **Shipped accordingly:** stewardship stays descriptive-only. No promotion, no
 recalibration. The verdict is re-testable for the first time.
+
+---
+
+## Addendum 17 — the dilution signal: the base-IC drop was drift, and the signal is kept
+
+Closes the Addendum 16 open thread. First controlled A/B run against **pinned**
+universes: identical companies, cutoffs, data and code, with only the dilution
+signal toggled.
+
+**The metric reaches the two scores by different routes**, which the first
+attempt at this got wrong and is worth recording:
+
+- `multibagger` sees it **only** through the hard gate (`engine._hard_gates`,
+  caps at `HARD_GATE_CAP` for >8%/yr dilution). **Financial Strength is not in
+  `MULTIBAGGER_WEIGHTS` at all** — so the pillar, and every metric in it, has
+  zero influence on the published ranking.
+- `investment` sees it **only** through the Financial Strength pillar (0.18 of
+  that composite, 0.10 within the pillar). No gate applies.
+
+A first pass toggled only the pillar and returned deltas of exactly 0.000 on
+multibagger across 27 cutoffs. That is the correct answer for the pillar route
+and the tell that the wrong path was being measured — a result that clean is
+evidence of disconnection, not of no effect.
+
+**Result:**
+
+| route | us-smallcap-sample | us-smallcap-sample2 | nifty-smallcap250 |
+|---|---|---|---|
+| multibagger (hard gate) | −0.010 | +0.005 | **+0.055** |
+| investment (pillar) | +0.002 | −0.008 | **+0.042** |
+
+Both verdicts 2/3 → **keep**.
+
+**Decomposing the Addendum 16 drop.** Base multibagger IC on
+`us-smallcap-sample` fell +0.098 → −0.012 after the EDGAR fix. On the pinned
+sample, removing dilution moves it only to −0.002:
+
+| | base IC |
+|---|---|
+| A12: old universe, dilution unavailable | +0.098 |
+| pinned universe, dilution removed | −0.002 |
+| pinned universe, dilution present | −0.012 |
+
+**−0.100 of the −0.110 swing was universe drift; −0.010 was the signal.** ~91%
+drift. The metric is not an anti-signal on US smallcaps, and the alarm raised in
+Addendum 16 is resolved.
+
+**Honest interpretation:**
+
+1. **US deltas (±0.010) are noise** on near-zero ICs — no conclusion either way
+   from those samples.
+2. **India carries the result**: +0.055 (multibagger) and +0.042 (investment),
+   the only sample with meaningful base signal. India runs on NSE, which never
+   had the share-count bug, so this is a pre-existing effect the EDGAR fix
+   neither created nor flattered.
+3. **The pillar route cannot affect the ranking.** Worth knowing independently:
+   any future work tuning Financial Strength is tuning `investment` only.
+
+**Shipped accordingly:** no change. The dilution gate and the pillar metric both
+stay as they are. First verdict in this document derived against a pinned,
+re-runnable sample.

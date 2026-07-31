@@ -73,6 +73,9 @@ def test_render_site_writes_index_reports_and_data(tmp_path):
     assert "delayed" in index.lower()  # quotes honesty label
     assert "/api/quotes" in index  # quotes fetch wired
     assert "Cabinet approves fab incentives" in index
+    # PIB is no longer the source; the old label attributed Google News
+    # aggregation to a government press office
+    assert "Government policy (PIB)" not in index
 
     saved = json.loads((tmp_path / "data.json").read_text())
     assert saved["changes"] == changes
@@ -80,6 +83,9 @@ def test_render_site_writes_index_reports_and_data(tmp_path):
     assert (tmp_path / "reports" / "S0_NS.html").exists()
     report = (tmp_path / "reports" / "S0_NS.html").read_text()
     assert "Multibagger" in report
+    # render_site rebuilds NewsItems from data.json and threads them into every
+    # report page; the section must survive that JSON round-trip
+    assert "Recent News &amp; Policy Context" in report
 
 
 def test_render_site_prunes_dropped_ticker_pages(tmp_path):

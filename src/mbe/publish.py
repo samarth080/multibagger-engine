@@ -178,11 +178,17 @@ padding:2px 14px;color:var(--muted)}
 </body></html>""")
 
 
-def render_report_page(bundle: AnalysisBundle, back_href: str = "../index.html") -> str:
+def render_report_page(
+    bundle: AnalysisBundle,
+    back_href: str = "../index.html",
+    news: list[NewsItem] | None = None,
+    policy: list[NewsItem] | None = None,
+) -> str:
     """Wrap one AnalysisBundle's markdown report in the shared dark shell.
     Used by render_site() for weekly static reports and by api/analyze.py
     for live single-ticker search — one shell, one back-link parameter."""
-    body = md.markdown(render_report(bundle), extensions=["tables"])
+    body = md.markdown(render_report(bundle, news=news, policy=policy),
+                       extensions=["tables"])
     return _REPORT_SHELL.render(title=bundle.card.ticker, body=body, back_href=back_href)
 
 
@@ -279,7 +285,7 @@ class="muted">&hellip;</span></td>
 <td>{{ s.n }}</td></tr>
 {% endfor %}</table></div>
 
-{% if d.policy %}<h2 class="sec" id="policy">Government policy (PIB)</h2>
+{% if d.policy %}<h2 class="sec" id="policy">Government policy &amp; sector news</h2>
 <div class="card" style="padding:10px 14px">
 {% for p in d.policy %}<div class="sub" style="padding:3px 0">&middot;
 <a href="{{ p.link }}">{{ p.title }}</a>
@@ -341,7 +347,9 @@ def render_site(data: dict, changes: dict, result: ScreenResult, out_dir) -> Non
             old.unlink()
     for b in result.ranked:
         if b.card.ticker in published:
-            page = render_report_page(b)
+            page = render_report_page(
+                b, policy=[NewsItem(**p) for p in data.get("policy", [])]
+            )
             name = b.card.ticker.replace(".", "_") + ".html"
             (out / "reports" / name).write_text(page)
     (out / "index.html").write_text(

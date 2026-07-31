@@ -1001,3 +1001,87 @@ question left — does the blend have any edge, does Momentum cost anything, is
 the size tilt real — is answerable with delisting-inclusive data (Sharadar,
 Norgate, CRSP) and unanswerable without it. No further re-running of free
 current-constituent samples will resolve any of them.
+
+---
+
+## Addendum 22 — the multibagger test: no detectable ability to find multibaggers
+
+Every prior backtest here measures 2-year rank correlation. Rank correlation and
+"did this 5x" are different questions — a score can rank tolerably and never
+surface a single 10-bagger, or rank poorly while catching the few that matter.
+The engine had never been evaluated against the outcome it is named for. This
+does that.
+
+**Method.** For each cutoff, take the top quintile by multibagger score, hold
+**5 years**, count the fraction clearing 2x / 3x / 5x, and compare against the
+base rate over the whole scored universe at the same cutoff. Cutoffs 2012-2021
+(US) and 2016-2021 (India), pinned universes.
+
+Absolute hit rates are inflated by survivorship — these are today's
+constituents. But the top quintile and the universe are drawn from the *same*
+biased pool, so **the lift between them largely cancels the bias** that broke
+Addendum 20. Read the lift, not the hit rate.
+
+**Pooled results:**
+
+| sample | top-q n | 2x lift | 3x lift | 5x lift | median 5y: top-q vs universe |
+|---|---|---|---|---|---|
+| us-smallcap-sample | 117 | 1.06x | 1.18x | 0.63x | +53.4% vs +42.8% |
+| us-smallcap-sample2 | 115 | 1.06x | 0.97x | 0.61x | +39.6% vs +38.3% |
+| india-primary | 28 | 1.11x | 1.25x | 1.29x | +219.0% vs +167.8% |
+| india-replication | 32 | 1.08x | 1.10x | 1.09x | +196.5% vs +164.0% |
+
+**Every lift is statistically indistinguishable from 1.00x.** Binomial tests
+against the per-sample base rate, all twelve cells:
+
+| p-value range | count |
+|---|---|
+| p < 0.05 | **0 of 12** |
+| p < 0.25 | **0 of 12** |
+| p >= 0.25 | 12 of 12 |
+
+The most extreme reading — 0.63x at 5x on `us-smallcap-sample`, which looks like
+active harm — is **3 hits against 4.8 expected, p = 0.64.** Noise. So is the
+1.29x on india-primary (8 vs 6.2, p = 0.37).
+
+**What the test could have detected**, at p<0.05:
+
+| sample | 2x | 3x | 5x |
+|---|---|---|---|
+| us-smallcap-sample | 1.31x | 1.51x | 2.08x |
+| us-smallcap-sample2 | 1.32x | 1.64x | 2.17x |
+| india-primary | 1.27x | 1.49x | 1.78x |
+| india-replication | 1.26x | 1.46x | 1.70x |
+
+So the honest statement is **not** "the engine does not find multibaggers." It
+is: *if the top quintile produced 5-baggers at up to twice the base rate, this
+test would not have noticed.* At the 5x threshold the samples contain 2-9 events
+each. That is not a measurement, it is an anecdote with a percentage sign.
+
+**Interpretation:**
+
+1. **No demonstrated tail-finding ability, and no demonstrated harm either.**
+   Twelve cells, four samples, 292 top-quintile stock-years, nothing significant.
+2. **The one directionally consistent signal is the median**, which the top
+   quintile beat in 4/4 samples (+10.6pp, +1.3pp, +51.2pp, +32.5pp). A sign test
+   on 4/4 gives p = 0.125 — suggestive, not significant, and the US uplift is
+   small enough to vanish under costs.
+3. **The 2x lift clusters tightly at 1.06-1.11x across all four samples.** If
+   that is real it is a ~6-11% improvement over picking at random from the same
+   list. Detecting it reliably would need roughly 4-8x the current sample.
+4. **Consistent with the score selecting for durability rather than
+   convexity.** Quality, low leverage and established profitability are close to
+   the opposite of the lottery-ticket profile that produces 5x moves in
+   smallcaps. That is a defensible objective — it is simply not the one the name
+   promises.
+
+**Shipped accordingly:** nothing changed. Recorded so the product's central
+claim has a measured answer instead of an implied one. The site ranks 25 names
+by a score with no demonstrated ability to find multibaggers at any threshold;
+the disclaimer already says scores are not validated return predictors, and this
+is the specific evidence behind that sentence.
+
+**Power is the binding constraint, not signal.** Every cell here is
+under-powered, and the fix is more independent observations — which means
+delisting-inclusive data covering a wider universe and more cutoffs, not more
+re-runs of 80-name current-constituent samples.

@@ -1,5 +1,5 @@
 {
- "built_at": "2026-07-20T00:41:22.123552+00:00",
+ "built_at": "2026-07-30T15:56:18.588658+00:00",
  "universe": "nifty-smallcap250",
  "curated_as_of": "2026-07-17",
  "top": [
@@ -56,6 +56,87 @@
    "gated": false
   },
   {
+   "ticker": "HBLENGINE.NS",
+   "name": "HBL ENGINEERING LTD",
+   "mb": 76.6,
+   "inv": 74.7,
+   "conf": 0.983,
+   "risk": 0,
+   "trend": "strong_down",
+   "price_at_build": 699.2999877929688,
+   "group": "Electrical Equipment & Parts",
+   "group_rank": 3,
+   "group_score": 75.5,
+   "tags": [
+    {
+     "theme": "Grid capex and energy-transition buildout",
+     "direction": "tailwind"
+    }
+   ],
+   "news": [
+    {
+     "title": "HBL Engineering Ltd accepts order worth Rs. 24 crores from ICT, Chennai - EquityBulls",
+     "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFA0b2xQUDN5ekJRUTZMb0lfMXZ0TkEycnFuRENxWFVLOW9NZVlZX0ZHZFUtUUJiYzlaekgxc08wU1pJS0k3bHhnb1l3SlJ2NG8zQTVLZ2I0dk4wRUQxbU1R?oc=5",
+     "published": "2026-07-15T07:31:28Z",
+     "source": "EquityBulls",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "CHALET.NS",
+   "name": "CHALET HOTELS LIMITED",
+   "mb": 76.3,
+   "inv": 69.9,
+   "conf": 0.983,
+   "risk": 0,
+   "trend": "sideways",
+   "price_at_build": 862.5999755859375,
+   "group": "Lodging",
+   "group_rank": 15,
+   "group_score": 50.0,
+   "tags": [],
+   "news": [
+    {
+     "title": "Chalet Hotels appoints Gautam Mehra as Independent Director for five years - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPLVpWZ1o5NUQtQ0JvWnJ3WllPOE53UFlxbTdpTmR4cWR5Ym5sa2VncFpjVlhYVlJIUEhOYXRTX29fcEF4aE9xUHM0Z1NFLXZrZkZyeTJTYVpBczkxcnNHZGpBRXJaSHQzNnpvbVVRV0JENWgzNm91cFM2NVl6WHA2bXZ0S3dyazJJRVZuT1Q3TkpURlBSSnVFdVR0NGFINWF5OVk5Z29Sc01yVzhkeVU1dkxPN1pXa2tERW1CN29yRGNjcm5zS3ZiNUN0UQ?oc=5",
+     "published": "2026-07-17T15:00:01Z",
+     "source": "scanx.trade",
+     "sectors": []
+    },
+    {
+     "title": "Chalet Wedding Venue in Gibbon passes first year anniversary - Central Nebraska Today",
+     "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPa2l2MEFFZ0praXFjQ09xTEFjcUFjR2tXN3cyN09aRmtrVlN3M3BNN0tnczRCU2tlaFY5VDZtbWxkUC1jazd2cTNLVjhSazdWUUFZRU45WURXMjFlY2ZGQ3ZNOGluRm9QdUFhZGsweVMwQ3hpa2VBb3dQQlpBTnFVQlNvbDl1dDdJMnlZUEhDeTRlcXRXN2k2VERNUXRvU2NPZ0hKYVYxSWxjeVpOTHc?oc=5",
+     "published": "2026-07-17T12:58:52Z",
+     "source": "Central Nebraska Today",
+     "sectors": []
+    },
+    {
+     "title": "Chalet Hotels Ltd. Share Price Today - Chalet Hotels Ltd. Stock Price Live NSE/BSE - CNBC TV18",
+     "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE01U3k2OXJMMzFRZnJFbWdQQVNWOHVJMGluQW9iclVHeDlCbUpENzRQdkpFWGxoOHE3LUx1M05HOWRJN05xWVpRblAxbll3bTlIcXVKTXFmajlHaXlFTENvTDVTUkUxcjhvQ0Y4ZFI4bS1PYlMtSDBGeFkxdlB2ZjQ?oc=5",
+     "published": "2026-07-17T09:59:00Z",
+     "source": "CNBC TV18",
+     "sectors": []
+    },
+    {
+     "title": "Breakout above key resistance makes Chalet Hotels a buy: Shitij Gandhi - The Economic Times",
+     "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNa1NSb1o2aUk0dDBtY3NQSng4R3o4N29MaWRSOExIZmFDcGlMSU9OU1N2aWJuNk82MVNHaktyZnBTTTVrckJpV0NNTDBYeVRnV3VxdXBYOC1vQTNLNHBldWNRSXpHMEIwdzcyRk05aHdiS0c3MjB6eUdkVUI5SVZmQjBNQS1GY0xpUTh6VXh3NlBDMkNGMUJadkxfSENXWVJYNTRmMWU3X0xuMGtLcjdhZzJyS0lpMWkxVXF0aVlXdjNXYkxndjcwOUx5ZGNsUExNOGfSAdcBQVVfeXFMUFpXMzhZVl9kOHFPRTFmcmcxRXc2aGR6NjJuWWRKSzI3V3Jmai1sU3dCM19iQTk0ekFSaDhsNWE0ai13U3VwWUxCc3B6VC1ZMkY0XzBNYjB1cVlibU93NjBnLWwtTFVaSExLY1hsMjJhQXpibVAxVVUxaDUyT01jTDBUNk9GYmZNeUhGb0xNQzlPb2lXOEJJTkszSi00SXBJTjVKMkFQQWstMEExX1Z3M2dOQ1dodWlVeW45VFVtaDJ6NWdHQnR4MnV6RTFTZDVNRWE5MVlmUms?oc=5",
+     "published": "2026-07-16T01:33:18Z",
+     "source": "The Economic Times",
+     "sectors": []
+    },
+    {
+     "title": "Stock Radar: Chalet Hotels stock breaks out from Ascending Triangle pattern; time to buy? - The Economic Times",
+     "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxQcklvWGZsc2pmZWZfQ1BsX01qOFpqb2E0TEpzVlNFdVVadm5uRDRHX3p6NldFNDZhSVpSQ1pfcVdWWk9KMEJVR0k3VlNnYTJ6bWdjU0ZSQnpkZnR0N1hFZ3dyaE9LNEUta3UzQWotdkdHNl9nRGsxVmNzVVpxWlNRZGR4MjFzRGJOV05xRlYtZ3dQR213b1F6cXhUT3YwT0JUV0pQV0FPbFVtSURuM0R3aHlGUUR0MmcxRFl3dHQ4MUU1U3B5QmtrOGtxdTltbG11aV93Z0hUX1NDcVFxTnNMMGF0Y2lvN0xuMlF4LXpkMkFaQdIB9wFBVV95cUxNbXRnZUFreXI0NW9ZeE9iU1J4X2pQc2FNWHVXUzhCS2RwdzFPbU55TnVpTUVGWjVHRUJ5NzA3amhhS3Fka3JCcFJYWGlFczE1LXJydkdoc0s0aTZwb3RZNGc0ODgzaWxRYktNeE9qbXFLS3llcUhUZ1BPZkVPUjl3NVpzZENQTWxST196R3BxRzV1SXBaU0xqcG4wSDJ0Z0JWYTVOYnQ4UHFBMEl4aWtLaHBqSVY1UDNEVkRaRUt1c1FMeEkxbHU5QmNycFBzNWVlNUFJS2NUYUhXS2JwWGVpdG1meExTaVJybVAzSmlETFUtdEpkaS1z?oc=5",
+     "published": "2026-07-15T23:30:00Z",
+     "source": "The Economic Times",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
    "ticker": "NATCOPHARM.NS",
    "name": "NATCO PHARMA LTD.",
    "mb": 75.5,
@@ -106,99 +187,10 @@
    "gated": false
   },
   {
-   "ticker": "CHALET.NS",
-   "name": "CHALET HOTELS LIMITED",
-   "mb": 72.7,
-   "inv": 60.3,
-   "conf": 0.983,
-   "risk": 24,
-   "trend": "sideways",
-   "price_at_build": 862.5999755859375,
-   "group": "Lodging",
-   "group_rank": 15,
-   "group_score": 50.0,
-   "tags": [],
-   "news": [
-    {
-     "title": "Chalet Hotels appoints Gautam Mehra as Independent Director for five years - scanx.trade",
-     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPLVpWZ1o5NUQtQ0JvWnJ3WllPOE53UFlxbTdpTmR4cWR5Ym5sa2VncFpjVlhYVlJIUEhOYXRTX29fcEF4aE9xUHM0Z1NFLXZrZkZyeTJTYVpBczkxcnNHZGpBRXJaSHQzNnpvbVVRV0JENWgzNm91cFM2NVl6WHA2bXZ0S3dyazJJRVZuT1Q3TkpURlBSSnVFdVR0NGFINWF5OVk5Z29Sc01yVzhkeVU1dkxPN1pXa2tERW1CN29yRGNjcm5zS3ZiNUN0UQ?oc=5",
-     "published": "2026-07-17T15:00:01Z",
-     "source": "scanx.trade",
-     "sectors": []
-    },
-    {
-     "title": "Chalet Wedding Venue in Gibbon passes first year anniversary - Central Nebraska Today",
-     "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPa2l2MEFFZ0praXFjQ09xTEFjcUFjR2tXN3cyN09aRmtrVlN3M3BNN0tnczRCU2tlaFY5VDZtbWxkUC1jazd2cTNLVjhSazdWUUFZRU45WURXMjFlY2ZGQ3ZNOGluRm9QdUFhZGsweVMwQ3hpa2VBb3dQQlpBTnFVQlNvbDl1dDdJMnlZUEhDeTRlcXRXN2k2VERNUXRvU2NPZ0hKYVYxSWxjeVpOTHc?oc=5",
-     "published": "2026-07-17T12:58:52Z",
-     "source": "Central Nebraska Today",
-     "sectors": []
-    },
-    {
-     "title": "Chalet Hotels Ltd. Share Price Today - Chalet Hotels Ltd. Stock Price Live NSE/BSE - CNBC TV18",
-     "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE01U3k2OXJMMzFRZnJFbWdQQVNWOHVJMGluQW9iclVHeDlCbUpENzRQdkpFWGxoOHE3LUx1M05HOWRJN05xWVpRblAxbll3bTlIcXVKTXFmajlHaXlFTENvTDVTUkUxcjhvQ0Y4ZFI4bS1PYlMtSDBGeFkxdlB2ZjQ?oc=5",
-     "published": "2026-07-17T09:59:00Z",
-     "source": "CNBC TV18",
-     "sectors": []
-    },
-    {
-     "title": "Breakout above key resistance makes Chalet Hotels a buy: Shitij Gandhi - The Economic Times",
-     "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNa1NSb1o2aUk0dDBtY3NQSng4R3o4N29MaWRSOExIZmFDcGlMSU9OU1N2aWJuNk82MVNHaktyZnBTTTVrckJpV0NNTDBYeVRnV3VxdXBYOC1vQTNLNHBldWNRSXpHMEIwdzcyRk05aHdiS0c3MjB6eUdkVUI5SVZmQjBNQS1GY0xpUTh6VXh3NlBDMkNGMUJadkxfSENXWVJYNTRmMWU3X0xuMGtLcjdhZzJyS0lpMWkxVXF0aVlXdjNXYkxndjcwOUx5ZGNsUExNOGfSAdcBQVVfeXFMUFpXMzhZVl9kOHFPRTFmcmcxRXc2aGR6NjJuWWRKSzI3V3Jmai1sU3dCM19iQTk0ekFSaDhsNWE0ai13U3VwWUxCc3B6VC1ZMkY0XzBNYjB1cVlibU93NjBnLWwtTFVaSExLY1hsMjJhQXpibVAxVVUxaDUyT01jTDBUNk9GYmZNeUhGb0xNQzlPb2lXOEJJTkszSi00SXBJTjVKMkFQQWstMEExX1Z3M2dOQ1dodWlVeW45VFVtaDJ6NWdHQnR4MnV6RTFTZDVNRWE5MVlmUms?oc=5",
-     "published": "2026-07-16T01:33:18Z",
-     "source": "The Economic Times",
-     "sectors": []
-    },
-    {
-     "title": "Stock Radar: Chalet Hotels stock breaks out from Ascending Triangle pattern; time to buy? - The Economic Times",
-     "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxQcklvWGZsc2pmZWZfQ1BsX01qOFpqb2E0TEpzVlNFdVVadm5uRDRHX3p6NldFNDZhSVpSQ1pfcVdWWk9KMEJVR0k3VlNnYTJ6bWdjU0ZSQnpkZnR0N1hFZ3dyaE9LNEUta3UzQWotdkdHNl9nRGsxVmNzVVpxWlNRZGR4MjFzRGJOV05xRlYtZ3dQR213b1F6cXhUT3YwT0JUV0pQV0FPbFVtSURuM0R3aHlGUUR0MmcxRFl3dHQ4MUU1U3B5QmtrOGtxdTltbG11aV93Z0hUX1NDcVFxTnNMMGF0Y2lvN0xuMlF4LXpkMkFaQdIB9wFBVV95cUxNbXRnZUFreXI0NW9ZeE9iU1J4X2pQc2FNWHVXUzhCS2RwdzFPbU55TnVpTUVGWjVHRUJ5NzA3amhhS3Fka3JCcFJYWGlFczE1LXJydkdoc0s0aTZwb3RZNGc0ODgzaWxRYktNeE9qbXFLS3llcUhUZ1BPZkVPUjl3NVpzZENQTWxST196R3BxRzV1SXBaU0xqcG4wSDJ0Z0JWYTVOYnQ4UHFBMEl4aWtLaHBqSVY1UDNEVkRaRUt1c1FMeEkxbHU5QmNycFBzNWVlNUFJS2NUYUhXS2JwWGVpdG1meExTaVJybVAzSmlETFUtdEpkaS1z?oc=5",
-     "published": "2026-07-15T23:30:00Z",
-     "source": "The Economic Times",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "FORCEMOT.NS",
-   "name": "FORCE MOTORS LIMITED",
-   "mb": 72.3,
-   "inv": 77.8,
-   "conf": 0.973,
-   "risk": 0,
-   "trend": "down",
-   "price_at_build": 18244.0,
-   "group": "Consumer Cyclical (other)",
-   "group_rank": 27,
-   "group_score": 22.5,
-   "tags": [],
-   "news": [],
-   "gated": false
-  },
-  {
-   "ticker": "ZENTEC.NS",
-   "name": "ZEN TECHNOLOGIES LIMITED",
-   "mb": 72.1,
-   "inv": 60.6,
-   "conf": 0.983,
-   "risk": 48,
-   "trend": "strong_up",
-   "price_at_build": 1769.699951171875,
-   "group": "Industrials (other)",
-   "group_rank": 14,
-   "group_score": 51.0,
-   "tags": [
-    {
-     "theme": "Defence indigenization and export push",
-     "direction": "tailwind"
-    }
-   ],
-   "news": [],
-   "gated": false
-  },
-  {
    "ticker": "ACE.NS",
    "name": "ACTION CONST EQUIP LTD",
-   "mb": 71.6,
-   "inv": 70.0,
+   "mb": 72.1,
+   "inv": 70.6,
    "conf": 0.983,
    "risk": 0,
    "trend": "sideways",
@@ -241,6 +233,128 @@
      "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPQjBEV01kTl9vS2Nna0dHcjh0TGFXbFRUbmNaSmpjWW1XRFNyVFgtVXlMS2ZpSC1IdXlDUURhM1ZwRnY2aWxERDRHZ3hDeS1IbGpycHpxVG9qVk5UY3pVSkJfb05iTTJhc3I1anNmUkd0LU9NVEMtVVFkVHlFbGh4RUdINi1ud1daY1ZsWGVGWmk1d184cF9HZGZpdDM1UmFKTXkzaWd0ME1FbU1VSjVqcmt0eDhTS1RzQ1hjSUh0ajV6T3I2dWdGa3g0Uk5TUQ?oc=5",
      "published": "2026-07-19T12:00:00Z",
      "source": "Tennis World USA",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "SARDAEN.NS",
+   "name": "SARDA ENERGY & MIN LTD",
+   "mb": 72.1,
+   "inv": 68.5,
+   "conf": 0.983,
+   "risk": 0,
+   "trend": "down",
+   "price_at_build": 499.5,
+   "group": "Steel",
+   "group_rank": 5,
+   "group_score": 73.5,
+   "tags": [],
+   "news": [
+    {
+     "title": "SARDAEN Share Price | Sarda Energy & Minerals Ltd Stock Analysis & Recommendation - MarketsMojo",
+     "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAzYlNfRjM2QXVvTzY2MlVtWmNHNUR3cUpyX3Rja2I5eF9LenJyZ1pWeVQ5eWZnS3AzMUZGeE5CYm9WdFRSU1QxTG1GS0FBOTJWaWk4c21MUXo5eHdVRWUxSVQ1QVgzaGZoSkI1ZmQ2cjhrUTg?oc=5",
+     "published": "2026-07-13T10:33:30Z",
+     "source": "MarketsMojo",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "ZENTEC.NS",
+   "name": "ZEN TECHNOLOGIES LIMITED",
+   "mb": 72.1,
+   "inv": 60.6,
+   "conf": 0.983,
+   "risk": 48,
+   "trend": "strong_up",
+   "price_at_build": 1769.699951171875,
+   "group": "Industrials (other)",
+   "group_rank": 14,
+   "group_score": 51.0,
+   "tags": [
+    {
+     "theme": "Defence indigenization and export push",
+     "direction": "tailwind"
+    }
+   ],
+   "news": [],
+   "gated": false
+  },
+  {
+   "ticker": "FORCEMOT.NS",
+   "name": "FORCE MOTORS LIMITED",
+   "mb": 71.5,
+   "inv": 76.5,
+   "conf": 0.973,
+   "risk": 0,
+   "trend": "down",
+   "price_at_build": 18244.0,
+   "group": "Consumer Cyclical (other)",
+   "group_rank": 27,
+   "group_score": 22.5,
+   "tags": [],
+   "news": [],
+   "gated": false
+  },
+  {
+   "ticker": "CEATLTD.NS",
+   "name": "CEAT LIMITED",
+   "mb": 70.8,
+   "inv": 62.4,
+   "conf": 0.983,
+   "risk": 12,
+   "trend": "sideways",
+   "price_at_build": 3549.89990234375,
+   "group": "Auto Parts",
+   "group_rank": 4,
+   "group_score": 75.5,
+   "tags": [
+    {
+     "theme": "EV transition re-tooling opportunity",
+     "direction": "tailwind"
+    },
+    {
+     "theme": "ICE-content obsolescence risk",
+     "direction": "headwind"
+    }
+   ],
+   "news": [
+    {
+     "title": "CEAT Limited Just Missed EPS By 95%: Here's What Analysts Think Will Happen Next - simplywall.st",
+     "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQY3hnc1J2Y3dFNzhkT3pDMElfVjhFV3l5S1NyV0RKd2xmQWFaWThodDdvUkhWaFh0d2FpWWo0RnlmeHdzUlNlNEg1LWNnYXRPOHlPSlRoQjhqeEl4SjJuUkJ5OFg3ZUdHSDdRY3ZOS0E3U05kUklwMUxEd3lWV1BFbjVyX2JjX3h0YjkwWk5ORlc5ek5wNmZ4VEJtVlY3QXQ2WEZxcWthWDVwckgtZmRrOXl1ZTdva3RPdlpSN0tTZnVzcDh3VHNWWWtvTVVVdGoxYU930gHTAUFVX3lxTFBjeGdzUnZjd0U3OGRPekMwSV9WOEVXeXlLU3JXREp3bGZBYVpZOGh0N29SSFZoWHR3YWlZajRGeWZ4d3NSU2U0SDUtY2dhdE84eU9KVGhCOGp4SXhKMm5SQnk4WDdlR0dIN1Fjdk5LQTdTTmRSSXAxTER3eVZXUEVuNXJfYmNfeHRiOTBaTk5GVzl6TnA2ZnhUQm1WVjdBdDZYRnFxa2FYNXBySC1mZGs5eXVlN29rdE92WlI3S1NmdXNwOHdUc1ZZa29NVVV0ajFhT3c?oc=5",
+     "published": "2026-07-19T02:16:58Z",
+     "source": "simplywall.st",
+     "sectors": []
+    },
+    {
+     "title": "CEATLTD: Strong revenue growth offset by margin pressure from input cost inflation and currency impact - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMilwJBVV95cUxNbGwwZlNvWGhlb3JnNU45VVNHNktFWUlKaHNTNFBMWGltM2lfSGZ1MGtYX1A5Z2FXNnlKZmFJaTZwRDhRMlA5TGh0QnhyTERyRGw2RUxpd1BQRDJBMTFtSmNOMkdVeDBLQ1ZBZnNBeXhkTWI5T0t2QWxvWEZsakRpVVlxcEdMYmVXSjBqS3pKS1VlR2ZWOXNkaGRmSjYtOU5BRGctT1dJZHZveVg5RFMtSkJzcjNTMm00VUFYN1c2a1BJWURWZHJXVjhFeVRqYm1mN2xjaWF1R19PZGZFUUZWN1hoR1djYVk4c2liNXhuT0M3ZmJSXzdYQlIzSmZoYVBWZHVTMWRrUjA3aWM4T0FzalJOb0x3eFU?oc=5",
+     "published": "2026-07-17T13:51:17Z",
+     "source": "TradingView",
+     "sectors": []
+    },
+    {
+     "title": "CEATLTD: Strong revenue growth offset by margin pressure from input costs; further price hikes planned - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMilgJBVV95cUxOYll0QUtMWldCQXFENUU0Z2pVOFprMkMxUWM4TXRkbVRXYzdKRFlHdFBuNTRjdkhEYUdZWjhDVWJPLUJkRG9EQzRDOGJscE9vMEo3ODNLeHNVdWxRZXlaVlVFLUZmemtGZWl1T3BSUjh0T21wSWxNcGJhVjh3VVNNUEdQX2QtWC1SQVRRczkxa3JqY3ZuWGNJbmd1VUVlQWZmREtOS2ZjcUd5d29ZdjlBRHZsLWdHb1YxSDFlajVhdWNGckt0ZnkwLW1tSnY5cUlWSl9tOS0xekhOVkhUUFJpaEZIaUNLcVgyaEFYd3BlUGQ0M2pXMm1tcmR4ZlJMN1NKQjJJY1dybmlJNHRsNEQ4SFV5bmloUQ?oc=5",
+     "published": "2026-07-17T12:18:56Z",
+     "source": "TradingView",
+     "sectors": []
+    },
+    {
+     "title": "CEAT Share Price - Live NSE: CEATLTD Stock Price & Chart - Upstox",
+     "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBYcGxKcGlBMHpUSE1lR0liWUliVEF4Vl9wT0VLbVFxd2VjTHpGaFYwVm53WjJxd1FsOGViSklvSHVEZDBFV3dDZWRsU2hTbWZRVVVzR3k2ZFVwRGdrY3pzbA?oc=5",
+     "published": "2026-07-17T07:00:00Z",
+     "source": "Upstox",
+     "sectors": []
+    },
+    {
+     "title": "CEAT Limited Reports Earnings Results for the First Quarter Ended June 30, 2026 - marketscreener.com",
+     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQWkNfakJ5LVU3TzVyTHVkWGx0TXA2TXZzSXBIanp5WDVQLWtqUUlYLXFvUUpxSXhQd1ByMlRBSU9NN1o2Q1NOaVpEVEVkUGpPZG5WSkppSzdGRU8zcHQ5MlQtUXVMSEVqT092WFhXWlpVb0RoTXRJREw4WUNyOG44S0MzcW9qMExqcDBiNUp6bkZpOXRLREo2QkVsZUVNdzZ3aFB3Z2MzX0N3aEpuai0wdHlYR3lFY203bkd5eEtqUEJzV1lHZXNDeTdWSQ?oc=5",
+     "published": "2026-07-16T18:22:30Z",
+     "source": "marketscreener.com",
      "sectors": []
     }
    ],
@@ -330,67 +444,6 @@
    "gated": false
   },
   {
-   "ticker": "CEATLTD.NS",
-   "name": "CEAT LIMITED",
-   "mb": 69.9,
-   "inv": 61.1,
-   "conf": 0.983,
-   "risk": 12,
-   "trend": "sideways",
-   "price_at_build": 3549.89990234375,
-   "group": "Auto Parts",
-   "group_rank": 4,
-   "group_score": 75.5,
-   "tags": [
-    {
-     "theme": "EV transition re-tooling opportunity",
-     "direction": "tailwind"
-    },
-    {
-     "theme": "ICE-content obsolescence risk",
-     "direction": "headwind"
-    }
-   ],
-   "news": [
-    {
-     "title": "CEAT Limited Just Missed EPS By 95%: Here's What Analysts Think Will Happen Next - simplywall.st",
-     "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQY3hnc1J2Y3dFNzhkT3pDMElfVjhFV3l5S1NyV0RKd2xmQWFaWThodDdvUkhWaFh0d2FpWWo0RnlmeHdzUlNlNEg1LWNnYXRPOHlPSlRoQjhqeEl4SjJuUkJ5OFg3ZUdHSDdRY3ZOS0E3U05kUklwMUxEd3lWV1BFbjVyX2JjX3h0YjkwWk5ORlc5ek5wNmZ4VEJtVlY3QXQ2WEZxcWthWDVwckgtZmRrOXl1ZTdva3RPdlpSN0tTZnVzcDh3VHNWWWtvTVVVdGoxYU930gHTAUFVX3lxTFBjeGdzUnZjd0U3OGRPekMwSV9WOEVXeXlLU3JXREp3bGZBYVpZOGh0N29SSFZoWHR3YWlZajRGeWZ4d3NSU2U0SDUtY2dhdE84eU9KVGhCOGp4SXhKMm5SQnk4WDdlR0dIN1Fjdk5LQTdTTmRSSXAxTER3eVZXUEVuNXJfYmNfeHRiOTBaTk5GVzl6TnA2ZnhUQm1WVjdBdDZYRnFxa2FYNXBySC1mZGs5eXVlN29rdE92WlI3S1NmdXNwOHdUc1ZZa29NVVV0ajFhT3c?oc=5",
-     "published": "2026-07-19T02:16:58Z",
-     "source": "simplywall.st",
-     "sectors": []
-    },
-    {
-     "title": "CEATLTD: Strong revenue growth offset by margin pressure from input cost inflation and currency impact - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMilwJBVV95cUxNbGwwZlNvWGhlb3JnNU45VVNHNktFWUlKaHNTNFBMWGltM2lfSGZ1MGtYX1A5Z2FXNnlKZmFJaTZwRDhRMlA5TGh0QnhyTERyRGw2RUxpd1BQRDJBMTFtSmNOMkdVeDBLQ1ZBZnNBeXhkTWI5T0t2QWxvWEZsakRpVVlxcEdMYmVXSjBqS3pKS1VlR2ZWOXNkaGRmSjYtOU5BRGctT1dJZHZveVg5RFMtSkJzcjNTMm00VUFYN1c2a1BJWURWZHJXVjhFeVRqYm1mN2xjaWF1R19PZGZFUUZWN1hoR1djYVk4c2liNXhuT0M3ZmJSXzdYQlIzSmZoYVBWZHVTMWRrUjA3aWM4T0FzalJOb0x3eFU?oc=5",
-     "published": "2026-07-17T13:51:17Z",
-     "source": "TradingView",
-     "sectors": []
-    },
-    {
-     "title": "CEATLTD: Strong revenue growth offset by margin pressure from input costs; further price hikes planned - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMilgJBVV95cUxOYll0QUtMWldCQXFENUU0Z2pVOFprMkMxUWM4TXRkbVRXYzdKRFlHdFBuNTRjdkhEYUdZWjhDVWJPLUJkRG9EQzRDOGJscE9vMEo3ODNLeHNVdWxRZXlaVlVFLUZmemtGZWl1T3BSUjh0T21wSWxNcGJhVjh3VVNNUEdQX2QtWC1SQVRRczkxa3JqY3ZuWGNJbmd1VUVlQWZmREtOS2ZjcUd5d29ZdjlBRHZsLWdHb1YxSDFlajVhdWNGckt0ZnkwLW1tSnY5cUlWSl9tOS0xekhOVkhUUFJpaEZIaUNLcVgyaEFYd3BlUGQ0M2pXMm1tcmR4ZlJMN1NKQjJJY1dybmlJNHRsNEQ4SFV5bmloUQ?oc=5",
-     "published": "2026-07-17T12:18:56Z",
-     "source": "TradingView",
-     "sectors": []
-    },
-    {
-     "title": "CEAT Share Price - Live NSE: CEATLTD Stock Price & Chart - Upstox",
-     "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBYcGxKcGlBMHpUSE1lR0liWUliVEF4Vl9wT0VLbVFxd2VjTHpGaFYwVm53WjJxd1FsOGViSklvSHVEZDBFV3dDZWRsU2hTbWZRVVVzR3k2ZFVwRGdrY3pzbA?oc=5",
-     "published": "2026-07-17T07:00:00Z",
-     "source": "Upstox",
-     "sectors": []
-    },
-    {
-     "title": "CEAT Limited Reports Earnings Results for the First Quarter Ended June 30, 2026 - marketscreener.com",
-     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQWkNfakJ5LVU3TzVyTHVkWGx0TXA2TXZzSXBIanp5WDVQLWtqUUlYLXFvUUpxSXhQd1ByMlRBSU9NN1o2Q1NOaVpEVEVkUGpPZG5WSkppSzdGRU8zcHQ5MlQtUXVMSEVqT092WFhXWlpVb0RoTXRJREw4WUNyOG44S0MzcW9qMExqcDBiNUp6bkZpOXRLREo2QkVsZUVNdzZ3aFB3Z2MzX0N3aEpuai0wdHlYR3lFY203bkd5eEtqUEJzV1lHZXNDeTdWSQ?oc=5",
-     "published": "2026-07-16T18:22:30Z",
-     "source": "marketscreener.com",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
    "ticker": "CEMPRO.NS",
    "name": "CEMINDIA PROJECTS LIMITED",
    "mb": 69.9,
@@ -407,53 +460,52 @@
    "gated": false
   },
   {
-   "ticker": "HBLENGINE.NS",
-   "name": "HBL ENGINEERING LTD",
-   "mb": 69.8,
-   "inv": 66.1,
+   "ticker": "HINDCOPPER.NS",
+   "name": "HINDUSTAN COPPER LTD",
+   "mb": 68.9,
+   "inv": 67.7,
    "conf": 0.983,
    "risk": 24,
-   "trend": "strong_down",
-   "price_at_build": 741.9000244140625,
-   "group": "Electrical Equipment & Parts",
-   "group_rank": 3,
-   "group_score": 75.5,
-   "tags": [
-    {
-     "theme": "Grid capex and energy-transition buildout",
-     "direction": "tailwind"
-    }
-   ],
-   "news": [
-    {
-     "title": "HBL Engineering Ltd accepts order worth Rs. 24 crores from ICT, Chennai - EquityBulls",
-     "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFA0b2xQUDN5ekJRUTZMb0lfMXZ0TkEycnFuRENxWFVLOW9NZVlZX0ZHZFUtUUJiYzlaekgxc08wU1pJS0k3bHhnb1l3SlJ2NG8zQTVLZ2I0dk4wRUQxbU1R?oc=5",
-     "published": "2026-07-15T07:31:28Z",
-     "source": "EquityBulls",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "SARDAEN.NS",
-   "name": "SARDA ENERGY & MIN LTD",
-   "mb": 69.5,
-   "inv": 64.3,
-   "conf": 0.983,
-   "risk": 0,
-   "trend": "down",
-   "price_at_build": 499.5,
-   "group": "Steel",
-   "group_rank": 5,
-   "group_score": 73.5,
+   "trend": "up",
+   "price_at_build": 486.1499938964844,
+   "group": "",
+   "group_rank": 0,
+   "group_score": 0.0,
    "tags": [],
    "news": [
     {
-     "title": "SARDAEN Share Price | Sarda Energy & Minerals Ltd Stock Analysis & Recommendation - MarketsMojo",
-     "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAzYlNfRjM2QXVvTzY2MlVtWmNHNUR3cUpyX3Rja2I5eF9LenJyZ1pWeVQ5eWZnS3AzMUZGeE5CYm9WdFRSU1QxTG1GS0FBOTJWaWk4c21MUXo5eHdVRWUxSVQ1QVgzaGZoSkI1ZmQ2cjhrUTg?oc=5",
-     "published": "2026-07-13T10:33:30Z",
-     "source": "MarketsMojo",
+     "title": "Hindustan Copper Ltd working at fast pace to double Malanjkhand Copper Project capacity in MP by 2030: CMD - Moneycontrol.com",
+     "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOU2E2Vjk5aktUNkEtVE1LT0k1S0hmX19HVjRUeF9UUGRJSlRNRlJTYkJQbWg4bWdqOEpuYzdzbVlIa1NVTzhBV1c1X0p2MzRiZWpPN0JDT1pXdGNOakJpX0tvREI3T2ItQk1YVDY5LTc0VV9VbExLckpmdnFTUlJYSmYzcW1yVE0wQ3hUZlQzQXRlaFpjcEFHRFN0VjJndDEzTGxRRERVbVZ1bTV4Z2FQVm96aTJxZ0hMNHE3THlFSjljTEs1NHNiYVBYSjh6ZmRlSGRtUGtkNE9ZME5QM0JmckoyMVE0RzhYcUMxRUVqX21FcV9FdmJST1VR0gH6AUFVX3lxTE5TYTZWOTlqS1Q2QS1UTUtPSTVLSGZfX0dWNFR4X1RQZElKVE1GUlNiQlBtaDhtZ2o4Sm5jN3NtWUhrU1VPOEFXVzVfSnYzNGJlak83QkNPWld0Y05qQmlfS29EQjdPYi1CTVhUNjktNzRVX1VsTEtySmZ2cVNSUlhKZjNxbXJUTTBDeFRmVDNBdGVoWmNwQUdEU3RWMmd0MTNMbFFERFVtVnVtNXhnYVBWb3ppMnFnSEw0cTdMeUVKOWNMSzU0c2JhUFhKOHpmZGVIZG1Qa2Q0T1kwTlAzQmZySjIxUTRHOFhxQzFFRWpfbUVxX0V2YlJPVVE?oc=5",
+     "published": "2026-07-18T12:02:12Z",
+     "source": "Moneycontrol.com",
+     "sectors": []
+    },
+    {
+     "title": "Hindustan Copper Ltd charts out roadmap in annual plan meeting (UPDATED) - Whispers In The Corridors",
+     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQSkJzNjMyQjJUZzlnX3Njckl5VDdLR1U2cWRMVjEtanRLbVZURERVWnhaUjQ3MERZTEp4TjNDVXR0TFZtNHkzMEZvR3I5cHVpajdHUnNkSy1qZlRmNGJadnBKUXF0cWFhd05sb21GU1lNRnJwMV9oUm5MQ3VRaVhMbGNUa2N3QzNORlB6MzBmZU1EVVNPMmQzTWRKd3N3aDNHdVAzd0QzQUVVTzVndEVIUmZPRVpIdw?oc=5",
+     "published": "2026-07-18T01:48:23Z",
+     "source": "Whispers In The Corridors",
+     "sectors": []
+    },
+    {
+     "title": "Hindustan Copper Ltd down for fifth straight session - Business Standard",
+     "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPYWxRU2dMUlZ0X2ZYNXZIMWVvbUZFa0J1V1dKOEs3Q2FUcGhQRUpIMmZYSzZmZTV4NmpBcjVmdkFNZzdqc2s0ZW1obk12bDd6dVBJUk5RTUhCM3FyUzJCcjNSX19ramhLM25CVFN5S2x4OXNhcklwX3BmOTJpeVpVLVR1TDZPWHFJTmRRZHE4VERJaVZfYlRTVUdKNGZuWmIwTENyWDN2RWZESTB6Q3JkV0VLVEQ4ZGM0Rzh5dmtReFhzbGd6amJfQXB3Y0VpQkxZSzdid9IB1AFBVV95cUxPYWxRU2dMUlZ0X2ZYNXZIMWVvbUZFa0J1V1dKOEs3Q2FUcGhQRUpIMmZYSzZmZTV4NmpBcjVmdkFNZzdqc2s0ZW1obk12bDd6dVBJUk5RTUhCM3FyUzJCcjNSX19ramhLM25CVFN5S2x4OXNhcklwX3BmOTJpeVpVLVR1TDZPWHFJTmRRZHE4VERJaVZfYlRTVUdKNGZuWmIwTENyWDN2RWZESTB6Q3JkV0VLVEQ4ZGM0Rzh5dmtReFhzbGd6amJfQXB3Y0VpQkxZSzdidw?oc=5",
+     "published": "2026-07-17T09:22:13Z",
+     "source": "Business Standard",
+     "sectors": []
+    },
+    {
+     "title": "Hindustan Copper Share Price - Live NSE: HINDCOPPER Stock Price & Chart - Upstox",
+     "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBlQXJXQi02SVlvaFFnOU00M3I4T0xDOWFWNmF2WHU5Z3BkeFhudDJEZ0dLOXJtV1hDUFo3eEx2N3JPeDd3LXhTUmx0S2MwMkJrczk5akpjM1E4OVVpakhIRjVzQUJZLUNtWUtV?oc=5",
+     "published": "2026-07-17T07:00:00Z",
+     "source": "Upstox",
+     "sectors": []
+    },
+    {
+     "title": "How a film book revived memories of small-town cine clubs - Frontline Magazine",
+     "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQMUhSSHd3M0E3OHRYbFpvRTRielIyaG93X3BWTjZvbXkwb19YaFQtVzd0cFJkV3FNckxvV0NwWG0wOXk4ZEE4RndydTNfNmMyS1l2dm92eEhQUzB1UXIyS3F1MlU2cXB1NmNZc0VrM3drdzRGSVMxNHVDbXNrc3U5OThGTnhyTXVvTjRuUFN5Q09ZbVNfa0lvbkNVNDU2R0VxeFRmb1pPQU56SG9oWTVOTDdIQWVmSlQwZXc00gHCAUFVX3lxTE1fTjhoVzZma1dKVkJzTU9pZlFjNmF6STB0ZUdES1ZHNDFITmxWY0JxVDlYTkZTR0Q5UGNDXzBwamJWUVFjTmNCWkZxam5FTUZONDh0c1ZxemtvTzczQmJKTjBpeU13LXVvSEZEZVJiZGZYVDd6ZUxNWXFjWmNDdnlWX0R3aDBfeUVGQTBJMXh3U2JQbG5MWGpvdlZqS3pLaEI0NzI4V05lZ1paZVJ4MnZlQzNEeXFWenZSX3pXOGh0TEVR?oc=5",
+     "published": "2026-07-14T08:49:17Z",
+     "source": "Frontline Magazine",
      "sectors": []
     }
    ],
@@ -463,9 +515,9 @@
    "ticker": "CAMS.NS",
    "name": "COMPUTER AGE MNGT SER LTD",
    "mb": 68.4,
-   "inv": 63.6,
+   "inv": 67.7,
    "conf": 0.983,
-   "risk": 24,
+   "risk": 0,
    "trend": "up",
    "price_at_build": 751.0999755859375,
    "group": "Information Technology Services",
@@ -545,88 +597,78 @@
    "gated": false
   },
   {
-   "ticker": "JMFINANCIL.NS",
-   "name": "JM FINANCIAL LIMITED",
-   "mb": 67.6,
-   "inv": 58.3,
-   "conf": 0.885,
-   "risk": 24,
+   "ticker": "LEMONTREE.NS",
+   "name": "LEMON TREE HOTELS LTD",
+   "mb": 67.2,
+   "inv": 51.0,
+   "conf": 0.983,
+   "risk": 36,
    "trend": "strong_down",
-   "price_at_build": 124.25,
-   "group": "Capital Markets",
-   "group_rank": 28,
-   "group_score": 15.5,
-   "tags": [
-    {
-     "theme": "Financialization of household savings",
-     "direction": "tailwind"
-    }
-   ],
+   "price_at_build": 111.97000122070312,
+   "group": "Lodging",
+   "group_rank": 15,
+   "group_score": 50.0,
+   "tags": [],
    "news": [
     {
-     "title": "SBI Funds Management IPO Likely to Open on July 14, Issue Size Reportedly Around \u20b913,500 Crore - Dailyhunt",
-     "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxOM0oxdE44NWlnbUJDQWRka0IxNmdYNFY5bnBrbzV3akxvZm5kb2dyZ0g5ZG9tRkJFVUNfaE9pd3lKUVdfcll5X2tYel9EUzR0WF9NalVVT05oWTI1ZjgzVEJHSDJ4cVlpM3Y2dVUyQ3VMaFBKSTUtTzlyNzBHTE5DUjhNaUlRNDhCLXhYd2RYanVpUmF5a1NFUXlwYzRyTFhHZDdldF9NV2IzZ200Qk9GWjJaWmpHajZwalVYUFhrYzhDejZrb1VYWC1BQ2hiRUtRWkpUVkhGM1dNU2lFZS1nNC1GaUpfMU16LTM0czZ2Q21kTC1IaWttMEk2WmZzbGs?oc=5",
-     "published": "2026-07-14T07:00:00Z",
-     "source": "Dailyhunt",
-     "sectors": []
-    },
-    {
-     "title": "SBI Funds Management IPO Opens on July 14: Check Price Band and Key Issue Details - Dailyhunt",
-     "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxQZC1qUndNODJOck1ZOVhnRmkwSGNOaVpTLTV6bU9ka0tFLWJfUWpONDJHVGVYdzhoM2NyZkQwbnZEZVZnbjhWaVlDQUlFMlMzTGxabkoyUXFDeFlrcXk1VTJ0YU8wVjlOQ1NIMElNOVdpRnNBcV9yeGtSMEtzeWRqd21TZGp0WEE4aEJ6a1Fpcnd6bzdFdm5Jdm9tSE5hcFhRb045RGN1VFZyOHkzRnEtMjdVWGRBcXd4WF9RUEVxMzFmZTR0ME1OcUtNcndnVXg5NklxQ3ZQZWJKM09TbWJNUzJWUWVUbnRBS3cwN0t6UGk?oc=5",
-     "published": "2026-07-14T03:07:17Z",
-     "source": "Dailyhunt",
+     "title": "Fieldwork in the Baima Mountains \u2013 Part 3: Laboratory Work - University of Reading",
+     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNeUZDQzk2Y0poN0Y1Yy13dUg5clI5LTZ5VmRqTUo4RXB5M3VJemsxRTFrc1pRTnpuczdJVkkxT2Q5VHBZOUdnNVlzUklyRnZKTERHTE1QWkhuZTlUYnpNbFBBWDA4UF82cWNESGFaX1R0X1FGcXlFaHpHUW5IVXBxeHZnd0VOT0Vj?oc=5",
+     "published": "2026-07-13T13:34:10Z",
+     "source": "University of Reading",
      "sectors": []
     }
    ],
    "gated": false
   },
   {
-   "ticker": "HINDCOPPER.NS",
-   "name": "HINDUSTAN COPPER LTD",
+   "ticker": "ECLERX.NS",
+   "name": "ECLERX SERVICES LTD",
    "mb": 67.1,
-   "inv": 65.1,
+   "inv": 72.4,
    "conf": 0.983,
-   "risk": 24,
-   "trend": "up",
-   "price_at_build": 486.1499938964844,
-   "group": "",
-   "group_rank": 0,
-   "group_score": 0.0,
-   "tags": [],
+   "risk": 0,
+   "trend": "sideways",
+   "price_at_build": 1979.800048828125,
+   "group": "Information Technology Services",
+   "group_rank": 25,
+   "group_score": 25.5,
+   "tags": [
+    {
+     "theme": "GenAI automation pressure on headcount-linked revenue",
+     "direction": "headwind"
+    },
+    {
+     "theme": "GenAI integration-services demand",
+     "direction": "tailwind"
+    }
+   ],
    "news": [
     {
-     "title": "Hindustan Copper Ltd working at fast pace to double Malanjkhand Copper Project capacity in MP by 2030: CMD - Moneycontrol.com",
-     "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOU2E2Vjk5aktUNkEtVE1LT0k1S0hmX19HVjRUeF9UUGRJSlRNRlJTYkJQbWg4bWdqOEpuYzdzbVlIa1NVTzhBV1c1X0p2MzRiZWpPN0JDT1pXdGNOakJpX0tvREI3T2ItQk1YVDY5LTc0VV9VbExLckpmdnFTUlJYSmYzcW1yVE0wQ3hUZlQzQXRlaFpjcEFHRFN0VjJndDEzTGxRRERVbVZ1bTV4Z2FQVm96aTJxZ0hMNHE3THlFSjljTEs1NHNiYVBYSjh6ZmRlSGRtUGtkNE9ZME5QM0JmckoyMVE0RzhYcUMxRUVqX21FcV9FdmJST1VR0gH6AUFVX3lxTE5TYTZWOTlqS1Q2QS1UTUtPSTVLSGZfX0dWNFR4X1RQZElKVE1GUlNiQlBtaDhtZ2o4Sm5jN3NtWUhrU1VPOEFXVzVfSnYzNGJlak83QkNPWld0Y05qQmlfS29EQjdPYi1CTVhUNjktNzRVX1VsTEtySmZ2cVNSUlhKZjNxbXJUTTBDeFRmVDNBdGVoWmNwQUdEU3RWMmd0MTNMbFFERFVtVnVtNXhnYVBWb3ppMnFnSEw0cTdMeUVKOWNMSzU0c2JhUFhKOHpmZGVIZG1Qa2Q0T1kwTlAzQmZySjIxUTRHOFhxQzFFRWpfbUVxX0V2YlJPVVE?oc=5",
-     "published": "2026-07-18T12:02:12Z",
-     "source": "Moneycontrol.com",
+     "title": "eClerx Services Q1 Results: Board meeting set for Aug 5 to approve financials - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQUnd0Y3I0VEd0bk45ZG9yZ1JDMGRSRTNGb0tVNmVFRmRYQzZ0ZlhUTG1mTjQzZDhtSUtqTUIzWWwtdWd3eVBBdG1UajRVbUliTjljSDhobGxqN1E1NGhpR0pKQ2xEcVZjVDd4TEs1SlRaLVR4RjZHTGpsNWxHQTRCUzkxYUpiV1Z1Ymo4amw5NTRYTkl4ZzNGTjJxWGp4bVh2eFIyN2laLXhtUnZ0VDRNZndyVy1iZTZ6cjlNb2NiTm8yVDZiNlJIWFd0aVJuZw?oc=5",
+     "published": "2026-07-29T14:53:32Z",
+     "source": "scanx.trade",
      "sectors": []
     },
     {
-     "title": "Hindustan Copper Ltd charts out roadmap in annual plan meeting (UPDATED) - Whispers In The Corridors",
-     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQSkJzNjMyQjJUZzlnX3Njckl5VDdLR1U2cWRMVjEtanRLbVZURERVWnhaUjQ3MERZTEp4TjNDVXR0TFZtNHkzMEZvR3I5cHVpajdHUnNkSy1qZlRmNGJadnBKUXF0cWFhd05sb21GU1lNRnJwMV9oUm5MQ3VRaVhMbGNUa2N3QzNORlB6MzBmZU1EVVNPMmQzTWRKd3N3aDNHdVAzd0QzQUVVTzVndEVIUmZPRVpIdw?oc=5",
-     "published": "2026-07-18T01:48:23Z",
-     "source": "Whispers In The Corridors",
+     "title": "eClerx Services - Negative Breakout: These 6 stocks cross below their 200 DMAs - The Economic Times",
+     "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQZmF1ZkFlYUU5bVNjWTJ0bVZtOV8zd2ZfUzdVMzlYb1lTV2U5OGVSMEFqdXJiMDMzMGYtTHVYVUE1QjlHb3UyazRmdlUwY2N5Q0ZFaXlVblFBWEFUSmtxekNhMHpMTGsyY0VTREU0Q3BsY1ZjSFFUY0NFM0swNlpieExuWDhmZERuN1c4TlgyekJ0b09DWjM5WHFvY2ludUV3OVhuYXBNMlVocU1GOEN0Z3hld2hiUlFXMUlUbEZ5UF9oZ2c5QnFfU1ViX0hGelJmVHpyeVdvME1EYVNfVnJXVg?oc=5",
+     "published": "2026-07-27T02:31:36Z",
+     "source": "The Economic Times",
      "sectors": []
     },
     {
-     "title": "Hindustan Copper Ltd down for fifth straight session - Business Standard",
-     "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPYWxRU2dMUlZ0X2ZYNXZIMWVvbUZFa0J1V1dKOEs3Q2FUcGhQRUpIMmZYSzZmZTV4NmpBcjVmdkFNZzdqc2s0ZW1obk12bDd6dVBJUk5RTUhCM3FyUzJCcjNSX19ramhLM25CVFN5S2x4OXNhcklwX3BmOTJpeVpVLVR1TDZPWHFJTmRRZHE4VERJaVZfYlRTVUdKNGZuWmIwTENyWDN2RWZESTB6Q3JkV0VLVEQ4ZGM0Rzh5dmtReFhzbGd6amJfQXB3Y0VpQkxZSzdid9IB1AFBVV95cUxPYWxRU2dMUlZ0X2ZYNXZIMWVvbUZFa0J1V1dKOEs3Q2FUcGhQRUpIMmZYSzZmZTV4NmpBcjVmdkFNZzdqc2s0ZW1obk12bDd6dVBJUk5RTUhCM3FyUzJCcjNSX19ramhLM25CVFN5S2x4OXNhcklwX3BmOTJpeVpVLVR1TDZPWHFJTmRRZHE4VERJaVZfYlRTVUdKNGZuWmIwTENyWDN2RWZESTB6Q3JkV0VLVEQ4ZGM0Rzh5dmtReFhzbGd6amJfQXB3Y0VpQkxZSzdidw?oc=5",
-     "published": "2026-07-17T09:22:13Z",
-     "source": "Business Standard",
+     "title": "eClerx Services Limited Revenue Breakdown \u2013 NSE:ECLERX - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1ZaU5fTFZSeEh3QzBINlA2ZGdqMnR5UGFINGllQWhfSUJHcnF5aFpuNGZYQUpmaXlId3BvQmhuUmlyLXFra1hwamZteHc4bVZZTHA1WnE0QjNWOHlra0tjcVd1N0R6bHdtSnNzb0ZudEdEVUZ3aXc?oc=5",
+     "published": "2026-07-26T15:49:32Z",
+     "source": "TradingView",
      "sectors": []
     },
     {
-     "title": "Hindustan Copper Share Price - Live NSE: HINDCOPPER Stock Price & Chart - Upstox",
-     "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBlQXJXQi02SVlvaFFnOU00M3I4T0xDOWFWNmF2WHU5Z3BkeFhudDJEZ0dLOXJtV1hDUFo3eEx2N3JPeDd3LXhTUmx0S2MwMkJrczk5akpjM1E4OVVpakhIRjVzQUJZLUNtWUtV?oc=5",
-     "published": "2026-07-17T07:00:00Z",
-     "source": "Upstox",
-     "sectors": []
-    },
-    {
-     "title": "How a film book revived memories of small-town cine clubs - Frontline Magazine",
-     "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQMUhSSHd3M0E3OHRYbFpvRTRielIyaG93X3BWTjZvbXkwb19YaFQtVzd0cFJkV3FNckxvV0NwWG0wOXk4ZEE4RndydTNfNmMyS1l2dm92eEhQUzB1UXIyS3F1MlU2cXB1NmNZc0VrM3drdzRGSVMxNHVDbXNrc3U5OThGTnhyTXVvTjRuUFN5Q09ZbVNfa0lvbkNVNDU2R0VxeFRmb1pPQU56SG9oWTVOTDdIQWVmSlQwZXc00gHCAUFVX3lxTE1fTjhoVzZma1dKVkJzTU9pZlFjNmF6STB0ZUdES1ZHNDFITmxWY0JxVDlYTkZTR0Q5UGNDXzBwamJWUVFjTmNCWkZxam5FTUZONDh0c1ZxemtvTzczQmJKTjBpeU13LXVvSEZEZVJiZGZYVDd6ZUxNWXFjWmNDdnlWX0R3aDBfeUVGQTBJMXh3U2JQbG5MWGpvdlZqS3pLaEI0NzI4V05lZ1paZVJ4MnZlQzNEeXFWenZSX3pXOGh0TEVR?oc=5",
-     "published": "2026-07-14T08:49:17Z",
-     "source": "Frontline Magazine",
+     "title": "Compare with Eclerx Services - Equitymaster",
+     "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQRlVCZlpQeXJwRjJFTUdlSzk4WjhGbDd3RXlid1h1SDFJeUVKMG5hVjJlRUJQZEtuOUtpNzlianJUMVpSN3hEYmxhbk9vMzU3b21hUnlhdWFkamNJbWdXeTIwOGxvZ1NUQjZlMkNqYkdPV2dNMjZ1QlRfclJwWWgwY0M3N1V2MW9UOWJQR3NZRkNzdUNaekhydVNpeXoyc3Vl?oc=5",
+     "published": "2026-07-26T01:52:02Z",
+     "source": "Equitymaster",
      "sectors": []
     }
    ],
@@ -662,6 +704,37 @@
    "gated": false
   },
   {
+   "ticker": "INDIAMART.NS",
+   "name": "INDIAMART INTERMESH LTD",
+   "mb": 66.9,
+   "inv": 71.9,
+   "conf": 0.983,
+   "risk": 0,
+   "trend": "strong_down",
+   "price_at_build": 1910.0999755859375,
+   "group": "Communication Services (other)",
+   "group_rank": 21,
+   "group_score": 35.5,
+   "tags": [],
+   "news": [
+    {
+     "title": "IndiaMART InterMESH to Host Q1 FY27 Earnings Call on July 21 Following \u20b950 Crore Q4 FY26 Net Profit - Sahi",
+     "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPLUMxVVdQenZzLTBlNnV6eXBGTF9wUGdMeUdfZGZzbzc2Ry1uRWtGNkpFMjdZRFJJNFF0ZVpoSFBnVnNkTGhqODJrOVZIekpjenp1Qmg2TXFGSDNtNzQ0YkQ2eDVpVVAyRm9FRkZHcVl1QkVPSEo0OC1CUGw0MDhsbGVwUE81cy1vM3hSMF9MaVlMZW9mUXJNUHNqU2NsU0drZU9QNG1xUEJ5RE5KbTUyZ2w4blBMd3ZRdGlzLWxjOXF6dkxWdDRUcWhFMUNySEpRTkNV?oc=5",
+     "published": "2026-07-15T16:24:29Z",
+     "source": "Sahi",
+     "sectors": []
+    },
+    {
+     "title": "IndiaMART InterMESH to Host Q1 FY27 Earnings Webinar on July 21 at 5 PM IST - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPc05aYi1jTkVnajBlUi0zSGZXUmtXakgwSHlhRVJHY0ZVNm9CVkpORzlFajFVdnRtRldlRjNNN3lWVlZ2dHhSUnFLckswUXRWU1JKdnBuQVJHRV9GcUkxTnBhZUhwWjZqQUozajNWTDI4ZHlnU2gtc3BnazJPdld1REJHei1FWHpvejBxZXFjUFZwNUFUdEpJXzBBcEdVRjNfbEVMbGxRMHpBT0hKbFladldCek82QW9I?oc=5",
+     "published": "2026-07-15T13:46:23Z",
+     "source": "scanx.trade",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
    "ticker": "NIVABUPA.NS",
    "name": "NIVA BUPA HEALTH INS CO L",
    "mb": 66.9,
@@ -679,6 +752,89 @@
      "title": "NIVABUPA Stock Price and Chart \u2014 NSE:NIVABUPA - TradingView",
      "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBuM1lmZkVXQVNramx0dk1GOHdCaGw4RE5nX2hRbFM2YnF2U0d6eGN4ZTY0TEQyVFBjSWE3X3ZjNTFKVnhnbmJPMW12UjZLRTN5ejlaQVllSmRMNV9RX1E?oc=5",
      "published": "2026-07-14T02:59:50Z",
+     "source": "TradingView",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "KPIL.NS",
+   "name": "KALPATARU PROJECT INT LTD",
+   "mb": 66.6,
+   "inv": 67.5,
+   "conf": 0.977,
+   "risk": 0,
+   "trend": "up",
+   "price_at_build": 1310.0,
+   "group": "Engineering & Construction",
+   "group_rank": 29,
+   "group_score": 15.0,
+   "tags": [],
+   "news": [
+    {
+     "title": "Kalpataru JV to appeal after Delhi HC partly sets aside arbitral award against NHAI - ETLegalWorld.com",
+     "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNc0NhSTRYVDNpX0pJbnJ6Y2dMZEpmZEcxNHBQeklsc1Z5NTZ0T3p2VTZtTThybHBORmFZWkYxdUFTRm9DUGIxZTVBR293MW8yUjd0RHJ6d1RkT1BLMmZFd1NDMkhpYlRoOFR6X05kVkR4QjNCejJhYVZnbVZJUVRZbElCNmxoN3Ftc0c2LTFPVXhsU1JBUFRBb0NHZlZTMXRWM0J6VDlIcmJVdkdHQzBBTlJiSVd5Szc5U3RBVDFRdjA5Ty1XSUVoTmMxdGZyaWh1b3hsUkxWY0fSAd4BQVVfeXFMTy03X2FSeWlwTFVKV2oyS1U3bG0wdnZTVzEyV0R6bm1hamZpOFNta3JtSWd5YjMwNER0QlZLTm45bDVTVTFYLTNGVW9pNnkxQWlKbDVvQVdQcG5mTG9oRGZ0aXJ5dEZCeWpkX1FrUDZRRXZtdHBRdFlTbE80LTNJSDNxRWgyRzdDRUlHSm9wdFRPQTRkZ3ptNFJjV3pRRW91Tk9UcHM0Z0J3SVRoeVd4Y2dPQjVaQ2VsenVOSFBXYlJZU2w0RXBPMEpqVW1FcHFNWXl1X25CN3hPVG15Vkxn?oc=5",
+     "published": "2026-07-29T07:47:32Z",
+     "source": "ETLegalWorld.com",
+     "sectors": []
+    },
+    {
+     "title": "Kalpataru Power Transmission Share Price - Live NSE: KPIL Stock Price & Chart - Upstox",
+     "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFAtSm8zaGhyN1RsTVpuM1ZNRnd6YmpZZ3pkSnpJTmkyVGRfSzdBYVVFcGU1cDZxS2phNEZkNEpsakxITENlVk05bjBwVWNoaGNFMGhNdW1WN3FzTm8wMm9ZSElVR2gzTC0wdlRGR2xiR0R2Zw?oc=5",
+     "published": "2026-07-28T11:27:58Z",
+     "source": "Upstox",
+     "sectors": []
+    },
+    {
+     "title": "Kalpataru Projects International Limited Revenue Breakdown \u2013 NSE:KPIL - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9HX2pfT2ZoTnpUdlp3ZmRiUXNNd2JIMk9aZXZVT0Z4VXY0Znk4ZU00ZlFpdTNFN2YwcHNZMlo5ei0xYkt1d2Z6TzhBRFViMlZxdUVDdDIwbDUzVjZFNUFfTVRpR0twUXhRZVBCV01kNnViZDQ?oc=5",
+     "published": "2026-07-25T12:00:06Z",
+     "source": "TradingView",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "IGIL.NS",
+   "name": "INTL GEMOLOGICAL INST LTD",
+   "mb": 66.5,
+   "inv": 68.9,
+   "conf": 0.889,
+   "risk": 0,
+   "trend": "sideways",
+   "price_at_build": 346.3500061035156,
+   "group": "",
+   "group_rank": 0,
+   "group_score": 0.0,
+   "tags": [],
+   "news": [
+    {
+     "title": "IGIL Share Price Today - International Gemological Institute on NSE/BSE - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTFB4TTJsTG9wZjZnYVlYQ19pUUU0dXR6a1EzVWh5R1FaZkZ0QUpMVUxQamZxcE5SY0loazgzdEJGdkNraEg2eFdNZUxWTmRvYmY0OEJncWNpWUJLdHZmMEQyRC1MSU12enVTUDRGY0VXZXNQUnZRbnQ0?oc=5",
+     "published": "2026-07-30T03:38:36Z",
+     "source": "scanx.trade",
+     "sectors": []
+    },
+    {
+     "title": "International Gemological Institute Ltd Revenue Breakdown \u2013 NSE:IGIL - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1lY2tyWWZuNndsTkhLNU5HX2dIOXdsVzhZUHRKUXc4ajFkWUEyMUFzY3pNaWVOclIyS0k1LW5FNjZ1SVhKQ2R6TnM1NmlrVmNsNkltQ0tCRXpxdDVGRFZpVW9ZRzlFTHI4ejg4cTYzOHNTMm8?oc=5",
+     "published": "2026-07-25T14:40:21Z",
+     "source": "TradingView",
+     "sectors": []
+    },
+    {
+     "title": "IGIL makes Q4FY26 earnings call audio available on website - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOeUlRVUJUMnU4M2VTQl8tODFMdFVZQkVhUEl1Rlc4dG1aVzAxbWRCWFlLVGFMNFR0aTQ2UWh5dXBnYS1BS2s4ZGprN05TNkpMNmlDY19iT1FkU1dEUWpJNE0xSUEyTXNYbWdZM2VTQ2xFckVyUE1HMUc1OVkyUVJDSlI4Snl0aE9SMW5VeG81cDVGUEFlb0lMcFpuR19SY3A1bWVPM1otWlZ4UjhQcVJpNUtaMkdKUQ?oc=5",
+     "published": "2026-07-23T17:18:36Z",
+     "source": "scanx.trade",
+     "sectors": []
+    },
+    {
+     "title": "IGIL: Q1 FY27 saw 23% revenue and 29% EBITDA growth, with strong momentum across all segments - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMihwJBVV95cUxONURqS1Y1anRYREktMTU4WlJPNTVUazJOTWx4ZW1WQTdKYnQxb2pISGdXRUMtMk9sMlBEUGxNd1BVOXJJWEJCS2FpeHJwWDlTazJNRC1IWVk4bVAyXzhCSVNfdkJUaGIzb2hEakhPZklBWFRKYWFPX0ZPNVF6S1FmUlpMVllUcmt4X1MyQnBaUXVEb0UtMlo5ZmRjZWRUMk0xOWxOSUhfWHR6b0RDWm4tMWtGYU5lYUNxc010Mm93bXJwZGt3WEstMEYyWVhZRGU3bmhLVzJGTjVFQlV3Z3lMWjNPcGZKNXh2WDVKN3pCcXdLZ2Z0YW1FVWlUblFucl96cnBpb0R3aw?oc=5",
+     "published": "2026-07-23T15:34:21Z",
      "source": "TradingView",
      "sectors": []
     }
@@ -738,176 +894,14 @@
    "gated": false
   },
   {
-   "ticker": "TRAVELFOOD.NS",
-   "name": "TRAVEL FOOD SERVICES LTD",
-   "mb": 66.1,
-   "inv": 62.9,
-   "conf": 0.854,
-   "risk": 24,
-   "trend": "up",
-   "price_at_build": 1293.5999755859375,
-   "group": "Consumer Cyclical (other)",
-   "group_rank": 27,
-   "group_score": 22.5,
-   "tags": [],
-   "news": [
-    {
-     "title": "Travel Food Services Ltd is Rated Hold - MarketsMojo",
-     "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQRllCNHlhTlFrbTV2Sk9sa3EyZVlIOVp3Uk5Bb2QybVRPY1FnMjNBYlBIU0R5VkIySmV1eC10b3NzazhweW5SN2hFN1BqSFI1aFBJdG9GTDBxMm9lYXNXU19yS2lVb1FacDhXTkxodjJFRDJTdzRSU2pLWGdHNXU0ZUNSazRYQkVtNEJtNEJFLVA5a05XTzBNcUl6TTkzZHpZRUE?oc=5",
-     "published": "2026-07-13T20:28:03Z",
-     "source": "MarketsMojo",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "LALPATHLAB.NS",
-   "name": "DR. LAL PATH LABS LTD.",
-   "mb": 66.0,
-   "inv": 67.0,
-   "conf": 0.983,
-   "risk": 24,
-   "trend": "up",
-   "price_at_build": 1687.4000244140625,
-   "group": "Diagnostics & Research",
-   "group_rank": 1,
-   "group_score": 81.0,
-   "tags": [],
-   "news": [
-    {
-     "title": "Lal Pathlabs Receives Appellate Order From Tax Department Allowing Appeal - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOeFFhWlcwcmFOY0tYRWR3SHJXSVowUUxyRlVTUW5sMXZBNE1MT0RNakJ4QkI2ZGlWbWVIc3JDTC1Lb3JKbDRvWVh4QllyVXJDc2tkWGdzRWg4VkVQcm50ZU1sRTIzQjBLNHg0bzB3c0lvaVh0VkNmdFdwcTlXWnNuM3FrR3J5T19nMDNtWTdJMDQ3Wm5nNmEtWXlUN01TNTNfZnRVTGpOTjJQWXFQbzQ0YW9uT2JxYmtveDV4UlEtVFBral9iM0ZOeC1LeE43WDd3OTFCNWc4Wi1PWHM?oc=5",
-     "published": "2026-07-17T14:11:44Z",
-     "source": "TradingView",
-     "sectors": []
-    },
-    {
-     "title": "Price to book forward of Dr. Lal PathLabs Limited \u2013 BSE:LALPATHLAB - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPQW5RbkNiZGRmRW9IN253alhBMUlMY21sSTlHdTZLdmVSRmF3ZmgydzVwQkh5MnhPTjlGM1VZMG5WbjU0TGotZmpDVHpVUEZUZHMzWnRGbTlrNk5RNEhQQ0NuWGJpX0VpYUhPYllKcU1yTE85UEZuSkpDeW1FbWdEWlJ4RklCQ2VMYjRqSFNFbU5ISjVTeDZaVTBNcHkweTJB?oc=5",
-     "published": "2026-07-12T21:46:29Z",
-     "source": "TradingView",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "IDBI.NS",
-   "name": "IDBI BANK LIMITED",
-   "mb": 66.0,
-   "inv": 74.8,
+   "ticker": "JMFINANCIL.NS",
+   "name": "JM FINANCIAL LIMITED",
+   "mb": 66.2,
+   "inv": 56.2,
    "conf": 0.885,
-   "risk": 0,
-   "trend": "down",
-   "price_at_build": 87.0199966430664,
-   "group": "Banks - Regional",
-   "group_rank": 17,
-   "group_score": 46.875,
-   "tags": [],
-   "news": [
-    {
-     "title": "- The HinduBusinessLine - BusinessLine",
-     "link": "https://news.google.com/rss/articles/CBMiygJBVV95cUxPejN3UzVGS1hTVnBsci1QNFJYNHBZM3J5bUI4YUQwUHVuSDJoLUFsaG9PdkVHMVlneHh5dy0tSHRtbWM0ZU5mWE80bEtvLWQ2Sm9BMjI5UlV4N04teVFwTXlaZDBoLUhOd3doVHNUNGdoNWJjTWtPN2xuS21vMi1xRzV2RHNLMi1Cd2lWbUpGWmlkVEJVZkpZOE5Qd1VjRl9MUTRLSHVtazZzOHF1dnFuRF9aaDJpTGN6c3cxWmh2SnpmdVo1azBHVnhmY051MHY2MkhGYW1KVXlYWUp4REJlb2NPbzVTeWtKTFpjLTg1dDZIX3h0OExvdUMwZVZTNnp1RUpoX1BFSXU2aFhZRGNNTC12ZkVGaWpnT3VzUWhXMk9zN0VVbGdSQVA1Q3l4NUk5NUViMjlSbkNxc2g0UG1QbDAza09QWHV5anc?oc=5",
-     "published": "2026-07-19T19:58:43Z",
-     "source": "BusinessLine",
-     "sectors": []
-    },
-    {
-     "title": "IDBI Bank Limited Kicks Off FY 2026-27 with a 5% Rise in Net Profit to \u20b92,115 Crore - EquityBulls",
-     "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBrNGJuS1YtT2FtdmJLQVdaelI4NUdPTThISE1fUEYyT0pfX1NkOWdMTjlPY0lKVGxpN0psX0wyYk9OZTRKbUJ0Ri1wRW5XTVF6Ykdwb1ZmUkdOQmdocENF?oc=5",
-     "published": "2026-07-19T18:15:56Z",
-     "source": "EquityBulls",
-     "sectors": []
-    },
-    {
-     "title": "IDBI employees' forum seeks Parliament review of Fairfax stake sale - Business Standard",
-     "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQUi1IanF5ZFN0T0lWUXZGcC05WWNYZ09TbUs5M05DazVYWXdTTUN2RklDQ3JkRElKanRLOWdSajR3WWxXRzVPbkhOVDlQNTNCVWE4TzcxT2pKWVlFOFNKQUpRS0l3elZPQXFmc1ZWTTZfcFRYQmE2NjhrSWtuX0FIRzlQVjNaSVVublp5VTR2UmhjSUZOYlBKMUQwMkNKQjZzTUZtWUY0cnB1VFdvMl9tSTdlMWM0VlQySlg2clNhWkNoQy00Zy16NWczUEYzWEJCNTkxZjFyY9IB3AFBVV95cUxPZUVlVHJWTXpOYnpHeV9HWW5yT1lsdmxkVUVjWXp5ZElJR3h3bFNTMFJ1cjAzRkR1T3UxN1JZeFVXS1MtckVZblI4aTFPZDhrRVp5SkJzNEFfdWNVU0NpS0U1UGNMRjYtaWN3ZE00RERONE5FRjBWYkVlQUc1aUZCWGZtSGJZSnVDTWFPeGM3Y25YbW1XZzRJTkMwSGJEQUI4SXVvMjBEU0tyenl5aDhqaFotWFQ1UF9JaGMyM2pSVnkwRmlfRjROaThSXzUtdEQwXzZfZjh0Z2xHTVpm?oc=5",
-     "published": "2026-07-19T13:27:54Z",
-     "source": "Business Standard",
-     "sectors": []
-    },
-    {
-     "title": "IDBI Bank Q1 Results: Profit Rises 5% as Business Grows - Lapaas Voice",
-     "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5LUzhUb0VHaVdBQUc5M2pONXhURDFOWXpMT21xTHZOdmE3VXA0c29Bb25sT0t1YXlobDZRSEtVNWpXdnFtWWJENHlvcUxHQUZwN1JSMHJpOXN1U0lFM0ZHLUZqYkQwY1FUclFrNl9aMWFITTNUT19SM2UyRQ?oc=5",
-     "published": "2026-07-19T06:17:15Z",
-     "source": "Lapaas Voice",
-     "sectors": []
-    },
-    {
-     "title": "IDBI Bank sale move faces call for review on governance, sovereignty grounds - BusinessLine",
-     "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPTkNTOWp0YkttenhmNUZfN1QxUHRvUzZtNXM3ZFktMkZoYmNWUDctdVVJblQxUEhvOW5PZEFRUENWRXZwblFiN05ySnBVOU53V0FqcG9mR2pUQ3pHazUtWHhaSTFpQjZqdTZhVWNvZUdycFc0WkxFUFlUZkRUT3lrX1M4LWpFMnl3Vk8wRko1RUxFZjNpd2dqNnBrUl90TEIteFhyLWIxTWxGWHY2SjRrcWxhV2hUSktXOWpNNlRJVWRrbHBaT0NzMThoRWc5MmpXVktWbmVjUXQzVzlIRGh4eUdPR2nSAesBQVVfeXFMT3p2SkNfOFRwMHFwTDlfT0hMSUJBSm9oZHlWR1VBSUVUSHJRek8wS094OFJWSWMyT3VMT21QM2hnRVRTVUlmZHQ4aUNHUmdvelpyWnJTOG9EbWI0UTBSWmpSa3JxX1RqcUJJX2VEX0ZqSERXY0F1V1NfY2tocHNUbmhoWUZrZzZHSFNIazBZUFdZaXhpRkpmVkVQUlplYVNnbURKOVU5YW4tYjRXOV90TExhSl9FUnRxd1ZVZXlza2RRbW5EVUR6M0h0N1ZUM2NkeU1uOFdqTWVwaV9qNVd4SDJGeWF3WTY5dktUdw?oc=5",
-     "published": "2026-07-19T05:25:59Z",
-     "source": "BusinessLine",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "BBTC.NS",
-   "name": "BOMBAY BURMAH TRADING COR",
-   "mb": 65.6,
-   "inv": 70.5,
-   "conf": 0.958,
-   "risk": 0,
+   "risk": 24,
    "trend": "strong_down",
-   "price_at_build": 1493.5999755859375,
-   "group": "Packaged Foods",
-   "group_rank": 12,
-   "group_score": 55.0,
-   "tags": [],
-   "news": [
-    {
-     "title": "Baby Bitcoin Price Today in India | BBTC to INR Live Price & Chart - Binance",
-     "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5GclhqNmpOdGVDR1JMMW50cEFpUTluR0R2ZXNkYm9xZHgtcU40Q29EVEZRRnZlQ2pUMHpjLVV6VjZBaDlibTlpTnNUTTl1UVZqSVdiZ0dWb2xIcV95dm9sV3h0d2I?oc=5",
-     "published": "2026-07-13T19:33:00Z",
-     "source": "Binance",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "INDIAMART.NS",
-   "name": "INDIAMART INTERMESH LTD",
-   "mb": 65.6,
-   "inv": 69.9,
-   "conf": 0.983,
-   "risk": 0,
-   "trend": "strong_down",
-   "price_at_build": 1910.0999755859375,
-   "group": "Communication Services (other)",
-   "group_rank": 21,
-   "group_score": 35.5,
-   "tags": [],
-   "news": [
-    {
-     "title": "IndiaMART InterMESH to Host Q1 FY27 Earnings Call on July 21 Following \u20b950 Crore Q4 FY26 Net Profit - Sahi",
-     "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPLUMxVVdQenZzLTBlNnV6eXBGTF9wUGdMeUdfZGZzbzc2Ry1uRWtGNkpFMjdZRFJJNFF0ZVpoSFBnVnNkTGhqODJrOVZIekpjenp1Qmg2TXFGSDNtNzQ0YkQ2eDVpVVAyRm9FRkZHcVl1QkVPSEo0OC1CUGw0MDhsbGVwUE81cy1vM3hSMF9MaVlMZW9mUXJNUHNqU2NsU0drZU9QNG1xUEJ5RE5KbTUyZ2w4blBMd3ZRdGlzLWxjOXF6dkxWdDRUcWhFMUNySEpRTkNV?oc=5",
-     "published": "2026-07-15T16:24:29Z",
-     "source": "Sahi",
-     "sectors": []
-    },
-    {
-     "title": "IndiaMART InterMESH to Host Q1 FY27 Earnings Webinar on July 21 at 5 PM IST - scanx.trade",
-     "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPc05aYi1jTkVnajBlUi0zSGZXUmtXakgwSHlhRVJHY0ZVNm9CVkpORzlFajFVdnRtRldlRjNNN3lWVlZ2dHhSUnFLckswUXRWU1JKdnBuQVJHRV9GcUkxTnBhZUhwWjZqQUozajNWTDI4ZHlnU2gtc3BnazJPdld1REJHei1FWHpvejBxZXFjUFZwNUFUdEpJXzBBcEdVRjNfbEVMbGxRMHpBT0hKbFladldCek82QW9I?oc=5",
-     "published": "2026-07-15T13:46:23Z",
-     "source": "scanx.trade",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "IEX.NS",
-   "name": "INDIAN ENERGY EXC LTD",
-   "mb": 65.2,
-   "inv": 68.0,
-   "conf": 0.977,
-   "risk": 0,
-   "trend": "strong_down",
-   "price_at_build": 122.80000305175781,
+   "price_at_build": 124.25,
    "group": "Capital Markets",
    "group_rank": 28,
    "group_score": 15.5,
@@ -919,38 +913,69 @@
    ],
    "news": [
     {
-     "title": "Indian Gas Exchange files for IPO as parent IEX looks to pare stake - MSN",
-     "link": "https://news.google.com/rss/articles/CBMi0wJBVV95cUxOeG56OHJOaFllOVpsYkt2N2EzNmVEZEVOamNXU0k4eE9jUkt0SVVTanU3S0ZFRmJYTmx5NWFsR3A4ZFR0OWdpaGI5clh6TXY2Y3Q3ZHhSelItMVdXWE1HU2VSZ25vUzBiaEt1d0ItcHJBNUdIVHFQRS0zV2Vwb1pGQmdZUmVERHhJWGZkT0l6OFB2ZTF6MkJGWXlPMmZXSzFrVzlzSnZMZkxiZTdMUVlzN1lndnJDTFFUZHhQMGdBaWhlNjJxM05CQVlXMzlOX0kzVHpXZkFiZ2JxS0N3UjBuU3pwR0tXblhSYzZ4VUhjaEtjazdpU0NuWkZhYTNqN3VwblJkR0hsZ0xsMmllOUNxcW54d3hKcmtERkdhRlNGcjYzSTUzekhMZEJTRTJhalhMVTRsMkhVQ3dYQ3htRnFlenpPQ1F2QzVlM1NSMEJyUDhZbkE?oc=5",
-     "published": "2026-07-19T09:28:06Z",
-     "source": "MSN",
+     "title": "SBI Funds Management IPO Likely to Open on July 14, Issue Size Reportedly Around \u20b913,500 Crore - Dailyhunt",
+     "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxOM0oxdE44NWlnbUJDQWRka0IxNmdYNFY5bnBrbzV3akxvZm5kb2dyZ0g5ZG9tRkJFVUNfaE9pd3lKUVdfcll5X2tYel9EUzR0WF9NalVVT05oWTI1ZjgzVEJHSDJ4cVlpM3Y2dVUyQ3VMaFBKSTUtTzlyNzBHTE5DUjhNaUlRNDhCLXhYd2RYanVpUmF5a1NFUXlwYzRyTFhHZDdldF9NV2IzZ200Qk9GWjJaWmpHajZwalVYUFhrYzhDejZrb1VYWC1BQ2hiRUtRWkpUVkhGM1dNU2lFZS1nNC1GaUpfMU16LTM0czZ2Q21kTC1IaWttMEk2WmZzbGs?oc=5",
+     "published": "2026-07-14T07:00:00Z",
+     "source": "Dailyhunt",
      "sectors": []
     },
     {
-     "title": "Indian Gas Exchange Files IPO Papers With Sebi; IEX To Pare Stake To 25% - BW Businessworld",
-     "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPOXp4OEdrdjFxdzVLWW9Ma09CMmVEQUFKZ29IVk5Ha1NIaEJnNXNBM0w0RHFTakpWcENENVZiSXBHRkszN0Rzam83XzQ1T2xneVBEb2tTR0FSVjhmdG9FY3RGWGtTN3ZyeFJDcWpxNklNMFM0OVd1ZHZKQlBpU3ZFWHFjYTB6eXlVTWFJZzU4bHFjeTFCai1jZkI0NDVpSVdLSUlfOW9mNXlrVzdsSEg3b0h3?oc=5",
-     "published": "2026-07-18T07:54:16Z",
-     "source": "BW Businessworld",
+     "title": "SBI Funds Management IPO Opens on July 14: Check Price Band and Key Issue Details - Dailyhunt",
+     "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxQZC1qUndNODJOck1ZOVhnRmkwSGNOaVpTLTV6bU9ka0tFLWJfUWpONDJHVGVYdzhoM2NyZkQwbnZEZVZnbjhWaVlDQUlFMlMzTGxabkoyUXFDeFlrcXk1VTJ0YU8wVjlOQ1NIMElNOVdpRnNBcV9yeGtSMEtzeWRqd21TZGp0WEE4aEJ6a1Fpcnd6bzdFdm5Jdm9tSE5hcFhRb045RGN1VFZyOHkzRnEtMjdVWGRBcXd4WF9RUEVxMzFmZTR0ME1OcUtNcndnVXg5NklxQ3ZQZWJKM09TbWJNUzJWUWVUbnRBS3cwN0t6UGk?oc=5",
+     "published": "2026-07-14T03:07:17Z",
+     "source": "Dailyhunt",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "CCL.NS",
+   "name": "CCL PRODUCTS (I) LTD",
+   "mb": 66.0,
+   "inv": 63.1,
+   "conf": 0.977,
+   "risk": 12,
+   "trend": "strong_up",
+   "price_at_build": 1191.4000244140625,
+   "group": "Packaged Foods",
+   "group_rank": 12,
+   "group_score": 55.0,
+   "tags": [],
+   "news": [
+    {
+     "title": "Here is What to Know Beyond Why Carnival Corporation (CCL) is a Trending Stock - sg.finance.yahoo.com",
+     "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQQzRIbjNSdXB3ZkpodlJKTTRuX0lGRUhYZkhFX1d2R1IwcUdyUGtVZmp5dmRPdFB4MlRxckpUY0hMdTA1bXBUaXA0YzZIbTYwQzVjRDg3dWFzd2YwcjhUTnVKU2pxVDdYcGNSVzV4VGVMV0dTYkJfUkhFM1RXNzIwVTNEUHM5dEFyQk5wcFJB?oc=5",
+     "published": "2026-07-30T13:00:06Z",
+     "source": "sg.finance.yahoo.com",
      "sectors": []
     },
     {
-     "title": "Is IDEX (IEX) Outperforming Other Industrial Products Stocks This Year? - Yahoo Finance Singapore",
-     "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQRVZfeGNuTTE5aHU5dXVFTjlrTG5kMXQ3Z3RQMTJDMGtoVXRBNU5xNVJWLTRTOEl1XzQ3SXVHSnF1T253bFVKXzdlU1Fndkk1X1BDMzJUYzJrc1RVNmFfRlRVaUFTREY5aFAyNE9RS2VPc0dvamE4NVVGZC03WGN2T0t0QjFSV3UzNkt0ejRKTktYZw?oc=5",
-     "published": "2026-07-17T13:40:50Z",
-     "source": "Yahoo Finance Singapore",
+     "title": "CCL/ESCC football: Notable kickers/punters to watch in 2026 - Shaw Local",
+     "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxObmkyWW1wQ21UVENYd0RkbGcyX1ZBNkM4RWNfZVp1YjZhWHhpeGVjT0djdjBtUkFodi0xZHlfdlB0eWpDeHMxX0VjN0VVaVFzZU1tdlZEN1BMWFc4VXBzT25WaEdKZjdQLU50a1ptMmRTT1NrUnpGSTd5eXJjQzdsZDFMbGZNRk5GWFhwNlB4VXJuZHJBUzZQb3ZtaUIyWUNKdUhHN00wb0dWZFNUV05vaA?oc=5",
+     "published": "2026-07-30T11:00:01Z",
+     "source": "Shaw Local",
      "sectors": []
     },
     {
-     "title": "IEX Maintains by RBC Capital -- Price Target Raised to $261 - GuruFocus",
-     "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNVEVMX1ZkOHUwR2wxbXBhakNldTNHWFFPbVFhUTViNTlZVk9JMjBMa0xILW80dXFDOWlxbWFwMWJzQnBVZ01ibG1lZWRwTi1sdmdLLWJ4YVk2MDRqQWUwT3ZXZFRHaEtoXzZjSjFuTmVHUDRSZkJPTFpTbU04cEZKWmNOM1NXZ1A3WFRJeXRVaXlpSkRSMXhQXy1leW0tWGdYSUlWalpmSXN5QQ?oc=5",
-     "published": "2026-07-17T09:05:39Z",
-     "source": "GuruFocus",
+     "title": "Carnival Corporation $CCL Shares Sold by Quantinno Capital Management LP - MarketBeat",
+     "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPVWJrNUlnZVVDZzVrS3RHaVpMNGVzNzg1Z1ZaUjBwWVpnMk1NVkYzcmg3RXpfTTVzTjVnTnlGeVpNbVZkM1ZZS3R5R3ppQk90Q2haMHdqdUdSc2tYVjJ4OHF0V3RrVVdtcXZrSzFUMFBnWjdZZ3FsNWMxd2JzQlktMkpSVng2RkRoR01kS2dmNUVEVUY0d3BwQ1ZkcWlTZWVieTVhSDBCUk9HNlZPWl9kT0NqMnhLZ0EtSjhHaUNxSFdISkFPZEdUQkcwanc?oc=5",
+     "published": "2026-07-30T09:25:54Z",
+     "source": "MarketBeat",
      "sectors": []
     },
     {
-     "title": "Slowing Organic Growth And Softer Returns Could Be A Game Changer For IDEX (IEX) - simplywall.st",
-     "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQQ2R0YlJqT08tVnRCdHYzTTNJN0g2T3FITE5DdHNlRWxROFg3T25KZHU2eUFKQnlWMFllTnVsTUhQSXZnVWxtNTFBeHV3c0R2bGw4di1rb2NzdDFlc21LczFTX0JSTlE1YnB4OWlhTWdQX2gwTTZsOTFsblVKWjNydjRScEJSLXJYWnk1eG53TG9IanhiM3pjalJnZHVySTNSWFM4SmVyOGNqYUpTTEtUZ1ZiSlZXRm5rbi1FNk1iSE9SU0XSAcgBQVVfeXFMTXFwMEtPczJJNHk2aFFlN3dxZjhndnVNczNQZmtUN3V3NnNCb01PaFVldUhVbzBTenR2SEttMnBOMVNBQUFaOWQ4RTFTZ2dCMzUwLVZUTm8tWERPX3QtdEdDWHg1bmMyMkZTX1RGUHRjeWFJRVQzSi0tcmNzMGxpNVFfaTNhT2JReVUxQWZLU2ZqV3JaUER5WU5RcGlUblo0aUdHOUZON3J1S2k5d2pEV24wTGg3U3lBNjVYVzB1VDVWS0ZvalU0SGs?oc=5",
-     "published": "2026-07-17T05:04:32Z",
-     "source": "simplywall.st",
+     "title": "CCL Products net profit surges 61% in Q1FY27; net debt falls to \u20b9963 crore - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOaXNvSWZrblhKOU9sbTNzSmRUbWFzeHdSSFdCRWtJeFJfcDNMcjVncWE2X1Q2QnpxWnZVU2QwV2duTFRwV19Pcm1JMkdLMjRxQU1BaElrYTgzU2RzbjV2cmF1eXp0WFVPZ1llRXAzMzBkX2VNQjRibXByQUdrb3ctWE9wZ1lEQ3RDUEV6NzdtWXItQm9EdUY1elhkNjBqUXhUVkdSVjZhQnhuTmV3R05SbUowRDJLNkR4WkREYQ?oc=5",
+     "published": "2026-07-30T08:47:15Z",
+     "source": "scanx.trade",
+     "sectors": []
+    },
+    {
+     "title": "Empowered Funds LLC Sells 645,626 Shares of Carnival Corporation $CCL - MarketBeat",
+     "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOSF9DblVQTjZHQ1ZvaW51MmdLVFhxak5XU1RVX1BiOXNvTU43cjlnXzFlSEd6cW15Z3ZvRHE1MEx0dU1yc085b1Y3Yk5SNkNRbXF0MXF5bVVEWWNIZHotdnRjNDg3RWZlSXlJRmE5YXZCT01EVkdGT1hrS2ZOSlI1Z0kyQXdSNDJFUXVmWTVaQnBucFYtcUdyazgzR2NjV1hWaVlqNTMwTW9tenZ6bkVQTUd5Y0pDM2t5SWVfcmFFeHRHM1dIVkpR?oc=5",
+     "published": "2026-07-30T08:16:21Z",
+     "source": "MarketBeat",
      "sectors": []
     }
    ],

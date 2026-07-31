@@ -1,8 +1,13 @@
 """Valuation engine: scenario DCF, reverse DCF, relative multiples.
 
 Model choices (v0.1, all recorded in ValuationResult.assumptions):
-- Base FCF = 3y average FCF (smooths capex cycles); latest FCF if the average
-  is non-positive; 0.8 x 3y-avg net income as a flagged proxy otherwise.
+- Base FCF = latest FCF (current earning power); the 3y average only when the
+  latest is non-positive; 0.8 x 3y-avg net income as a flagged proxy otherwise.
+  Deliberately unsmoothed: averaging a growing level series understates it, and
+  conservatism belongs in the bear scenario, not in the input all three share.
+  How far the latest year stands out is recorded separately as the
+  `fcf_spike_ratio` assumption (NaN when undefined) for scenario construction
+  to consume; it never reduces the base itself.
 - Two-stage DCF: growth g1 for years 1-5, g1/2 for years 6-10, then terminal.
 - Discount rate 13% and terminal 4% for Indian listings (.NS/.BO);
   10% / 3% otherwise. Crude cost-of-equity proxies, deliberately explicit.
@@ -65,14 +70,65 @@ def _avg_last3(fin: FinancialHistory, field: str) -> float | None:
     return sum(vals) / len(vals) if vals else None
 
 
+def spike_ratio(fin: FinancialHistory, field: str) -> float | None:
+    """How far the latest year of `field` stands out from its own recent past:
+    latest / 3y mean, the mean including the latest year.
+
+    Field-agnostic: it serves `fcf` for compute_valuation and `net_income` for
+    the forecast's spike test, and the arithmetic below cares only that the
+    series is a level in money terms.
+
+    A pure diagnostic. It never reduces the base input a valuation is built on
+    — a suspected peak year belongs to the bear scenario, not to an input all
+    three scenarios share. Reported so that scenario construction can consume
+    it deliberately.
+
+    Scale: the denominator contains the numerator, so the ratio is
+    3L/(a+b+L) — bounded above by 3.0, and `>= 1.5` is algebraically
+    `L >= a + b`, i.e. the latest year alone matched or beat the two before it
+    combined. Steady compounding does not reach that bar: 25%/yr scores 1.23,
+    40% scores 1.35, 60% scores 1.49, while HBLENGINE.NS's genuine step change
+    scores 2.01 on FCF. Excluding the latest year from the mean was considered
+    and rejected for exactly this reason — it puts a steady 25% compounder at
+    1.54, so a 1.5 threshold would punish the bear case of every healthy
+    compounder and could not tell a step change from ordinary growth.
+
+    None rather than a neutral-looking 1.0 whenever the question has no honest
+    answer: fewer than 3 consecutive fiscal years (a gap year means no valid
+    comparison, not a skippable one), a non-positive mean to divide by, or a
+    non-positive latest year — "did it spike?" is meaningless of a year in the
+    red, whether that is cash burned or a loss booked.
+    """
+    window = fin.series(field)[-3:]
+    if len(window) < 3:
+        return None
+    years = [y for y, _ in window]
+    if years != list(range(years[0], years[0] + 3)):
+        return None
+    values = [v for _, v in window]
+    latest, mean = values[-1], sum(values) / len(values)
+    if latest <= 0 or mean <= 0:
+        return None
+    return latest / mean
+
+
 def _base_fcf(fin: FinancialHistory) -> tuple[float | None, bool]:
-    """Returns (base_fcf, proxy_used)."""
-    avg_fcf = _avg_last3(fin, "fcf")
-    if avg_fcf is not None and avg_fcf > 0:
-        return avg_fcf, False
+    """Returns (base_fcf, proxy_used).
+
+    Current earning power, deliberately NOT a smoothed average. A trailing mean
+    of a level series systematically understates a business whose cash flow is
+    growing, and no averaging window can absorb a step change — measured on
+    HBLENGINE.NS, every smoothing variant landed within 20% of the biased
+    result. The risk that the latest year was a peak belongs to the *bear
+    scenario* (see `spike_ratio`), not to a haircut applied to all three
+    scenarios at once, which is what made even bull cases show downside.
+    """
     latest_fcf = fin.latest("fcf")
     if latest_fcf is not None and latest_fcf > 0:
         return latest_fcf, False
+    avg_fcf = _avg_last3(fin, "fcf")
+    if avg_fcf is not None and avg_fcf > 0:
+        return avg_fcf, False
     avg_ni = _avg_last3(fin, "net_income")
     if avg_ni is not None and avg_ni > 0:
         return 0.8 * avg_ni, True
@@ -113,15 +169,20 @@ def compute_valuation(
     g_bull = min(g_base * 1.2, 0.35)
 
     base_fcf, proxy_used = _base_fcf(fin)
+    fcf_spike = spike_ratio(fin, "fcf")
 
-    # Owner-earnings floor: heavy growth capex depresses trailing FCF and
-    # would wreck the DCF for reinvestment-phase compounders. When earnings
-    # are cash-backed (cash conversion >= 0.8), floor base FCF at 0.7 x avg NI.
+    # Owner-earnings floor: growth capex heavy enough to swamp reported FCF
+    # would wreck the DCF for a reinvestment-phase compounder. When earnings
+    # are cash-backed (cash conversion >= 0.8), floor base FCF at 0.7 x latest
+    # net income. Latest, not a 3y average: averaging a level series biases a
+    # fading business upward exactly as it biases a growing one downward, and
+    # this floor must not quietly reinstate the smoothing that base FCF above
+    # deliberately removed.
     owner_earnings_floor = 0.0
     if fund.cash_conversion is not None and fund.cash_conversion >= 0.8:
-        avg_ni = _avg_last3(fin, "net_income")
-        if avg_ni is not None and avg_ni > 0:
-            floor = 0.7 * avg_ni
+        latest_ni = fin.latest("net_income")
+        if latest_ni is not None and latest_ni > 0:
+            floor = 0.7 * latest_ni
             if base_fcf is None or floor > base_fcf:
                 base_fcf = floor
                 owner_earnings_floor = 1.0
@@ -194,6 +255,7 @@ def compute_valuation(
             "g_base": g_base,
             "g_bull": g_bull,
             "base_fcf": base_fcf if base_fcf is not None else float("nan"),
+            "fcf_spike_ratio": fcf_spike if fcf_spike is not None else float("nan"),
             "growth_defaulted": growth_defaulted,
             "owner_earnings_floor": owner_earnings_floor,
             "debt_overhang_floor": debt_overhang_floor,

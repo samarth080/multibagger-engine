@@ -8,30 +8,38 @@ from mbe.pipeline import analyze_ticker, screen
 
 YEARS = [2019, 2020, 2021, 2022, 2023, 2024]
 
+# The statement table below is written in compact units for legibility; SCALE
+# converts it to rupees so it is coherent with StubProvider's 1e8 shares and
+# Rs 3,000 cr market cap. Unscaled, the stub's P/E is market_cap / net_income =
+# 1.15e9, which the forecast engine's peer-P/E sanity band (5x-80x) correctly
+# rejects, so no peer anchor can form. Every ratio, margin and CAGR the engines
+# compute is scale-invariant, so nothing else moves.
+SCALE = 4e7
+SHARES = 1e8  # matches CompanyInfo.shares_outstanding; a count, so never scaled
+
 
 def _fin() -> FinancialHistory:
-    return FinancialHistory(
-        data={
-            field: dict(zip(YEARS, values))
-            for field, values in {
-                "revenue": [100, 115, 132, 152, 175, 200],
-                "net_income": [10, 12, 15, 18, 22, 26],
-                "operating_income": [15, 17, 20, 24, 28, 33],
-                "ebitda": [20, 23, 27, 32, 37, 43],
-                "interest_expense": [4, 4, 4, 4, 4, 4],
-                "total_assets": [300, 340, 385, 435, 490, 550],
-                "total_equity": [60, 70, 82, 96, 112, 130],
-                "total_debt": [40, 40, 40, 40, 40, 40],
-                "cash": [10, 12, 14, 16, 18, 20],
-                "current_assets": [50, 55, 60, 65, 70, 75],
-                "current_liabilities": [25, 27, 29, 31, 33, 35],
-                "cfo": [12, 14, 18, 22, 26, 30],
-                "capex": [5, 6, 7, 8, 9, 10],
-                "fcf": [7, 8, 11, 14, 17, 20],
-                "shares_diluted": [100, 100, 100, 100, 100, 100],
-            }.items()
-        }
-    )
+    data = {
+        field: dict(zip(YEARS, [v * SCALE for v in values]))
+        for field, values in {
+            "revenue": [100, 115, 132, 152, 175, 200],
+            "net_income": [10, 12, 15, 18, 22, 26],
+            "operating_income": [15, 17, 20, 24, 28, 33],
+            "ebitda": [20, 23, 27, 32, 37, 43],
+            "interest_expense": [4, 4, 4, 4, 4, 4],
+            "total_assets": [300, 340, 385, 435, 490, 550],
+            "total_equity": [60, 70, 82, 96, 112, 130],
+            "total_debt": [40, 40, 40, 40, 40, 40],
+            "cash": [10, 12, 14, 16, 18, 20],
+            "current_assets": [50, 55, 60, 65, 70, 75],
+            "current_liabilities": [25, 27, 29, 31, 33, 35],
+            "cfo": [12, 14, 18, 22, 26, 30],
+            "capex": [5, 6, 7, 8, 9, 10],
+            "fcf": [7, 8, 11, 14, 17, 20],
+        }.items()
+    }
+    data["shares_diluted"] = dict(zip(YEARS, [SHARES] * len(YEARS)))
+    return FinancialHistory(data=data)
 
 
 def _prices(closes) -> PriceHistory:
@@ -61,6 +69,7 @@ class StubProvider:
         return CompanyInfo(
             ticker=ticker, name="Stub Co", market_cap=3e10,
             shares_outstanding=1e8, currency="INR", insider_pct=0.6,
+            industry="Test Industry",
         )
 
     def get_financials(self, ticker: str) -> FinancialHistory:
@@ -107,7 +116,7 @@ def test_report_contains_all_sections():
         "Technical Analysis",
         "Valuation",
         "Risk Analysis",
-        "Bull / Base / Bear",
+        "3-Year Price Forecast",
         "Entry & Exit Framework",
         "Position Sizing",
         "Score Evidence Appendix",
@@ -167,3 +176,47 @@ def test_report_has_stewardship_section():
     assert "Management & capital allocation" in text
     assert bundle.stewardship is not None
     assert "share count CAGR" in text
+
+
+def test_report_spike_disclosure_survives_an_absent_ratio():
+    """The disclosure is guarded by a NaN test *and* a None test. An assumptions
+    dict that never had the key — ValuationResult() defaults to {} — must render
+    the report with the line omitted, not raise inside format()."""
+    from mbe.report.markdown import render_report
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    assert "Base FCF is the latest year's" in render_report(bundle)
+
+    for assumptions in ({}, {"fcf_spike_ratio": float("nan")}):
+        val = bundle.val.model_copy(update={"assumptions": assumptions})
+        text = render_report(bundle.model_copy(update={"val": val}))
+        assert "Base FCF is the latest year's" not in text
+
+
+def test_screen_populates_forecasts_with_peer_anchors():
+    """Four names share StubProvider's industry, so the group clears MIN_GROUP
+    and every member gets a leave-one-out peer anchor."""
+    result = screen(["A.NS", "B.NS", "C.NS", "D.NS"], StubProvider())
+    assert len(result.ranked) == 4
+    for bundle in result.ranked:
+        assert bundle.forecast is not None
+        assert bundle.forecast.anchor.peer_n >= 1
+        assert [s.name for s in bundle.forecast.scenarios] == ["bull", "base", "bear"]
+
+
+def test_analyze_ticker_populates_a_lower_completeness_forecast():
+    solo = analyze_ticker("GOOD.NS", StubProvider())
+    assert solo.forecast is not None
+    assert solo.forecast.anchor.peer_pe is None
+    assert solo.forecast.completeness < 1.0
+
+
+def test_screen_does_not_double_append_forecast_flags():
+    """analyze_ticker attaches a solo forecast and its flags; the screen-level
+    post-pass replaces both. A flag emitted by each pass must appear once."""
+    from mbe.analysis.forecast import FORECAST_FLAG_CODES
+
+    result = screen(["A.NS", "B.NS", "C.NS", "D.NS"], StubProvider())
+    for bundle in result.ranked:
+        codes = [f.code for f in bundle.risk.flags if f.code in FORECAST_FLAG_CODES]
+        assert len(codes) == len(set(codes)), codes

@@ -329,6 +329,69 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
   server-side only, via Vercel's function logs). Two regression tests
   added.
 
+## v0.13.0 — 2026-07-30 (market-aware 3-year scenario forecast)
+
+Every name in the top 25 was showing downside in **every** scenario, bull
+included, for businesses with 33% ROCE and no debt. Two independent causes,
+both fixed.
+
+### Fixed
+- **DCF base cash flow was a 3-year mean of a level series**, which
+  systematically understates any business whose cash flow is growing and cannot
+  absorb a step change at all. HBLENGINE.NS: FCF ran 58.6 -> 196.2 -> 93.9 ->
+  588.1 (Rs cr), so the mean was 292.7 against a latest of 588.1 — every
+  scenario compounded off 54% of last year's actual cash. Base FCF is now
+  current earning power. Measured: no smoothing variant fixes this; normalizing
+  on the median FCF margin scores *worse* than the bug.
+- **Conservatism sat in the input all three scenarios shared**, so the haircut
+  applied three times and the bull case inherited the bear case's pessimism.
+  The peak-year risk now lives in the bear scenario, exposed as
+  `spike_ratio` rather than baked into the base.
+- **The owner-earnings floor was a second copy of the same bug** (floored at
+  0.7 x 3y-mean net income). Now 0.7 x latest net income, consistent with the
+  base rule.
+- **The report's "delivered-growth median" label described a 25% cap**, not the
+  median it claimed. Removed with the block it lived in.
+
+### Added
+- **3-Year Price Forecast**: bull/base/bear target prices projected from revenue
+  x net margin against an exit multiple blended from leave-one-out peer medians,
+  the stock's own point-in-time P/E history, and a franchise-quality premium.
+  Probability-weighted expected 3y CAGR, with weights drawn from thesis
+  assumption support and franchise score. Every assumption renders as an
+  argue-with-able line plus a full anchor audit trail.
+- **Two-sided sanity guards.** `apply_bull_guard` stops bull stacking sustained
+  growth, margin expansion and full re-rating into fantasy (5x in 3 years,
+  measured). `BASE_RERATE_CAP` stops the base case assuming near-full
+  convergence to peer multiples — BLS trades at 14.2x against 44x peers and was
+  anchoring its *base* case at 45.0x, a +217% re-rating giving a +73%/yr "base"
+  CAGR. Neither the input nor any single scenario may carry all the pessimism or
+  all the optimism.
+- **Coherence flags**: `MULTIPLE_AT_LOW` (trading at the bottom decile of its own
+  multiple history), `EARNINGS_SPIKE` (bear case is load-bearing),
+  `FORECAST_INCOHERENT` (bull assumes less growth than the market already pays
+  for — a model error, not a finding). Reported, never scored.
+- Signed forecast-accuracy measurement in the backtest harness. Signed rather
+  than absolute because the defect being watched for is systematic
+  understatement, which an absolute error would conceal.
+
+### Changed
+- `margin_of_safety` is now honest, which flows into the Valuation pillar and
+  **changes the ranking**. On identical cached data HBLENGINE.NS moved #11 -> #2
+  (Valuation pillar 49 -> 69, MoS -45.2% -> +4.7%). Nine names moved by >= 0.4;
+  the rest were unaffected, as expected — the fix only bites where latest cash
+  flow genuinely diverges from the trailing mean.
+- `AnalysisBundle` carries `prices`; forecasts run as a cross-sectional
+  post-pass in `screen()`, mirroring the sector-pillar contract.
+
+### Validation status
+The forecast **feeds no score**. It is descriptive-only, exactly as
+`franchise_score` and the critique veto already are, until the harness shows it
+earns a place — consistent with `docs/backtest-findings-2026-07.md`, which
+records that none of the current scores show a demonstrated persistent edge. The
+Indian sample spans 2021-2025 and holds barely one non-overlapping 3-year
+window, so initial accuracy evidence will be weak and should be read that way.
+
 ## v0.12.0 — 2026-07-20 (trading-platform UI)
 
 ### Added

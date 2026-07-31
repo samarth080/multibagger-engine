@@ -19,6 +19,7 @@ from pydantic import BaseModel
 from scipy import stats
 
 from mbe.analysis.business import assess_business
+from mbe.analysis.forecast import apply_forecasts
 from mbe.analysis.stewardship import assess_stewardship
 from mbe.analysis.fundamentals import compute_fundamentals
 from mbe.analysis.risk import assess_risk
@@ -54,6 +55,10 @@ class CutoffResult(BaseModel):
     spread: float | None
     hit_rate: float | None
     n: int
+    # Mean signed error of the base-case forecast target; positive means the
+    # forecast came in below what the price actually did. Score-independent,
+    # so every score's result for a given cutoff carries the same value.
+    forecast_mean_error: float | None = None
 
 
 class BacktestReport(BaseModel):
@@ -103,6 +108,24 @@ def evaluate_cutoff(
         "hit_rate": hit_rate,
         "n": n,
     }
+
+
+def forecast_error(predicted: float | None, realized: float | None) -> float | None:
+    """Relative error of a forecast target against the realized price.
+
+    Signed on purpose. The failure this whole module was extended to measure
+    was systematic *understatement* — every scenario, bull included, printing
+    downside for businesses that went on to compound. A mean absolute error
+    would have scored that as merely inaccurate; a mean signed error names the
+    direction, which is the part that was wrong.
+
+    None when there is nothing to compare, or when the prediction is
+    non-positive: a zero or negative target is the wipeout floor from
+    analysis/forecast.py, not a price forecast to grade.
+    """
+    if predicted is None or realized is None or predicted <= 0:
+        return None
+    return realized / predicted - 1
 
 
 def forward_return(
@@ -247,17 +270,39 @@ def run_backtest_multi(
                 continue
             fwd[ticker] = ret
             at_cutoff.append((ticker, bundle))
-        if at_cutoff and any(s in _SECTOR_SCORES for s in score_names):
+        forecast_errors: list[float] = []
+        if at_cutoff:
             context = compute_sector_scores([b for _, b in at_cutoff])
-            # descriptive attach only: base multibagger stays comparable
-            apply_sector_pillar([b for _, b in at_cutoff], context, adjust_score=False)
+            if any(s in _SECTOR_SCORES for s in score_names):
+                # descriptive attach only: base multibagger stays comparable
+                apply_sector_pillar(
+                    [b for _, b in at_cutoff], context, adjust_score=False
+                )
+            # Peer-anchored forecasts, then grade the base case against what the
+            # price actually did. forward_return gives a return, not a price, so
+            # the realized level has to be reconstructed from the cutoff price.
+            apply_forecasts([b for _, b in at_cutoff], context)
+            for ticker, bundle in at_cutoff:
+                if bundle.forecast is None or len(bundle.forecast.scenarios) != 3:
+                    continue
+                base = bundle.forecast.scenarios[1]  # ordered bull, base, bear
+                err = forecast_error(
+                    base.target_price, bundle.val.price * (1 + fwd[ticker])
+                )
+                if err is not None:
+                    forecast_errors.append(err)
+        mean_error = (
+            sum(forecast_errors) / len(forecast_errors) if forecast_errors else None
+        )
         for ticker, bundle in at_cutoff:
             for name in score_names:
                 scores[name][ticker] = _extract_score(bundle, name)
         for name in score_names:
-            per_score_results[name].append(
-                CutoffResult(cutoff=cutoff, **evaluate_cutoff(scores[name], fwd))
-            )
+            per_score_results[name].append(CutoffResult(
+                cutoff=cutoff,
+                forecast_mean_error=mean_error,
+                **evaluate_cutoff(scores[name], fwd),
+            ))
             if collect_raw:
                 raw[name][cutoff.isoformat()] = {
                     t: (scores[name][t], fwd[t]) for t in scores[name]
@@ -303,19 +348,28 @@ def render_backtest_md(report: BacktestReport) -> str:
         f"Horizon: {report.horizon_days} days | Mean Information coefficient "
         f"(Spearman IC): **{fmt(report.mean_ic)}**",
         "",
-        "| Cutoff | IC | Top-quantile fwd | Bottom-quantile fwd | Spread | Hit rate | N |",
-        "|---|---|---|---|---|---|---|",
+        "| Cutoff | IC | Top-quantile fwd | Bottom-quantile fwd | Spread | Hit rate "
+        "| Fcst err | N |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for c in report.cutoffs:
         lines.append(
             f"| {c.cutoff} | {fmt(c.ic)} | {fmt(c.top_q_mean, pct=True)} | "
             f"{fmt(c.bottom_q_mean, pct=True)} | {fmt(c.spread, pct=True)} | "
-            f"{fmt(c.hit_rate, pct=True)} | {c.n} |"
+            f"{fmt(c.hit_rate, pct=True)} | {fmt(c.forecast_mean_error, pct=True)} "
+            f"| {c.n} |"
         )
     lines += [
         "",
         "## Methodology & caveats",
         "",
+        "- **Fcst err** is the mean *signed* error of the 3-year forecast's base-case "
+        "target against the realized price: positive means the forecast came in too "
+        "low. Signed rather than absolute because the defect it exists to catch was "
+        "systematic understatement, which an absolute error would hide. It is only "
+        "meaningful at a horizon near 1095 days — at a shorter one it grades a "
+        "3-year target against a shorter move and will look bad for reasons that "
+        "have nothing to do with the model.",
         "- Strict point-in-time inputs: statements gated by fiscal-year end + 90-day "
         "filing lag; prices truncated at cutoff; present-day holdings/PE/beta "
         "excluded from inputs (no lookahead).",

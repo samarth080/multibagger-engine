@@ -27,12 +27,12 @@ nse = CompositeProvider(fundamentals=NseFundamentals(CACHE), market=YahooProvide
 US_CUTOFFS = [date(y, 7, 15) for y in range(2012, 2024)]
 IN_CUTOFFS = [date(y, 7, 15) for y in range(2016, 2024)]
 
-india = get_universe("nifty-smallcap250", cache=YCACHE)
+india = get_universe("nifty-smallcap250", cache=YCACHE, pinned=True)
 SAMPLES = [
     ("us-smallcap-sample", edgar, US_CUTOFFS,
-     get_universe("us-smallcap-sample", cache=YCACHE)),
+     get_universe("us-smallcap-sample", cache=YCACHE, pinned=True)),
     ("us-smallcap-sample2", edgar, US_CUTOFFS,
-     get_universe("us-smallcap-sample2", cache=YCACHE)),
+     get_universe("us-smallcap-sample2", cache=YCACHE, pinned=True)),
     ("india-primary", nse, IN_CUTOFFS, india[:50]),
     ("india-replication", nse, IN_CUTOFFS, india[50:100]),
 ]

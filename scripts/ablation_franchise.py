@@ -35,7 +35,7 @@ SAMPLES = [
 wins = {s: 0 for s in SCORES}
 totals = 0
 for universe, provider, cutoffs in SAMPLES:
-    tickers = get_universe(universe, cache=YCACHE)
+    tickers = get_universe(universe, cache=YCACHE, pinned=True)
     limit = 50 if universe.startswith("nifty") else None
     reports = run_backtest_multi(
         (tickers[:limit] if limit else tickers), provider, cutoffs, HORIZON,

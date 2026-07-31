@@ -1,6 +1,23 @@
 """Curated starter universes (v0.1). v0.2 replaces these with full exchange
 lists ingested from NSE/BSE indices. Liquid names across sectors, chosen for
-coverage breadth, not as recommendations."""
+coverage breadth, not as recommendations.
+
+Downloaded universes (NSE indices, Wikipedia-derived US samples) are refetched
+on a cache TTL, so their membership drifts as indices rebalance. That is right
+for production screening — you want today's index — and wrong for evidence: two
+ablation runs a week apart silently compare different companies, which makes
+every recorded verdict impossible to re-derive or challenge. `pinned=True`
+reads a version-controlled snapshot instead, and refuses rather than falling
+back, so a run is either reproducible or loudly not.
+"""
+
+from __future__ import annotations
+
+import json
+from datetime import date
+from pathlib import Path
+
+PINNED_DIR = Path(__file__).resolve().parents[2] / "universes"
 
 UNIVERSES: dict[str, list[str]] = {
     "india-largecap": [
@@ -46,8 +63,8 @@ UNIVERSES: dict[str, list[str]] = {
 }
 
 
-def get_universe(name: str, cache=None) -> list[str]:
-    """Curated list, or a dynamic NSE index universe (downloaded + cached)."""
+def _fetch_universe(name: str, cache=None) -> list[str]:
+    """Live membership: curated constant, NSE index, or Wikipedia-derived US sample."""
     if name in UNIVERSES:
         return UNIVERSES[name]
     from mbe.data.universe_nse import NSE_SOURCES, fetch_universe
@@ -60,3 +77,35 @@ def get_universe(name: str, cache=None) -> list[str]:
         return fetch_us_sample(name, cache=cache)
     all_names = sorted(UNIVERSES) + sorted(NSE_SOURCES) + sorted(WIKI_SOURCES)
     raise KeyError(f"unknown universe {name!r}; available: {', '.join(all_names)}")
+
+
+def get_universe(name: str, cache=None, pinned: bool = False) -> list[str]:
+    """Universe membership.
+
+    `pinned=False` (default) returns live membership — correct for the weekly
+    screen, which should track today's index. `pinned=True` returns the
+    version-controlled snapshot and raises if there isn't one: an ablation that
+    quietly fell back to a live fetch would look reproducible while comparing a
+    different set of companies, which is the failure this exists to prevent.
+    """
+    if not pinned or name in UNIVERSES:
+        return _fetch_universe(name, cache=cache)
+    snapshot = PINNED_DIR / f"{name}.json"
+    if not snapshot.exists():
+        raise KeyError(
+            f"no pinned snapshot for {name!r} at {snapshot} — "
+            f"run `mbe.universe.pin_universe({name!r})` to create one"
+        )
+    return json.loads(snapshot.read_text())["tickers"]
+
+
+def pin_universe(name: str, cache=None) -> Path:
+    """Freeze today's membership to a version-controlled snapshot."""
+    tickers = _fetch_universe(name, cache=cache)
+    PINNED_DIR.mkdir(parents=True, exist_ok=True)
+    path = PINNED_DIR / f"{name}.json"
+    path.write_text(json.dumps(
+        {"pinned_at": date.today().isoformat(), "n": len(tickers), "tickers": tickers},
+        indent=1,
+    ) + "\n")
+    return path

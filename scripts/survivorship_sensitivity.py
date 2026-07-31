@@ -50,7 +50,7 @@ def adjusted_mean_ic(panel, delist_frac, ghost_return):
 
 
 for universe in ("us-smallcap-sample", "us-smallcap-sample2"):
-    tickers = get_universe(universe, cache=DiskCache("data/cache", ttl_hours=168))
+    tickers = get_universe(universe, cache=DiskCache("data/cache", ttl_hours=168), pinned=True)
     report = run_backtest_multi(
         tickers, provider, CUTOFFS, HORIZON,
         score_names=["Size Runway"], universe_name=universe, collect_raw=True,

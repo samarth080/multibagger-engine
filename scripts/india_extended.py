@@ -17,7 +17,7 @@ CACHE = DiskCache("data/cache")
 provider = CompositeProvider(fundamentals=NseFundamentals(CACHE), market=YahooProvider(CACHE))
 CUTOFFS = [date(y, 7, 15) for y in range(2016, 2024)]
 
-all_tickers = get_universe("nifty-smallcap250", cache=DiskCache("data/cache", ttl_hours=168))
+all_tickers = get_universe("nifty-smallcap250", cache=DiskCache("data/cache", ttl_hours=168), pinned=True)
 store = RunStore("data/mbe.duckdb")
 
 for name, tickers in [("india-primary", all_tickers[:50]), ("india-replication", all_tickers[50:100])]:

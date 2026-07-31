@@ -563,3 +563,68 @@ descriptive-only, the same treatment as franchise (Addendum 9), stewardship
 survivorship-biased sample in a bull regime is not grounds to loosen guards
 that exist to stop the model assuming the market is wholesale wrong. Re-testing
 against a survivorship-free sample is the open item.
+
+---
+
+## Addendum 16 — stewardship re-run after the EDGAR share-count fix: not promoted, and the protocol was not reproducible
+
+Addendum 15 found that `edgar._annual_facts` read only `units["USD"]` while EDGAR
+files share counts under `units["shares"]`, so `shares_diluted` was empty for
+every US ticker. That is not a peripheral gap for stewardship — it is the
+module's largest input:
+
+| stewardship component | weight | status before the fix |
+|---|---|---|
+| `dilution_discipline` | **0.30** | **absent entirely** |
+| `allocation_fit` | 0.30 | fine |
+| `debt_discipline` | 0.25 | fine |
+| `shareholder_returns` | 0.15 | degraded — `max(dividends, buybacks)` with buybacks always `None` |
+
+US stewardship was therefore scored on at most 0.70 of its weight, and the
+**"Serial Diluter" classification was unreachable** on US data: both branches
+depend on share counts. ADEA dilutes 12.7%/yr across 57% of its years and
+scored as though none of it were happening. Addendum 12's verdict was measured
+against a score that could not see dilution at all.
+
+**Re-run, 2026-07-31**, same script and pre-registered rule:
+
+| Sample | base IC (A12 → now) | stewardship IC (A12 → now) |
+|---|---|---|
+| us-smallcap-sample | +0.098 → **−0.012** | +0.076 → **+0.079** |
+| us-smallcap-sample2 | −0.028 → **+0.014** | −0.030 → **+0.019** |
+| nifty-smallcap250 | +0.232 → **+0.221** | +0.218 → **+0.170** |
+
+Nominal verdict: **2/3 → promote to first-class score.** Not acted on.
+
+**Why the flip is not trustworthy:**
+
+1. **India moved too, and India cannot have been affected.** NSE derives share
+   counts from paid-up capital ÷ face value and was never touched by the bug,
+   yet its base IC shifted +0.232 → +0.221. Something other than the EDGAR fix
+   differs between runs.
+2. **That something is universe drift.** `sample_evenly` is deterministic given
+   a pool, but the pool is a live Wikipedia/NSE constituents page cached for
+   168h. Any two ablation runs more than a week apart compare *different
+   companies*. This run drew a different 80 names than Addendum 12 did.
+3. **One "win" is by 0.005** (+0.014 vs +0.019), and every US IC sits within
+   ±0.08 on 80-name samples — indistinguishable from zero.
+4. **On the only sample with meaningful signal, base wins**: India +0.221 vs
+   +0.170. Promoting here would repeat Addendum 14's own lesson, that a
+   positive standalone reading does not make a blend better.
+
+**The larger finding: no recorded ablation verdict was reproducible.**
+Franchise (A9), stewardship (A12) and sector (A14) were each measured against a
+silently-redrawing sample, so none could be re-derived or challenged. Fixed in
+this commit: `get_universe(..., pinned=True)` reads a version-controlled
+snapshot under `universes/` and **raises rather than falling back**, so a run is
+either reproducible or loudly not. Production screening (`scripts/build_site.py`)
+deliberately stays unpinned — the weekly site should track today's index. All
+nine evidence scripts now pin. Snapshots frozen 2026-07-31: 80 / 80 / 250.
+
+**Open thread:** base multibagger IC on `us-smallcap-sample` fell +0.098 →
+−0.012 when `share_count_cagr_3y` (weight 0.10 in Financial Strength) re-entered
+the pillar. That is either drift or evidence that the dilution metric is an
+anti-signal on US smallcaps. Now answerable, against the pinned sample.
+
+**Shipped accordingly:** stewardship stays descriptive-only. No promotion, no
+recalibration. The verdict is re-testable for the first time.

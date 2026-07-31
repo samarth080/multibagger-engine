@@ -31,7 +31,7 @@ SAMPLES = [
 
 wins = 0
 for universe, provider, cutoffs, limit in SAMPLES:
-    tickers = get_universe(universe, cache=YCACHE)
+    tickers = get_universe(universe, cache=YCACHE, pinned=True)
     reports = run_backtest_multi(
         (tickers[:limit] if limit else tickers), provider, cutoffs, HORIZON,
         score_names=SCORES, universe_name=universe,

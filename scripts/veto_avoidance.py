@@ -45,7 +45,7 @@ def _stats(returns):
 
 all_vetoed, all_ok = [], []
 for universe, provider, cutoffs, limit in SAMPLES:
-    tickers = get_universe(universe, cache=YCACHE)
+    tickers = get_universe(universe, cache=YCACHE, pinned=True)
     tickers = tickers[:limit] if limit else tickers
     vetoed, ok = [], []
     for cutoff in cutoffs:

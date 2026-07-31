@@ -36,7 +36,7 @@ pairs: list[tuple[float, bool]] = []
 saved = resolved_n = 0
 
 for universe, provider, cutoffs, limit in SAMPLES:
-    tickers = get_universe(universe, cache=YCACHE)[:limit]
+    tickers = get_universe(universe, cache=YCACHE, pinned=True)[:limit]
     for cutoff in cutoffs:
         later = cutoff + timedelta(days=365)
         if later > date.today():

@@ -18,7 +18,7 @@ from mbe.universe import get_universe
 CACHE = DiskCache("data/cache")
 provider = CompositeProvider(fundamentals=NseFundamentals(CACHE), market=YahooProvider(CACHE))
 
-tickers = get_universe("nifty-smallcap250", cache=DiskCache("data/cache", ttl_hours=168))[50:100]
+tickers = get_universe("nifty-smallcap250", cache=DiskCache("data/cache", ttl_hours=168), pinned=True)[50:100]
 report = run_backtest(
     tickers, provider,
     cutoffs=[date(2021, 7, 15), date(2022, 7, 15), date(2023, 7, 15)],

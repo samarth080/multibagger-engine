@@ -29,7 +29,7 @@ provider = CompositeProvider(
 store = RunStore("data/mbe.duckdb")
 
 for universe in ("us-smallcap-sample", "us-smallcap-sample2"):
-    tickers = get_universe(universe, cache=DiskCache("data/cache", ttl_hours=168))
+    tickers = get_universe(universe, cache=DiskCache("data/cache", ttl_hours=168), pinned=True)
     reports = run_backtest_multi(
         tickers, provider, CUTOFFS, HORIZON,
         score_names=SCORES, universe_name=universe,

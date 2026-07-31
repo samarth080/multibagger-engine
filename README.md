@@ -113,7 +113,9 @@ default, Groww-inspired light behind a persistent ☀/☾ toggle.
 - **What the page shows** — the top-25 multibagger/investment ranking,
   week-over-week entries/exits, sector-momentum context, 3-5 recent
   headlines per pick, policy/scheme headlines per industry (each sourced
-  and dated), and delayed (~15 min) quotes.
+  and dated), and delayed (~15 min) quotes. Each pick's report page carries
+  peer-comparison, ownership, financial-trend and scenario charts (v0.15) as
+  inline SVG — no JavaScript, and they follow the theme toggle.
 - **Architecture** — a GitHub Actions job runs the weekly build every
   Monday pre-open IST and commits the rebuilt `site/` back to the repo;
   Vercel's git integration auto-deploys on that push (no CLI, no token).

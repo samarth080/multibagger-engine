@@ -329,6 +329,45 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
   server-side only, via Vercel's function logs). Two regression tests
   added.
 
+## v0.15.0 — 2026-08-01 (report charts)
+
+### Added
+- **Peer comparison** on every report: the stock against its industry cohort
+  from the same screen, as a ranked table with proportional bars plus a
+  quality-vs-growth scatter. HBL has the best ROCE (32.9%) and best revenue
+  growth (34.5%) in its 8-name group at the second-cheapest P/E — true before
+  this release, and invisible.
+- **Shareholding donut**, **financial trend bars** (revenue, net income, FCF
+  as small multiples, loss years below the zero line), and a **three-year
+  scenario chart** whose bars run from today's price, so an all-downside
+  forecast looks wrong at a glance.
+- All charts are server-rendered inline SVG: no JavaScript, no dependency, no
+  external request, and they follow the light/dark toggle because they
+  reference the theme's CSS variables rather than literal colours.
+
+### Fixed
+- **Yahoo's ownership fields contradict each other for 4 of the 25 picks.**
+  `insider_pct` disagrees with the company's own reported float by 54pp for
+  HBL (8.1% claimed against ~62% implied), and by 11-21pp for three others.
+  The donut draws regardless, by decision, but states the contradiction on the
+  chart rather than smoothing it. On the live build the check fires on exactly
+  those four names and no others.
+
+### Notes
+- Report pages are **longer**, not shorter. "Chart replaces table" turned out
+  to have almost nothing to replace: the Financial Analysis table holds ratios
+  while the trend bars hold history, and Ownership and Peer Comparison are new
+  sections. The one real trim is the scenario table dropping its Target and
+  3y CAGR columns, which the chart now labels directly. Assumptions stay.
+- Two of the 25 picks (HINDCOPPER, IGIL) are ungrouped — their industry had
+  fewer than MIN_GROUP members — so they render the peer section as an
+  explanation rather than a chart.
+
+### Validation status
+Descriptive only. No chart adds a pillar, a weight or a risk flag — the same
+contract as sector themes, news/policy, franchise and stewardship. Charts
+render values the engine already computed.
+
 ## v0.14.0 — 2026-07-31 (news & policy context)
 
 ### Fixed

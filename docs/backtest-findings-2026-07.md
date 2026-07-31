@@ -724,3 +724,81 @@ would have been hindsight.
 +0.005, −0.051 → **1/3, demoted.** The judgment call made there — decline the
 nominal 2/3 promotion — is what the amended rule produces mechanically. Verdict
 unchanged; it now follows from the protocol rather than from an override.
+
+---
+
+## Addendum 18 — franchise and sector re-run on pinned universes: both verdicts hold, one supporting claim does not
+
+First re-run of the two remaining ablations against **pinned** samples, under
+the amended rule (win requires `IC_score >= IC_base + 0.05`).
+
+### Franchise: 0/3, demoted — confirmed
+
+| sample | base multibagger | franchise | margin |
+|---|---|---|---|
+| us-smallcap-sample | −0.012 | −0.036 | −0.024 |
+| us-smallcap-sample2 | +0.014 | −0.022 | −0.036 |
+| nifty-smallcap250 | +0.221 | **−0.166** | −0.387 |
+
+Negative in every sample. Addendum 9's verdict holds, and the margin threshold
+does not change it — 0/3 under either rule. This is the first time that
+conclusion has been confirmed against a sample another person can reproduce.
+
+Also from this run: **Quality alone scored +0.280 on India against a +0.221
+composite** — margin +0.059, clearing the new threshold. Only 1/3 samples
+(Quality is −0.066 and −0.056 on the US ones), so no promotion. Noted because it
+is the second India reading suggesting a *component* may beat the *blend* it
+sits in.
+
+### Sector blend: 0/4, demoted — confirmed
+
+| sample | base | +sector | margin |
+|---|---|---|---|
+| us-smallcap-sample | −0.012 | −0.021 | −0.009 |
+| us-smallcap-sample2 | +0.014 | +0.009 | −0.005 |
+| india-primary | +0.099 | +0.098 | −0.001 |
+| india-replication | +0.137 | +0.128 | −0.009 |
+
+`SECTOR_PILLAR_LIVE` stays `False`. Unchanged under either rule.
+
+### But Addendum 14's standalone claim does not replicate
+
+A14's first interpretation point read: *"Sector-alone IC was positive in all
+four samples (+0.034 / +0.042 / +0.081 / +0.319) — weak but consistently
+positive standalone signal, a genuinely different pattern from franchise."*
+
+On pinned samples:
+
+| sample | A14 sector-alone | now |
+|---|---|---|
+| us-smallcap-sample | +0.034 | +0.026 |
+| us-smallcap-sample2 | +0.042 | **−0.033** |
+| india-primary | +0.081 | **−0.103** |
+| india-replication | +0.319 | +0.140 |
+
+**Two of four flip sign.** "Consistently positive in all four samples" was an
+artifact of the drifting universe, not a property of the signal. The +0.319
+outlier A14 already distrusted lands at +0.140 on the pinned sample, which is
+the direction that scepticism predicted.
+
+The *shipped decision* was right either way — sector was demoted on the blend
+test, not on the standalone reading. But the standalone reading was used to
+argue sector was qualitatively unlike franchise, and that argument no longer
+stands: on pinned data, sector-alone is 2-positive/2-negative, which is not
+meaningfully different from noise.
+
+**Honest interpretation:**
+
+1. **All three demotions survive pinning.** Franchise (A9), stewardship (A16
+   under the amended rule) and sector (A14) are unchanged. No shipped decision
+   in this document was wrong.
+2. **One supporting argument was drift.** The claim that sector-alone was
+   consistently positive does not replicate. Directional claims drawn from
+   redrawing samples were never safe, and this is the concrete example.
+3. **The base score's own India IC is windowing-sensitive, as Addendum 13
+   found**: +0.221 on 3 cutoffs (2021-23) vs +0.099/+0.137 on 8 (2016-23).
+   Consistent, and a reminder that cutoff choice moves these numbers more than
+   most of the signals being tested do.
+
+**Shipped accordingly:** no change to any score, weight or flag. Addendum 14's
+interpretation point 1 is retracted; its verdict stands.

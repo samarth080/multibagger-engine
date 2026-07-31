@@ -3,6 +3,7 @@
 import re
 
 from mbe.models.company import CompanyInfo, FinancialHistory
+from mbe.models.forecast import MultipleAnchor, PriceForecast, ScenarioPath
 from mbe.report import charts, svg
 
 
@@ -189,3 +190,52 @@ def test_peer_scatter_needs_three_plottable_points():
 def test_peer_charts_are_none_for_an_empty_group():
     assert charts.peer_table([]) is None
     assert charts.peer_scatter([]) is None
+
+
+def _forecast(price=717.0, targets=(1600.0, 1210.0, 640.0)):
+    names = ("bull", "base", "bear")
+    probs = (0.25, 0.5, 0.25)
+    return PriceForecast(
+        ticker="HBLENGINE.NS", base_fiscal_year=2026, price=price,
+        anchor=MultipleAnchor(anchor=30.0, quality_multiplier=1.1),
+        scenarios=[
+            ScenarioPath(name=n, probability=p, growth_start=0.30,
+                         growth_end=0.15, terminal_net_margin=0.18,
+                         exit_multiple=30.0, revenue_fy3=1.0e10,
+                         eps_fy3=40.0, target_price=t,
+                         cagr_3y=(t / price) ** (1 / 3) - 1)
+            for n, p, t in zip(names, probs, targets)
+        ],
+        completeness=1.0,
+    )
+
+
+def test_scenario_chart_labels_every_target_and_the_current_price():
+    out = charts.scenario_chart(_forecast(), "INR")
+    assert out is not None
+    for name in ("Bull", "Base", "Bear"):
+        assert name in out
+    assert "717" in out            # today's price marked
+    assert "1,600" in out or "1600" in out
+    assert "\n\n" not in out
+
+
+def test_scenario_chart_colours_downside_as_a_loss():
+    out = charts.scenario_chart(_forecast(), "INR")
+    assert svg.GAIN in out    # bull and base are above today
+    assert svg.LOSS in out    # bear is below it
+
+
+def test_scenario_chart_handles_an_all_downside_forecast():
+    """The v0.13 bug this engine shipped was every scenario negative; the
+    chart must render that honestly rather than break."""
+    out = charts.scenario_chart(_forecast(targets=(600.0, 500.0, 400.0)), "INR")
+    assert out is not None
+    assert svg.LOSS in out
+    assert svg.GAIN not in out
+
+
+def test_scenario_chart_is_none_without_scenarios():
+    f = _forecast()
+    f.scenarios = []
+    assert charts.scenario_chart(f, "INR") is None

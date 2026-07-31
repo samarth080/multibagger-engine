@@ -14,6 +14,7 @@ import math
 from dataclasses import dataclass
 
 from mbe.models.company import CompanyInfo, FinancialHistory
+from mbe.models.forecast import PriceForecast
 from mbe.report import svg
 
 TREND_FIELDS = (
@@ -278,3 +279,43 @@ def peer_scatter(rows: list[PeerRow]) -> str | None:
             parts.append(svg.text(cx, cy - r - 4, p.name, fill=svg.SUBJECT,
                                   size=8, anchor="middle"))
     return svg.document(320, 190, "Quality versus growth against peers", parts)
+
+
+def scenario_chart(forecast: PriceForecast, currency: str | None) -> str | None:
+    """Three-year targets as bars running from today's price.
+
+    Horizontal, one row per scenario, each bar starting at the current price
+    so the direction of the bet is the shape of the picture. Bars above are
+    gains, below are losses — the engine shipped a version where every
+    scenario was negative, and that has to look wrong at a glance."""
+    if not forecast.scenarios:
+        return None
+
+    price = forecast.price
+    targets = [s.target_price for s in forecast.scenarios]
+    lo, hi = min(targets + [price]), max(targets + [price])
+    left, right = 92.0, 400.0
+    height = int(52 + ROW_H * 1.6 * len(forecast.scenarios))
+    x_price = svg.scale(price, lo, hi, left, right)
+
+    parts = [
+        svg.text(8, 14, f"{forecast.horizon_years}-year scenarios", size=10,
+                 weight="600"),
+        svg.line(x_price, 22, x_price, height - 22, dash="3 3"),
+        svg.text(x_price, height - 10, f"today {price:,.0f}",
+                 fill=svg.MUTED, size=8, anchor="middle"),
+    ]
+    for i, s in enumerate(forecast.scenarios):
+        y = 40.0 + i * ROW_H * 1.6
+        x_target = svg.scale(s.target_price, lo, hi, left, right)
+        up = s.target_price >= price
+        parts.append(svg.text(8, y + 4, s.name.capitalize(), size=9, weight="600"))
+        parts.append(svg.text(52, y + 4, f"{s.probability * 100:.0f}%",
+                              fill=svg.MUTED, size=8))
+        parts.append(svg.rect(min(x_price, x_target), y - 4,
+                              abs(x_target - x_price), 10,
+                              svg.GAIN if up else svg.LOSS))
+        parts.append(svg.text(x_target + (6 if up else -6), y + 4,
+                              f"{s.target_price:,.0f}  ({s.cagr_3y * 100:+.0f}%/yr)",
+                              size=8, anchor="start" if up else "end"))
+    return svg.document(470, height, "Three-year price scenarios", parts)

@@ -53,7 +53,12 @@ def analyze(
     bundle = analyze_ticker(ticker, _provider(fundamentals))
     out.mkdir(parents=True, exist_ok=True)
     path = out / f"{ticker.replace('.', '_')}_{bundle.as_of}.md"
-    path.write_text(render_report(bundle))
+    from mbe.data.news_rss import company_news, sector_policy
+
+    cache = DiskCache(CACHE_DIR)
+    news = company_news(bundle.info.name or ticker, ticker, cache=cache)
+    policy = sector_policy(bundle.info.sector, bundle.info.industry, cache=cache)
+    path.write_text(render_report(bundle, news=news, policy=policy))
     card = bundle.card
     console.print(
         f"Investment [bold]{card.investment_score}[/bold] | "

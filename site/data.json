@@ -1,5 +1,5 @@
 {
- "built_at": "2026-07-31T06:16:46.852562+00:00",
+ "built_at": "2026-07-31T12:11:56.096851+00:00",
  "universe": "nifty-smallcap250",
  "curated_as_of": "2026-07-17",
  "top": [
@@ -63,7 +63,7 @@
    "conf": 0.983,
    "risk": 0,
    "trend": "strong_down",
-   "price_at_build": 699.2999877929688,
+   "price_at_build": 718.7000122070312,
    "group": "Electrical Equipment & Parts",
    "group_rank": 2,
    "group_score": 78.5,
@@ -759,51 +759,6 @@
    "gated": false
   },
   {
-   "ticker": "IGIL.NS",
-   "name": "INTL GEMOLOGICAL INST LTD",
-   "mb": 67.3,
-   "inv": 70.1,
-   "conf": 0.891,
-   "risk": 0,
-   "trend": "sideways",
-   "price_at_build": 352.0,
-   "group": "",
-   "group_rank": 0,
-   "group_score": 0.0,
-   "tags": [],
-   "news": [
-    {
-     "title": "IGIL Share Price Today - International Gemological Institute on NSE/BSE - scanx.trade",
-     "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTFB4TTJsTG9wZjZnYVlYQ19pUUU0dXR6a1EzVWh5R1FaZkZ0QUpMVUxQamZxcE5SY0loazgzdEJGdkNraEg2eFdNZUxWTmRvYmY0OEJncWNpWUJLdHZmMEQyRC1MSU12enVTUDRGY0VXZXNQUnZRbnQ0?oc=5",
-     "published": "2026-07-30T03:38:36Z",
-     "source": "scanx.trade",
-     "sectors": []
-    },
-    {
-     "title": "International Gemological Institute Ltd Revenue Breakdown \u2013 NSE:IGIL - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1lY2tyWWZuNndsTkhLNU5HX2dIOXdsVzhZUHRKUXc4ajFkWUEyMUFzY3pNaWVOclIyS0k1LW5FNjZ1SVhKQ2R6TnM1NmlrVmNsNkltQ0tCRXpxdDVGRFZpVW9ZRzlFTHI4ejg4cTYzOHNTMm8?oc=5",
-     "published": "2026-07-25T14:40:21Z",
-     "source": "TradingView",
-     "sectors": []
-    },
-    {
-     "title": "IGIL makes Q4FY26 earnings call audio available on website - scanx.trade",
-     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOeUlRVUJUMnU4M2VTQl8tODFMdFVZQkVhUEl1Rlc4dG1aVzAxbWRCWFlLVGFMNFR0aTQ2UWh5dXBnYS1BS2s4ZGprN05TNkpMNmlDY19iT1FkU1dEUWpJNE0xSUEyTXNYbWdZM2VTQ2xFckVyUE1HMUc1OVkyUVJDSlI4Snl0aE9SMW5VeG81cDVGUEFlb0lMcFpuR19SY3A1bWVPM1otWlZ4UjhQcVJpNUtaMkdKUQ?oc=5",
-     "published": "2026-07-23T17:18:36Z",
-     "source": "scanx.trade",
-     "sectors": []
-    },
-    {
-     "title": "IGIL: Q1 FY27 saw 23% revenue and 29% EBITDA growth, with strong momentum across all segments - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMihwJBVV95cUxONURqS1Y1anRYREktMTU4WlJPNTVUazJOTWx4ZW1WQTdKYnQxb2pISGdXRUMtMk9sMlBEUGxNd1BVOXJJWEJCS2FpeHJwWDlTazJNRC1IWVk4bVAyXzhCSVNfdkJUaGIzb2hEakhPZklBWFRKYWFPX0ZPNVF6S1FmUlpMVllUcmt4X1MyQnBaUXVEb0UtMlo5ZmRjZWRUMk0xOWxOSUhfWHR6b0RDWm4tMWtGYU5lYUNxc010Mm93bXJwZGt3WEstMEYyWVhZRGU3bmhLVzJGTjVFQlV3Z3lMWjNPcGZKNXh2WDVKN3pCcXdLZ2Z0YW1FVWlUblFucl96cnBpb0R3aw?oc=5",
-     "published": "2026-07-23T15:34:21Z",
-     "source": "TradingView",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
    "ticker": "NETWEB.NS",
    "name": "NETWEB TECH INDIA LTD",
    "mb": 67.3,
@@ -849,44 +804,6 @@
      "title": "Buy Netweb Technologies India; target of Rs 5360: ICICI Securities - TradingView",
      "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOWkQwbmZSbC1ZWjFtWlVLSlFSdlBlRzdJMVNndVpWemdKNEd1WWl1elhybzJqNUF3M2s3anVGX20wNlFFU3JwTi1OYlVXNnlsRUpLMXBnMEpSb19TN3hIdURJRnZ2YXhnNmJmdnVJeUVrbElNUl9yVkVUVGFJT2tjUlZoQnJYa1p1a0NySk5qM2J6amhfelJzaXJvVl9XZnJDRU1TMTRRS1dYLUNTT1p4N3A3b3FOVnpCVU5oLTM4QTZXZTJoVVE?oc=5",
      "published": "2026-07-30T09:24:56Z",
-     "source": "TradingView",
-     "sectors": []
-    }
-   ],
-   "gated": false
-  },
-  {
-   "ticker": "LTFOODS.NS",
-   "name": "LT FOODS LIMITED",
-   "mb": 67.1,
-   "inv": 60.6,
-   "conf": 0.983,
-   "risk": 0,
-   "trend": "sideways",
-   "price_at_build": 410.1499938964844,
-   "group": "Packaged Foods",
-   "group_rank": 11,
-   "group_score": 54.0,
-   "tags": [],
-   "news": [
-    {
-     "title": "LTFOODS: Revenue up 26% YoY, PAT up 9%, with strong international growth and improved leverage - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMiggJBVV95cUxNLUZIaEVHeERHa0JpRnFpalpsOXNoS01uU1g3Ql9oR3UzNGFyQzM3c3FKZ0pNaWxpYlVjWVBDQTVLRVRudDdTNHhtaWJCM0RWdEdxYS1vM3lyUWlwSlItSTVld2xFUTZPNjdqaHozUjFQNUdrSWNCLUc1UkpFVWIxRkVZY045ZUJxQkQtajR4UV9xT0hDMTFOYUQ3NWRYMEVsZXlOREtNcmN6NGdXNFpnTjVEMG53RzZvME9Xbnl1T1duUkhETVJhaVZKOHJROHp3c1BCb2hpd3ExMldLSmpyTGtLM2RBS3h6eXZPTGxGV3hqY0VjUEl5OEdzRXpMQUktTXc?oc=5",
-     "published": "2026-07-30T13:10:50Z",
-     "source": "TradingView",
-     "sectors": []
-    },
-    {
-     "title": "LT Foods Sets Dividend Record Date for FY26 Dividend - InvestyWise",
-     "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPclk2YnYxaUltX3lZcGZDbVNoZ2Q3Ung1NjhnMVJ2T2tSbG5CNW42cVZGT2hQaHYyVGlxdW5HUGpRUmV0T2dGSVRBc2lFVFZRZXdnZHUtbm5JVFpQS2s2VC16SjNURlVaWldscnBJOVJzRU1lbng1QWhyRWhueGxuVktlQ0k3aThzQTIySEUwekc?oc=5",
-     "published": "2026-07-30T07:56:04Z",
-     "source": "InvestyWise",
-     "sectors": []
-    },
-    {
-     "title": "LTFOODS: Q1 FY27 saw strong revenue and profit growth, with robust margins and stable outlook - TradingView",
-     "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxPcm5IZkJCMl9tTlZhUDQxVUROYkZSY3ZHcW5uQzlkb0ZNd082TEdWYVhHNFdqdG1Cd3J5OXVnSnpIejA2ZW9VZTAyczV0akIwUWZaZGhiby1rWW1GRnVrT2JQSmQ2bEp1elp5NnozbXd3X2hJVGVPTFNwZ19GQ2RTME5LbnF2NnhaRnluVWJieDh4NThGWjY5ZjNjZG1IbHpvTG15WlUwVW84blE0V2Y2SzlvNnoySDNSN2xYdko0MC1NU19keV81RU5aUDhTN3Z4UWtkLU9qQVQ2UE10Q3FsWl80WGxqLTNMREY4NGttbGd1WWpKb2lac3Z3LUFPbjc5aWVxQQ?oc=5",
-     "published": "2026-07-30T07:39:17Z",
      "source": "TradingView",
      "sectors": []
     }
@@ -978,6 +895,51 @@
    "gated": false
   },
   {
+   "ticker": "IGIL.NS",
+   "name": "INTL GEMOLOGICAL INST LTD",
+   "mb": 66.8,
+   "inv": 69.4,
+   "conf": 0.891,
+   "risk": 0,
+   "trend": "sideways",
+   "price_at_build": 352.0,
+   "group": "",
+   "group_rank": 0,
+   "group_score": 0.0,
+   "tags": [],
+   "news": [
+    {
+     "title": "IGIL Share Price Today - International Gemological Institute on NSE/BSE - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTFB4TTJsTG9wZjZnYVlYQ19pUUU0dXR6a1EzVWh5R1FaZkZ0QUpMVUxQamZxcE5SY0loazgzdEJGdkNraEg2eFdNZUxWTmRvYmY0OEJncWNpWUJLdHZmMEQyRC1MSU12enVTUDRGY0VXZXNQUnZRbnQ0?oc=5",
+     "published": "2026-07-30T03:38:36Z",
+     "source": "scanx.trade",
+     "sectors": []
+    },
+    {
+     "title": "International Gemological Institute Ltd Revenue Breakdown \u2013 NSE:IGIL - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1lY2tyWWZuNndsTkhLNU5HX2dIOXdsVzhZUHRKUXc4ajFkWUEyMUFzY3pNaWVOclIyS0k1LW5FNjZ1SVhKQ2R6TnM1NmlrVmNsNkltQ0tCRXpxdDVGRFZpVW9ZRzlFTHI4ejg4cTYzOHNTMm8?oc=5",
+     "published": "2026-07-25T14:40:21Z",
+     "source": "TradingView",
+     "sectors": []
+    },
+    {
+     "title": "IGIL makes Q4FY26 earnings call audio available on website - scanx.trade",
+     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOeUlRVUJUMnU4M2VTQl8tODFMdFVZQkVhUEl1Rlc4dG1aVzAxbWRCWFlLVGFMNFR0aTQ2UWh5dXBnYS1BS2s4ZGprN05TNkpMNmlDY19iT1FkU1dEUWpJNE0xSUEyTXNYbWdZM2VTQ2xFckVyUE1HMUc1OVkyUVJDSlI4Snl0aE9SMW5VeG81cDVGUEFlb0lMcFpuR19SY3A1bWVPM1otWlZ4UjhQcVJpNUtaMkdKUQ?oc=5",
+     "published": "2026-07-23T17:18:36Z",
+     "source": "scanx.trade",
+     "sectors": []
+    },
+    {
+     "title": "IGIL: Q1 FY27 saw 23% revenue and 29% EBITDA growth, with strong momentum across all segments - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMihwJBVV95cUxONURqS1Y1anRYREktMTU4WlJPNTVUazJOTWx4ZW1WQTdKYnQxb2pISGdXRUMtMk9sMlBEUGxNd1BVOXJJWEJCS2FpeHJwWDlTazJNRC1IWVk4bVAyXzhCSVNfdkJUaGIzb2hEakhPZklBWFRKYWFPX0ZPNVF6S1FmUlpMVllUcmt4X1MyQnBaUXVEb0UtMlo5ZmRjZWRUMk0xOWxOSUhfWHR6b0RDWm4tMWtGYU5lYUNxc010Mm93bXJwZGt3WEstMEYyWVhZRGU3bmhLVzJGTjVFQlV3Z3lMWjNPcGZKNXh2WDVKN3pCcXdLZ2Z0YW1FVWlUblFucl96cnBpb0R3aw?oc=5",
+     "published": "2026-07-23T15:34:21Z",
+     "source": "TradingView",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
    "ticker": "CARTRADE.NS",
    "name": "CARTRADE TECH LIMITED",
    "mb": 66.7,
@@ -1024,6 +986,44 @@
      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNX1FBQ1ZaYkJqUHZjcXRwdUdXdWFwMGt3bEZ3Z0NMcnhFWG1pR1Q4X01la3BlUjN2TXdQWFFrRGp4MVFCQl9VNmVfSl9mM1dpM1d2Z3JEdjQ0aDVBYU42SVc2UVB4MGhrYVdTVFkwRXItMGJtMEp1MmlUZkZTV05Udml3THZyOGEwaGxXVHk5cm9ULUtLcWJzNFBRUGxFcms?oc=5",
      "published": "2026-07-29T21:42:33Z",
      "source": "Indian Television Dot Com",
+     "sectors": []
+    }
+   ],
+   "gated": false
+  },
+  {
+   "ticker": "LTFOODS.NS",
+   "name": "LT FOODS LIMITED",
+   "mb": 66.2,
+   "inv": 59.3,
+   "conf": 0.983,
+   "risk": 0,
+   "trend": "sideways",
+   "price_at_build": 410.1499938964844,
+   "group": "Packaged Foods",
+   "group_rank": 11,
+   "group_score": 54.0,
+   "tags": [],
+   "news": [
+    {
+     "title": "LTFOODS: Revenue up 26% YoY, PAT up 9%, with strong international growth and improved leverage - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMiggJBVV95cUxNLUZIaEVHeERHa0JpRnFpalpsOXNoS01uU1g3Ql9oR3UzNGFyQzM3c3FKZ0pNaWxpYlVjWVBDQTVLRVRudDdTNHhtaWJCM0RWdEdxYS1vM3lyUWlwSlItSTVld2xFUTZPNjdqaHozUjFQNUdrSWNCLUc1UkpFVWIxRkVZY045ZUJxQkQtajR4UV9xT0hDMTFOYUQ3NWRYMEVsZXlOREtNcmN6NGdXNFpnTjVEMG53RzZvME9Xbnl1T1duUkhETVJhaVZKOHJROHp3c1BCb2hpd3ExMldLSmpyTGtLM2RBS3h6eXZPTGxGV3hqY0VjUEl5OEdzRXpMQUktTXc?oc=5",
+     "published": "2026-07-30T13:10:50Z",
+     "source": "TradingView",
+     "sectors": []
+    },
+    {
+     "title": "LT Foods Sets Dividend Record Date for FY26 Dividend - InvestyWise",
+     "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPclk2YnYxaUltX3lZcGZDbVNoZ2Q3Ung1NjhnMVJ2T2tSbG5CNW42cVZGT2hQaHYyVGlxdW5HUGpRUmV0T2dGSVRBc2lFVFZRZXdnZHUtbm5JVFpQS2s2VC16SjNURlVaWldscnBJOVJzRU1lbng1QWhyRWhueGxuVktlQ0k3aThzQTIySEUwekc?oc=5",
+     "published": "2026-07-30T07:56:04Z",
+     "source": "InvestyWise",
+     "sectors": []
+    },
+    {
+     "title": "LTFOODS: Q1 FY27 saw strong revenue and profit growth, with robust margins and stable outlook - TradingView",
+     "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxPcm5IZkJCMl9tTlZhUDQxVUROYkZSY3ZHcW5uQzlkb0ZNd082TEdWYVhHNFdqdG1Cd3J5OXVnSnpIejA2ZW9VZTAyczV0akIwUWZaZGhiby1rWW1GRnVrT2JQSmQ2bEp1elp5NnozbXd3X2hJVGVPTFNwZ19GQ2RTME5LbnF2NnhaRnluVWJieDh4NThGWjY5ZjNjZG1IbHpvTG15WlUwVW84blE0V2Y2SzlvNnoySDNSN2xYdko0MC1NU19keV81RU5aUDhTN3Z4UWtkLU9qQVQ2UE10Q3FsWl80WGxqLTNMREY4NGttbGd1WWpKb2lac3Z3LUFPbjc5aWVxQQ?oc=5",
+     "published": "2026-07-30T07:39:17Z",
+     "source": "TradingView",
      "sectors": []
     }
    ],
@@ -1282,106 +1282,116 @@
  ],
  "policy": [
   {
-   "title": "\u092a\u094d\u0930\u0927\u093e\u0928\u092e\u0902\u0924\u094d\u0930\u0940 \u0928\u0947 \u0936\u0939\u0940\u0926 \u0909\u0927\u092e \u0938\u093f\u0902\u0939 \u0915\u094b \u0936\u094d\u0930\u0926\u094d\u0927\u093e\u0902\u091c\u0932\u093f \u0905\u0930\u094d\u092a\u093f\u0924 \u0915\u0930\u0924\u0947 \u0939\u0941\u090f \u0938\u0902\u0938\u094d\u0915\u0943\u0924 \u0938\u0941\u092d\u093e\u0937\u093f\u0924 \u0938\u093e\u091d\u093e \u0915\u093f\u092f\u093e",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292163",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "Uddhav Thackeray Comments on Youth, Policy and Delimitation - Whalesbook",
+   "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOWkFQUEFDeTlfWk5maEMtU2pWc2xnVDZBUmtybmotSkhMaVlVdTk5T3RTOGNwMUVYT2dNMzBtN1doakt4WHhpSUxxVkZlSFppcnlJWGpxQTJwOXdKTmNlUTFqRnZpZjdRcUMxZFlBS1FuZ0NOYzZYbmNjZ3ZrWUx1aTlrY2FlX0trM214T1dZdkFMQjRBcC1peVd0ZmJHN2U5TDJnS0d2UFVnelVKSVJsdHh6NlhUV2w2VnhSOU1RNGFoQV9hLWMtMg?oc=5",
+   "published": "2026-07-30T06:35:23Z",
+   "source": "Whalesbook",
+   "sectors": [
+    "Aerospace & Defense"
+   ]
   },
   {
-   "title": "\u092a\u094d\u0930\u0927\u093e\u0928\u092e\u0902\u0924\u094d\u0930\u0940 \u0928\u0947 \u092a\u0930\u0940\u0915\u094d\u0937\u093e \u092a\u094d\u0930\u0923\u093e\u0932\u0940 \u0915\u094b \u0905\u0927\u093f\u0915 \u092e\u091c\u092c\u0942\u0924 \u092c\u0928\u093e\u0928\u0947 \u0935\u093e\u0932\u0947 \u0935\u093f\u0927\u0947\u092f\u0915 \u0915\u0947 \u0938\u0902\u0938\u0926 \u0938\u0947 \u092a\u093e\u0930\u093f\u0924 \u0939\u094b\u0928\u0947 \u0915\u0940 \u0938\u0930\u093e\u0939\u0928\u093e \u0915\u0940",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292136",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "Government Reviews Easing FDI Rules for Downstream Investments - Whalesbook",
+   "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPTG5uTzRiSEZVVlhmY1hHV3I0dWF5T3Z0NGhGVDRQZ3BEMlZXT3hLeUdRWHRLUmVPNy1zV3dDOEg1ZnpTVUxMNzZhZlkwV1lhUWJMZXJhYnhqOW1Zakx6MHJWSE9hNmhzR2xuelNXYTFSUnhJZW5mWmpXcEM1NVY0cFRMMU9VZXBwekJySWN0Z1lmWEp1WkREb0RzQUtpb2pKWFVBYldqMUxCTktFQTUyT0lwVF9QcXQtOWZoN1IwOTRJZUJPUWc5WWtRbENidktw?oc=5",
+   "published": "2026-07-28T13:10:38Z",
+   "source": "Whalesbook",
+   "sectors": [
+    "Aerospace & Defense"
+   ]
   },
   {
-   "title": "\u0930\u093e\u091c\u094d\u092f\u0938\u092d\u093e \u0928\u0947 \u0927\u094d\u0935\u0928\u093f \u092e\u0924 \u0938\u0947 \u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u092a\u0930\u0940\u0915\u094d\u0937\u093e (\u0905\u0928\u0941\u091a\u093f\u0924 \u0938\u093e\u0927\u0928\u094b\u0902 \u0915\u0940 \u0930\u094b\u0915\u0925\u093e\u092e) \u0938\u0902\u0936\u094b\u0927\u0928 \u0935\u093f\u0927\u0947\u092f\u0915, 2026 \u092a\u093e\u0930\u093f\u0924 \u0915\u093f\u092f\u093e",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292158",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "EV policy goes beyond purchase incentives, lays structural roadmap for clean mobility: Centre - ET Government",
+   "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxORzdTSjhZSGNFUXBaTDl4c08tWFF5ZlhSMXVjekplSlFwTHBWNVNSODlNU2llbFJ5OC1UUjFFSndRUUZVV2tOLU04eUJaWXRqdkxGMEVGejRvcGF4R2VjTGtvaDAwb3lHbTRMVl9ITUE0dG12TEdqVi1aMUNBeDBxU2dYakRoLTNmMnVJQUhGMFJCUkhPazJ1Mk9QbjNxTG0tMWRuX0NPemtERGJnTVRHTGpMMFdMVi0yMS1NQmZBVXpNWXd0Y0JBZTRIQUJxcjVpcGVnYW12SmZ3OGvSAeABQVVfeXFMTWRCNTB5N05xUzE1U05NVVBfNHNjUGhpZUtoSHNPMmhVbWlwYlNiVVZuSEhpWUtnN1NZbE9kNUIwbGRUd1h2eXJyc29XWUhjdU1rUkdRdjhXRHBpY202YTd3Z2VHNEhIX2huV0RwRzRxZFZfVF96TWh1Z2VSRmNDWWRtcU92dVNKMFBSd0c3ZVV3WXYyUXFXa3pqNE0wQU5vUkVYaUZ5cFJPNkx3Szg1N09remI5TldndE1hcXBXNGpQeXJxdVdXQ1F4ZExzNDRkTVlxamItMjhKanQ1UFdpY2Q?oc=5",
+   "published": "2026-07-28T10:37:08Z",
+   "source": "ET Government",
+   "sectors": [
+    "Auto Manufacturers"
+   ]
   },
   {
-   "title": "\u0926\u0942\u0930\u0938\u0902\u091a\u093e\u0930 \u0935\u093f\u092d\u093e\u0917 \u0928\u0947 \u0917\u094d\u0935\u093e\u0932\u093f\u092f\u0930 \u092e\u0947\u0902 \u0926\u0942\u0930\u0938\u0902\u091a\u093e\u0930 \u0935\u093f\u0928\u093f\u0930\u094d\u092e\u093e\u0923 \u0915\u094d\u0937\u0947\u0924\u094d\u0930 (\u091f\u0940\u090f\u092e\u091c\u0947\u0921) \u0915\u0940 \u0938\u094d\u0925\u093e\u092a\u0928\u093e \u0915\u0947 \u0932\u093f\u090f \u092e\u0927\u094d\u092f \u092a\u094d\u0930\u0926\u0947\u0936 \u0938\u0930\u0915\u093e\u0930 \u0915\u0947 \u0938\u093e\u0925 \u0938\u092e\u091d\u094c\u0924\u093e \u091c\u094d\u091e\u093e\u092a\u0928 (\u090f\u092e\u0913\u092f\u0942) \u092a\u0930 \u0939\u0938\u094d\u0924\u093e\u0915\u094d\u0937\u0930 \u0915\u093f\u090f",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292156",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "India's New EV Policy Focuses on Local Manufacturing Goals - Whalesbook",
+   "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNMWpTMk9LT2FHMnNxVjkxSktTcTdaZEVBeTZfOHFIX0ZLRm5TLTlDU0RSc1JyZXd4VW5CLWNXN1hjaGNPN1pnVjU0T2hLZkpwam5CeTdxbWxaSkw1RWt4ZlcybzY0NlJzUjA4N2RjN09GbVFmY3lucE9DMjM2UTlheHowanlYU2FsbjZkNWdTaDhjaFptME5QOHJVNThQVmJjR3VmMkRRSWgwckpicDB3RTNsLXJyLTZzZ2ZfSnNxcjlsczlseXc?oc=5",
+   "published": "2026-07-28T10:34:24Z",
+   "source": "Whalesbook",
+   "sectors": [
+    "Auto Manufacturers"
+   ]
   },
   {
-   "title": "\u0938\u094d\u0935\u091a\u094d\u091b\u0924\u093e \u092a\u0916\u0935\u093e\u0921\u093c\u093e 2026: \u0938\u0942\u0915\u094d\u0937\u094d\u092e, \u0932\u0918\u0941 \u090f\u0935\u0902 \u092e\u0927\u094d\u092f\u092e \u0909\u0926\u094d\u092f\u092e \u092e\u0902\u0924\u094d\u0930\u093e\u0932\u092f \u0928\u0947 \u0938\u094d\u0935\u091a\u094d\u091b\u0924\u093e, \u0938\u0924\u0924 \u0935\u093f\u0915\u093e\u0938 \u0914\u0930 \u091c\u0928\u092d\u093e\u0917\u0940\u0926\u093e\u0930\u0940 \u0915\u0947 \u092a\u094d\u0930\u0924\u093f \u0905\u092a\u0928\u0940 \u092a\u094d\u0930\u0924\u093f\u092c\u0926\u094d\u0927\u0924\u093e \u0926\u094b\u0939\u0930\u093e\u0908",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292202",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "India's New EV Policy Focuses on Local Manufacturing Goals - Whalesbook",
+   "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNMWpTMk9LT2FHMnNxVjkxSktTcTdaZEVBeTZfOHFIX0ZLRm5TLTlDU0RSc1JyZXd4VW5CLWNXN1hjaGNPN1pnVjU0T2hLZkpwam5CeTdxbWxaSkw1RWt4ZlcybzY0NlJzUjA4N2RjN09GbVFmY3lucE9DMjM2UTlheHowanlYU2FsbjZkNWdTaDhjaFptME5QOHJVNThQVmJjR3VmMkRRSWgwckpicDB3RTNsLXJyLTZzZ2ZfSnNxcjlsczlseXc?oc=5",
+   "published": "2026-07-28T10:34:24Z",
+   "source": "Whalesbook",
+   "sectors": [
+    "Auto Parts"
+   ]
   },
   {
-   "title": "\u0926\u0942\u0938\u0930\u0947 \u0938\u094d\u0935\u0926\u0947\u0936\u0940 \u0917\u094b\u0924\u093e\u0916\u094b\u0930\u0940 \u0938\u0939\u093e\u092f\u0924\u093e \u092a\u094b\u0924 \u2018\u0928\u093f\u092a\u0941\u0923\u2019 \u0915\u094b \u0928\u094c\u0938\u0947\u0928\u093e \u0915\u094b \u0938\u094c\u0902\u092a\u093e \u0917\u092f\u093e",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292197",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "Zero Funds for Next Pandemic? - NewsClick",
+   "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5HM0RDQlloSVU5TzB4Yk9EMEVKUDdXdkNHalR6MmdyUnZnNVRMR2hhWVYxbDFuX2w3MDk5SnNwWWJvc0VOZDRfdFZhLUpyaFdCN1V5bDVuaUJqaXFrRmfSAWNBVV95cUxOQkphQW9UZVpXSlZJQzc1ZTJPYTB5ZGk4Z2FhbDRmMlNmbTRKZ1djT2RMRjg2RnZteTVwV3pSSkUwZm1ZcGZlcHlwUWFYS0drNlltNERNVGpLbjhHaWZHNG1YTlU?oc=5",
+   "published": "2026-07-29T08:04:06Z",
+   "source": "NewsClick",
+   "sectors": [
+    "Diagnostics & Research"
+   ]
   },
   {
-   "title": "\u0935\u093f\u0915\u0938\u093f\u0924 \u092d\u093e\u0930\u0924 2047 \u0915\u0947 \u0932\u0915\u094d\u0937\u094d\u092f\u094b\u0902 \u0915\u094b \u092a\u094d\u0930\u093e\u092a\u094d\u0924 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0938\u0930\u0915\u093e\u0930 \u0915\u0947 \u092a\u094d\u0930\u092f\u093e\u0938\u094b\u0902 \u0915\u0947 \u0924\u0939\u0924 \u092d\u093e\u0930\u0924 \u0938\u092e\u0941\u0926\u094d\u0930\u0940 \u0915\u094d\u0937\u092e\u0924\u093e \u0915\u0947 \u0935\u093f\u0938\u094d\u0924\u093e\u0930 \u092e\u0947\u0902 \u0924\u0947\u091c\u0940 \u0932\u093e \u0930\u0939\u093e \u0939\u0948",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292160",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "X-ray equipment \u2013 Building the intelligent imaging ecosystem - Medical Buyer",
+   "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOMzduZ3Z0MElhVWJUeVpHQjRkdWRrR1M5STlaR2pRcjNwTEphWkF4QU5qZTZvUjNwUEFQRDVDb21xc2dTQXl2OWQtanNMTVFHeWVvR0VCTXhVX3RqQlV4UDlXYnYzR1VvbWt5NWlwaFVXTmVtSS0xSGtYZnJjbGtoWXAtQVEtLWpZWnN2TkpIWG1TUQ?oc=5",
+   "published": "2026-07-28T10:06:21Z",
+   "source": "Medical Buyer",
+   "sectors": [
+    "Diagnostics & Research"
+   ]
   },
   {
-   "title": "\u090f\u092a\u0940\u0921\u093e \u0928\u0947 \u092b\u094d\u0932\u0947\u0935\u0930 \u0935\u093e\u0932\u0947 \u092e\u0942\u0932\u094d\u092f\u0935\u0930\u094d\u0927\u093f\u0924 \u092e\u0916\u093e\u0928\u0947 \u0915\u0940 \u092a\u0939\u0932\u0940 \u0938\u092e\u0941\u0926\u094d\u0930\u0940 \u0916\u0947\u092a \u092c\u093f\u0939\u093e\u0930 \u0938\u0947 \u0915\u0928\u093e\u0921\u093e \u0924\u0915 \u092d\u0947\u091c\u0928\u0947 \u092e\u0947\u0902 \u092e\u0926\u0926 \u0915\u0940",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292059",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "Cigna raises annual profit forecast on strength in specialty drug unit - Reuters",
+   "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOQlpMTWFYUEJTMjJBVHBNZVFCaUstQm5FSGNwbUVyRHBYcTNsUXVrVm54OUJyYkV6NkZBcnMxYmxUeW5QUHBadEpYOXExRU05NGx2YlFMQTM1NlpUdm9mV09QLWdlS2pRd1d5eS14NG5GYnZwU1ViUWoyWWFfZGFNRkdZdkxHWEVaYURLT3ZPaTZ0bDFJQ2ZuVkkxc3ZPMlgwSDQtR1IxQnBEVmNXUFViOFJkekowMUV2VkE?oc=5",
+   "published": "2026-07-30T15:11:43Z",
+   "source": "Reuters",
+   "sectors": [
+    "Drug Manufacturers - Specialty & Generic"
+   ]
   },
   {
-   "title": "\u0915\u0947\u0928\u094d\u0926\u094d\u0930\u0940\u092f \u091c\u0932\u0936\u0915\u094d\u0924\u093f \u092e\u0902\u0924\u094d\u0930\u0940 \u0928\u0947 \u092e\u0939\u093e\u0928\u0926\u0940 \u091c\u0932 \u0935\u093f\u0935\u093e\u0926 \u0915\u093e \u0938\u094c\u0939\u093e\u0930\u094d\u0926\u092a\u0942\u0930\u094d\u0923 \u0938\u092e\u093e\u0927\u093e\u0928 \u0928\u093f\u0915\u093e\u0932\u0928\u0947 \u0939\u0947\u0924\u0941 \u091b\u0924\u094d\u0924\u0940\u0938\u0917\u0922\u093c \u0914\u0930 \u0913\u0921\u093f\u0936\u093e \u0915\u0947 \u092e\u0941\u0916\u094d\u092f\u092e\u0902\u0924\u094d\u0930\u093f\u092f\u094b\u0902 \u0915\u0947 \u0938\u093e\u0925 \u092c\u0948\u0920\u0915 \u0915\u0940 \u0905\u0927\u094d\u092f\u0915\u094d\u0937\u0924\u093e \u0915\u0940",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292065",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "Branded Drug Tariff Arrives Friday: Generics Now Face Their Own 2028 Deadline - techtimes.com",
+   "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPSWx3RThmNHFkTVY2XzRPSjR3Wk9tMV9iZHFCQnAzY3FjWUtwUkRUdDg0T0FYT3pPOHJlRUFvdGxYbEtSQXU3NHotZE45WUgwbGR3SGRHcjEzbDNXMzkzY0hraGota1YzLWpGNTdaZFF3eVcyMUN4eDhyYnF6Wko5UWJYZ3B2c0tmWVVxVnl2RUlNam5XZVdIY05pajhGajdqQlo2MUFnbHd2WU1kSXp4ZGlhOWlJeHNMUjFuNG5USnRoRzVhckd5dElkdw?oc=5",
+   "published": "2026-07-29T12:48:52Z",
+   "source": "techtimes.com",
+   "sectors": [
+    "Drug Manufacturers - Specialty & Generic"
+   ]
   },
   {
-   "title": "\u092a\u094d\u0930\u0927\u093e\u0928\u092e\u0902\u0924\u094d\u0930\u0940 \u0928\u0947 \u092a\u0936\u094d\u091a\u093f\u092e \u090f\u0936\u093f\u092f\u093e \u092e\u0947\u0902 \u091c\u093e\u0930\u0940 \u0938\u0902\u0918\u0930\u094d\u0937 \u0915\u0947 \u0939\u093e\u0932\u093e\u0924 \u0915\u0940 \u0938\u092e\u0940\u0915\u094d\u0937\u093e \u0915\u0947 \u0932\u093f\u090f \u0938\u0940\u0938\u0940\u090f\u0938 \u0915\u0940 \u092c\u0948\u0920\u0915 \u0915\u0940 \u0905\u0927\u094d\u092f\u0915\u094d\u0937\u0924\u093e \u0915\u0940",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292033",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "Circular Economy - environment.ec.europa.eu",
+   "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBZeUQ0WmpYVmFpTEl6dlJFMDZLTkdHOFVXZnJhX1A0U3E5bHRzemZsWWliblZYdUc0RmlzWXhVWnBxZnNDVTlJQXRfb2lQZkwyVEJrZXVTelBsNHRCMlgzLTFGaFJYbkUzUzdwek1B?oc=5",
+   "published": "2026-07-27T12:00:00Z",
+   "source": "environment.ec.europa.eu",
+   "sectors": [
+    "Electrical Equipment & Parts"
+   ]
   },
   {
-   "title": "\u0907\u0925\u0947\u0928\u0949\u0932 \u092e\u093f\u0936\u094d\u0930\u093f\u0924 \u092a\u0947\u091f\u094d\u0930\u094b\u0932 \u0915\u0947 \u092c\u093e\u0930\u0947 \u092e\u0947\u0902 \u0924\u0925\u094d\u092f: \u0917\u0932\u0924 \u0927\u093e\u0930\u0923\u093e\u0913\u0902 \u0914\u0930 \u0924\u0925\u094d\u092f\u094b\u0902 \u092e\u0947\u0902 \u0905\u0902\u0924\u0930",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2292130",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "Inside India's $25.6 Billion Push To Build Core EV Tech, Cut Imports - NDTV",
+   "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNbGp4dEJITmJHMXFJOVFDdENfMFFJVEJEeFlYcjY1WmtVVjhzUzN5UHNHQmwtVUU3OGgyc3kzOVJhN0tCaTc2YjcxNFRXdHdrVVFxa213Vk1lbHR2czlRdHIwSHVJYk5QSnN6Z3pxLU9fN3JQbGxIZ1hFbVBhOVZlS0xwcmlKUGt2YzZoMWJIUzFxLUhEUkQ4c1hHTDJhWi1YU2ltdGdlMEJtWkQtRmdaRmJBVkhjaXBteWI0Vkl30gHGAUFVX3lxTE9obWplRDBHUWpVcWwtMWZ4ZHVTZG5Ydi1vT0RmeTdwRmxvMkZEZ0l1RG1FNUNYOVpCUlB6d2xNWnB2UzFFeVFzbzNSSU5ZR3VNRVlFWEhIOEI5RktVb2otNHFNTUt3TGVnalo0VzlTMTFoU01jTllLcm1Ed0RsYlV3VURVcWMtNTl1WGstb2RFTkdfdF9NT3JIX0Z1RWdEVGUybng0ZjhCVjEyLUFtcXJyX2UxUnRtZ0tUN3BDN1o0X18ybnJoQQ?oc=5",
+   "published": "2026-07-27T01:32:58Z",
+   "source": "NDTV",
+   "sectors": [
+    "Electrical Equipment & Parts"
+   ]
   },
   {
-   "title": "\u0915\u0947\u0928\u094d\u0926\u094d\u0930\u0940\u092f \u0917\u0943\u0939 \u090f\u0935\u0902 \u0938\u0939\u0915\u093e\u0930\u093f\u0924\u093e \u092e\u0902\u0924\u094d\u0930\u0940 \u0936\u094d\u0930\u0940 \u0905\u092e\u093f\u0924 \u0936\u093e\u0939 \u0928\u0947 \u0930\u093e\u0937\u094d\u091f\u094d\u0930\u092a\u0924\u093f \u0936\u094d\u0930\u0940\u092e\u0924\u0940 \u0926\u094d\u0930\u094c\u092a\u0926\u0940 \u092e\u0941\u0930\u094d\u092e\u0941 \u0915\u0947 \u0938\u093e\u0925 \u092c\u0938\u094d\u0924\u0930 \u0915\u0940 \u0938\u093e\u092e\u093e\u091c\u093f\u0915 \u092a\u0930\u0902\u092a\u0930\u093e\u0913\u0902 \u0915\u0947 \u092a\u094d\u0930\u092e\u0941\u0916 \u092e\u093e\u0902\u091d\u0940-\u091a\u093e\u0932\u0915\u0940 \u0914\u0930 \u092c\u0938\u094d\u0924\u0930 \u092a\u0902\u0921\u0941\u092e \u0915\u0947 \u0935\u093f\u091c\u0947\u0924\u093e\u0913\u0902 \u0915\u0947 \u0938\u093e\u0925 \u0938\u0902\u0935\u093e\u0926 \u0915\u093f\u092f\u093e",
-   "link": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2291988",
-   "published": null,
-   "source": null,
-   "sectors": []
+   "title": "Thailand Approves Major Visa Rule Changes for Tourists and Visa on Arrival in 2026 - safariindia.com",
+   "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5aV1lPc0tkTGNXN2t1cjJMTHdGTGNwQjB1WnFUWE5Wd3VLSnpBeGdYdnUxenIyMmdJWWxnbXd1empJa3o2S0FYbDRJWjJxNHpiZUVDY3FZLVVObFZfQUZ4WV9uNm00cTdFZ3JqNnh3?oc=5",
+   "published": "2026-07-28T11:11:29Z",
+   "source": "safariindia.com",
+   "sectors": [
+    "Lodging"
+   ]
   }
  ],
  "changes": {
-  "entered": [
-   "KFINTECH.NS",
-   "ECLERX.NS",
-   "IGIL.NS",
-   "LTFOODS.NS",
-   "LEMONTREE.NS",
-   "CAPLIPOINT.NS"
-  ],
-  "exited": [
-   "JMFINANCIL.NS",
-   "INDIAMART.NS",
-   "TRAVELFOOD.NS",
-   "LALPATHLAB.NS",
-   "SCHNEIDER.NS",
-   "KARURVYSYA.NS"
-  ]
+  "entered": [],
+  "exited": []
  }
 }

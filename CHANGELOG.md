@@ -329,6 +329,36 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
   server-side only, via Vercel's function logs). Two regression tests
   added.
 
+## v0.14.0 — 2026-07-31 (news & policy context)
+
+### Fixed
+- **Every report shipped a placeholder.** `Catalysts & Policy Tailwinds`
+  rendered the literal text "modules arrive in v0.3 — this section will
+  populate automatically" in every report ever published. It never populated.
+- **Site policy tagging could never match.** `PIB_RSS_URL` served Hindi
+  headlines while `POLICY_KEYWORDS` matched lowercase English, so 0 of 12 items
+  tagged in the last build. `Lang=1/2/3` and `Regid=1..6` all return Hindi or an
+  empty feed — not a parameter fix. The build printed "12 policy items" either
+  way, so the failure was invisible.
+
+### Added
+- **Recent News & Policy Context** in every report: dated, sourced, English
+  headlines for the company and for its industry's policy environment, with
+  explicit "none found" text on every empty branch — silence is what let the
+  old version look like it worked.
+- `sector_policy()` builds a policy query from the stock's industry against the
+  Google News pipeline that already works. **The query is the relevance
+  filter**, so no separate keyword-matching step remains that can fail quietly.
+
+### Removed
+- `policy_items`, `PIB_RSS_URL`, `POLICY_KEYWORDS` and their test. A second
+  policy path that has never produced a tagged item is worse than none.
+
+### Validation status
+Descriptive only. No pillar, no weight, no risk flag — the same contract as
+sector themes, franchise and stewardship. Headlines are evidence a reader
+weighs, not catalysts the engine has identified.
+
 ## v0.13.0 — 2026-07-30 (market-aware 3-year scenario forecast)
 
 Every name in the top 25 was showing downside in **every** scenario, bull

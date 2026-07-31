@@ -100,9 +100,14 @@ def main() -> None:
         for item in sector_policy(None, key, cache=cache)
     ]
     with_news = sum(1 for v in news.values() if v)
+    # "N items across K sectors" would read as coverage of all K queried; most
+    # industries have no policy headline in any given week. Report the sectors
+    # that actually returned something — overstating this line is the exact
+    # failure that let the dead PIB path look healthy for months.
+    covered = len({s for p in policy for s in p.sectors})
     print(
-        f"news for {with_news}/{TOP_N} picks | "
-        f"{len(policy)} policy items across {len(industries)} sectors",
+        f"news for {with_news}/{TOP_N} picks | {len(policy)} policy items "
+        f"from {covered}/{len(industries)} sectors queried",
         flush=True,
     )
 

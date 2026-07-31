@@ -33,6 +33,26 @@ def test_parse_rss_extracts_items_and_skips_empty_titles():
     assert items[3].published is None  # undated survives parsing
 
 
+def test_parse_rss_strips_the_publisher_google_appends_to_titles():
+    """Google News files the publisher in <source> AND appends it to the
+    title, so rendering both gives "… - Mint — Mint, 2d ago"."""
+    xml = GOOGLE_RSS.replace(
+        "<title>Natco Pharma wins US approval</title>",
+        "<title>Natco Pharma wins US approval - Economic Times</title>", 1,
+    )
+    items = parse_rss(xml)
+    assert items[0].title == "Natco Pharma wins US approval"
+    assert items[0].source == "Economic Times"
+
+
+def test_parse_rss_keeps_a_dash_phrase_that_is_not_the_publisher():
+    xml = GOOGLE_RSS.replace(
+        "<title>Natco Pharma wins US approval</title>",
+        "<title>Natco Pharma wins US approval - what it means</title>", 1,
+    )
+    assert parse_rss(xml)[0].title == "Natco Pharma wins US approval - what it means"
+
+
 def test_dedupe_recent_windows_dedupes_and_sorts():
     items = dedupe_recent(parse_rss(GOOGLE_RSS), days=7, limit=5, now=NOW)
     titles = [i.title for i in items]
@@ -111,9 +131,12 @@ def test_company_news_feed_failure_degrades_to_empty():
     assert company_news("X Ltd", "X.NS", cache=None, fetcher=boom) == []
 
 
-def test_sector_policy_queries_industry_and_tags_it(tmp_path):
+def test_sector_policy_queries_the_regulator_not_the_taxonomy_label(tmp_path):
     """The query IS the relevance filter — there is no keyword-matching step
-    left that can silently fail, which is what killed the PIB path."""
+    left that can silently fail, which is what killed the PIB path. Which
+    makes the query wording the whole ballgame: "Electrical Equipment & Parts"
+    is a Yahoo label no journalist writes, so it returns national-policy
+    filler. POLICY_TERMS swaps in the words the regulator is named by."""
     from mbe.data.news_rss import sector_policy
 
     seen = {}
@@ -126,15 +149,38 @@ def test_sector_policy_queries_industry_and_tags_it(tmp_path):
         "Industrials", "Electrical Equipment & Parts",
         cache=DiskCache(tmp_path), fetcher=fake,
     )
-    assert "Electrical+Equipment" in seen["url"] or "Electrical%20Equipment" in seen["url"]
+    assert "CEA" in seen["url"] and "transmission" in seen["url"]
+    assert "Electrical" not in seen["url"]  # the taxonomy label is not searched
     assert "Industrials" not in seen["url"]  # industry wins over sector
+    assert "when%3A7d" in seen["url"]  # feed window matches dedupe_recent's
     assert [i.title for i in items] == [
         "Cabinet clears Rs 25,000cr power grid scheme",
         "PLI scheme extended for electrical equipment",
     ]
-    # sectors carries the key the query was built from, so a flat multi-sector
-    # list can be filtered back per stock
+    # sectors carries the INDUSTRY, not the search term: the report filters a
+    # flat multi-industry list by its own info.industry, and the page shows a
+    # reader the industry rather than the query internals
     assert all(i.sectors == ["Electrical Equipment & Parts"] for i in items)
+
+
+def test_sector_policy_falls_back_to_the_raw_label_when_unmapped(tmp_path):
+    """A missing POLICY_TERMS entry must still search. This is what makes the
+    table safe to leave stale: it degrades to the old behaviour rather than
+    silently matching nothing, which is how the deleted PIB tagger failed."""
+    from mbe.data.news_rss import POLICY_TERMS, sector_policy
+
+    seen = {}
+
+    def fake(url):
+        seen["url"] = url
+        return POLICY_RSS
+
+    assert "Underwater Basket Weaving" not in POLICY_TERMS
+    items = sector_policy(
+        None, "Underwater Basket Weaving", cache=DiskCache(tmp_path), fetcher=fake
+    )
+    assert "Underwater" in seen["url"] and "Weaving" in seen["url"]
+    assert all(i.sectors == ["Underwater Basket Weaving"] for i in items)
 
 
 def test_sector_policy_falls_back_to_sector_then_gives_up(tmp_path):

@@ -1155,3 +1155,69 @@ cause in a comment. Same principle as `MIN_ANALYZED` refusing to publish a
 degraded ranking: a broken input must fail loudly, not render as if it worked.
 The stub report section and the missing English source are left open and
 documented rather than papered over.
+
+## Addendum 25 — the policy query is the whole feature, and it is measurable
+
+Addendum 24 recorded that policy tagging had never worked. v0.14 replaced it
+with `sector_policy()`, whose design principle is that **the query is the
+relevance filter** — there is no matching step left to fail silently. That
+moves the entire quality question onto the query wording, so the query was
+measured rather than assumed.
+
+**Method.** The 20 distinct industries across the live top-25 were queried
+with each candidate wording, live, cache bypassed. Every returned headline
+(the deduped, in-window set the site would actually publish) was hand-scored
+as relevant or not: relevant = about India *and* about that industry's
+policy, regulatory or structural environment. Scoring was done by reading
+titles, and the raw per-industry output is preserved in the session record.
+This is a one-week snapshot on the sample that motivated it — a relevance
+measurement, not a predictive claim, and nothing here is scored.
+
+| query shape | relevant / items | precision | industries returning anything |
+|---|---|---|---|
+| `{industry} India government policy scheme` (shipped in v0.14) | 8 / 12 | 67% | 7 / 20 |
+| `{industry} India (PLI OR subsidy OR scheme OR tariff OR regulation)` | — | worse | 20 / 20 |
+| `"{industry}" India policy` | — | precise but empty | 8 / 20 |
+| plain-English industry nouns | 51 / 90 | 57% | 19 / 20 |
+| **regulator-anchored terms** | **76 / 90** | **84%** | **20 / 20** |
+
+**Three findings, in order of how much they surprised the author.**
+
+1. **Adding policy vocabulary makes relevance worse.** OR-ing `scheme OR
+   subsidy OR tariff` filled every industry to the 5-item cap and dropped
+   precision: those words match any Indian government story, while a weak
+   industry token contributes nothing. Lodging returned a pilgrimage scheme
+   and *"NRI **lodges** ₹1.75cr fraud complaint"*; Software returned a farmer
+   cash scheme. The instinct to broaden the query was exactly backwards.
+
+2. **Yahoo's taxonomy labels are not news vocabulary.** Quoting the label
+   forced precision but returned nothing for `Software - Application`,
+   `Specialty Business Services`, `Other Precious Metals & Mining` — phrases
+   no journalist writes. It still leaked *Northeast **Indiana*** and a Korean
+   builder, because quoting does not constrain the country.
+
+3. **The signal is the regulator's name.** Every industry scoring 5/5 on
+   plain nouns had a named regulator or scheme in its term (SEBI, IRDAI,
+   FSSAI); every industry scoring 0-1/5 had a generic noun phrase. Rebuilding
+   the table on that rule moved Electrical Equipment 2/5 → 5/5 (CEA
+   transmission, Green Energy Corridor), Steel 1/5 → 4/5 (EU quotas,
+   anti-dumping duty), Specialty Business Services 0/1 → 5/5 (GST).
+
+**Weak cells, recorded rather than tuned away.** Diagnostics & Research
+returned 0/2 (two copies of a doctor's lifetime-achievement award) and Copper
+2-3/5. Both terms could be refitted against this week's headlines, which is
+how a table starts describing one sample instead of the domain. They are left
+as they are and named here as the first candidates to revisit.
+
+**A rejected fix.** Two titles appeared under ≥3 unrelated industries
+(ibef.org's recycled-materials piece under 6), so a cross-industry frequency
+filter was considered. It would have removed 10% of items — real, but it is
+post-fetch filtering, the exact shape of the mechanism that failed in
+Addendum 24. Rejected on principle for a 10% gain.
+
+**Shipped:** `POLICY_TERMS` in `src/mbe/data/news_rss.py`, with
+`POLICY_TERMS_AS_OF` and the extension rule (anchor on the regulator) in the
+comment. It is a **query-side** table, unlike the deleted matcher: a missing
+entry falls through to the raw label and still searches, degrading to 57%
+rather than to nothing, and `build_site.py` prints unmapped industries on
+every build so drift in the universe is visible.

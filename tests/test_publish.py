@@ -108,6 +108,33 @@ def test_render_site_writes_index_reports_and_data(tmp_path):
     assert "Recent News &amp; Policy Context" in report
 
 
+def test_render_site_groups_policy_under_its_industry(tmp_path):
+    """The regulator-anchored query returns ~90 items across 20 industries;
+    as one flat list that is an unreadable wall, so the page groups it."""
+    result = _result()
+    data = build_data(result, {}, policy=[
+        NewsItem(title="SEBI eases norms", link="https://x/1",
+                 published=NOW, sectors=["Capital Markets"]),
+        NewsItem(title="SEBI clears AIF route", link="https://x/2",
+                 published=NOW, sectors=["Capital Markets"]),
+        NewsItem(title="FSSAI notice to energy drinks", link="https://x/3",
+                 published=NOW, sectors=["Packaged Foods"]),
+    ], built_at=NOW)
+    render_site(data, {"entered": [], "exited": []}, result, tmp_path)
+    index = (tmp_path / "index.html").read_text()
+
+    # each industry names itself once, not once per headline
+    assert index.count(">Capital Markets<") == 1
+    assert index.count(">Packaged Foods<") == 1
+    for title in ("SEBI eases norms", "SEBI clears AIF route",
+                  "FSSAI notice to energy drinks"):
+        assert title in index
+    # and both of Capital Markets' items sit under its heading, before the next
+    start = index.index(">Capital Markets<")
+    assert index.index("SEBI clears AIF route") > start
+    assert index.index("SEBI eases norms") > start
+
+
 def test_render_site_prunes_dropped_ticker_pages(tmp_path):
     # a report page for a ticker no longer in the top table must not stay
     # live at its old URL presenting stale analysis as current

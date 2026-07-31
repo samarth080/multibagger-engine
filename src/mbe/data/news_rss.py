@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import urllib.parse
 import urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
 from defusedxml import ElementTree
@@ -25,6 +25,45 @@ GOOGLE_NEWS_URL = (
     "https://news.google.com/rss/search?q={query}&hl=en-IN&gl=IN&ceid=IN:en"
 )
 _UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+
+POLICY_TERMS_AS_OF = date(2026, 7, 31)
+
+# Yahoo industry/sector label -> the words Indian policy journalism actually
+# uses for it. Measured, not guessed: querying the taxonomy label itself
+# ("Software - Application", "Specialty Business Services") returns generic
+# national-policy filler, because no journalist writes those phrases. Across
+# the 20 industries in the live top-25, hand-scoring every returned headline
+# gave 67% relevant on the raw label (and only 7/20 industries returning
+# anything at all), 57% on plain-English industry nouns, and 84% across 20/20
+# industries once each term was anchored on the *regulator or scheme* — SEBI,
+# IRDAI, FSSAI, CEA, NPPA, PLI. That is the rule for extending this table.
+#
+# This is a query-side table, not the keyword matcher that was deleted in
+# v0.14: a missing entry falls through to the raw label and still searches, so
+# it degrades to the old behaviour rather than silently matching nothing.
+# `scripts/build_site.py` prints unmapped industries on every build.
+POLICY_TERMS: dict[str, str] = {
+    "Aerospace & Defense": "defence ministry procurement indigenisation",
+    "Auto & Truck Dealerships": "road transport ministry vehicle registration",
+    "Auto Manufacturers": "heavy industries ministry automobile PLI",
+    "Auto Parts": "auto components PLI ministry",
+    "Capital Markets": "SEBI",
+    "Computer Hardware": "MeitY electronics manufacturing PLI",
+    "Copper": "mines ministry copper critical minerals",
+    "Diagnostics & Research": "health ministry diagnostics NABL",
+    "Drug Manufacturers - Specialty & Generic": "CDSCO NPPA pharmaceutical pricing",
+    "Electrical Equipment & Parts": "power ministry transmission CEA",
+    "Engineering & Construction": "infrastructure ministry NHAI contracts",
+    "Farm & Heavy Construction Machinery": "farm mechanisation subsidy tractor",
+    "Information Technology Services": "MeitY IT sector policy",
+    "Insurance - Life": "IRDAI life insurance",
+    "Lodging": "tourism ministry hotel industry",
+    "Other Precious Metals & Mining": "mines ministry mineral auction",
+    "Packaged Foods": "FSSAI packaged food",
+    "Software - Application": "MeitY software IT rules",
+    "Specialty Business Services": "GST services sector ministry",
+    "Steel": "steel ministry import duty safeguard",
+}
 
 
 class NewsItem(BaseModel):
@@ -67,10 +106,16 @@ def parse_rss(xml_text: str) -> list[NewsItem]:
                     # zone-less RFC-2822 dates parse as naive datetimes (no
                     # exception); normalize so aware comparisons never crash
                     published = published.replace(tzinfo=timezone.utc)
+        source = node.findtext("source")
+        # Google News appends " - Publisher" to every title while also filing
+        # it in <source>, so rendering both reads "… - Mint — Mint, 2d ago".
+        # Stripped only on an exact match, so a title that genuinely ends in a
+        # dash phrase survives.
+        if source and title.endswith(f" - {source}"):
+            title = title[: -len(source) - 3].rstrip()
         items.append(
             NewsItem(
-                title=title, link=link, published=published,
-                source=node.findtext("source"),
+                title=title, link=link, published=published, source=source,
             )
         )
     return items
@@ -142,9 +187,9 @@ def sector_policy(
     the *query* is the relevance filter, so there is no separate matching step
     left that can quietly return nothing while the build reports success.
 
-    `sectors` carries the single key the query was built from. The site
-    concatenates policy across industries into one flat list and each report
-    filters it back down, so that field is load-bearing rather than decorative.
+    `sectors` carries the industry key, not the search term — the report
+    filters a flat multi-industry list by its own `info.industry`, and the
+    page shows the reader the industry rather than the query internals.
     """
     key = industry or sector
     if not key:
@@ -152,7 +197,9 @@ def sector_policy(
     cache_key = f"policy_{_policy_slug(key)}"
     if cache and (hit := cache.get_json(cache_key)):
         return [NewsItem(**i) for i in hit["items"]]
-    query = urllib.parse.quote(f"{key} India government policy scheme")
+    # `when:7d` matches dedupe_recent's window, so the feed stops returning
+    # months-old items that are only going to be discarded after parsing.
+    query = urllib.parse.quote(f"{POLICY_TERMS.get(key, key)} India when:7d")
     try:
         items = dedupe_recent(parse_rss(fetcher(GOOGLE_NEWS_URL.format(query=query))))
     except Exception:

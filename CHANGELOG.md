@@ -356,6 +356,23 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
   was when the ranking was struck.
 
 ### Changed
+- **The policy query now names the regulator, not the Yahoo industry label.**
+  `sector_policy`'s design puts the whole relevance question on the query
+  wording, so the wording was measured: all 20 industries in the live top-25,
+  queried live, every returned headline hand-scored. The shipped query managed
+  **67% relevant and returned nothing at all for 13 of 20 industries**;
+  `POLICY_TERMS` (SEBI, IRDAI, FSSAI, CEA, NPPA, PLI…) gives **84% across
+  20/20**. Two results worth keeping: broadening the query with
+  `scheme OR subsidy OR tariff` made relevance *worse*, not better (those words
+  match any government story — Lodging returned *"NRI **lodges** ₹1.75cr fraud
+  complaint"*), and Yahoo's taxonomy labels are simply not news vocabulary.
+  Full method, per-industry numbers, weak cells and one rejected fix:
+  Addendum 25 in `docs/backtest-findings-2026-07.md`.
+  Unlike the keyword matcher deleted above, this is a **query-side** table: a
+  missing entry falls through to the raw label and still searches, and the
+  build prints unmapped industries so it cannot rot unnoticed.
+- Policy items on the index are grouped under their industry — 90 items across
+  20 industries is a wall of text as one flat list.
 - The build's policy line reports sectors that returned items
   (`12 policy items from 7/20 sectors queried`) rather than sectors asked.
   "N items across K sectors" overstated coverage — the same class of

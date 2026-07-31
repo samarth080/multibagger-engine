@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from mbe.data.cache import DiskCache
-from mbe.data.news_rss import company_news, sector_policy
+from mbe.data.news_rss import POLICY_TERMS, company_news, sector_policy
 from mbe.data.universe_nse import CACHE_TTL_HOURS
 from mbe.data.yahoo import YahooProvider
 from mbe.pipeline import screen
@@ -110,6 +110,17 @@ def main() -> None:
         f"from {covered}/{len(industries)} sectors queried",
         flush=True,
     )
+    # POLICY_TERMS maps a Yahoo industry label to the regulator Indian policy
+    # journalism names it by; an unmapped industry still searches (on the raw
+    # label) but scored ~57% relevant in testing against ~84% mapped. Printed
+    # so the table's staleness is visible as the universe drifts.
+    unmapped = sorted(i for i in industries if i not in POLICY_TERMS)
+    if unmapped:
+        print(
+            f"  {len(unmapped)} industries have no POLICY_TERMS entry "
+            f"(searching the raw label, lower relevance): {', '.join(unmapped)}",
+            flush=True,
+        )
 
     prev_path = SITE / "data.json"
     prev = json.loads(prev_path.read_text()) if prev_path.exists() else None

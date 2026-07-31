@@ -173,6 +173,17 @@ environment. It replaces two failures that had both been shipping silently.
   **The query is the relevance filter**, so no separate keyword-matching
   step remains that can quietly return nothing while the build reports
   success. Cached per industry, so members of a sector share one fetch.
+- **The query names the regulator, not the Yahoo label**, because that
+  design puts all the relevance on the wording — so the wording was
+  measured rather than assumed. Querying `Electrical Equipment & Parts`
+  returns national-policy filler; querying `power ministry transmission CEA`
+  returns transmission-corridor policy. Hand-scoring every headline across
+  all 20 live industries: **67% relevant and 7/20 industries covered** on the
+  raw label, **84% across 20/20** with `POLICY_TERMS`. Broadening the query
+  with `scheme OR subsidy OR tariff` made it *worse* — those words match any
+  government story. Method and per-industry numbers: Addendum 25 in
+  `docs/backtest-findings-2026-07.md`. A missing table entry falls back to
+  the raw label and still searches, and the build prints unmapped industries.
 - **Empty states are explicit.** Every branch that could render nothing
   renders text instead — *"No recent company news found."*, *"No sector
   policy items found."*, *"No sector classification — policy context

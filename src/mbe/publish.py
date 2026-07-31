@@ -304,10 +304,12 @@ class="muted">&hellip;</span></td>
 {% if d.policy %}<h2 class="sec" id="policy">Government policy &amp; sector news
 <span class="sub">(descriptive &mdash; headlines to weigh, not catalysts the engine identified; never scored)</span></h2>
 <div class="card" style="padding:10px 14px">
-{% for p in d.policy %}<div class="sub" style="padding:3px 0">&middot;
+{% for sec, items in d.policy | groupby('sectors.0') %}
+<div style="padding:6px 0"><span class="tag-t">{{ sec }}</span>
+{% for p in items %}<div class="sub" style="padding:3px 0 3px 10px">&middot;
 <a href="{{ p.link }}">{{ p.title }}</a>
-<span class="muted">{% if p.source %}{{ p.source }}{% endif %}{% if p.source and p.age_days is not none %} &middot; {% endif %}{% if p.age_days is not none %}{{ p.age_days }}d ago{% endif %}</span>
-{% for s in p.sectors %}<span class="tag-t">[{{ s }}]</span>{% endfor %}</div>
+<span class="muted">{% if p.source %}{{ p.source }}{% endif %}{% if p.source and p.age_days is not none %} &middot; {% endif %}{% if p.age_days is not none %}{{ p.age_days }}d ago{% endif %}</span></div>
+{% endfor %}</div>
 {% endfor %}</div>{% endif %}
 
 <footer>{{ footer }}<br><span class="small">Rebuilt every Monday by GitHub

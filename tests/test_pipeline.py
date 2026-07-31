@@ -220,3 +220,59 @@ def test_screen_does_not_double_append_forecast_flags():
     for bundle in result.ranked:
         codes = [f.code for f in bundle.risk.flags if f.code in FORECAST_FLAG_CODES]
         assert len(codes) == len(set(codes)), codes
+
+
+def test_report_renders_news_and_policy_with_ages():
+    from datetime import datetime, timezone
+    from mbe.data.news_rss import NewsItem
+    from mbe.report.markdown import render_report
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    pub = datetime(2026, 7, 15, tzinfo=timezone.utc)
+    md = render_report(
+        bundle,
+        news=[NewsItem(title="Wins Rs 400cr order", link="https://x/1",
+                       published=pub, source="Economic Times"),
+              NewsItem(title="Undated one", link="https://x/3")],
+        policy=[NewsItem(title="Cabinet clears grid scheme", link="https://x/2",
+                         published=pub, source="PIB", sectors=["Test Industry"])],
+    )
+    assert "## Recent News & Policy Context" in md
+    assert "Economic Times" in md
+    assert "not catalysts the engine has identified" in md
+
+    # Substring assertions alone pass on mangled markdown: jinja's trim_blocks
+    # strips the newline after a line-ending {% endif %}, which silently ran
+    # consecutive headlines together on one line. Assert the line structure.
+    lines = md.splitlines()
+    age = (bundle.as_of - pub.date()).days
+    assert f"- [Wins Rs 400cr order](https://x/1) — Economic Times, {age}d ago" in lines
+    assert "- [Undated one](https://x/3)" in lines  # no age, not dropped
+    assert f"- [Cabinet clears grid scheme](https://x/2) — PIB, {age}d ago" in lines
+    # a bold run-in heading needs its blank line or markdown swallows it
+    assert "" == lines[lines.index("**Sector policy — Test Industry**") - 1]
+
+
+def test_report_states_absence_explicitly_when_no_news():
+    """Silence is what let the old policy section look like it worked."""
+    from mbe.report.markdown import render_report
+
+    md = render_report(analyze_ticker("GOOD.NS", StubProvider()))
+    assert "## Recent News & Policy Context" in md
+    assert "No recent company news found" in md
+    assert "No sector policy items found" in md
+    assert "arrives in v0.3" not in md
+
+
+def test_report_filters_policy_to_its_own_industry():
+    """build_site hands every report one flat multi-industry list."""
+    from mbe.data.news_rss import NewsItem
+    from mbe.report.markdown import render_report
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    md = render_report(bundle, policy=[
+        NewsItem(title="Mine item", link="https://x/1", sectors=["Test Industry"]),
+        NewsItem(title="Someone elses item", link="https://x/2", sectors=["Banks"]),
+    ])
+    assert "Mine item" in md
+    assert "Someone elses item" not in md

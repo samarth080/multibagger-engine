@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from jinja2 import Environment
 
+from mbe.data.news_rss import NewsItem
 from mbe.pipeline import AnalysisBundle, ScreenResult
 
 
@@ -264,9 +265,31 @@ view.
 
 {{ sizing_guidance }}
 
-## Catalysts & Policy Tailwinds
+## Recent News & Policy Context
 
-*Macro, government-policy and news catalyst modules arrive in v0.3 — this section will populate automatically. Until then, verify PLI/policy exposure manually.*
+*Descriptive only — headlines are evidence to weigh, not catalysts the engine has identified. Never scored.*
+
+**Company**
+
+{% if news %}
+{% for n in news %}
+- [{{ n.title }}]({{ n.link }}){% if n.source %} — {{ n.source }}{% endif %}{% if n.age_days is not none %}, {{ n.age_days }}d ago{% endif +%}
+{% endfor %}
+{% else %}
+*No recent company news found.*
+{% endif +%}
+
+**Sector policy{% if policy_key %} — {{ policy_key }}{% endif %}**
+
+{% if not policy_key %}
+*No sector classification — policy context unavailable.*
+{% elif policy %}
+{% for p in policy %}
+- [{{ p.title }}]({{ p.link }}){% if p.source %} — {{ p.source }}{% endif %}{% if p.age_days is not none %}, {{ p.age_days }}d ago{% endif +%}
+{% endfor %}
+{% else %}
+*No sector policy items found.*
+{% endif +%}
 
 ## Score Evidence Appendix
 
@@ -328,7 +351,11 @@ def sizing_guidance(bundle: AnalysisBundle) -> str:
             "or avoid entirely; multiple critical flags active.")
 
 
-def render_report(bundle: AnalysisBundle) -> str:
+def render_report(
+    bundle: AnalysisBundle,
+    news: list[NewsItem] | None = None,
+    policy: list[NewsItem] | None = None,
+) -> str:
     def pct_vs(fair: float | None, price: float | None) -> str:
         if fair is None or not price:
             return "n/a"
@@ -351,6 +378,23 @@ def render_report(bundle: AnalysisBundle) -> str:
             "n/a — computed in universe screens, not single-ticker analysis"
         )
 
+    # Age is attached here rather than on the model: NewsItem is a transport
+    # object shared with the site's JSON, and "days old" is only meaningful
+    # relative to the report's own as_of date.
+    def _dated(items: list[NewsItem]) -> list[dict]:
+        out = []
+        for i in items:
+            age = (bundle.as_of - i.published.date()).days if i.published else None
+            out.append({
+                "title": i.title, "link": i.link, "source": i.source,
+                "age_days": age if age is not None and age >= 0 else None,
+            })
+        return out
+
+    policy_key = bundle.info.industry or bundle.info.sector
+    # build_site hands every report one flat list covering all industries
+    own_policy = [p for p in (policy or []) if not p.sectors or policy_key in p.sectors]
+
     return _TEMPLATE.render(
         info=bundle.info,
         fund=bundle.fund,
@@ -372,6 +416,9 @@ def render_report(bundle: AnalysisBundle) -> str:
         sector_momentum_line=sector_momentum_line,
         sector_themes=themes_for(bundle.info.sector, bundle.info.industry),
         themes_curated_as_of=CURATED_AS_OF,
+        news=_dated(news or []),
+        policy=_dated(own_policy),
+        policy_key=policy_key,
     )
 
 

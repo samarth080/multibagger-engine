@@ -865,3 +865,71 @@ follow-up to the forecast.
 **Shipped accordingly:** no weight changed, no score promoted or demoted.
 Reweighting toward Size Runway on this evidence would be fitting to a probable
 artifact — the exact error this document exists to prevent.
+
+---
+
+## Addendum 20 — Size Runway does not survive its own survivorship bound
+
+Addendum 19 found Size Runway beating the full composite in 4/4 samples by
++0.25 to +0.30, the strongest reading in this document, and flagged that
+survivorship bias manufactures exactly that pattern. This bounds it.
+
+Method unchanged from the existing sensitivity harness: free
+delisting-inclusive data does not exist, so synthetic "ghost" delisted names are
+injected at each cutoff — smallest bucket, top size tier — across a grid of
+delisting rates and ghost forward returns. Extended in this run to cover the two
+India samples, which carried the strongest observed ICs and so most needed it.
+
+**Observed:** +0.256 / +0.266 / +0.368 / +0.440.
+
+**Adjusted IC at the stated realistic band** (10-15% delisted over a 2y window;
+S&P 600 turnover ~5-8%/yr, skewed small):
+
+| sample | 10% @ −40% | 10% @ −20% | 15% @ −40% | 15% @ −20% |
+|---|---|---|---|---|
+| us-smallcap-sample | −0.044 | +0.014 | −0.147 | −0.071 |
+| us-smallcap-sample2 | −0.043 | +0.024 | −0.154 | −0.063 |
+| india-primary | +0.023 | +0.075 | −0.080 | −0.013 |
+| india-replication | +0.086 | +0.139 | −0.032 | +0.050 |
+
+**Break-even ghost return** — if delisted names averaged worse than this, the
+signal is gone entirely:
+
+| sample | 5% | 10% | 15% | 20% |
+|---|---|---|---|---|
+| us-smallcap-sample | never | −25% | −9% | −2% |
+| us-smallcap-sample2 | never | −27% | −10% | −4% |
+| india-primary | never | −50% | −18% | −5% |
+| india-replication | never | never | −32% | −10% |
+
+**Interpretation:**
+
+1. **The dominance does not survive.** At 10-15% delisting with plausibly
+   negative ghost returns, the +0.26 to +0.44 observed collapses to a band
+   straddling zero (−0.15 to +0.14). In no sample does Size Runway remain the
+   dominant signal Addendum 19 showed.
+2. **The break-evens sit inside the plausible range.** At 15% delisting the
+   signal dies if delisted names averaged worse than −9% to −32%. Smallcap index
+   removals mix bankruptcies (−100%) with premium buyouts (+20-40%), and the
+   performance-related mix skews negative. A −10% to −30% average is not a
+   pessimistic assumption; it is arguably the central one.
+3. **India degrades less but not enough.** `india-replication` is the most
+   robust — still positive at 10% under every ghost return tested — yet even it
+   falls from +0.440 to +0.086 at 10%/−40%, losing ~80% of its magnitude, and
+   goes negative by 15%/−60%.
+4. **The result is contingent on an unmeasured parameter** that free data cannot
+   supply. This is a bound, not a measurement, and it cannot be tightened
+   without paid delisting-inclusive data (CRSP or equivalent).
+
+**Shipped accordingly:** no weight changed. `Size Runway` keeps its 0.16 in
+`MULTIBAGGER_WEIGHTS`, but **its backtest performance is withdrawn as evidence
+for that weight.** Whatever justifies a size tilt has to come from the prior
+literature on the size premium, where the effect is real and far smaller than
++0.27 IC — not from these samples, which cannot distinguish the effect from the
+bias. Addendum 19's finding stands as measured and is explained here.
+
+**Standing consequence:** every IC in this document is computed on
+current-constituent samples. Size Runway is the most exposed because it is
+literally a size bucket, but the exposure is universe-wide. Cross-sample
+agreement never rescues a bias that all samples share — the four-sample
+agreement in Addendum 19 is exactly what a shared artifact produces.

@@ -1,7 +1,7 @@
 """RSS news & government-policy ingestion — DESCRIPTIVE ONLY, never scored.
 
-Free feeds, no API keys: Google News RSS per company for pick headlines,
-PIB (Press Information Bureau) RSS for policy items. External XML goes
+Free feeds, no API keys: Google News RSS per company for pick headlines and
+a policy-flavoured query per industry for policy items. External XML goes
 through defusedxml. Cached like every other provider; offline-tested with
 canned fixtures. A feed failure degrades to an empty list (context must
 never fail a weekly build) — the site builder prints item counts so an
@@ -24,22 +24,7 @@ from mbe.data.cache import DiskCache
 GOOGLE_NEWS_URL = (
     "https://news.google.com/rss/search?q={query}&hl=en-IN&gl=IN&ceid=IN:en"
 )
-PIB_RSS_URL = "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
 _UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
-
-# sector/industry group name -> lowercase keywords tagging a PIB item as relevant
-POLICY_KEYWORDS: dict[str, list[str]] = {
-    "Semiconductors": ["semiconductor", "chip", "fab "],
-    "Solar": ["solar", "renewable"],
-    "Aerospace & Defense": ["defence", "defense", "drdo"],
-    "Auto Parts": ["automobile", "electric vehicle", " ev "],
-    "Electrical Equipment & Parts": ["transmission", "power grid", "electricity"],
-    "Drug Manufacturers - Specialty & Generic": ["pharma", "drug", "medicine"],
-    "Capital Markets": ["sebi", "capital market"],
-    "Electronic Components": ["electronics manufacturing", "pli"],
-    "Steel": ["steel"],
-    "Banks - Regional": ["rbi", "banking"],
-}
 
 
 class NewsItem(BaseModel):
@@ -139,27 +124,41 @@ def company_news(
     return items
 
 
-def policy_items(
-    sector_names: list[str],
+def _policy_slug(key: str) -> str:
+    return "".join(c if c.isalnum() else "_" for c in key.lower()).strip("_")
+
+
+def sector_policy(
+    sector: str | None,
+    industry: str | None,
     cache: DiskCache | None = None,
     fetcher=default_http,
-    limit: int = 12,
 ) -> list[NewsItem]:
-    """Latest PIB items, tagged with the sectors whose keywords they match."""
-    key = "news_pib"
-    if cache and (hit := cache.get_json(key)):
-        items = [NewsItem(**i) for i in hit["items"]]
-    else:
-        try:
-            items = dedupe_recent(parse_rss(fetcher(PIB_RSS_URL)), limit=limit)
-        except Exception:
-            return []
-        if cache:
-            cache.set_json(key, {"items": [i.model_dump(mode="json") for i in items]})
+    """Recent policy/scheme headlines for one industry, in English.
+
+    Replaces a PIB RSS feed that served Hindi headlines while the tagger
+    matched English keywords — it tagged 0 of 12 items in the last build and
+    could never have tagged any. The lesson is in the shape of this function:
+    the *query* is the relevance filter, so there is no separate matching step
+    left that can quietly return nothing while the build reports success.
+
+    `sectors` carries the single key the query was built from. The site
+    concatenates policy across industries into one flat list and each report
+    filters it back down, so that field is load-bearing rather than decorative.
+    """
+    key = industry or sector
+    if not key:
+        return []
+    cache_key = f"policy_{_policy_slug(key)}"
+    if cache and (hit := cache.get_json(cache_key)):
+        return [NewsItem(**i) for i in hit["items"]]
+    query = urllib.parse.quote(f"{key} India government policy scheme")
+    try:
+        items = dedupe_recent(parse_rss(fetcher(GOOGLE_NEWS_URL.format(query=query))))
+    except Exception:
+        return []  # context must never fail a build; the builder prints counts
     for item in items:
-        low = f" {item.title.lower()} "
-        item.sectors = [
-            s for s in sector_names
-            if any(k in low for k in POLICY_KEYWORDS.get(s, []))
-        ]
+        item.sectors = [key]
+    if cache:
+        cache.set_json(cache_key, {"items": [i.model_dump(mode="json") for i in items]})
     return items

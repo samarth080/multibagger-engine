@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 from email.utils import format_datetime
 
 from mbe.data.cache import DiskCache
-from mbe.data.news_rss import NewsItem, dedupe_recent, parse_rss, company_news, policy_items
+from mbe.data.news_rss import NewsItem, dedupe_recent, parse_rss, company_news
 
 GOOGLE_RSS = """<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel><title>q</title>
@@ -68,17 +68,21 @@ def test_parse_rss_naive_date_normalized_to_utc_not_crash():
     assert items[0].published.tzinfo is not None
 
 
-# Dynamic fixture to prevent rot as calendar advances
+# Dynamic fixtures to prevent rot as the calendar advances: dedupe_recent
+# windows against datetime.now(), so a hardcoded pubDate silently ages out of
+# the 7-day window and every item disappears.
 _RECENT = format_datetime(datetime.now(timezone.utc) - timedelta(days=1))
+_OLDER = format_datetime(datetime.now(timezone.utc) - timedelta(days=2))
 
-PIB_RSS = f"""<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"><channel><title>PIB</title>
-<item><title>Cabinet approves semiconductor fab incentives</title>
-<link>https://pib.example/1</link>
-<pubDate>{_RECENT}</pubDate></item>
-<item><title>New highway inaugurated</title>
-<link>https://pib.example/2</link>
-<pubDate>{_RECENT}</pubDate></item>
+POLICY_RSS = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>q</title>
+<item><title>Cabinet clears Rs 25,000cr power grid scheme</title>
+<link>https://example.com/p1</link>
+<pubDate>{_RECENT}</pubDate>
+<source url="https://pib.example">PIB</source></item>
+<item><title>PLI scheme extended for electrical equipment</title>
+<link>https://example.com/p2</link>
+<pubDate>{_OLDER}</pubDate></item>
 </channel></rss>"""
 
 
@@ -107,16 +111,76 @@ def test_company_news_feed_failure_degrades_to_empty():
     assert company_news("X Ltd", "X.NS", cache=None, fetcher=boom) == []
 
 
-def test_policy_items_tag_matching_sectors(tmp_path):
-    items = policy_items(
-        ["Semiconductors", "Steel"], cache=DiskCache(tmp_path),
-        fetcher=lambda url: PIB_RSS,
+def test_sector_policy_queries_industry_and_tags_it(tmp_path):
+    """The query IS the relevance filter — there is no keyword-matching step
+    left that can silently fail, which is what killed the PIB path."""
+    from mbe.data.news_rss import sector_policy
+
+    seen = {}
+
+    def fake(url):
+        seen["url"] = url
+        return POLICY_RSS
+
+    items = sector_policy(
+        "Industrials", "Electrical Equipment & Parts",
+        cache=DiskCache(tmp_path), fetcher=fake,
     )
-    by_title = {i.title: i for i in items}
-    assert by_title["Cabinet approves semiconductor fab incentives"].sectors == [
-        "Semiconductors"
+    assert "Electrical+Equipment" in seen["url"] or "Electrical%20Equipment" in seen["url"]
+    assert "Industrials" not in seen["url"]  # industry wins over sector
+    assert [i.title for i in items] == [
+        "Cabinet clears Rs 25,000cr power grid scheme",
+        "PLI scheme extended for electrical equipment",
     ]
-    assert by_title["New highway inaugurated"].sectors == []
+    # sectors carries the key the query was built from, so a flat multi-sector
+    # list can be filtered back per stock
+    assert all(i.sectors == ["Electrical Equipment & Parts"] for i in items)
+
+
+def test_sector_policy_falls_back_to_sector_then_gives_up(tmp_path):
+    from mbe.data.news_rss import sector_policy
+
+    seen = {}
+
+    def fake(url):
+        seen["url"] = url
+        return POLICY_RSS
+
+    items = sector_policy("Industrials", None, cache=DiskCache(tmp_path), fetcher=fake)
+    assert "Industrials" in seen["url"]
+    assert all(i.sectors == ["Industrials"] for i in items)
+
+    def explode(url):
+        raise AssertionError("must not fetch without a classification")
+
+    assert sector_policy(None, None, cache=DiskCache(tmp_path), fetcher=explode) == []
+
+
+def test_sector_policy_shares_one_fetch_across_an_industry(tmp_path):
+    """Stocks in the same industry must not each hit the network."""
+    from mbe.data.news_rss import sector_policy
+
+    cache = DiskCache(tmp_path)
+    calls = []
+
+    def fake(url):
+        calls.append(url)
+        return POLICY_RSS
+
+    a = sector_policy("Industrials", "Electrical Equipment & Parts", cache=cache, fetcher=fake)
+    b = sector_policy("Industrials", "Electrical Equipment & Parts", cache=cache, fetcher=fake)
+    assert len(calls) == 1
+    assert [i.title for i in a] == [i.title for i in b]
+
+
+def test_sector_policy_survives_a_dead_feed(tmp_path):
+    """Context must never fail a build — same contract as company_news."""
+    from mbe.data.news_rss import sector_policy
+
+    def explode(url):
+        raise RuntimeError("feed down")
+
+    assert sector_policy("Industrials", "Steel", cache=DiskCache(tmp_path), fetcher=explode) == []
 
 
 def test_parse_rss_drops_non_http_link_schemes():

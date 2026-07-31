@@ -802,3 +802,66 @@ meaningfully different from noise.
 
 **Shipped accordingly:** no change to any score, weight or flag. Addendum 14's
 interpretation point 1 is retracted; its verdict stands.
+
+---
+
+## Addendum 19 — blend vs parts: Size Runway dominates, and it is the most survivorship-exposed signal we have
+
+Two readings had hinted a single pillar might outperform the composite it sits
+in. This tests every component of `MULTIBAGGER_WEIGHTS` against the blend on
+pinned universes, under the pre-registered 0.05 margin. Descriptive only.
+
+**Component IC minus blend IC** (`*` = beat the blend by >= 0.05):
+
+| component | weight | us-sample | us-sample2 | india-primary | india-repl | wins |
+|---|---|---|---|---|---|---|
+| Growth | 0.26 | +0.018 | −0.053 | −0.060 | −0.120 | 0/4 |
+| Quality | 0.24 | −0.054 | −0.069 | **+0.181\*** | −0.151 | 1/4 |
+| **Size Runway** | 0.16 | **+0.268\*** | **+0.252\*** | **+0.269\*** | **+0.304\*** | **4/4** |
+| Valuation | 0.14 | +0.046 | +0.014 | **+0.054\*** | −0.024 | 1/4 |
+| Momentum | 0.10 | −0.037 | −0.018 | −0.209 | −0.100 | 0/4 |
+| Reinvestment | 0.10 | +0.003 | +0.000 | −0.043 | −0.025 | 0/4 |
+
+Absolute Size Runway ICs: **+0.256 / +0.266 / +0.368 / +0.440**, against blend
+ICs of −0.012 / +0.014 / +0.099 / +0.137. It is the strongest and most
+consistent signal anywhere in this document, by a wide margin.
+
+`Size Runway` is a single-metric pillar: a market-cap bucket, smaller scoring
+higher (`_size_pillar` / `score_size_runway`). So the finding restates as: at
+these cutoffs, on these samples, **smaller market cap predicted higher forward
+return far better than the composite did.**
+
+**Why this must not be acted on yet.** Survivorship bias does not merely inflate
+this result — it *manufactures exactly this pattern*. Universe membership is
+today's index. A company that was tiny at a 2012 cutoff appears in today's
+smallcap list only if it survived; the tiny names that went to zero are absent
+by construction. "Small at cutoff → high realized return" is the precise shape
+that a survivor-only sample produces from noise.
+
+Cross-sample agreement does **not** rescue it. All four samples are drawn
+today, so all four share the identical bias mechanism. Four samples agreeing
+about an artifact is what an artifact looks like.
+
+**Consequence: `scripts/survivorship_sensitivity.py` is now the critical path,
+not an optional extra.** Until it runs, the largest signal in this document is
+indistinguishable from its largest known bias. That reverses the priority
+recorded in Addendum 15, which treated survivorship work as a low-stakes
+follow-up to the forecast.
+
+**Two side findings:**
+
+1. **Addendum 18's Quality hint does not replicate.** Quality beat the blend by
+   +0.181 on india-primary and *lost* by −0.151 on india-replication — two
+   disjoint halves of the same index over the same cutoffs. That is the cleanest
+   possible demonstration that a single-sample margin, even one clearing the
+   pre-registered threshold, is not evidence. Resolved negative.
+2. **Momentum is an anti-signal in all four samples** (−0.018 to −0.209),
+   carrying weight 0.10 in the blend. Consistent in sign across two countries
+   and two disjoint samples each. Unlike the size result, survivorship bias has
+   no obvious mechanism for manufacturing this one, which makes it the more
+   trustworthy of the two — and it argues the blend is being actively harmed by
+   a component, not merely diluted.
+
+**Shipped accordingly:** no weight changed, no score promoted or demoted.
+Reweighting toward Size Runway on this evidence would be fitting to a probable
+artifact — the exact error this document exists to prevent.

@@ -1,6 +1,6 @@
 """Offline tests for the static-site builder (stub bundles, no network)."""
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from mbe.data.news_rss import NewsItem
 from mbe.models.sector import SectorScore
@@ -36,6 +36,22 @@ def test_build_data_shape_and_ordering():
     assert data["sectors"][0]["name"] == "Semiconductors"
 
 
+def test_build_data_ages_headlines_against_the_build_and_tolerates_undated():
+    """The page is read for a week after it is built, so a bare pubDate is
+    not enough — the index has to say how old each headline was at build."""
+    news = {"S0.NS": [
+        NewsItem(title="three days old", link="https://x/1",
+                 published=NOW - timedelta(days=3)),
+        NewsItem(title="undated", link="https://x/2"),
+    ]}
+    policy = [NewsItem(title="scheme", link="https://x/3",
+                       published=NOW - timedelta(days=1), sectors=["Semiconductors"])]
+    data = build_data(_result(), news, policy=policy, built_at=NOW)
+    ages = {n["title"]: n["age_days"] for n in data["top"][0]["news"]}
+    assert ages == {"three days old": 3, "undated": None}
+    assert data["policy"][0]["age_days"] == 1
+
+
 def test_build_data_caps_at_top_n():
     bundles = [make_bundle(f"T{i}.NS", multibagger=90.0 - i) for i in range(TOP_N + 5)]
     result = ScreenResult(ranked=bundles, failures={}, sector_scores=[])
@@ -60,7 +76,8 @@ def test_render_site_writes_index_reports_and_data(tmp_path):
     result = _result()
     data = build_data(result, {}, policy=[
         NewsItem(title="Cabinet approves fab incentives", link="https://pib/1",
-                 published=NOW, sectors=["Semiconductors"]),
+                 published=NOW - timedelta(days=2), source="Mint",
+                 sectors=["Semiconductors"]),
     ], built_at=NOW)
     changes = {"entered": ["S0.NS"], "exited": ["Z.NS"]}
     render_site(data, changes, result, tmp_path)
@@ -76,6 +93,9 @@ def test_render_site_writes_index_reports_and_data(tmp_path):
     # PIB is no longer the source; the old label attributed Google News
     # aggregation to a government press office
     assert "Government policy (PIB)" not in index
+    assert "Mint" in index and "2d ago" in index  # sourced and dated on the page
+    # every descriptive layer on this page says so next to itself
+    assert "never scored" in index
 
     saved = json.loads((tmp_path / "data.json").read_text())
     assert saved["changes"] == changes

@@ -349,6 +349,17 @@ Initial vertical slice, built spec-first with TDD (51 offline tests).
 - `sector_policy()` builds a policy query from the stock's industry against the
   Google News pipeline that already works. **The query is the relevance
   filter**, so no separate keyword-matching step remains that can fail quietly.
+- Site policy items now carry source and age, matching the reports; the heading
+  carries the same descriptive-only label Sector momentum does. Age is computed
+  in `build_data` against `built_at`, because a published page is read for a
+  week after it is built and a bare pubDate does not say how stale a headline
+  was when the ranking was struck.
+
+### Changed
+- The build's policy line reports sectors that returned items
+  (`12 policy items from 7/20 sectors queried`) rather than sectors asked.
+  "N items across K sectors" overstated coverage — the same class of
+  self-flattering build output that let the dead PIB path look healthy.
 
 ### Removed
 - `policy_items`, `PIB_RSS_URL`, `POLICY_KEYWORDS` and their test. A second

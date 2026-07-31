@@ -112,8 +112,8 @@ default, Groww-inspired light behind a persistent ☀/☾ toggle.
 
 - **What the page shows** — the top-25 multibagger/investment ranking,
   week-over-week entries/exits, sector-momentum context, 3-5 recent
-  headlines per pick, government-policy (PIB) items mapped to the top
-  sectors, and delayed (~15 min) quotes.
+  headlines per pick, policy/scheme headlines per industry (each sourced
+  and dated), and delayed (~15 min) quotes.
 - **Architecture** — a GitHub Actions job runs the weekly build every
   Monday pre-open IST and commits the rebuilt `site/` back to the repo;
   Vercel's git integration auto-deploys on that push (no CLI, no token).
@@ -153,11 +153,43 @@ live research report — not just the weekly top-25, any name Yahoo covers.
   practice of stating real findings plainly rather than glossing over them;
   usage is small right now, but the fix is in place regardless.
 
+## News & policy context (v0.14)
+
+Every report carries a **Recent News & Policy Context** section: dated,
+sourced, English headlines for the company and for its industry's policy
+environment. It replaces two failures that had both been shipping silently.
+
+- **The section was a stub.** Every report ever published rendered the
+  literal text *"Macro, government-policy and news catalyst modules arrive
+  in v0.3 — this section will populate automatically."* It never populated.
+- **Policy tagging could never match.** The site pulled PIB's RSS feed,
+  which serves **Hindi** headlines, and tagged them against a **lowercase
+  English** keyword table — 0 of 12 items tagged in the last build, and none
+  ever could have. `Lang=1/2/3` and `Regid=1..6` all return Hindi or an
+  empty feed, so it was not a parameter fix. The build printed
+  `12 policy items` either way, which is why it survived so long.
+- **What replaced it** — `sector_policy()` builds a policy query from the
+  stock's industry against the Google News pipeline that already worked.
+  **The query is the relevance filter**, so no separate keyword-matching
+  step remains that can quietly return nothing while the build reports
+  success. Cached per industry, so members of a sector share one fetch.
+- **Empty states are explicit.** Every branch that could render nothing
+  renders text instead — *"No recent company news found."*, *"No sector
+  policy items found."*, *"No sector classification — policy context
+  unavailable."* The old version's defining flaw was looking identical
+  whether it worked or not. A typical week fills ~7 of 20 queried
+  industries; the build line reports which, not how many it asked.
+- **Never scored.** No pillar, no weight, no risk flag — the same contract
+  as sector themes, franchise and stewardship. Headlines are evidence a
+  reader weighs, not catalysts the engine has identified.
+
 ## Roadmap
 
-- **v0.3** — macro dashboard, government-policy/PLI mapping, news & sentiment,
-  filings ingestion (annual reports, con-calls), promoter pledging via NSE data;
-  benchmark-table recalibration fed by accumulated backtest evidence.
+- **v0.3** — macro dashboard, filings ingestion (annual reports, con-calls),
+  promoter pledging via NSE data; benchmark-table recalibration fed by
+  accumulated backtest evidence. News and policy context shipped in v0.14 as
+  a *descriptive* layer — turning either into a scored signal needs its own
+  pre-registered validation and is not scheduled.
 - **v0.4** — web UI, scheduling, portfolio construction, continuous-improvement loop.
 
 ## Known limitations (v0.1)
@@ -165,7 +197,8 @@ live research report — not just the weekly top-25, any name Yahoo covers.
 - Yahoo Finance only: ~5 years of statements, no promoter pledging/FII-DII
   detail, occasional stale `info` fields.
 - DCF conservatism understates fair value for high-multiple quality names.
-- No macro/policy/sentiment signal yet (sections are stubbed in the report).
+- No macro/policy/sentiment *signal*: news and policy headlines are surfaced
+  as context (v0.14) but never scored, and no macro layer exists at all.
 
 ## Disclaimer
 

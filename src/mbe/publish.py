@@ -93,6 +93,22 @@ border-radius:10px;color:var(--muted);font-size:12px;line-height:1.6}
 </style>"""
 
 
+def _dump_news(items: list[NewsItem], built_at: datetime) -> list[dict]:
+    """Serialize headlines with an age in days relative to this build.
+
+    Age is computed here rather than in the template because "days old" is
+    only meaningful against the moment the page was built, and a published
+    page is read for a week after that. Date arithmetic, not datetime, so a
+    zone-less `published` can never raise mid-build."""
+    out = []
+    for i in items:
+        row = i.model_dump(mode="json")
+        age = (built_at.date() - i.published.date()).days if i.published else None
+        row["age_days"] = age if age is not None and age >= 0 else None
+        out.append(row)
+    return out
+
+
 def build_data(
     result: ScreenResult,
     news_by_ticker: dict[str, list[NewsItem]],
@@ -126,7 +142,7 @@ def build_data(
                     {"theme": th.theme, "direction": th.direction}
                     for th in themes_for(b.info.sector, b.info.industry)
                 ],
-                "news": [i.model_dump(mode="json") for i in news_by_ticker.get(t, [])],
+                "news": _dump_news(news_by_ticker.get(t, []), built_at),
                 "gated": bool(b.card.hard_gate_failures),
             }
         )
@@ -139,7 +155,7 @@ def build_data(
             {"rank": i, "name": s.name, "level": s.level, "score": s.score, "n": s.n}
             for i, s in enumerate(result.sector_scores, 1)
         ],
-        "policy": [i.model_dump(mode="json") for i in policy],
+        "policy": _dump_news(policy, built_at),
     }
 
 
@@ -235,7 +251,7 @@ th:nth-child(5),td:nth-child(5),th:nth-child(6),td:nth-child(6){display:none}}
 <nav class="topnav"><span class="brand">&#9670; MBE</span>
 <a class="navlink" href="#picks">Picks</a>
 <a class="navlink" href="#sectors">Sectors</a>
-<a class="navlink" href="#policy">Policy</a>
+<a class="navlink" href="#policy">News &amp; policy</a>
 <form class="searchpill" style="margin-left:auto" action="/api/analyze" method="get">
 <label class="sr-label" for="ticker-input">Search any stock</label>
 <input id="ticker-input" name="ticker" placeholder="Search any stock&hellip; e.g. RELIANCE.NS" required>
@@ -268,9 +284,9 @@ class="muted">&hellip;</span></td>
 <td class="sub">{% if r.group %}{{ "%.0f" | format(r.group_score) }}{% else %}ungrouped{% endif %}</td></tr>
 {% if r.tags or r.news %}<tr><td></td><td colspan="8">
 {% for t in r.tags %}<span class="{{ 'tag-t' if t.direction == 'tailwind' else 'tag-h' }}">{{ '▲' if t.direction == 'tailwind' else '▼' }} {{ t.theme }}</span> &nbsp;{% endfor %}
-{% if r.news %}<details><summary>{{ r.news | length }} headlines</summary>
+{% if r.news %}<details><summary>{{ r.news | length }} headline{{ '' if r.news | length == 1 else 's' }}</summary>
 {% for n in r.news %}<div class="sub">&middot; <a href="{{ n.link }}">{{ n.title }}</a>
-{% if n.source %}({{ n.source }}){% endif %}</div>{% endfor %}</details>{% endif %}
+{% if n.source %}({{ n.source }}){% endif %}{% if n.age_days is not none %} <span class="muted">{{ n.age_days }}d ago</span>{% endif %}</div>{% endfor %}</details>{% endif %}
 </td></tr>{% endif %}
 {% endfor %}</table></div>
 
@@ -285,10 +301,12 @@ class="muted">&hellip;</span></td>
 <td>{{ s.n }}</td></tr>
 {% endfor %}</table></div>
 
-{% if d.policy %}<h2 class="sec" id="policy">Government policy &amp; sector news</h2>
+{% if d.policy %}<h2 class="sec" id="policy">Government policy &amp; sector news
+<span class="sub">(descriptive &mdash; headlines to weigh, not catalysts the engine identified; never scored)</span></h2>
 <div class="card" style="padding:10px 14px">
 {% for p in d.policy %}<div class="sub" style="padding:3px 0">&middot;
 <a href="{{ p.link }}">{{ p.title }}</a>
+<span class="muted">{% if p.source %}{{ p.source }}{% endif %}{% if p.source and p.age_days is not none %} &middot; {% endif %}{% if p.age_days is not none %}{{ p.age_days }}d ago{% endif %}</span>
 {% for s in p.sectors %}<span class="tag-t">[{{ s }}]</span>{% endfor %}</div>
 {% endfor %}</div>{% endif %}
 

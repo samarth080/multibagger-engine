@@ -140,7 +140,24 @@ NOT reliably avoid worse outcomes (vetoed names had higher volatility in both
 directions) — treat it as a list of concerns to weigh, not a validated filter.*
 {% endif %}
 
+## Ownership
+
+{% if charts.ownership %}
+{{ charts.ownership }}
+{% if charts.ownership_note %}
+**⚠ {{ charts.ownership_note }}.**
+{% endif %}
+
+*Yahoo's "insider" is not SEBI's promoter category, and this is not the promoter/FII/DII/public breakdown an Indian investor expects — that data is not in this pipeline. Descriptive only, never scored.*
+{% else %}
+*Ownership split not reported by the data source.*
+{% endif %}
+
 ## Financial Analysis
+
+{% if charts.trend %}
+{{ charts.trend }}
+{% endif %}
 
 | Metric | Value | Metric | Value |
 |---|---|---|---|
@@ -193,6 +210,19 @@ Statement data completeness: {{ (fund.completeness * 100) | round(0) | int }}%.
 Base FCF is the latest year's, not a trailing average — it stands at {{ "%.1f" | format(spike) }}x the 3-year mean. The risk that it does not repeat is carried by the bear scenario in the 3-Year Price Forecast below, not by a haircut to all three.
 {% endif %}
 
+## Peer Comparison
+
+{% if charts.peer_table %}
+{{ charts.peer_table }}
+{% if charts.peer_scatter %}
+{{ charts.peer_scatter }}
+{% endif %}
+
+*The peer group is this stock's industry cohort from the same screen. Descriptive only, never scored.*
+{% else %}
+*Peer comparison requires a universe screen — single-ticker analysis has no peer group.*
+{% endif %}
+
 ## Risk Analysis
 
 Risk score: **{{ risk.risk_score | int }}/100** — {{ risk.permanent_loss_bucket }} probability of permanent capital loss.
@@ -212,11 +242,21 @@ No risk flags triggered by the current rule set.
 {% if forecast %}
 Where the price could be in {{ forecast.horizon_years }} years, projected from FY{{ forecast.base_fiscal_year }} revenue and net margin against an exit multiple. Each scenario moves growth, margin **and** the multiple — not one knob three ways.
 
+{% if charts.scenarios %}
+{{ charts.scenarios }}
+
+| Scenario | Prob. | Revenue growth | Net margin | Exit multiple | FY+3 EPS |
+|---|---|---|---|---|---|
+{% for s in forecast.scenarios %}
+| **{{ s.name | capitalize }}** | {{ s.probability | pct }} | {{ s.growth_start | pct }} → {{ s.growth_end | pct }} | {{ s.terminal_net_margin | pct }} | {{ "%.1f" | format(s.exit_multiple) }}x | {{ s.eps_fy3 | num }} |
+{% endfor %}
+{% else %}
 | Scenario | Prob. | Revenue growth | Net margin | Exit multiple | FY+3 EPS | Target | 3y CAGR |
 |---|---|---|---|---|---|---|---|
 {% for s in forecast.scenarios %}
 | **{{ s.name | capitalize }}** | {{ s.probability | pct }} | {{ s.growth_start | pct }} → {{ s.growth_end | pct }} | {{ s.terminal_net_margin | pct }} | {{ "%.1f" | format(s.exit_multiple) }}x | {{ s.eps_fy3 | num }} | {{ s.target_price | num }} | {{ s.cagr_3y | pct }} |
 {% endfor %}
+{% endif %}
 
 **Probability-weighted:** target {{ forecast.expected_target | num }}, expected 3y CAGR {{ forecast.expected_cagr_3y | pct }}. Probability of a target below today's price: {{ forecast.downside_probability | pct }}.
 
@@ -355,6 +395,7 @@ def render_report(
     bundle: AnalysisBundle,
     news: list[NewsItem] | None = None,
     policy: list[NewsItem] | None = None,
+    charts: dict[str, str] | None = None,
 ) -> str:
     def pct_vs(fair: float | None, price: float | None) -> str:
         if fair is None or not price:
@@ -419,6 +460,7 @@ def render_report(
         news=_dated(news or []),
         policy=_dated(own_policy),
         policy_key=policy_key,
+        charts=charts or {},
     )
 
 

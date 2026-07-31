@@ -276,3 +276,81 @@ def test_report_filters_policy_to_its_own_industry():
     ])
     assert "Mine item" in md
     assert "Someone elses item" not in md
+
+
+def test_report_without_charts_keeps_every_table():
+    """The CLI markdown path: no charts, nothing lost."""
+    from mbe.report.markdown import render_report
+
+    md = render_report(analyze_ticker("GOOD.NS", StubProvider()))
+    assert "## Financial Analysis" in md
+    assert "| Revenue CAGR 3y |" in md          # ratios table intact
+    assert "| Scenario | Prob." in md           # full scenario table
+    assert "3y CAGR |" in md                    # including the columns a chart would carry
+    assert "<svg" not in md
+
+
+def test_report_with_charts_embeds_svg_and_trims_the_scenario_columns():
+    from mbe.report.markdown import render_report
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    md = render_report(bundle, charts={
+        "trend": "<svg id='t'></svg>",
+        "ownership": "<svg id='o'></svg>",
+        "scenarios": "<svg id='s'></svg>",
+    })
+    assert "<svg id='t'></svg>" in md
+    assert "<svg id='o'></svg>" in md
+    assert "<svg id='s'></svg>" in md
+    # the chart carries target and CAGR, so the table drops those two columns
+    assert "| Scenario | Prob." in md           # assumptions remain
+    assert "Exit multiple" in md
+    assert "3y CAGR |" not in md
+
+
+def test_report_states_why_peer_comparison_is_missing():
+    from mbe.report.markdown import render_report
+
+    md = render_report(analyze_ticker("GOOD.NS", StubProvider()))
+    assert "## Peer Comparison" in md
+    assert "requires a universe screen" in md
+
+
+def test_report_ownership_section_carries_its_caveats_and_conflict():
+    from mbe.report.markdown import render_report
+
+    md = render_report(analyze_ticker("GOOD.NS", StubProvider()), charts={
+        "ownership": "<svg id='o'></svg>",
+        "ownership_note": "Yahoo reports 8.1% insider, but its own float implies 62%",
+    })
+    assert "## Ownership" in md
+    assert "8.1% insider" in md
+    assert "not SEBI's promoter category" in md
+    assert "not the promoter/FII/DII" in md
+
+
+def test_chart_svgs_survive_markdown_conversion_intact():
+    """The load-bearing integration check. A blank line inside an SVG makes
+    python-markdown split it into paragraphs, destroying the chart while the
+    markdown source still looks correct.
+
+    Note what is NOT asserted: '<p><svg' is fine — markdown wrapping a whole
+    chart in a paragraph is valid, since SVG is phrasing content. The failure
+    is a '</p>' appearing *inside* an SVG."""
+    import re
+
+    import markdown as md_lib
+
+    from mbe.report import charts as chart_mod
+    from mbe.report.markdown import render_report
+
+    bundle = analyze_ticker("GOOD.NS", StubProvider())
+    built = chart_mod.build_charts(bundle)
+    assert built, "the stub bundle should support at least one chart"
+
+    html = md_lib.markdown(render_report(bundle, charts=built), extensions=["tables"])
+    svgs = re.findall(r"<svg\b.*?</svg>", html, re.S)
+    # every opening tag found a closing tag: none was truncated
+    assert len(svgs) == html.count("<svg")
+    for one in svgs:
+        assert "</p>" not in one and "<p>" not in one

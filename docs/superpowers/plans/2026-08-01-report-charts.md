@@ -1212,7 +1212,7 @@ Run:
 
 ```bash
 .venv/bin/python -c "
-import sys; sys.path.insert(0,'tests')
+import sys, re; sys.path.insert(0,'tests')
 import markdown as md
 from test_pipeline import StubProvider
 from mbe.pipeline import analyze_ticker
@@ -1221,13 +1221,16 @@ from mbe.report import charts
 b = analyze_ticker('GOOD.NS', StubProvider())
 c = charts.build_charts(b)
 html = md.markdown(render_report(b, charts=c), extensions=['tables'])
-bad = [k for k in c if k != 'ownership_note' and '<p><svg' in html and k in html]
+svgs = re.findall(r'<svg\b.*?</svg>', html, re.S)
 print('charts built:', sorted(c))
-print('BROKEN (svg split across paragraphs)' if '</p>' in html.split('<svg')[1][:200] else 'svg intact')
+print('svgs matched:', len(svgs), 'of', html.count('<svg'))
+print('all intact:', all('</p>' not in s for s in svgs) and len(svgs) == html.count('<svg'))
 "
 ```
 
-Expected: the chart keys print, and `svg intact`. `BROKEN` means a builder emitted a blank line — find it, do not work around it.
+Expected: the chart keys print, every `<svg` is matched by a closing tag, and `all intact: True`.
+
+**Do not test for `<p><svg`.** That is markdown wrapping the whole chart in a paragraph, which is valid and harmless — SVG is phrasing content. The real failure is a `</p>` appearing *inside* an SVG, which is what the check above looks for. An earlier draft of this plan tested the wrong string and reported a healthy chart as broken.
 
 - [ ] **Step 11: Commit**
 

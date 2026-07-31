@@ -319,3 +319,29 @@ def scenario_chart(forecast: PriceForecast, currency: str | None) -> str | None:
                               f"{s.target_price:,.0f}  ({s.cagr_3y * 100:+.0f}%/yr)",
                               size=8, anchor="start" if up else "end"))
     return svg.document(470, height, "Three-year price scenarios", parts)
+
+
+def build_charts(bundle, peers: list | None = None) -> dict[str, str]:
+    """Every chart this bundle can support, keyed for the report template.
+
+    A key is absent when its chart could not be built, so the template's
+    `{% if charts.x %}` is the single place that decides between a chart, a
+    table and an explanatory line. `peers` is None for single-ticker
+    analysis, which has no group to compare against."""
+    out: dict[str, str] = {}
+    if chart := trend_bars(bundle.fin, bundle.info.currency):
+        out["trend"] = chart
+    if chart := shareholding(bundle.info):
+        out["ownership"] = chart
+    if note := ownership_conflict(bundle.info):
+        out["ownership_note"] = note
+    if peers:
+        rows = peer_rows(bundle.card.ticker, peers)
+        if chart := peer_table(rows):
+            out["peer_table"] = chart
+        if chart := peer_scatter(rows):
+            out["peer_scatter"] = chart
+    if bundle.forecast and (chart := scenario_chart(bundle.forecast,
+                                                    bundle.info.currency)):
+        out["scenarios"] = chart
+    return out

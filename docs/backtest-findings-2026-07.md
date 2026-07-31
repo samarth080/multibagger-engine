@@ -933,3 +933,71 @@ current-constituent samples. Size Runway is the most exposed because it is
 literally a size bucket, but the exposure is universe-wide. Cross-sample
 agreement never rescues a bias that all samples share — the four-sample
 agreement in Addendum 19 is exactly what a shared artifact produces.
+
+---
+
+## Addendum 21 — weight variants: no change justified, and the blend's own IC is partly artifact
+
+Tests whether dropping a component improves the blend, on pinned universes,
+in-process so hard gates apply exactly as in production. Pre-registered margin
+(>= 0.05) applies.
+
+**Mean IC by variant:**
+
+| variant | us-sample | us-sample2 | india-primary | india-repl |
+|---|---|---|---|---|
+| baseline | −0.012 | +0.014 | +0.099 | +0.137 |
+| no-Momentum | +0.002 | +0.019 | +0.141 | +0.134 |
+| no-Size | −0.036 | −0.002 | +0.072 | +0.081 |
+| no-Momentum-no-Size | −0.021 | +0.002 | +0.147 | +0.080 |
+
+**Delta vs baseline** (positive = dropping helped):
+
+| variant | us-sample | us-sample2 | india-primary | india-repl | clears margin |
+|---|---|---|---|---|---|
+| no-Momentum | +0.014 | +0.006 | +0.041 | −0.003 | **0/4** |
+| no-Size | −0.024 | −0.015 | −0.028 | −0.056 | **0/4** |
+| no-Momentum-no-Size | −0.009 | −0.012 | +0.048 | −0.057 | **0/4** |
+
+**Momentum: no change.** Removing it is directionally positive in 3/4 samples
+(+0.014, +0.006, +0.041) but the largest gain is +0.041, below the 0.05 bar, and
+it is mildly negative on india-replication. Consistent with Momentum being a
+mild drag rather than a real cost. The Addendum 19 reading — anti-signal in 4/4
+— survives as a *relative* statement about component vs blend, but does not
+translate into a measurable improvement from deleting it. No weight changed.
+
+**Size Runway: removing it makes the blend worse in 4/4 — and this is not
+evidence it should stay.** The reasoning is circular and worth stating plainly.
+Addendum 20 showed Size Runway's standalone signal does not survive its
+survivorship bound. Blend IC is measured on the *same* survivorship-biased
+samples. So deleting the artifact necessarily deletes the artifact's
+contribution to the blend's measured IC. A component that helps a biased metric
+because both share the bias has not been validated by that fact.
+
+**The consequence is the real finding here.** Size Runway accounts for a large
+share of what little IC the blend has:
+
+| sample | blend | without Size | Size's share |
+|---|---|---|---|
+| us-smallcap-sample2 | +0.014 | −0.002 | **114%** (blend goes negative) |
+| india-primary | +0.099 | +0.072 | **27%** |
+| india-replication | +0.137 | +0.081 | **41%** |
+| us-smallcap-sample | −0.012 | −0.036 | n/a (blend already negative) |
+
+So roughly **a quarter to two-fifths of the blend's already-weak India IC — and
+all of its US sample2 IC — is inherited from the one component whose standalone
+signal fails its survivorship bound.** The contamination Addendum 20 identified
+in `Size Runway` is not confined to that pillar; it propagates into the
+composite score the site publishes.
+
+**Shipped accordingly:** no weight changed. Nothing clears the pre-registered
+margin, and changing weights on sub-threshold deltas is the error this protocol
+exists to prevent. But the standing claim about the composite weakens further:
+its measured edge was already near zero, and a substantial fraction of what
+remains traces to a probable artifact.
+
+**This is now the strongest argument for buying survivorship-free data.** Every
+question left — does the blend have any edge, does Momentum cost anything, is
+the size tilt real — is answerable with delisting-inclusive data (Sharadar,
+Norgate, CRSP) and unanswerable without it. No further re-running of free
+current-constituent samples will resolve any of them.

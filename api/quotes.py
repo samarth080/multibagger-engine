@@ -11,13 +11,20 @@ claim a universal 15-minute delay when the provider says otherwise."""
 
 import json
 import re
+import sys
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
-from mbe.data.market import QuoteRequest, YahooChartQuoteProvider, normalize_yahoo_chart
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+
+from mbe.data.market import (  # noqa: E402
+    QuoteRequest,
+    YahooChartQuoteProvider,
+    normalize_yahoo_chart,
+)
 
 _SYMBOL_RE = re.compile(r"^[A-Z0-9&\-]{1,20}\.NS\Z")
 _MAX_SYMBOLS = 30

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="overview" class="page-heading" aria-labelledby="page-title">
+  <div>
+    <p class="eyebrow">India equity research · Nifty Smallcap 250</p>
+    <h1 id="page-title">Multibagger Rankings</h1>
+    <p class="lede">A research ranking of business quality, growth, financial strength, valuation, momentum and runway. It is a diligence shortlist—not a prediction or guarantee.</p>
+    <p class="build-line">
+      Model <strong>{{ d.build.model_version if d.build else 'unavailable' }}</strong>
+      · Build <span class="mono">{{ d.build.build_id[:8] if d.build else 'unavailable' }}</span>
+      · Cutoff <time datetime="{{ d.build.data_cutoff if d.build else d.built_at }}">{{ display_built_at }}</time>
+    </p>
+  </div>
+  <div class="context-actions">
+    <span class="badge badge-warning" data-mode-badge>Static snapshot</span>
+    <a class="button button-quiet" href="{{ methodology_href }}">How scoring works</a>
+    <button class="button button-quiet" type="button" data-export>Export filtered CSV</button>
+  </div>
+</section>
+
+<div class="filter-chips" role="group" aria-label="Changes since the previous weekly build">
+  <strong class="build-line" style="margin:0">Weekly changes</strong>
+  {% for ticker in d.changes.entered %}<span class="badge badge-positive">↑ Entered {{ ticker }}</span>{% endfor %}
+  {% for ticker in d.changes.exited %}<span class="badge badge-negative">↓ Exited {{ ticker }}</span>{% endfor %}
+  {% if not d.changes.entered and not d.changes.exited %}<span class="build-line" style="margin:0">No changes in the published shortlist.</span>{% endif %}
+</div>
+
+<section class="summary-strip" aria-label="Ranking summary" data-summary>
+  <div class="summary-item"><span class="summary-label">Ranked companies</span><strong class="summary-value" data-summary-total>{{ summary.total }}</strong><span class="summary-note">Published shortlist</span></div>
+  <div class="summary-item"><span class="summary-label">Median score</span><strong class="summary-value" data-summary-score>{{ summary.median_score }}</strong><span class="summary-note">0–100 model scale</span></div>
+  <div class="summary-item"><span class="summary-label">Median confidence</span><strong class="summary-value" data-summary-confidence>{{ summary.median_confidence }}</strong><span class="summary-note">Coverage indicator</span></div>
+  <div class="summary-item"><span class="summary-label">Median risk</span><strong class="summary-value" data-summary-risk>{{ summary.median_risk }}</strong><span class="summary-note">Higher means more flags</span></div>
+  <div class="summary-item"><span class="summary-label">High confidence</span><strong class="summary-value" data-summary-high-confidence>{{ summary.high_confidence }}</strong><span class="summary-note">At least 90% coverage</span></div>
+  <div class="summary-item"><span class="summary-label">Largest sector</span><strong class="summary-value" data-summary-sector>{{ summary.top_sector }}</strong><span class="summary-note" data-summary-sector-note>{{ summary.top_sector_count }} names</span></div>
+</section>
+
+<div class="notice notice-warning" data-stale-notice{% if not snapshot_stale %} hidden{% endif %}>
+  <span aria-hidden="true">△</span><div><strong>Snapshot may be stale.</strong> <span data-stale-message>This build is older than the weekly publication window.</span></div>
+</div>
+
+<section id="rankings" class="panel" data-rankings-app data-build-id="{{ d.build.build_id if d.build else '' }}" data-built-at="{{ d.built_at }}">
+  <h2 class="sr-only">Filter and explore rankings</h2>
+  <form class="toolbar" data-filter-form novalidate>
+    <div class="field field-grow"><label for="ranking-query">Company search</label><input class="input" id="ranking-query" name="q" type="search" maxlength="80" placeholder="Name or NSE symbol"></div>
+    <div class="field"><label for="sector-filter">Sector</label><select class="select" id="sector-filter" name="sector"><option value="">All sectors</option>{% for value in filters.sectors %}<option>{{ value }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="industry-filter">Industry</label><select class="select" id="industry-filter" name="industry"><option value="">All industries</option>{% for value in filters.industries %}<option>{{ value }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="score-filter">Minimum score</label><input class="input" id="score-filter" name="minScore" type="number" min="0" max="100" step="1" inputmode="decimal" placeholder="0"></div>
+    <div class="field"><label for="confidence-filter">Minimum confidence</label><input class="input" id="confidence-filter" name="minConfidence" type="number" min="0" max="100" step="1" inputmode="decimal" placeholder="0%"></div>
+    <div class="field"><label for="risk-filter">Maximum risk</label><input class="input" id="risk-filter" name="maxRisk" type="number" min="0" max="100" step="1" inputmode="decimal" placeholder="100"></div>
+    <div class="field"><label for="trend-filter">Technical trend</label><select class="select" id="trend-filter" name="trend"><option value="">All trends</option>{% for value in filters.trends %}<option value="{{ value }}">{{ value | replace('_', ' ') | title }}</option>{% endfor %}</select></div>
+    <div class="field"><span class="control-label">Apply filters</span><button class="button button-primary" type="submit">Update rankings</button></div>
+    <div class="field"><span class="control-label">Reset</span><button class="button button-quiet" type="button" data-reset>Clear all</button></div>
+  </form>
+  <div class="filter-chips" data-filter-chips role="group" aria-label="Active filters"></div>
+
+  <div class="table-panel">
+    <div class="table-meta">
+      <div><strong data-result-count>{{ d.top | length }} companies</strong> <span data-mode-copy>from the versioned static snapshot</span></div>
+      <div class="table-actions">
+        <label class="sr-only" for="rank-start">Minimum rank</label><input class="input" id="rank-start" name="rankMin" data-rank-min type="number" min="1" inputmode="numeric" placeholder="Rank from" style="width:7rem">
+        <label class="sr-only" for="rank-end">Maximum rank</label><input class="input" id="rank-end" name="rankMax" data-rank-max type="number" min="1" inputmode="numeric" placeholder="Rank to" style="width:7rem">
+        <label class="sr-only" for="page-size">Rows per page</label><select class="select" id="page-size" data-page-size style="width:auto"><option value="10">10 rows</option><option value="25" selected>25 rows</option><option value="50">50 rows</option><option value="100">100 rows</option></select>
+        <label class="sr-only" for="density">Table density</label><select class="select" id="density" data-density style="width:auto"><option value="compact">Compact</option><option value="standard" selected>Standard</option><option value="comfortable">Comfortable</option></select>
+        <button class="button button-small" type="button" data-column-trigger aria-expanded="false">Columns</button>
+        <div class="popover" data-column-popover hidden>
+          <strong>Visible columns</strong>
+          <div class="column-list" data-column-list></div>
+          <button class="button button-small button-quiet" type="button" data-column-reset>Restore defaults</button>
+        </div>
+      </div>
+    </div>
+    <div class="table-scroll" tabindex="0" aria-label="Scrollable Multibagger rankings table">
+      <table class="rankings-table" data-rankings-table data-density="standard">
+        <caption class="sr-only">Multibagger ranking results. Activate a column heading to sort.</caption>
+        <thead><tr>
+          <th scope="col" data-column="rank" aria-sort="ascending"><button class="sort-button" type="button" data-sort="rank">Rank <span class="sort-indicator">↑</span></button></th>
+          <th scope="col" class="company-col" data-column="company" aria-sort="none"><button class="sort-button" type="button" data-sort="company">Company <span class="sort-indicator"></span></button></th>
+          <th scope="col" data-column="sector">Sector</th>
+          <th scope="col" data-column="industry">Industry</th>
+          <th scope="col" class="number" data-column="score" aria-sort="none"><button class="sort-button" type="button" data-sort="score">MB score <span class="sort-indicator"></span></button></th>
+          <th scope="col" class="number" data-column="investment" aria-sort="none"><button class="sort-button" type="button" data-sort="investment">Investment <span class="sort-indicator"></span></button></th>
+          <th scope="col" class="number" data-column="confidence" aria-sort="none"><button class="sort-button" type="button" data-sort="confidence">Confidence <span class="sort-indicator"></span></button></th>
+          <th scope="col" class="number" data-column="risk" aria-sort="none"><button class="sort-button" type="button" data-sort="risk">Risk <span class="sort-indicator"></span></button></th>
+          <th scope="col" data-column="trend">Trend</th>
+          <th scope="col" class="number" data-column="quote">Quote</th>
+          <th scope="col" data-column="signals">Signals</th>
+          <th scope="col" data-column="freshness">Freshness</th>
+          <th scope="col" data-column="actions"><span class="sr-only">Actions</span></th>
+        </tr></thead>
+        <tbody data-ranking-rows>
+        {% for r in d.top %}
+          <tr data-instrument-id="{{ r.instrument_id }}">
+            <td data-column="rank"><strong>{{ r.rank }}</strong><span class="cell-note">—</span></td>
+            <td class="company-col" data-column="company"><a class="company-link" href="/company/{{ r.instrument_id }}.html">{{ r.name }}</a><span class="company-meta">{{ r.ticker }} · {{ r.exchange }}</span></td>
+            <td data-column="sector">{{ r.sector or 'Unavailable' }}</td>
+            <td data-column="industry">{{ r.industry or 'Unavailable' }}</td>
+            <td class="number" data-column="score"><span class="score">{{ '%.1f' | format(r.mb) }}</span></td>
+            <td class="number" data-column="investment">{{ '%.1f' | format(r.inv) }}</td>
+            <td class="number" data-column="confidence">{{ '%.0f%%' | format(r.conf * 100) }}</td>
+            <td class="number" data-column="risk">{{ r.risk }}</td>
+            <td data-column="trend">{{ r.trend | replace('_', ' ') }}</td>
+            <td class="number" data-column="quote"><span data-quote="{{ r.instrument_id }}" data-symbol="{{ r.ticker }}" data-base="{{ r.price_at_build or '' }}">Unavailable until loaded</span></td>
+            <td data-column="signals">{{ r.positive_signal_count }} positive<span class="cell-note">{{ r.red_flag_count }} flags</span></td>
+            <td data-column="freshness"><span class="badge badge-warning">Snapshot</span></td>
+            <td data-column="actions"><a class="button button-small" href="/company/{{ r.instrument_id }}.html">Research</a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="state-panel" data-table-state hidden><div><h2 data-state-title>Rankings unavailable</h2><p data-state-copy>The current ranking build could not be loaded.</p><button class="button" type="button" data-retry>Try again</button></div></div>
+    <nav class="pagination" aria-label="Rankings pages">
+      <span data-page-summary>Page 1 of 1</span>
+      <div class="pagination-controls"><button class="button button-small" type="button" data-page-prev disabled>Previous</button><button class="button button-small" type="button" data-page-next disabled>Next</button></div>
+    </nav>
+  </div>
+</section>
+
+<section id="sectors" class="page-heading"><div><p class="eyebrow">Descriptive context</p><h2>Sector &amp; industry momentum</h2><p class="lede">Momentum failed its pre-registered score ablation and is shown for context only—never scored.</p></div></section>
+<div class="panel table-scroll" tabindex="0" aria-label="Scrollable sector and industry momentum table"><table class="rankings-table" style="min-width:40rem"><caption class="sr-only">Top sector and industry momentum groups</caption><thead><tr><th scope="col">Rank</th><th scope="col">Group</th><th scope="col">Level</th><th scope="col">Momentum</th><th scope="col">Companies</th></tr></thead><tbody>{% for s in d.sectors[:12] %}<tr><td>{{ s.rank }}</td><td><strong>{{ s.name }}</strong></td><td>{{ s.level }}</td><td><span class="score">{{ '%.0f' | format(s.score) }}</span></td><td>{{ s.n }}</td></tr>{% endfor %}</tbody></table></div>
+
+{% if d.policy %}<section id="news" class="page-heading"><div><p class="eyebrow">Unscored context</p><h2>Policy &amp; sector headlines</h2><p class="lede">Headlines to weigh during research—not catalysts identified by the model.</p></div></section>
+<div class="panel prose-panel">{% for sector, items in d.policy | groupby('sectors.0') %}<h3>{{ sector }}</h3><ul>{% for item in items %}<li><a href="{{ item.link }}" rel="noopener noreferrer">{{ item.title }}</a> <span class="cell-note">{{ item.source or 'Source unavailable' }}{% if item.age_days is not none %} · {{ item.age_days }}d old at build{% endif %}</span></li>{% endfor %}</ul>{% endfor %}</div>{% endif %}
+{% endblock %}

@@ -22,6 +22,8 @@ from mbe.pipeline import screen
 from mbe.publish import TOP_N, build_data, diff_weeks, render_site
 from mbe.storage import RunStore
 from mbe.universe import get_universe
+from mbe.models.instrument import stable_instrument_id
+from mbe.versioning import build_manifest
 
 SITE = Path("site")
 UNIVERSE = "nifty-smallcap250"
@@ -65,6 +67,7 @@ class ThrottledProvider:
 
 
 def main() -> None:
+    build_started = time.monotonic()
     ttl = float(os.environ.get("MBE_CACHE_TTL_HOURS", "24"))
     throttle = float(os.environ.get("MBE_THROTTLE_SECS", "0"))
     cache = DiskCache("data/cache", ttl_hours=ttl)
@@ -81,11 +84,48 @@ def main() -> None:
             f"to publish a degraded ranking. Failures: "
             f"{list(result.failures.items())[:5]}"
         )
-    RunStore("data/mbe.duckdb").save_run(result, UNIVERSE)
+    master_meta = json.loads(
+        Path("universes/nifty-smallcap250-instruments.json").read_text()
+    )
+    canonical_records = {
+        row["provider_symbols"]["yahoo"]: row for row in master_meta["records"]
+    }
+    if set(canonical_records) != set(tickers):
+        missing = sorted(set(tickers) - set(canonical_records))
+        extra = sorted(set(canonical_records) - set(tickers))
+        raise SystemExit(
+            f"canonical master/universe mismatch — missing={missing[:5]} extra={extra[:5]}"
+        )
+    source_date = master_meta.get("source_version")
+    built_at = datetime.now(timezone.utc)
+    manifest = build_manifest(
+        universe_name=UNIVERSE, tickers=tickers, built_at=built_at,
+        source_date=source_date, attempted=len(tickers), scored=len(result.ranked),
+        failed=len(result.failures), duration_seconds=time.monotonic() - build_started,
+    )
+    instrument_ids = {
+        ticker: stable_instrument_id(
+            exchange_code="NSE" if ticker.endswith(".NS") else "BSE",
+            symbol=ticker.removesuffix(".NS").removesuffix(".BO"),
+            isin=canonical_records[ticker].get("isin"),
+        )
+        for ticker in tickers
+    }
+    if set(instrument_ids) != set(tickers) or len(set(instrument_ids.values())) != len(tickers):
+        raise SystemExit("canonical instrument mapping collision — refusing to publish")
+    RunStore("data/mbe.duckdb").save_run(
+        result, UNIVERSE, build_id=manifest.build_id, instrument_ids=instrument_ids,
+    )
 
     news = {
         b.card.ticker: company_news(
-            b.info.name or b.card.ticker, b.card.ticker, cache=cache
+            canonical_records[b.card.ticker].get("company_name")
+            or b.info.name
+            or b.card.ticker,
+            b.card.ticker,
+            cache=cache,
+            exchange=b.info.exchange or "NSE",
+            industry=b.info.industry,
         )
         for b in result.ranked[:TOP_N]
     }
@@ -124,7 +164,20 @@ def main() -> None:
 
     prev_path = SITE / "data.json"
     prev = json.loads(prev_path.read_text()) if prev_path.exists() else None
-    data = build_data(result, news, policy, built_at=datetime.now(timezone.utc))
+    previous_screener_path = SITE / "api" / "v1" / "screener.json"
+    previous_screener_envelope = (
+        json.loads(previous_screener_path.read_text())
+        if previous_screener_path.exists() else {}
+    )
+    previous_screener = previous_screener_envelope.get("data", {}).get("rows", [])
+    data = build_data(
+        result, news, policy, built_at=built_at, manifest=manifest,
+        instrument_ids=instrument_ids, canonical_records=canonical_records,
+        previous_screener_rows=previous_screener,
+    )
+    previous_build = previous_screener_envelope.get("meta", {}).get("build") or {}
+    if previous_build.get("build_id") and previous_build.get("build_id") != manifest.build_id:
+        data["_previous_model_build"] = previous_build
     changes = diff_weeks(prev, data)
     render_site(data, changes, result, SITE)
     print(

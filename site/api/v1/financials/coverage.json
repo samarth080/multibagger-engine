@@ -1,0 +1,112 @@
+{
+ "data": {
+  "financial_dataset_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+  "schema_version": "1.1",
+  "metric_definition_version": "2026-08-01.1",
+  "source_cutoff": "2026-08-01T11:10:03.765519+00:00",
+  "built_at": "2026-08-01T11:10:03.938100+00:00",
+  "companies_attempted": 250,
+  "companies_completed": 250,
+  "companies_failed": 0,
+  "status": "complete",
+  "source_versions": {
+   "yahoo_compatibility": "runtime-cache",
+   "nse_financial_results": "not imported into static build"
+  },
+  "official_discovery_cutoff": null,
+  "compatibility_source_cutoff": "2026-08-01T11:10:03.765519+00:00",
+  "official_filing_count": 0,
+  "attachment_count": 0,
+  "parser_versions": {
+   "nse_ind_as_results_xbrl": "2026-08-01.1"
+  },
+  "reconciliation_rule_version": "2026-08-01.1",
+  "source_selection_rule_version": "2026-08-01.2",
+  "official_coverage": {
+   "revenue_cagr_3y": {
+    "covered": 0,
+    "coverage_percent": 0.0
+   },
+   "roce_3y": {
+    "covered": 0,
+    "coverage_percent": 0.0
+   }
+  },
+  "compatibility_fallback_coverage": {
+   "revenue_cagr_3y": {
+    "covered": 246,
+    "missing": 4,
+    "coverage_percent": 98.4
+   },
+   "roce_3y": {
+    "covered": 232,
+    "missing": 18,
+    "coverage_percent": 92.8
+   }
+  },
+  "conflict_count": 0,
+  "reconciliation_summary": {
+   "revenue_cagr_3y": {
+    "exact_match": 0,
+    "within_rounding_tolerance": 0,
+    "material_difference": 0,
+    "official_only": 0,
+    "compatibility_only": 246,
+    "both_missing": 4,
+    "not_comparable_without_official_series": 250
+   },
+   "roce_3y": {
+    "exact_match": 0,
+    "within_rounding_tolerance": 0,
+    "material_difference": 0,
+    "official_only": 0,
+    "compatibility_only": 232,
+    "both_missing": 18,
+    "not_comparable_without_official_series": 250
+   }
+  },
+  "selected_source_distribution": {
+   "nse_financial_results": 0,
+   "yahoo_compatibility": 478
+  },
+  "unknown_basis_count": 250,
+  "unsupported_format_count": 0,
+  "public_metric_eligibility": {
+   "revenue_cagr_3y": "Tier B approved compatibility fallback; promote per instrument only after official multi-year lineage passes Tier A gates.",
+   "roce_3y": "Tier B approved compatibility fallback; promote per instrument only after official multi-year lineage passes Tier A gates."
+  },
+  "coverage": {
+   "revenue_cagr_3y": {
+    "covered": 246,
+    "missing": 4,
+    "coverage_percent": 98.4
+   },
+   "roce_3y": {
+    "covered": 232,
+    "missing": 18,
+    "coverage_percent": 92.8
+   }
+  },
+  "quality_summary": {
+   "valid_with_warning": 250
+  },
+  "warnings": [
+   "The current static dataset contains no canonical official filing series; all public financial rows use an approved compatibility fallback with unknown statement basis."
+  ],
+  "configuration_hash": "c4f3a5102a13ae58bbadf190cbb1bedf3f3679c00d6eb6239acc198ea0e0ed45"
+ },
+ "meta": {},
+ "errors": [],
+ "warnings": [
+  "The current static dataset contains no canonical official filing series; all public financial rows use an approved compatibility fallback with unknown statement basis."
+ ],
+ "freshness": {
+  "state": "unknown",
+  "source": "financial-dataset-build",
+  "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+  "normalized_at": "2026-08-01T11:10:03.938100+00:00",
+  "quality_status": "warning",
+  "reason": "Compatibility provider rows lack filing-date and statement-basis metadata."
+ },
+ "request_id": "static-build"
+}

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Model components, validation caveats, data limitations and freshness semantics for Multibagger Engine.">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://multibagger-engine.vercel.app/methodology.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Methodology | Multibagger Engine">
+  <meta property="og:description" content="Model components, validation caveats, data limitations and freshness semantics for Multibagger Engine.">
+  <meta property="og:url" content="https://multibagger-engine.vercel.app/methodology.html">
+  <title>Methodology | Multibagger Engine</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <script src="/assets/theme.js"></script>
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body data-data-mode="static">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="app-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Multibagger Engine home">
+        <span class="brand-mark" aria-hidden="true"><span>ME</span></span>
+        <span class="brand-name"><span class="brand-product">Multibagger</span> Engine</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a class="nav-link" href="/#overview">Overview</a>
+        <a class="nav-link" href="/#rankings">Multibagger</a>
+        <a class="nav-link" href="/screener.html">Screener</a>
+        <a class="nav-link" href="/#sectors">Sectors</a>
+        <a class="nav-link" href="/#news">News</a>
+        <span class="nav-soon" aria-disabled="true">Calendar <span class="later-label">Later</span></span>
+        <a class="nav-link" href="/methodology.html" aria-current="page">Methodology</a>
+      </nav>
+      <div class="header-actions">
+        <button class="search-trigger" type="button" data-open-search aria-label="Search instruments" aria-haspopup="dialog" aria-controls="instrument-search">
+          <span aria-hidden="true">⌕</span><span class="search-trigger-label">Search instruments</span><kbd>⌘ K</kbd>
+        </button>
+        <span class="status-button" data-status-trigger role="status" aria-label="Data status: checking" title="Data status">
+          <span class="status-dot" data-state="checking" aria-hidden="true"></span><span class="status-label">Checking</span>
+        </span>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Change colour theme" title="Use light theme">
+          <span data-theme-icon aria-hidden="true">◐</span>
+        </button>
+        <button class="icon-button menu-button" type="button" data-open-menu aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded="false" aria-label="Open navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <noscript>
+    <form class="notice" action="/api/analyze" method="get">
+      <label for="noscript-ticker">JavaScript is off. Analyze a known NSE ticker:</label>
+      <input class="input" id="noscript-ticker" name="ticker" placeholder="e.g. RELIANCE.NS" required>
+      <button class="button" type="submit">Analyze</button>
+    </form>
+  </noscript>
+
+  <main id="main-content" class="page-shell" tabindex="-1">
+<span id="financial-methodology"></span>
+<section class="page-heading"><div><p class="eyebrow">Transparent by design</p><h1>Methodology &amp; limitations</h1><p class="lede">How the Multibagger Engine turns incomplete public data into an explainable research ranking—and where that ranking can fail.</p></div><div class="context-actions"><span class="badge badge-info">Model multibagger-score-v1</span><a class="button" href="/#rankings">View rankings</a></div></section>
+<div class="methodology-grid">
+  <article class="panel prose-panel">
+    <h2>What the score means</h2>
+    <p>The Multibagger Score ranks relative business and market characteristics in the current research universe. It is not a probability, price target or guarantee of future returns. Investment Score is a complementary quality/value assessment. Confidence reflects coverage and input completeness—not the probability that a thesis succeeds. Risk summarizes identified model flags and should be read in context.</p>
+    <h2>Components</h2>
+    <ul class="component-list"><li><span>Multibagger · Growth</span><strong>26%</strong></li><li><span>Multibagger · Quality</span><strong>24%</strong></li><li><span>Multibagger · Size Runway</span><strong>16%</strong></li><li><span>Multibagger · Valuation</span><strong>14%</strong></li><li><span>Multibagger · Momentum</span><strong>10%</strong></li><li><span>Multibagger · Reinvestment</span><strong>10%</strong></li><li><span>Investment · Quality</span><strong>28%</strong></li><li><span>Investment · Financial Strength</span><strong>18%</strong></li><li><span>Investment · Growth</span><strong>18%</strong></li><li><span>Investment · Valuation</span><strong>22%</strong></li><li><span>Investment · Momentum</span><strong>14%</strong></li></ul>
+    <h2>Build cadence and lineage</h2>
+    <p>The Nifty Smallcap 250 screen is rebuilt weekly before the Monday NSE session. Each versioned build records its universe version, data cutoff, model version, factor configuration hash, provider versions and validation status. Static deployments show the last completed snapshot; database-backed deployments can serve the latest persisted build.</p>
+    <h2>Validation caveat</h2>
+    <p>modest positive 2-year Indian small-cap IC; survivorship-biased; sector momentum descriptive only. Historical tests retain survivorship, point-in-time data and transaction-cost limitations. Sector momentum failed its registered ablation and remains descriptive only. News and policy context are never scored.</p>
+    <h2>Data limitations</h2>
+    <ul><li>Current production fundamentals and quotes depend on unofficial Yahoo Finance data and can be delayed, stale or unavailable.</li><li>News matching uses RSS titles rather than article-body entity extraction; low-confidence matches are hidden.</li><li>Backtests retain survivorship and historical point-in-time limitations and do not establish guaranteed outcomes.</li><li>The canonical master is Nifty-index focused and does not yet contain complete BSE codes, listing history, SME history or corporate actions.</li><li>Confidence describes input coverage; it is not a forecast probability.</li></ul>
+    <h2>Financial methodology</h2>
+    <p>Canonical financial facts preserve source filing, fiscal period, currency, unit, statement basis, revision and quality lineage. The first fundamental filters are annual three-year Revenue CAGR and three-year average ROCE. Missing values stay missing; zero is never treated as missing; numerators and denominators must share period, source, currency and basis.</p>
+    <p>Current static production uses a Yahoo compatibility history whose filing date and consolidated-versus-standalone basis are unavailable. Those values are labelled <em>Ready with caveat</em>. Verify issuer or NSE filings independently. Operating margin, leverage, coverage, cash-flow and valuation filters remain withheld until their lineage and comparability pass the documented readiness gate.</p>
+    <h2>Static versus live data</h2>
+    <p>Static mode reads versioned weekly JSON and remains operational without PostgreSQL. Live API mode reads the canonical database with server-side pagination. The interface never merges rows from incompatible build IDs. Quotes are a separate, failure-tolerant layer and do not determine whether rankings can render.</p>
+  </article>
+  <aside class="panel prose-panel" aria-label="Methodology summary">
+    <h2>Current build</h2>
+    <p><strong>Build ID</strong><br><span class="mono">1bd53d15-67c6-4b02-b830-0eb0bb1d582b</span></p>
+    <p><strong>Data cutoff</strong><br>2026-08-01T11:10:03.765519Z</p>
+    <p><strong>Universe</strong><br>nifty-smallcap250</p>
+    <p><strong>Validation</strong><br>complete</p>
+    <div class="notice notice-warning"><span aria-hidden="true">△</span><div><strong>Research tooling only.</strong> Verify financial statements, corporate actions and current prices independently.</div></div>
+  </aside>
+</div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-grid">
+      <div>
+        <strong>Research tooling, not investment advice.</strong>
+        Scores are model outputs with incomplete data and stated validation limits. Verify independently before making decisions.
+      </div>
+      <div><a href="/methodology.html">Read methodology &amp; limitations</a></div>
+    </div>
+  </footer>
+
+  <dialog class="dialog" id="instrument-search" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title">Search instruments</h2>
+    <div class="dialog-header">
+      <span aria-hidden="true">⌕</span>
+      <input class="dialog-search" data-search-input type="search" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Symbol, company name or ISIN" aria-controls="search-results" aria-describedby="search-help search-status">
+      <kbd>Esc</kbd>
+      <button class="icon-button" type="button" data-close-search aria-label="Close search">×</button>
+    </div>
+    <p class="sr-only" id="search-help">Type at least two characters. Use up and down arrow keys to choose a result, then Enter to open it.</p>
+    <div class="dialog-body">
+      <div class="dialog-status" id="search-status" data-search-status role="status" aria-live="polite">Search the canonical Nifty Smallcap 250 instrument master.</div>
+      <div data-recent-searches></div>
+      <ul class="search-results" id="search-results" data-search-results role="listbox" aria-label="Instrument matches"></ul>
+    </div>
+  </dialog>
+
+  <dialog class="mobile-drawer" id="mobile-navigation" aria-labelledby="mobile-nav-title">
+    <div class="drawer-head"><strong id="mobile-nav-title">Navigation</strong><button class="icon-button" type="button" data-close-menu aria-label="Close navigation">×</button></div>
+    <nav class="drawer-nav" aria-label="Mobile navigation">
+      <a class="nav-link" href="/#overview">Overview</a>
+      <a class="nav-link" href="/#rankings">Multibagger rankings</a>
+      <a class="nav-link" href="/screener.html">Advanced screener</a>
+      <a class="nav-link" href="/#sectors">Sectors</a>
+      <a class="nav-link" href="/#news">News</a>
+      <span class="nav-soon" aria-disabled="true">Calendar — later phase</span>
+      <a class="nav-link" href="/methodology.html">Methodology</a>
+    </nav>
+  </dialog>
+
+  <div class="sr-only" data-announcer role="status" aria-live="polite" aria-atomic="true"></div>
+  <script defer src="/assets/app.js"></script>
+</body>
+</html>

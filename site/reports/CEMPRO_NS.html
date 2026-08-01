@@ -1,1001 +1,171 @@
-<!doctype html><html><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CEMPRO.NS</title>
-<script>(function(){try{
-if(localStorage.getItem("mbe-theme")==="light")
-document.documentElement.setAttribute("data-theme","light");
-}catch(e){}})()</script><style>
-:root{--bg:#1F2022;--surface:#252629;--text:#E4E6EB;--muted:#9B9EA4;
---border:#333333;--border-soft:#2C2D30;--accent:#38A6F0;
---gain:#4CAF50;--loss:#F44336;
---chip-gain-bg:rgba(76,175,80,.15);--chip-loss-bg:rgba(244,67,54,.15)}
-[data-theme="light"]{--bg:#F3F4F6;--surface:#FFFFFF;--text:#2D343C;
---muted:#6B7280;--border:#DDE4F0;--border-soft:#EEF1F6;--accent:#5076EE;
---gain:#039955;--loss:#D32F2F;
---chip-gain-bg:#E7F6EF;--chip-loss-bg:#FBEAEA}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
-a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-nav.topnav{position:sticky;top:0;z-index:10;display:flex;align-items:center;
-gap:18px;padding:10px 20px;background:var(--surface);
-border-bottom:1px solid var(--border)}
-.brand{font-weight:700;color:var(--accent);font-size:16px;letter-spacing:.02em}
-.navlink{color:var(--muted);font-size:13px;font-weight:500}
-.navlink:hover{color:var(--text);text-decoration:none}
-.theme-toggle{background:none;border:1px solid var(--border);border-radius:6px;
-color:var(--muted);padding:4px 10px;cursor:pointer;font-size:12px}
-main{max-width:1080px;margin:0 auto;padding:16px 20px 40px}
-.card{background:var(--surface);border:1px solid var(--border);
-border-radius:10px;overflow:hidden;margin:14px 0}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{color:var(--muted);font-size:11px;text-transform:uppercase;
-letter-spacing:.05em;text-align:left;font-weight:600}
-th,td{padding:9px 12px;border-bottom:1px solid var(--border-soft)}
-tr:last-child td{border-bottom:none}
-.gain{color:var(--gain)}.loss{color:var(--loss)}
-.muted{color:var(--muted)}.small{font-size:11px}
-.chip{display:inline-block;border-radius:5px;padding:2px 9px;
-font-size:11px;font-weight:600}
-.chip.gain{background:var(--chip-gain-bg)}.chip.loss{background:var(--chip-loss-bg)}
-.accent{color:var(--accent);font-weight:600}
-h2.sec{font-size:13px;text-transform:uppercase;letter-spacing:.06em;
-color:var(--muted);margin:26px 0 4px}
-footer{margin:32px 0 0;padding:14px 16px;border:1px solid var(--border);
-border-radius:10px;color:var(--muted);font-size:12px;line-height:1.6}
-</style><style>
-.report{padding:6px 22px 22px}
-.report h1,.report h2,.report h3{color:var(--text);letter-spacing:.01em}
-.report h1{font-size:20px;border-bottom:1px solid var(--border);padding-bottom:8px}
-.report h2{font-size:15px;margin-top:26px}
-.report h3{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.report table{display:block;overflow-x:auto;margin:10px 0}
-.report td,.report th{border:1px solid var(--border-soft);white-space:nowrap}
-.report hr{border:none;border-top:1px solid var(--border)}
-.report blockquote{border-left:3px solid var(--accent);margin:10px 0;
-padding:2px 14px;color:var(--muted)}
-.report code{background:var(--bg);border-radius:4px;padding:1px 5px}
-</style></head><body>
-<nav class="topnav"><span class="brand">&#9670; MBE</span>
-<a class="navlink" href="../index.html">&larr; back to rankings</a>
-<span style="margin-left:auto"></span><button class="theme-toggle" title="Toggle light/dark"
-onclick="(function(){var r=document.documentElement;
-var light=r.getAttribute('data-theme')==='light';
-if(light){r.removeAttribute('data-theme')}else{r.setAttribute('data-theme','light')}
-try{localStorage.setItem('mbe-theme',light?'dark':'light')}catch(e){}})()"
->&#9788;/&#9789;</button></nav>
-<main><div class="card report"><h1>Equity Research Report: CEMINDIA PROJECTS LIMITED (CEMPRO.NS)</h1>
-<p><em>Generated 2026-08-01 by Multibagger Engine v0.1 — evidence-driven, confidence-scored.</em></p>
-<h2>Executive Summary</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Verdict</strong></td>
-<td>Promising — verify the flagged data gaps before acting</td>
-</tr>
-<tr>
-<td><strong>Investment Score</strong></td>
-<td>65.5 / 100</td>
-</tr>
-<tr>
-<td><strong>Multibagger Score</strong></td>
-<td>69.2 / 100</td>
-</tr>
-<tr>
-<td><strong>Confidence</strong></td>
-<td>98%</td>
-</tr>
-<tr>
-<td><strong>Risk</strong></td>
-<td>24 / 100 (low probability of permanent loss)</td>
-</tr>
-<tr>
-<td><strong>Price</strong></td>
-<td>1,338.00 INR</td>
-</tr>
-<tr>
-<td><strong>Base fair value (DCF)</strong></td>
-<td>790.90 — margin of safety -40.9%</td>
-</tr>
-<tr>
-<td><strong>Market cap</strong></td>
-<td>Rs 22,985 cr</td>
-</tr>
-</tbody>
-</table>
-<h2>Investment Thesis</h2>
-<ul>
-<li><strong>Quality 69/100</strong> (data coverage 100%): High return on capital employed is the engine of compounding — roce_3y = 0.246567.</li>
-<li><strong>Growth 92/100</strong> (data coverage 100%): Top-line growth is the rawest demand signal — revenue_cagr_3y = 0.254958.</li>
-<li><strong>Financial Strength 75/100</strong> (data coverage 100%): Low leverage survives downturns and funds opportunity — debt_to_equity = 0.417252.</li>
-<li><strong>Valuation 45/100</strong> (data coverage 100%): Price below conservatively-estimated intrinsic value — margin_of_safety = -0.408897.</li>
-<li><strong>Momentum 75/100</strong> (data coverage 100%): Stage-2 uptrends are where big moves happen (Minervini template) — trend_state = strong_up.</li>
-<li><strong>Size Runway 50/100</strong> (data coverage 100%): Multibaggers are far more common below institutional radar size — market_cap = 229851791360.0.</li>
-<li><strong>Reinvestment 70/100</strong> (data coverage 100%): Compounding needs somewhere productive to redeploy cash — reinvestment_rate = 0.611.</li>
-<li><strong>Sector Momentum 26/100</strong> (data coverage 100%): Money moving into the industry over 6 months — Engineering &amp; Construction, 9 peers (leave-one-out) — sector_rel_strength_6m = -0.141797.</li>
-</ul>
-<h2>Business Overview</h2>
-<ul>
-<li>Sector: Industrials | Industry: Engineering &amp; Construction</li>
-<li>Sector momentum: 26/100 vs screened peers (coverage 100%)</li>
-<li>Insider/promoter holding: 72.4% | Institutional: 6.0%</li>
-</ul>
-<p>Cemindia Projects Limited provides construction and civil engineering contracting services in India. The company constructs maritime structures, including jetties, dolphins, service platforms, quay, berths on concrete and steel piles, solid gravity type wharf structures, ship lifts, dry docks, wet basins, and inclined berths; mass rapid transport systems (MRTs); airports; highways, bridges, and flyovers; foundations and specialized engineering works comprising geotechnical investigations, piling, diaphragm walling, slope stabilization, sandwicks/band drains, vibrofloatation stone columns, drilling and grouting, rock/soil anchors repairs, colcrete, gunite/shotcrete, grouted mattress, box pushing, tube heading, microtunneling, and rehabilitation and underpinning services; and dams and tunnels, TBM, M-TBM, NATM Tunnels, Box Pushing Tunnels. It also offers breakwater and piled approach trest</p>
-<h2>Business &amp; Investment Thesis</h2>
-<p><strong>Franchise classification:</strong> Durable Compounder — franchise score
-92.4/100 over 5 years of history.
-<em>(Franchise score is descriptive only: backtests found it does not predict
-forward returns better than the base score — see Model validation status.)</em></p>
-<p>Cemindia Projects Limited provides construction and civil engineering contracting services in India. The company constructs maritime structures, including jetties, dolphins, service platforms, quay, berths on concrete and steel piles, solid gravity type wharf structures, ship lifts, dry docks, wet basins, and inclined berths; mass rapid transport systems (MRTs); airports; highways, bridges, and fl…</p>
-<p><strong>Why it might compound:</strong>
-- Consistently high returns on capital — ROCE &gt;= 15% in 100% of the last 5 years
-- Stable operating margins, indicating pricing power / a moat
-- Reinvests at a high incremental return on capital (30%)
-- Operating margins are expanding — improving unit economics</p>
-<p><strong>Key assumptions</strong> — each with the share of the company's own history in which it held:</p>
-<table>
-<thead>
-<tr>
-<th>Assumption</th>
-<th>Historical support</th>
-<th>Currently true?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Sustains a high return on capital (ROCE &gt;= 15%)</td>
-<td>100%</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>Grows revenue over time</td>
-<td>100%</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>Maintains or expands operating margins (pricing power)</td>
-<td>90%</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>Converts accounting profit into cash (CFO/NI &gt;= 0.8)</td>
-<td>75%</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>Avoids shareholder dilution</td>
-<td>90%</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>Keeps leverage manageable (debt/equity &lt;= 1)</td>
-<td>90%</td>
-<td>yes</td>
-</tr>
-</tbody>
-</table>
-<p><strong>What would break the thesis (falsifiers):</strong>
-- FALSE if it stops: sustains a high return on capital (roce &gt;= 15%)
-- FALSE if it stops: grows revenue over time
-- FALSE if it stops: maintains or expands operating margins (pricing power)
-- FALSE if it stops: converts accounting profit into cash (cfo/ni &gt;= 0.8)
-- FALSE if it stops: avoids shareholder dilution
-- FALSE if it stops: keeps leverage manageable (debt/equity &lt;= 1)</p>
-<p><strong>Business trajectory</strong>
-- <strong>Bull:</strong> Assumptions hold: a durable compounder that keeps compounding revenue near 25% at high incremental returns, widening the moat over a decade.
-- <strong>Base:</strong> Growth moderates toward the industry rate and margins hold; the business compounds intrinsic value steadily but without multiple re-rating.
-- <strong>Bear:</strong> Key assumptions break — returns on capital fade, margins compress, or leverage/dilution rises — and the franchise erodes toward a commodity.</p>
-<h3>Management &amp; capital allocation (stewardship)</h3>
-<p><strong>Owner-Operator Discipline</strong> — stewardship score 93.0/100
-over 5 years. Compounding machine: heavy reinvestment at high incremental returns.</p>
-<table>
-<thead>
-<tr>
-<th>Signal</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Full-history share count CAGR</td>
-<td>0.0%</td>
-</tr>
-<tr>
-<td>Years diluting &gt;2%</td>
-<td>0%</td>
-</tr>
-<tr>
-<td>Years buying back</td>
-<td>0%</td>
-</tr>
-<tr>
-<td>Debt CAGR minus EBIT CAGR</td>
-<td>-29.9%</td>
-</tr>
-<tr>
-<td>Years with interest coverage &lt; 2</td>
-<td>0%</td>
-</tr>
-<tr>
-<td>Years returning cash (dividends)</td>
-<td>100%</td>
-</tr>
-</tbody>
-</table>
-<p><em>(Descriptive assessment of the capital-allocation record; like all scores here,
-not a validated return predictor — see Model validation status.)</em></p>
-<h3>Self-critique (devil's advocate)</h3>
-<p>No material disconfirming evidence surfaced by the critique rules.</p>
-<p><strong>Post-critique recommendation: Research further — durable-franchise candidate that survived critique</strong>
-(thesis confidence 69%)</p>
-<p><em>The critique exists for reasoning transparency. Backtests found the veto does
-NOT reliably avoid worse outcomes (vetoed names had higher volatility in both
-directions) — treat it as a list of concerns to weigh, not a validated filter.</em></p>
-<h2>Ownership</h2>
-<p><svg viewBox="0 0 430 200" width="100%" style="max-width:430px;height:auto" role="img" aria-label="Shareholding split">
-<title>Shareholding split</title>
-<circle cx="90.0" cy="100.0" r="52.0" fill="none" stroke="var(--accent)" stroke-width="26.0" stroke-dasharray="236.62 90.10" stroke-dashoffset="-0.00" transform="rotate(-90 90.0 100.0)"/>
-<circle cx="90.0" cy="100.0" r="52.0" fill="none" stroke="var(--muted)" stroke-width="26.0" stroke-dasharray="19.54 307.18" stroke-dashoffset="-236.62" transform="rotate(-90 90.0 100.0)"/>
-<circle cx="90.0" cy="100.0" r="52.0" fill="none" stroke="var(--muted)" stroke-width="26.0" stroke-dasharray="70.56 256.17" stroke-dashoffset="-256.17" transform="rotate(-90 90.0 100.0)"/>
-<rect x="190.0" y="54.0" width="10.0" height="10.0" fill="var(--accent)"/>
-<text x="208.0" y="62.0" fill="var(--text)" font-size="10" text-anchor="start" font-weight="normal">Insider / promoter — 72.4%</text>
-<rect x="190.0" y="76.0" width="10.0" height="10.0" fill="var(--muted)"/>
-<text x="208.0" y="84.0" fill="var(--text)" font-size="10" text-anchor="start" font-weight="normal">Institutions — 6.0%</text>
-<rect x="190.0" y="98.0" width="10.0" height="10.0" fill="var(--muted)"/>
-<text x="208.0" y="106.0" fill="var(--text)" font-size="10" text-anchor="start" font-weight="normal">Public / other — 21.6%</text>
-</svg></p>
-<p><em>Yahoo's "insider" is not SEBI's promoter category, and this is not the promoter/FII/DII/public breakdown an Indian investor expects — that data is not in this pipeline. Descriptive only, never scored.</em></p>
-<h2>Financial Analysis</h2>
-<p><svg viewBox="0 0 660 190" width="100%" style="max-width:660px;height:auto" role="img" aria-label="Revenue, net income and free cash flow by fiscal year">
-<title>Revenue, net income and free cash flow by fiscal year</title>
-<g transform="translate(0,0)"><text x="12.0" y="16.0" fill="var(--text)" font-size="10" text-anchor="start" font-weight="600">Revenue</text>
-<text x="12.0" y="27.0" fill="var(--muted)" font-size="8" text-anchor="start" font-weight="normal">Rs cr</text>
-<line x1="12.0" y1="150.0" x2="208.0" y2="150.0" stroke="var(--border)"/>
-<rect x="21.8" y="91.3" width="29.4" height="58.7" fill="var(--gain)"/>
-<text x="36.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY23</text>
-<text x="36.5" y="87.3" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">5,090</text>
-<rect x="70.8" y="61.0" width="29.4" height="89.0" fill="var(--gain)"/>
-<text x="85.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY24</text>
-<text x="85.5" y="57.0" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">7,717</text>
-<rect x="119.8" y="43.4" width="29.4" height="106.6" fill="var(--gain)"/>
-<text x="134.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY25</text>
-<text x="134.5" y="39.4" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">9,246</text>
-<rect x="168.8" y="34.0" width="29.4" height="116.0" fill="var(--gain)"/>
-<text x="183.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY26</text>
-<text x="183.5" y="30.0" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">10,061</text></g>
-<g transform="translate(220,0)"><text x="12.0" y="16.0" fill="var(--text)" font-size="10" text-anchor="start" font-weight="600">Net income</text>
-<text x="12.0" y="27.0" fill="var(--muted)" font-size="8" text-anchor="start" font-weight="normal">Rs cr</text>
-<line x1="12.0" y1="150.0" x2="208.0" y2="150.0" stroke="var(--border)"/>
-<rect x="21.8" y="125.9" width="29.4" height="24.1" fill="var(--gain)"/>
-<text x="36.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY23</text>
-<text x="36.5" y="121.9" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">124</text>
-<rect x="70.8" y="96.9" width="29.4" height="53.1" fill="var(--gain)"/>
-<text x="85.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY24</text>
-<text x="85.5" y="92.9" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">274</text>
-<rect x="119.8" y="77.7" width="29.4" height="72.3" fill="var(--gain)"/>
-<text x="134.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY25</text>
-<text x="134.5" y="73.7" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">373</text>
-<rect x="168.8" y="34.0" width="29.4" height="116.0" fill="var(--gain)"/>
-<text x="183.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY26</text>
-<text x="183.5" y="30.0" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">598</text></g>
-<g transform="translate(440,0)"><text x="12.0" y="16.0" fill="var(--text)" font-size="10" text-anchor="start" font-weight="600">Free cash flow</text>
-<text x="12.0" y="27.0" fill="var(--muted)" font-size="8" text-anchor="start" font-weight="normal">Rs cr</text>
-<line x1="12.0" y1="137.0" x2="208.0" y2="137.0" stroke="var(--border)"/>
-<rect x="21.8" y="121.4" width="29.4" height="15.6" fill="var(--gain)"/>
-<text x="36.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY23</text>
-<text x="36.5" y="117.4" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">53</text>
-<rect x="70.8" y="34.0" width="29.4" height="103.0" fill="var(--gain)"/>
-<text x="85.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY24</text>
-<text x="85.5" y="30.0" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">348</text>
-<rect x="119.8" y="137.0" width="29.4" height="13.0" fill="var(--loss)"/>
-<text x="134.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY25</text>
-<text x="134.5" y="160.0" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">-44</text>
-<rect x="168.8" y="67.2" width="29.4" height="69.9" fill="var(--gain)"/>
-<text x="183.5" y="166.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">FY26</text>
-<text x="183.5" y="63.2" fill="var(--text)" font-size="8" text-anchor="middle" font-weight="normal">236</text></g>
-</svg></p>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Value</th>
-<th>Metric</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Revenue CAGR 3y</td>
-<td>25.5%</td>
-<td>ROCE (3y avg)</td>
-<td>24.7%</td>
-</tr>
-<tr>
-<td>Profit CAGR 3y</td>
-<td>68.8%</td>
-<td>ROE (3y avg)</td>
-<td>21.2%</td>
-</tr>
-<tr>
-<td>FCF CAGR 3y</td>
-<td>64.8%</td>
-<td>ROIC (latest)</td>
-<td>22.0%</td>
-</tr>
-<tr>
-<td>Operating margin</td>
-<td>8.5%</td>
-<td>Debt / equity</td>
-<td>0.42</td>
-</tr>
-<tr>
-<td>Margin trend (3y)</td>
-<td>2.3%</td>
-<td>Interest coverage</td>
-<td>6.1x</td>
-</tr>
-<tr>
-<td>Net margin</td>
-<td>5.9%</td>
-<td>Net debt / EBITDA</td>
-<td>0.47</td>
-</tr>
-<tr>
-<td>FCF margin</td>
-<td>2.3%</td>
-<td>Current ratio</td>
-<td>1.25</td>
-</tr>
-<tr>
-<td>Cash conversion (CFO/NI)</td>
-<td>1.12</td>
-<td>Accruals ratio</td>
-<td>0.014</td>
-</tr>
-<tr>
-<td>Reinvestment (capex/CFO)</td>
-<td>61.1%</td>
-<td>Share count CAGR 3y</td>
-<td>0.0%</td>
-</tr>
-</tbody>
-</table>
-<p>Statement data completeness: 92%.</p>
-<h2>Technical Analysis</h2>
-<ul>
-<li>Trend: <strong>strong_up</strong> | Volatility regime: high (ATR 5.1%)</li>
-<li>Price vs 200-day MA: 54.6% | 200-day MA slope (20d): 8.8%</li>
-<li>RSI(14): 41 | MACD histogram: -45.60 | ADX(14): 45</li>
-<li>52-week: -18.9% from high, 166.5% above low</li>
-<li>Relative strength vs index (63d): 45.4%</li>
-<li>Accumulation: CMF(20) 0.08, OBV 20d slope 0.04</li>
-<li>Avg daily traded value (20d): 1,064,504,853 INR</li>
-</ul>
-<h2>Valuation</h2>
-<table>
-<thead>
-<tr>
-<th>Scenario</th>
-<th>Fair value / share</th>
-<th>vs price</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Bear (g = 15.0%)</td>
-<td>451.91</td>
-<td>-66%</td>
-</tr>
-<tr>
-<td>Base (g = 25.0%)</td>
-<td>790.90</td>
-<td>-41%</td>
-</tr>
-<tr>
-<td>Bull (g = 30.0%)</td>
-<td>1,036.39</td>
-<td>-23%</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Reverse DCF: the market is pricing <strong>34.8%</strong> FCF growth (delivered: 68.8% profit CAGR).</li>
-<li>Multiples: P/E 38.5 | PEG 0.56 | EV/EBITDA 20.9 | P/S 2.3 | FCF yield 1.0%</li>
-<li>Expected 5y CAGR if price converges to base fair value: <strong>12.5%</strong></li>
-<li>Assumptions: discount 13.0%, terminal 4.0%</li>
-</ul>
-<p>Base FCF is the latest year's, not a trailing average — it stands at 1.3x the 3-year mean. The risk that it does not repeat is carried by the bear scenario in the 3-Year Price Forecast below, not by a haircut to all three.</p>
-<h2>Peer Comparison</h2>
-<p><svg viewBox="0 0 470 246" width="100%" style="max-width:470px;height:auto" role="img" aria-label="Peer group comparison">
-<title>Peer group comparison</title>
-<text x="8.0" y="14.0" fill="var(--text)" font-size="10" text-anchor="start" font-weight="600">Peer group</text>
-<text x="120.0" y="14.0" fill="var(--muted)" font-size="8" text-anchor="start" font-weight="normal">ROCE 3y</text>
-<text x="240.0" y="14.0" fill="var(--muted)" font-size="8" text-anchor="start" font-weight="normal">Rev CAGR 3y</text>
-<text x="360.0" y="14.0" fill="var(--muted)" font-size="8" text-anchor="start" font-weight="normal">P/E (lower is cheaper)</text>
-<line x1="8.0" y1="22.0" x2="460.0" y2="22.0" stroke="var(--border)"/>
-<text x="8.0" y="40.0" fill="var(--accent)" font-size="9" text-anchor="start" font-weight="600">CEMINDIA PROJECTS LIMI</text>
-<rect x="120.0" y="32.0" width="70.6" height="8.0" fill="var(--accent)"/>
-<text x="202.0" y="40.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">24.7%</text>
-<rect x="240.0" y="32.0" width="34.4" height="8.0" fill="var(--accent)"/>
-<text x="322.0" y="40.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">25.5%</text>
-<rect x="360.0" y="32.0" width="71.8" height="8.0" fill="var(--accent)"/>
-<text x="442.0" y="40.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">37.7x</text>
-<text x="8.0" y="60.0" fill="var(--muted)" font-size="9" text-anchor="start" font-weight="normal">KALPATARU PROJECT INT </text>
-<rect x="120.0" y="52.0" width="44.8" height="8.0" fill="var(--muted)"/>
-<text x="202.0" y="60.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">15.7%</text>
-<rect x="240.0" y="52.0" width="24.8" height="8.0" fill="var(--muted)"/>
-<text x="322.0" y="60.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">18.4%</text>
-<rect x="360.0" y="52.0" width="39.9" height="8.0" fill="var(--muted)"/>
-<text x="442.0" y="60.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">20.9x</text>
-<text x="8.0" y="80.0" fill="var(--muted)" font-size="9" text-anchor="start" font-weight="normal">NBCC (INDIA) LIMITED</text>
-<rect x="120.0" y="72.0" width="78.0" height="8.0" fill="var(--muted)"/>
-<text x="202.0" y="80.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">27.2%</text>
-<rect x="240.0" y="72.0" width="18.5" height="8.0" fill="var(--muted)"/>
-<text x="322.0" y="80.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">13.7%</text>
-<rect x="360.0" y="72.0" width="67.5" height="8.0" fill="var(--muted)"/>
-<text x="442.0" y="80.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">35.5x</text>
-<text x="8.0" y="100.0" fill="var(--muted)" font-size="9" text-anchor="start" font-weight="normal">ENGINEERS INDIA LTD</text>
-<rect x="120.0" y="92.0" width="47.5" height="8.0" fill="var(--muted)"/>
-<text x="202.0" y="100.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">16.6%</text>
-<rect x="240.0" y="92.0" width="7.7" height="8.0" fill="var(--muted)"/>
-<text x="322.0" y="100.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">5.7%</text>
-<rect x="360.0" y="92.0" width="35.1" height="8.0" fill="var(--muted)"/>
-<text x="442.0" y="100.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">18.4x</text>
-<text x="8.0" y="120.0" fill="var(--muted)" font-size="9" text-anchor="start" font-weight="normal">KEC INTL. LIMITED</text>
-<rect x="120.0" y="112.0" width="44.4" height="8.0" fill="var(--muted)"/>
-<text x="202.0" y="120.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">15.5%</text>
-<rect x="240.0" y="112.0" width="15.0" height="8.0" fill="var(--muted)"/>
-<text x="322.0" y="120.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">11.1%</text>
-<rect x="360.0" y="112.0" width="40.1" height="8.0" fill="var(--muted)"/>
-<text x="442.0" y="120.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">21.0x</text>
-<text x="8.0" y="140.0" fill="var(--muted)" font-size="9" text-anchor="start" font-weight="normal">RITES LIMITED</text>
-<rect x="120.0" y="132.0" width="55.2" height="8.0" fill="var(--muted)"/>
-<text x="202.0" y="140.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">19.3%</text>
-<rect x="240.0" y="132.0" width="0.0" height="8.0" fill="var(--muted)"/>
-<text x="322.0" y="140.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">-2.4%</text>
-<rect x="360.0" y="132.0" width="48.0" height="8.0" fill="var(--muted)"/>
-<text x="442.0" y="140.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">25.2x</text>
-<text x="8.0" y="160.0" fill="var(--muted)" font-size="9" text-anchor="start" font-weight="normal">NCC LIMITED</text>
-<rect x="120.0" y="152.0" width="51.4" height="8.0" fill="var(--muted)"/>
-<text x="202.0" y="160.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">18.0%</text>
-<rect x="240.0" y="152.0" width="14.2" height="8.0" fill="var(--muted)"/>
-<text x="322.0" y="160.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">10.5%</text>
-<rect x="360.0" y="152.0" width="25.1" height="8.0" fill="var(--muted)"/>
-<text x="442.0" y="160.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">13.2x</text>
-<text x="8.0" y="180.0" fill="var(--muted)" font-size="9" text-anchor="start" font-weight="normal">TECHNO ELEC &amp; ENG CO. </text>
-<rect x="120.0" y="172.0" width="27.3" height="8.0" fill="var(--muted)"/>
-<text x="202.0" y="180.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">9.5%</text>
-<rect x="240.0" y="172.0" width="78.0" height="8.0" fill="var(--muted)"/>
-<text x="322.0" y="180.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">57.8%</text>
-<rect x="360.0" y="172.0" width="47.6" height="8.0" fill="var(--muted)"/>
-<text x="442.0" y="180.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">25.0x</text>
-<text x="8.0" y="200.0" fill="var(--muted)" font-size="9" text-anchor="start" font-weight="normal">AFCONS INFRASTRUCTURE </text>
-<rect x="120.0" y="192.0" width="37.7" height="8.0" fill="var(--muted)"/>
-<text x="202.0" y="200.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">13.2%</text>
-<rect x="240.0" y="192.0" width="0.0" height="8.0" fill="var(--muted)"/>
-<text x="322.0" y="200.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">-1.8%</text>
-<rect x="360.0" y="192.0" width="78.0" height="8.0" fill="var(--muted)"/>
-<text x="442.0" y="200.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">41.0x</text>
-<text x="8.0" y="220.0" fill="var(--muted)" font-size="9" text-anchor="start" font-weight="normal">IRCON INTERNATIONAL LT</text>
-<rect x="120.0" y="212.0" width="22.9" height="8.0" fill="var(--muted)"/>
-<text x="202.0" y="220.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">8.0%</text>
-<rect x="240.0" y="212.0" width="0.0" height="8.0" fill="var(--muted)"/>
-<text x="322.0" y="220.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">-4.3%</text>
-<rect x="360.0" y="212.0" width="38.1" height="8.0" fill="var(--muted)"/>
-<text x="442.0" y="220.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">20.0x</text>
-</svg>
-<svg viewBox="0 0 320 190" width="100%" style="max-width:320px;height:auto" role="img" aria-label="Quality versus growth against peers">
-<title>Quality versus growth against peers</title>
-<text x="8.0" y="14.0" fill="var(--text)" font-size="10" text-anchor="start" font-weight="600">Quality vs growth</text>
-<line x1="44.0" y1="158.0" x2="300.0" y2="158.0" stroke="var(--border)"/>
-<line x1="44.0" y1="22.0" x2="44.0" y2="158.0" stroke="var(--border)"/>
-<text x="172.0" y="176.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">ROCE 3y</text>
-<text x="12.0" y="90.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">Revenue CAGR</text>
-<line x1="44.0" y1="148.6" x2="300.0" y2="148.6" stroke="var(--border)" stroke-dasharray="3 3"/>
-<circle cx="275.7" cy="92.8" r="9.4" fill="var(--accent)" opacity="1"/>
-<text x="275.7" y="79.4" fill="var(--accent)" font-size="8" text-anchor="middle" font-weight="normal">CEMINDIA PROJECTS LIMI</text>
-<circle cx="191.2" cy="108.3" r="9.1" fill="var(--muted)" opacity="0.7"/>
-<circle cx="300.0" cy="118.6" r="10.0" fill="var(--muted)" opacity="0.7"/>
-<circle cx="199.9" cy="136.2" r="6.9" fill="var(--muted)" opacity="0.7"/>
-<circle cx="189.8" cy="124.3" r="6.9" fill="var(--muted)" opacity="0.7"/>
-<circle cx="225.1" cy="153.9" r="6.4" fill="var(--muted)" opacity="0.7"/>
-<circle cx="212.7" cy="125.6" r="6.1" fill="var(--muted)" opacity="0.7"/>
-<circle cx="133.7" cy="22.0" r="6.6" fill="var(--muted)" opacity="0.7"/>
-<circle cx="167.7" cy="152.5" r="6.3" fill="var(--muted)" opacity="0.7"/>
-<circle cx="119.0" cy="158.0" r="6.8" fill="var(--muted)" opacity="0.7"/>
-</svg></p>
-<p><em>The peer group is this stock's industry cohort from the same screen. Descriptive only, never scored.</em></p>
-<h2>Risk Analysis</h2>
-<p>Risk score: <strong>24/100</strong> — low probability of permanent capital loss.</p>
-<table>
-<thead>
-<tr>
-<th>Flag</th>
-<th>Severity</th>
-<th>Detail</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>VALUATION_HOT</td>
-<td>warning</td>
-<td>Market pricing 35% growth — little room for error</td>
-</tr>
-<tr>
-<td>FORECAST_INCOHERENT</td>
-<td>warning</td>
-<td>Bull case assumes 25% growth but the market already prices 35% — the model's most optimistic case is below consensus, so treat the forecast as understated</td>
-</tr>
-</tbody>
-</table>
-<h2>3-Year Price Forecast</h2>
-<p>Where the price could be in 3 years, projected from FY2026 revenue and net margin against an exit multiple. Each scenario moves growth, margin <strong>and</strong> the multiple — not one knob three ways.</p>
-<p><svg viewBox="0 0 470 148" width="100%" style="max-width:470px;height:auto" role="img" aria-label="Three-year price scenarios">
-<title>Three-year price scenarios</title>
-<text x="8.0" y="14.0" fill="var(--text)" font-size="10" text-anchor="start" font-weight="600">3-year scenarios</text>
-<line x1="208.2" y1="22.0" x2="208.2" y2="126.0" stroke="var(--border)" stroke-dasharray="3 3"/>
-<text x="208.2" y="138.0" fill="var(--muted)" font-size="8" text-anchor="middle" font-weight="normal">today 1,338</text>
-<text x="8.0" y="44.0" fill="var(--text)" font-size="9" text-anchor="start" font-weight="600">Bull</text>
-<text x="52.0" y="44.0" fill="var(--muted)" font-size="8" text-anchor="start" font-weight="normal">37%</text>
-<rect x="208.2" y="36.0" width="191.8" height="10.0" fill="var(--gain)"/>
-<text x="406.0" y="44.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">2,583  (+25%/yr)</text>
-<text x="8.0" y="76.0" fill="var(--text)" font-size="9" text-anchor="start" font-weight="600">Base</text>
-<text x="52.0" y="76.0" fill="var(--muted)" font-size="8" text-anchor="start" font-weight="normal">45%</text>
-<rect x="208.2" y="68.0" width="21.2" height="10.0" fill="var(--gain)"/>
-<text x="235.4" y="76.0" fill="var(--text)" font-size="8" text-anchor="start" font-weight="normal">1,475  (+3%/yr)</text>
-<text x="8.0" y="108.0" fill="var(--text)" font-size="9" text-anchor="start" font-weight="600">Bear</text>
-<text x="52.0" y="108.0" fill="var(--muted)" font-size="8" text-anchor="start" font-weight="normal">17%</text>
-<rect x="92.0" y="100.0" width="116.2" height="10.0" fill="var(--loss)"/>
-<text x="86.0" y="108.0" fill="var(--text)" font-size="8" text-anchor="end" font-weight="normal">583  (-24%/yr)</text>
-</svg></p>
-<table>
-<thead>
-<tr>
-<th>Scenario</th>
-<th>Prob.</th>
-<th>Revenue growth</th>
-<th>Net margin</th>
-<th>Exit multiple</th>
-<th>FY+3 EPS</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Bull</strong></td>
-<td>37.5%</td>
-<td>25.5% → 17.8%</td>
-<td>5.9%</td>
-<td>41.3x</td>
-<td>62.61</td>
-</tr>
-<tr>
-<td><strong>Base</strong></td>
-<td>45.4%</td>
-<td>25.5% → 10.5%</td>
-<td>5.2%</td>
-<td>29.5x</td>
-<td>50.06</td>
-</tr>
-<tr>
-<td><strong>Bear</strong></td>
-<td>17.1%</td>
-<td>10.2% → 5.3%</td>
-<td>4.5%</td>
-<td>17.7x</td>
-<td>32.98</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Probability-weighted:</strong> target 1,738.18, expected 3y CAGR 9.1%. Probability of a target below today's price: 17.1%.</p>
-<p><strong>Exit multiple anchor — 29.5x</strong></p>
-<table>
-<thead>
-<tr>
-<th>Input</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Peer median P/E (9 peers, leave-one-out)</td>
-<td>20.9x</td>
-</tr>
-<tr>
-<td>Own history median P/E</td>
-<td>35.4x</td>
-</tr>
-<tr>
-<td>Today's P/E within own history</td>
-<td>65.3% percentile</td>
-</tr>
-<tr>
-<td>Quality multiplier (franchise score)</td>
-<td>1.17x</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>own-history P/E median 35.4x capped to 31.4x (1.5x the peer median) — our price window is short and covers one regime</li>
-</ul>
-<p><strong>Scenario assumptions</strong></p>
-<p><em>Bull:</em></p>
-<ul>
-<li>revenue grows 25% fading to 18% over 3 years</li>
-<li>net margin ends at 5.9% (latest 5.9%, 3y mean 4.5%)</li>
-<li>exits at 41.3x earnings (1.4x the 29.5x anchor)</li>
-</ul>
-<p><em>Base:</em></p>
-<ul>
-<li>revenue grows 25% fading to 11% over 3 years</li>
-<li>net margin ends at 5.2% (latest 5.9%, 3y mean 4.5%)</li>
-<li>exits at 29.5x earnings (1.0x the 29.5x anchor)</li>
-</ul>
-<p><em>Bear:</em></p>
-<ul>
-<li>revenue grows 10% fading to 5% over 3 years</li>
-<li>net margin ends at 4.5% (latest 5.9%, 3y mean 4.5%)</li>
-<li>exits at 17.7x earnings (0.6x the 29.5x anchor)</li>
-</ul>
-<p><em>Forecast completeness 100.0%. A scenario model with
-stated assumptions, not a prediction — see Model validation status.</em></p>
-<h2>Entry &amp; Exit Framework</h2>
-<ul>
-<li>Trend state is <strong>strong_up</strong>; pullbacks toward the 50-day MA within an intact uptrend are the preferred accumulation zone.</li>
-<li>Reference levels: 50-day MA 1,303.04, 200-day MA 865.33.</li>
-<li>Volatility stop suggestion: 1,166.38 (2.5 x ATR below current price).</li>
-<li>Invalidation: close below the 200-day MA on rising volume, or any hard-gate metric deteriorating.</li>
-</ul>
-<h2>Position Sizing</h2>
-<p>Risk bucket <strong>low</strong>: up to a full position (3-5% of portfolio), built in 2-3 tranches.</p>
-<h2>Recent News &amp; Policy Context</h2>
-<p><em>Descriptive only — headlines are evidence to weigh, not catalysts the engine has identified. Never scored.</em></p>
-<p><strong>Company</strong></p>
-<p><em>No recent company news found.</em></p>
-<p><strong>Sector policy — Engineering &amp; Construction</strong></p>
-<ul>
-<li><a href="https://news.google.com/rss/articles/CBMi3gFBVV95cUxQTGVWZDBDMnFDV0k2RXhSNjZRd24taDM5ZUtybEFFaG15aC01dlc3ZnZsNXBWbVZ6TGN4d21RWFozclRaUnV0YzY3MjZZYW9SYVVjdXRIeWVOY1ZXQnJZUVJDTHRya1ozeWhTVEdfQWZmeXVJTGxMcFd0Y2t5ZThQSl9iLXM4TmJJMFExbEh6R0ZkUUVqTFFvVnZQOUl4NUtBM0s2SHlXQndDd1IxOWxnTFFhNHpUUWlGM2drME52SDNYS0psVmF4Q2liWENoanBUR0Zxd2xDeFFVS0ZuOFE?oc=5">PVV Infra Ltd receives two significant contract from National Highways Logistics Management Ltd</a> — PSU Connect, 1d ago</li>
-<li><a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxOSzBxdFJFdXJHbExSdEFZMUVWeWlDS0VYcGtla0FCa1VwOEFkNDdvaEVLZk9lTldjVld2RFd6VmtHaUxYZXdKZEd4ejVIcFZVR3M5LXk3c1FfYVJmb3JySEZWbU1PN18wZ0ZZYUVwejkwcG5kV3ZyWVJqc1E3S1c4SXRuZ3RJc1dVcTFLWTc4V1ByNE1XWXl6ZThtRE1mLW9pekFpZUlGUGY2eDEtYWVrMlRMQS1CNGJZaVJF?oc=5">NHAI launches nationwide initiative to develop world-class public toilets at toll plazas</a> — DD India, 2d ago</li>
-<li><a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxOSEpOYk1BMDFaWV9yb2xYUFBac0hobjhJN0FRVG9hUTBtU3NQUVZNSThGZHhMWFVVMFkyaTRYaWtfQWhEWndyOXJTRlVHajV1ZldCNTJudWVRN2c1SEJZS3BhOFpOWFJtUGQ3QWZfZU1pWnlNT0s3cy1Sak8xMVBvb0VqalNDWEN4LXhQUy1IblJpd1Nyc1JFbFRRVXNSRXF3UUNWLWJ0Q0lNX3g5XzMxRkpXLTFrc1VzZkJyaVBCem0?oc=5">NHAI launches initiative to develop world-class public toilet facilities at toll plazas</a> — thehawk.in, 2d ago</li>
-<li><a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxOdWpMVnJkZW15dWQ1LVRWekJkSG9WQWVZWEp0ZlVocUNzNVRrczVWVDJNS1RES3lXOV9RU3Q3b0FGYksxd0FGd2dkMjNiUTZfM2dWSTBqMkpSeWc3dFplZVdMSFcxbDFSNVhOM0JjYmhGRjJtTXdZX1RRek8yV18tdnV3VzhYQ2ZsWFdHVnBTdG41ZGdhYVpBUFhmbW83X0Nv?oc=5">India Sacks 11 Highway Officials Following Cascade of Infrastructure Collapses</a> — streamlinefeed.co.ke, 3d ago</li>
-<li><a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxNSHFYS1MyWmRMM1BPSHRMWkRxWXlqV052bzl3Tk43a1lLM1NhNGp3X0d0MXhUT3NINTBZV0RCdE5zR0Q5cGpDTF9iajNvZTQ0QW56X29Kc3ZqNmRDb3I2aXZNd2ZoQ2NGa2J0Z0xOWDFWV1p1alJnZjZaamltZG9OSlI0WHVaajNvdXlYMjZkRjZwVTN0aFBuc092MXNLcWNLczVpU1c5OGl5QS11bkpPaDRuLUhPQ2lYSk1sV3pWQTR6ZHZwNExB0gHMAUFVX3lxTE1pbjhfZWJaR0ZwTWVTeDdIWVJxcEhETFpINXVXaFZpb1JrWkI3ajYxcTBHNTBSaHN2Wjc1YUtUN21tX3dyWks0T185UHBPaFRmeWgtMUJteklvekZOaEk0d3Y1NWZrUFE3NWRXamJLdHN6TS1seGpqUVlEVFRpLXExbWV0MUtZZ2htVk92am16ZmZEYlBSVXozbFg1bUpSX2xlWkRhWThiYzBiRWZ5UHRLdFdOSEFiV09veF85UDJZc0U0WVJqcmlSQlRjVQ?oc=5">11 road ministry officials removed over highway collapses: Gadkari | India News</a> — Hindustan Times, 3d ago</li>
-</ul>
-<h2>Score Evidence Appendix</h2>
-<h3>Quality — 68.8/100 (coverage 100%)</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Value</th>
-<th>Benchmark applied</th>
-<th>Points</th>
-<th>Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>roce_3y</td>
-<td>0.246567</td>
-<td>&gt;= 0.20 earns 75</td>
-<td>75</td>
-<td>0.3</td>
-</tr>
-<tr>
-<td>roe_3y</td>
-<td>0.211895</td>
-<td>&gt;= 0.20 earns 75</td>
-<td>75</td>
-<td>0.2</td>
-</tr>
-<tr>
-<td>fcf_margin</td>
-<td>0.023456</td>
-<td>&gt;= 0.00 earns 40</td>
-<td>40</td>
-<td>0.2</td>
-</tr>
-<tr>
-<td>cash_conversion</td>
-<td>1.11586</td>
-<td>&gt;= 1.00 earns 85</td>
-<td>85</td>
-<td>0.15</td>
-</tr>
-<tr>
-<td>accruals_ratio</td>
-<td>0.013822</td>
-<td>&lt;= 0.05 earns 70</td>
-<td>70</td>
-<td>0.15</td>
-</tr>
-</tbody>
-</table>
-<h3>Growth — 92.0/100 (coverage 100%)</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Value</th>
-<th>Benchmark applied</th>
-<th>Points</th>
-<th>Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>revenue_cagr_3y</td>
-<td>0.254958</td>
-<td>&gt;= 0.25 earns 95</td>
-<td>95</td>
-<td>0.35</td>
-</tr>
-<tr>
-<td>profit_cagr_3y</td>
-<td>0.688144</td>
-<td>&gt;= 0.25 earns 95</td>
-<td>95</td>
-<td>0.35</td>
-</tr>
-<tr>
-<td>margin_trend</td>
-<td>0.022822</td>
-<td>&gt;= 0.01 earns 75</td>
-<td>75</td>
-<td>0.15</td>
-</tr>
-<tr>
-<td>fcf_cagr_3y</td>
-<td>0.647623</td>
-<td>&gt;= 0.25 earns 95</td>
-<td>95</td>
-<td>0.15</td>
-</tr>
-</tbody>
-</table>
-<h3>Financial Strength — 74.8/100 (coverage 100%)</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Value</th>
-<th>Benchmark applied</th>
-<th>Points</th>
-<th>Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>debt_to_equity</td>
-<td>0.417252</td>
-<td>&lt;= 0.60 earns 70</td>
-<td>70</td>
-<td>0.3</td>
-</tr>
-<tr>
-<td>interest_coverage</td>
-<td>6.145486</td>
-<td>&gt;= 6.00 earns 70</td>
-<td>70</td>
-<td>0.25</td>
-</tr>
-<tr>
-<td>net_debt_to_ebitda</td>
-<td>0.468794</td>
-<td>&lt;= 1.00 earns 85</td>
-<td>85</td>
-<td>0.25</td>
-</tr>
-<tr>
-<td>current_ratio</td>
-<td>1.249232</td>
-<td>&gt;= 1.00 earns 55</td>
-<td>55</td>
-<td>0.1</td>
-</tr>
-<tr>
-<td>share_count_cagr_3y</td>
-<td>0.0</td>
-<td>&lt;= 0.00 earns 95</td>
-<td>95</td>
-<td>0.1</td>
-</tr>
-</tbody>
-</table>
-<h3>Valuation — 45.0/100 (coverage 100%)</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Value</th>
-<th>Benchmark applied</th>
-<th>Points</th>
-<th>Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>margin_of_safety</td>
-<td>-0.408897</td>
-<td>below lowest threshold, floor 5</td>
-<td>5</td>
-<td>0.4</td>
-</tr>
-<tr>
-<td>peg</td>
-<td>0.558809</td>
-<td>&lt;= 0.80 earns 90</td>
-<td>90</td>
-<td>0.2</td>
-</tr>
-<tr>
-<td>implied_growth_gap</td>
-<td>-0.339857</td>
-<td>&lt;= -0.05 earns 90</td>
-<td>90</td>
-<td>0.2</td>
-</tr>
-<tr>
-<td>fcf_yield</td>
-<td>0.010267</td>
-<td>&gt;= 0.00 earns 35</td>
-<td>35</td>
-<td>0.2</td>
-</tr>
-</tbody>
-</table>
-<h3>Momentum — 75.0/100 (coverage 100%)</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Value</th>
-<th>Benchmark applied</th>
-<th>Points</th>
-<th>Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>trend_state</td>
-<td>strong_up</td>
-<td>trend template: strong_up</td>
-<td>95</td>
-<td>0.3</td>
-</tr>
-<tr>
-<td>rsi14</td>
-<td>40.749197</td>
-<td>30-45 weak momentum</td>
-<td>40</td>
-<td>0.15</td>
-</tr>
-<tr>
-<td>relative_strength_63d</td>
-<td>0.453564</td>
-<td>&gt;= 0.15 earns 90</td>
-<td>90</td>
-<td>0.25</td>
-</tr>
-<tr>
-<td>dist_52w_high</td>
-<td>-0.188698</td>
-<td>&gt;= -0.25 earns 50</td>
-<td>50</td>
-<td>0.15</td>
-</tr>
-<tr>
-<td>cmf20</td>
-<td>0.083201</td>
-<td>&gt;= 0.05 earns 70</td>
-<td>70</td>
-<td>0.15</td>
-</tr>
-</tbody>
-</table>
-<h3>Size Runway — 50.0/100 (coverage 100%)</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Value</th>
-<th>Benchmark applied</th>
-<th>Points</th>
-<th>Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>market_cap</td>
-<td>229851791360.0</td>
-<td>&lt; Rs 1 lakh cr large cap</td>
-<td>50</td>
-<td>1.0</td>
-</tr>
-</tbody>
-</table>
-<h3>Reinvestment — 70.0/100 (coverage 100%)</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Value</th>
-<th>Benchmark applied</th>
-<th>Points</th>
-<th>Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>reinvestment_rate</td>
-<td>0.611</td>
-<td>50-70% of CFO reinvested — capex heavy</td>
-<td>70</td>
-<td>1.0</td>
-</tr>
-</tbody>
-</table>
-<h3>Sector Momentum — 25.5/100 (coverage 100%)</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Value</th>
-<th>Benchmark applied</th>
-<th>Points</th>
-<th>Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sector_rel_strength_6m</td>
-<td>-0.141797</td>
-<td>below lowest threshold, floor 5</td>
-<td>5</td>
-<td>0.3</td>
-</tr>
-<tr>
-<td>sector_rel_strength_12m</td>
-<td>-0.251119</td>
-<td>below lowest threshold, floor 5</td>
-<td>5</td>
-<td>0.2</td>
-</tr>
-<tr>
-<td>sector_rev_accel</td>
-<td>-0.017126</td>
-<td>&gt;= -0.02 earns 40</td>
-<td>40</td>
-<td>0.3</td>
-</tr>
-<tr>
-<td>sector_margin_delta</td>
-<td>0.008822</td>
-<td>&gt;= 0.00 earns 55</td>
-<td>55</td>
-<td>0.2</td>
-</tr>
-</tbody>
-</table>
-<h2>Data Gaps &amp; Sources</h2>
-<ul>
-<li>Source: Yahoo Finance (statements, prices, holdings). Statement completeness 92%, technical 100%, valuation 100%.</li>
-<li>Not yet covered by this engine version: promoter pledging, detailed shareholding pattern (FII/DII), auditor history, con-call analysis, order books, government-policy mapping.</li>
-</ul>
-<h2>Model validation status</h2>
-<p>Backtests to date (US small/large caps 2012-2025, Indian small/midcaps
-2021-2025; point-in-time, survivorship-biased current-constituent samples) show
-<strong>no demonstrated persistent predictive edge</strong> for these scores; cross-sample
-agreement appears only in isolated regimes (2021-22 quality rally). Ablations
-additionally found the franchise-durability score does <strong>not</strong> out-predict the
-base score, and the self-critique veto does <strong>not</strong> avoid worse outcomes. Treat
-scores, classifications, and critiques as a structured evidence summary, not a
-return forecast. Full record: <code>docs/backtest-findings-2026-07.md</code>.</p>
-<h2>Disclaimer</h2>
-<p>Research tooling output, not investment advice. Scores are model artifacts with
-stated assumptions and incomplete data. Verify independently before any decision.</p></div></main>
-</body></html>
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explainable Multibagger ranking, financial source lineage, technical context, peers, filings and entity-matched news for Cemindia Projects Ltd..">
+  <meta name="color-scheme" content="dark light">
+<meta name="robots" content="noindex,follow">  <link rel="canonical" href="https://multibagger-engine.vercel.app/company/4bade4e0-f7f8-5bc4-9c40-95b0d4de860c.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cemindia Projects Ltd. (CEMPRO) research | Multibagger Engine">
+  <meta property="og:description" content="Explainable Multibagger ranking, financial source lineage, technical context, peers, filings and entity-matched news for Cemindia Projects Ltd..">
+  <meta property="og:url" content="https://multibagger-engine.vercel.app/company/4bade4e0-f7f8-5bc4-9c40-95b0d4de860c.html">
+  <title>Cemindia Projects Ltd. (CEMPRO) research | Multibagger Engine</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <script src="/assets/theme.js"></script>
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body data-data-mode="static">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="app-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Multibagger Engine home">
+        <span class="brand-mark" aria-hidden="true"><span>ME</span></span>
+        <span class="brand-name"><span class="brand-product">Multibagger</span> Engine</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a class="nav-link" href="/#overview">Overview</a>
+        <a class="nav-link" href="/#rankings" aria-current="page">Multibagger</a>
+        <a class="nav-link" href="/screener.html">Screener</a>
+        <a class="nav-link" href="/#sectors">Sectors</a>
+        <a class="nav-link" href="/#news">News</a>
+        <span class="nav-soon" aria-disabled="true">Calendar <span class="later-label">Later</span></span>
+        <a class="nav-link" href="/methodology.html">Methodology</a>
+      </nav>
+      <div class="header-actions">
+        <button class="search-trigger" type="button" data-open-search aria-label="Search instruments" aria-haspopup="dialog" aria-controls="instrument-search">
+          <span aria-hidden="true">⌕</span><span class="search-trigger-label">Search instruments</span><kbd>⌘ K</kbd>
+        </button>
+        <span class="status-button" data-status-trigger role="status" aria-label="Data status: checking" title="Data status">
+          <span class="status-dot" data-state="checking" aria-hidden="true"></span><span class="status-label">Checking</span>
+        </span>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Change colour theme" title="Use light theme">
+          <span data-theme-icon aria-hidden="true">◐</span>
+        </button>
+        <button class="icon-button menu-button" type="button" data-open-menu aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded="false" aria-label="Open navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <noscript>
+    <form class="notice" action="/api/analyze" method="get">
+      <label for="noscript-ticker">JavaScript is off. Analyze a known NSE ticker:</label>
+      <input class="input" id="noscript-ticker" name="ticker" placeholder="e.g. RELIANCE.NS" required>
+      <button class="button" type="submit">Analyze</button>
+    </form>
+  </noscript>
+
+  <main id="main-content" class="page-shell" tabindex="-1">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Rankings</a></li><li aria-current="page">Cemindia Projects Ltd.</li></ol></nav>
+<article class="research-page" data-research-page data-instrument-id="4bade4e0-f7f8-5bc4-9c40-95b0d4de860c" data-symbol="CEMPRO" data-exchange="NSE">
+  <header class="company-hero panel" aria-labelledby="company-title">
+    <div class="company-identity">
+      <p class="eyebrow">Nifty Smallcap 250 · NSE</p>
+      <h1 id="company-title">Cemindia Projects Ltd.</h1>
+      <p class="company-meta">CEMPRO · INE686A01026 · Industrials · Construction</p>
+      <div class="hero-actions">
+        <button class="button button-primary" type="button" data-add-comparison>Add to comparison</button>
+        <button class="button button-quiet" type="button" data-copy-link>Copy link</button>
+        <a class="button button-quiet" href="/#rankings">Rankings</a>
+        <a class="button button-quiet" href="/screener.html">Screener</a>
+      </div>
+    </div>
+    <div class="hero-score" aria-label="Current model position">
+      <div><span>Rank</span><strong>#14</strong><small><span class="sr-only">Rank movement: </span>+0 places</small></div>
+      <div><span>Multibagger Score</span><strong>69.2</strong><small>+0.0 points</small></div>
+    </div>
+    <dl class="hero-metrics">
+      <div><dt>Confidence</dt><dd>98%</dd></div>
+      <div><dt>Risk</dt><dd>24 / 100</dd></div>
+      <div><dt>Trend</dt><dd>Strong Up</dd></div>
+      <div><dt>Quote</dt><dd data-company-quote>₹1,338.00<small>Build-close price context; request a current quote before relying on it.</small></dd></div>
+      <div><dt>Main positive</dt><dd>Multibagger Score is 69.2, above the compatible covered-universe median of 50.6.</dd></div>
+      <div><dt>Main risk</dt><dd>Public financial metrics use the approved Yahoo compatibility fallback; they are not accepted Tier-A official NSE metrics.</dd></div>
+    </dl>
+    <p class="build-line">Model multibagger-score-v1 · Build <span class="mono">1bd53d15</span> · Cutoff 2026-08-01</p>
+  </header>
+
+  <div class="research-layout">
+    <div class="research-main">
+      <section class="panel research-section" aria-labelledby="research-summary"><div class="section-heading"><div><p class="eyebrow">Deterministic overview</p><h2 id="research-summary">Research summary</h2></div></div><ul class="summary-list"><li>Cemindia Projects Ltd. ranks 14 in the latest Nifty Smallcap 250 model build.</li><li>Its Multibagger Score is 69.2, with 98% model confidence and a risk score of 24.</li><li>Three-year revenue CAGR is 25.5%.</li><li>Three-year average ROCE is 24.7%.</li><li>Financial metrics use yahoo compatibility fallback; accepted Tier-A official NSE coverage is unavailable for this instrument.</li></ul><p class="cell-note">Generated from structured model fields. This is not an investment recommendation.</p></section>
+
+      <section class="panel research-section" aria-labelledby="why-ranked"><div class="section-heading"><div><p class="eyebrow">Explainability</p><h2 id="why-ranked">Why this company ranks here</h2></div><a href="/methodology.html">Methodology</a></div><div class="explanation-list"><article class="explanation explanation-positive"><div><span class="status-label">positive</span><h3>Multibagger Score</h3></div><p>Multibagger Score is 69.2, above the compatible covered-universe median of 50.6.</p><small>current model build</small></article><article class="explanation explanation-positive"><div><span class="status-label">positive</span><h3>Revenue CAGR</h3></div><p>Revenue CAGR over three years is 25.5%, above the compatible covered-universe median of 14.3%.</p><small>Yahoo compatibility fallback · 3 years</small></article><article class="explanation explanation-positive"><div><span class="status-label">positive</span><h3>ROCE</h3></div><p>ROCE over three years is 24.7%, above the compatible covered-universe median of 13.4%.</p><small>Yahoo compatibility fallback · 3 years</small></article><article class="explanation explanation-positive"><div><span class="status-label">positive</span><h3>Technical trend</h3></div><p>The validated technical trend state is strong up.</p><small>current model build</small></article><article class="explanation explanation-positive"><div><span class="status-label">positive</span><h3>Model confidence</h3></div><p>Model confidence is 98%; this is a coverage indicator, not a probability of investment success.</p><small>current model build</small></article><article class="explanation explanation-positive"><div><span class="status-label">positive</span><h3>Model risk</h3></div><p>Model risk score is 24 on a 0–100 scale where higher means more model flags.</p><small>current model build</small></article><article class="explanation explanation-warning"><div><span class="status-label">warning</span><h3>Financial source</h3></div><p>Public financial metrics use the approved Yahoo compatibility fallback; they are not accepted Tier-A official NSE metrics.</p><small>Yahoo compatibility fallback</small></article><article class="explanation explanation-warning"><div><span class="status-label">warning</span><h3>Coverage quality</h3></div><p>Some model inputs are missing; missing values were not replaced with zero.</p><small>current model build</small></article></div></section>
+
+      <div class="split-panels">
+        <section class="panel research-section" aria-labelledby="strengths"><h2 id="strengths">Strengths</h2><ul class="signal-list"><li><span aria-hidden="true">＋</span><div><strong>Multibagger Score</strong><p>Multibagger Score is 69.2, above the compatible covered-universe median of 50.6.</p></div></li><li><span aria-hidden="true">＋</span><div><strong>Revenue CAGR</strong><p>Revenue CAGR over three years is 25.5%, above the compatible covered-universe median of 14.3%.</p></div></li><li><span aria-hidden="true">＋</span><div><strong>ROCE</strong><p>ROCE over three years is 24.7%, above the compatible covered-universe median of 13.4%.</p></div></li><li><span aria-hidden="true">＋</span><div><strong>Technical trend</strong><p>The validated technical trend state is strong up.</p></div></li><li><span aria-hidden="true">＋</span><div><strong>Model confidence</strong><p>Model confidence is 98%; this is a coverage indicator, not a probability of investment success.</p></div></li></ul></section>
+        <section class="panel research-section" aria-labelledby="risks"><h2 id="risks">Risks &amp; limitations</h2><ul class="signal-list risk-list"><li><span aria-hidden="true">△</span><div><strong>Financial source</strong><p>Public financial metrics use the approved Yahoo compatibility fallback; they are not accepted Tier-A official NSE metrics.</p></div></li><li><span aria-hidden="true">△</span><div><strong>Coverage quality</strong><p>Some model inputs are missing; missing values were not replaced with zero.</p></div></li></ul></section>
+      </div>
+
+      <section class="panel research-section" aria-labelledby="score-history"><div class="section-heading"><div><p class="eyebrow">Persisted builds</p><h2 id="score-history">Score &amp; rank history</h2></div></div><p id="history-summary">Across 2 compatible builds, score changed by +0.0 and rank changed from 14 to 14.</p>
+        <svg class="history-svg" viewBox="0 0 144 120" role="img" aria-labelledby="history-svg-title history-svg-desc"><title id="history-svg-title">Multibagger Score by persisted build</title><desc id="history-svg-desc">Across 2 compatible builds, score changed by +0.0 and rank changed from 14 to 14.</desc><line x1="12" y1="105" x2="129" y2="105"></line><g><title>2026-08-01: score 69.2, rank 14</title><rect x="20" y="35.8" width="24" height="69.2"></rect><text x="32" y="117">1</text></g><g><title>2026-08-01: score 69.2, rank 14</title><rect x="72" y="35.8" width="24" height="69.2"></rect><text x="84" y="117">2</text></g></svg>
+        <div class="history-plot" role="img" aria-labelledby="score-history history-summary"><div class="history-point" style="--score:69.2"><span style="height:69.2%"></span><strong>69.2</strong><small>#14<br>2026-08-01</small></div><div class="history-point" style="--score:69.2"><span style="height:69.2%"></span><strong>69.2</strong><small>#14<br>2026-08-01</small></div></div>
+        <details><summary>Exact history values</summary><div class="table-scroll" tabindex="0" aria-label="Scrollable exact score and rank history"><table><caption class="sr-only">Exact score and rank history values</caption><thead><tr><th scope="col">Build date</th><th scope="col">Build ID</th><th scope="col">Rank</th><th scope="col">Score</th><th scope="col">Confidence</th><th scope="col">Risk</th></tr></thead><tbody><tr><td>2026-08-01</td><td class="mono">577191f1</td><td>14</td><td>69.2</td><td>Unavailable</td><td>Unavailable</td></tr><tr><td>2026-08-01</td><td class="mono">1bd53d15</td><td>14</td><td>69.2</td><td>98%</td><td>24</td></tr></tbody></table></div></details>
+      </section>
+
+      <section class="panel research-section" aria-labelledby="canonical-financials"><div class="section-heading"><div><p class="eyebrow">Accepted public fields only</p><h2 id="canonical-financials">Financial summary</h2></div><a href="/methodology.html#financial-methodology">Financial methodology</a></div>
+        <dl class="metric-strip"><div><dt>Revenue CAGR (3y)</dt><dd>25.5%</dd></div><div><dt>ROCE (3y average)</dt><dd>24.7%</dd></div><div><dt>Public source</dt><dd>Yahoo compatibility fallback<small>Tier B</small></dd></div></dl>
+<div class="table-scroll" tabindex="0" aria-label="Scrollable latest normalized financial facts"><table class="research-table"><caption>Latest normalized facts · FY2026</caption><thead><tr><th scope="col">Field</th><th scope="col">Value (₹ crore)</th><th scope="col">Period</th></tr></thead><tbody><tr><th scope="row">Revenue</th><td>10,060.6</td><td>FY2026</td></tr><tr><th scope="row">Operating profit</th><td>858.3</td><td>FY2026</td></tr><tr><th scope="row">PAT</th><td>597.7</td><td>FY2026</td></tr><tr><th scope="row">Cash flow from operations</th><td>499.8</td><td>FY2026</td></tr><tr><th scope="row">Free cash flow</th><td>236.0</td><td>FY2026</td></tr><tr><th scope="row">Debt</th><td>1,001.2</td><td>FY2026</td></tr><tr><th scope="row">Net worth</th><td>2,399.6</td><td>FY2026</td></tr></tbody></table></div>        <div class="notice notice-warning"><span aria-hidden="true">△</span><div><strong>Fallback source — not an official filing.</strong> Statement basis: unknown. Official Tier-A status: unavailable.</div></div>
+        <details class="source-lineage"><summary>Financial lineage and limitations</summary><dl><div><dt>Selected source</dt><dd>Yahoo compatibility fallback</dd></div><div><dt>Basis</dt><dd>Unknown</dd></div><div><dt>Financial build</dt><dd class="mono">34baaa1c-e2f6-508b-b2f0-389669739b2a</dd></div><div><dt>Metric definitions</dt><dd>2026-08-01.1</dd></div><div><dt>Reconciliation</dt><dd>not reconciled</dd></div></dl><p>Statement basis and filing publication date are unavailable from the compatibility source.</p><p>No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing.</p></details>
+      </section>
+
+      <section class="panel research-section" aria-labelledby="technical-context"><div class="section-heading"><div><p class="eyebrow">Descriptive context</p><h2 id="technical-context">Technical &amp; momentum context</h2></div></div><dl class="metric-strip"><div><dt>Trend</dt><dd>Strong Up</dd></div><div><dt>Industry momentum rank</dt><dd>Unavailable</dd></div><div><dt>3-month return</dt><dd>Unavailable</dd></div></dl><p class="cell-note">Technical fields are descriptive current-build context and are not a trading signal.</p></section>
+
+      <section class="panel research-section" aria-labelledby="peer-comparison"><div class="section-heading"><div><p class="eyebrow">Policy 2026-08-01.1</p><h2 id="peer-comparison">Peer Comparison</h2></div></div><div class="table-scroll" tabindex="0" aria-label="Scrollable peer comparison"><table class="research-table peer-table"><caption>Deterministic comparable companies from the same industry or sector</caption><thead><tr><th scope="col">Company</th><th scope="col">Why selected</th><th scope="col">Rank</th><th scope="col">Score</th><th scope="col">Confidence</th><th scope="col">Risk</th><th scope="col">Revenue CAGR</th><th scope="col">ROCE</th><th scope="col">Trend</th></tr></thead><tbody><tr><th scope="row"><a href="/company/aad1f932-7bdc-5683-8927-fef5c97a53ff.html">Kalpataru Projects International Ltd.</a><small>KPIL</small></th><td>Same industry · Similar Multibagger Score · Similar accepted revenue growth · Similar accepted ROCE</td><td>27</td><td>65.9</td><td>98%</td><td>0</td><td>18.4%</td><td>15.7%</td><td>up</td></tr><tr><th scope="row"><a href="/company/57cd507e-1e2c-5b26-a996-18de2011679c.html">NBCC (India) Ltd.</a><small>NBCC</small></th><td>Same industry · Similar accepted revenue growth · Similar accepted ROCE</td><td>52</td><td>60.4</td><td>98%</td><td>24</td><td>13.7%</td><td>27.2%</td><td>strong down</td></tr><tr><th scope="row"><a href="/company/939b2f09-72af-54b3-928b-7d96cf687058.html">Engineers India Ltd.</a><small>ENGINERSIN</small></th><td>Same industry · Similar accepted revenue growth · Similar accepted ROCE</td><td>72</td><td>58.2</td><td>98%</td><td>48</td><td>5.7%</td><td>16.6%</td><td>up</td></tr><tr><th scope="row"><a href="/company/470857c4-214e-5d5b-a52c-c8523612f3f4.html">Kec International Ltd.</a><small>KEC</small></th><td>Same industry · Similar accepted revenue growth · Similar accepted ROCE</td><td>121</td><td>51.4</td><td>98%</td><td>60</td><td>11.1%</td><td>15.5%</td><td>strong down</td></tr><tr><th scope="row"><a href="/company/c97994aa-ec8a-5aad-85dc-0acc5077313c.html">NCC Ltd.</a><small>NCC</small></th><td>Same industry · Similar accepted revenue growth · Similar accepted ROCE</td><td>166</td><td>41.3</td><td>96%</td><td>36</td><td>10.5%</td><td>18.0%</td><td>strong down</td></tr><tr><th scope="row"><a href="/company/9260c06b-710f-5e75-8a67-f080dcd5d19c.html">RITES Ltd.</a><small>RITES</small></th><td>Same industry · Similar accepted ROCE</td><td>160</td><td>43.0</td><td>96%</td><td>0</td><td>-2.4%</td><td>19.3%</td><td>down</td></tr></tbody></table></div></section>
+
+      <section class="panel research-section" aria-labelledby="filings"><div class="section-heading"><div><p class="eyebrow">Public-safe metadata</p><h2 id="filings">Filing timeline</h2></div></div><p class="empty-state">unavailable — no public-safe filing metadata in this build. Discovery alone would not mean acceptance for public metric use.</p></section>
+
+      <section class="panel research-section" aria-labelledby="company-news"><div class="section-heading"><div><p class="eyebrow">Recent News &amp; Policy Context</p><h2 id="company-news">Company news</h2></div><span>Cutoff 2026-07-31</span></div><div class="news-grid"><article class="news-card"><span class="badge badge-positive">high confidence · 100</span><h3><a href="https://news.google.com/rss/articles/CBMi5gFBVV95cUxOT0xEaldydk1vNWVNdUQwbjlUMlVxVkVjS1laRHlOaklIaWV6YTFCNUNwZlk1Q2dUeTNwcno4TWtkYVl0WnY2cm5aLVBvbHR1a243QVUybzR1dnphM1dxS2Y3WUhWWDFETlFaSUx1N0dpR3lsWW1PNDR1ZHgwVHFhb3p1WHFKbjdOem9xbHVWV1lHbWo4RFdxbVB1c3RNZ1RLbzIzUW40anhGOXpUTVVLY1pGZTNYbDFKSFRpM0Y1d0ZhVzZXX3JOWlpERG9yMUtFOURRZDUxWWdGQVNPOHc4MEU0anlkZ9IB5gFBVV95cUxOT0xEaldydk1vNWVNdUQwbjlUMlVxVkVjS1laRHlOaklIaWV6YTFCNUNwZlk1Q2dUeTNwcno4TWtkYVl0WnY2cm5aLVBvbHR1a243QVUybzR1dnphM1dxS2Y3WUhWWDFETlFaSUx1N0dpR3lsWW1PNDR1ZHgwVHFhb3p1WHFKbjdOem9xbHVWV1lHbWo4RFdxbVB1c3RNZ1RLbzIzUW40anhGOXpUTVVLY1pGZTNYbDFKSFRpM0Y1d0ZhVzZXX3JOWlpERG9yMUtFOURRZDUxWWdGQVNPOHc4MEU0anlkZw?oc=5" rel="noopener noreferrer" aria-label="Is There Now An Opportunity In Cemindia Projects Limited (NSE:CEMPRO)? (opens in a new tab)">Is There Now An Opportunity In Cemindia Projects Limited (NSE:CEMPRO)?</a></h3><p>simplywall.st · 2026-07-31</p><details><summary>Why this matched</summary><ul><li>company name appears in title</li><li>ticker appears with market context</li><li>source quality considered</li></ul></details></article><article class="news-card"><span class="badge badge-positive">high confidence · 76</span><h3><a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxPSHV2ZDJwRU9vaEJET0luQkVrMFZfVHdzb2lMZHozd1FzUzRwWlpsRUR2TVg0VFNmX1hxRUpVY01vbnRtcEFZeTdlU3V3Nmx3cHRLRVBsX0hNQ3BvZWUxNF85dm1wSmpMNFVBUnpVQjczU3RMajlJSVRqYVM1M21fTVBDNnBtTGRyODA4N1NnYUs4Z1hfbno1SHQxRE03d0M2WjFEQ3AtZi1SRmY4TzVHNWZBRFdXR3F2eVVIcTBkelRNdw?oc=5" rel="noopener noreferrer" aria-label="Cemindia Projects Q1 Results: Analyst call audio uploaded for review (opens in a new tab)">Cemindia Projects Q1 Results: Analyst call audio uploaded for review</a></h3><p>scanx.trade · 2026-07-29</p><details><summary>Why this matched</summary><ul><li>company name appears in title</li><li>source quality considered</li></ul></details></article><article class="news-card"><span class="badge badge-positive">high confidence · 76</span><h3><a href="https://news.google.com/rss/articles/CBMi9wFBVV95cUxNS2dQTGR5cC1nOFAxd0NlMUttYmhrSnpNankxNnJ4SkNqWXNLRWJmY00zSlRhdVBzNkoxZFhFYUdiQUJ2MC01UVNoNG8tczladERHYlZhWEdwR2JzNUZKUjJmUlFIVHE2Z096V1B2NXdPR2U5aGtCblJWeHZGdDlWMmQ5ZkVQWmZNXzA3OWp0RnV1d1pNaGRkRXdqSzJDTmU1SW5fU0wyU3R2YTJOOC1EYm52Tm9semozTzZkaTY1c1lHN3dITEY4TUxtZVNsY3BMLWpRbUtMMlNoZjRrdlF6ZFp2bVV3bndqLU9lNXJzOThsLTlva2FB?oc=5" rel="noopener noreferrer" aria-label="CemIndia Projects: नफ्यात घसरण, पण Dynacons आणि RailTel च्या हाती मोठे ऑर्डर्स! (opens in a new tab)">CemIndia Projects: नफ्यात घसरण, पण Dynacons आणि RailTel च्या हाती मोठे ऑर्डर्स!</a></h3><p>whalesbook.com · 2026-07-29</p><details><summary>Why this matched</summary><ul><li>company name appears in title</li><li>source quality considered</li></ul></details></article><article class="news-card"><span class="badge badge-positive">high confidence · 76</span><h3><a href="https://news.google.com/rss/articles/CBMimAJBVV95cUxPYzJaR1ZzekY3TUtVNkVmZlBxQnU0ZnA4MEhLeGJkY1dGd2ZjMEZ4OG5PVnNDeG9jZ2pVcGdzTDJxWVdnbmxOa1lBNmZ3UEFwUUFZd3dhOE9mMEpEYkNhcXRHeDFXejg4VjFoV0VFbjNYeEZRSjdTTE1SOGhNMGwtVW1OOXhQOXoxWFJLb2FyLTBRX01mXzhUbFhlQ2hYRGN0SENjN01fUlYwUXFSNUpyRGNiRHhscXd5LWcyaXo3aFd1TGNCdEVfVmFNQUxVbHZjUVptckpFcUFzYU9Ea3ozOUowVlpOaHFlUXRxSVM4YWxFT2ZtdjNYRlh2S1BiU2JJQkdJRFVjallqenhvVXVreW52TzU1djN0?oc=5" rel="noopener noreferrer" aria-label="Cemindia Projects Q1 FY27 Revenue ₹2,721 Cr; Orderbook Hits ₹31,307 Cr (opens in a new tab)">Cemindia Projects Q1 FY27 Revenue ₹2,721 Cr; Orderbook Hits ₹31,307 Cr</a></h3><p>whalesbook.com · 2026-07-28</p><details><summary>Why this matched</summary><ul><li>company name appears in title</li><li>source quality considered</li></ul></details></article><article class="news-card"><span class="badge badge-positive">high confidence · 76</span><h3><a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxPWnVORnJ0dmVOb0dVYVJGRnl2V0xnSVdFdlBwVmtGWEx3WElCRHZQNk5DOUIxVFc0djRTTjBnUlZZX1VrS2pVUG9hVUxkMjVMS3VWbnk1dUl0RFRCSng4dWc1RG9yVE12Mk1lLUYwN2E4ZVdMb3BtZWdmUTJXZWdySi1sQjQ1UWdUWDJiWWVZTDI3V2NCQ3NDTzc0ekllY0FDRHhoLXNFTkpHS2hQbFNYbkItRS1BWHBKQU84akNrX04zZGRORk5XV0NWOXNGRFlKZy1V?oc=5" rel="noopener noreferrer" aria-label="Cemindia Projects reports 5.6% revenue rise to ₹2,721 cr in Q1FY27 (opens in a new tab)">Cemindia Projects reports 5.6% revenue rise to ₹2,721 cr in Q1FY27</a></h3><p>scanx.trade · 2026-07-28</p><details><summary>Why this matched</summary><ul><li>company name appears in title</li><li>source quality considered</li></ul></details></article></div></section>
+    </div>
+
+    <aside class="research-sidebar" aria-label="Research workflow and trust">
+      <section class="panel research-section checklist" aria-labelledby="research-checklist"><div class="section-heading"><div><p class="eyebrow">Stored only on this device</p><h2 id="research-checklist">Research checklist</h2></div></div><p>Completion guides due diligence; it does not guarantee a good investment.</p><div data-checklist-status role="status" aria-live="polite">0 of 9 complete</div><ul><li><label><input type="checkbox" data-checklist-item value="financials"><span>Review the latest company financial summary</span></label></li><li><label><input type="checkbox" data-checklist-item value="quarterly_filing"><span>Read the latest quarterly result filing when available</span></label></li><li><label><input type="checkbox" data-checklist-item value="annual_filing"><span>Read the latest annual result filing when available</span></label></li><li><label><input type="checkbox" data-checklist-item value="score_history"><span>Check score and rank changes</span></label></li><li><label><input type="checkbox" data-checklist-item value="model_risks"><span>Review the main model risks</span></label></li><li><label><input type="checkbox" data-checklist-item value="peers"><span>Compare with industry peers</span></label></li><li><label><input type="checkbox" data-checklist-item value="news"><span>Review recent high-confidence news</span></label></li><li><label><input type="checkbox" data-checklist-item value="lineage"><span>Check data sources and freshness</span></label></li><li><label><input type="checkbox" data-checklist-item value="methodology"><span>Read the methodology and verify primary sources</span></label></li></ul><button class="button button-quiet" type="button" data-reset-checklist>Reset checklist</button></section>
+      <section class="panel research-section trust-panel" aria-labelledby="trust-panel"><div class="section-heading"><div><p class="eyebrow">Data lineage</p><h2 id="trust-panel">Trust panel</h2></div></div><dl><div><dt>Mode</dt><dd>Static</dd></div><div><dt>Model build</dt><dd class="mono">1bd53d15-67c6-4b02-b830-0eb0bb1d582b</dd></div><div><dt>Financial build</dt><dd class="mono">34baaa1c-e2f6-508b-b2f0-389669739b2a</dd></div><div><dt>Model version</dt><dd>multibagger-score-v1</dd></div><div><dt>Data cutoff</dt><dd>2026-08-01T11:10:03.765519Z</dd></div><div><dt>Financial source</dt><dd>Yahoo compatibility fallback</dd></div><div><dt>Source quality</dt><dd>Tier B</dd></div><div><dt>Official Tier-A</dt><dd>unavailable</dd></div><div><dt>Generated</dt><dd>2026-08-01T11:10:03.765519+00:00</dd></div></dl><details><summary>Known limitations</summary><ul><li>Statement basis and filing publication date are unavailable from the compatibility source.</li><li>No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing.</li><li>No public-safe official filing metadata is present in this static build.</li><li>The quote is unavailable or stale.</li></ul></details></section>
+    </aside>
+  </div>
+  <section class="panel research-section methodology-note"><h2>Methodology &amp; disclaimer</h2><p>Model outputs help prioritize research. They are not personalized advice, a buy or sell instruction, a price target, or a forecast of guaranteed outcomes. Verify company disclosures and exchange filings independently.</p><a href="/methodology.html">Read methodology and validation limits</a></section>
+</article>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-grid">
+      <div>
+        <strong>Research tooling, not investment advice.</strong>
+        Scores are model outputs with incomplete data and stated validation limits. Verify independently before making decisions.
+      </div>
+      <div><a href="/methodology.html">Read methodology &amp; limitations</a></div>
+    </div>
+  </footer>
+
+  <dialog class="dialog" id="instrument-search" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title">Search instruments</h2>
+    <div class="dialog-header">
+      <span aria-hidden="true">⌕</span>
+      <input class="dialog-search" data-search-input type="search" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Symbol, company name or ISIN" aria-controls="search-results" aria-describedby="search-help search-status">
+      <kbd>Esc</kbd>
+      <button class="icon-button" type="button" data-close-search aria-label="Close search">×</button>
+    </div>
+    <p class="sr-only" id="search-help">Type at least two characters. Use up and down arrow keys to choose a result, then Enter to open it.</p>
+    <div class="dialog-body">
+      <div class="dialog-status" id="search-status" data-search-status role="status" aria-live="polite">Search the canonical Nifty Smallcap 250 instrument master.</div>
+      <div data-recent-searches></div>
+      <ul class="search-results" id="search-results" data-search-results role="listbox" aria-label="Instrument matches"></ul>
+    </div>
+  </dialog>
+
+  <dialog class="mobile-drawer" id="mobile-navigation" aria-labelledby="mobile-nav-title">
+    <div class="drawer-head"><strong id="mobile-nav-title">Navigation</strong><button class="icon-button" type="button" data-close-menu aria-label="Close navigation">×</button></div>
+    <nav class="drawer-nav" aria-label="Mobile navigation">
+      <a class="nav-link" href="/#overview">Overview</a>
+      <a class="nav-link" href="/#rankings">Multibagger rankings</a>
+      <a class="nav-link" href="/screener.html">Advanced screener</a>
+      <a class="nav-link" href="/#sectors">Sectors</a>
+      <a class="nav-link" href="/#news">News</a>
+      <span class="nav-soon" aria-disabled="true">Calendar — later phase</span>
+      <a class="nav-link" href="/methodology.html">Methodology</a>
+    </nav>
+  </dialog>
+
+  <div class="sr-only" data-announcer role="status" aria-live="polite" aria-atomic="true"></div>
+  <script defer src="/assets/app.js"></script>
+<script defer src="/assets/research.js"></script></body>
+</html>

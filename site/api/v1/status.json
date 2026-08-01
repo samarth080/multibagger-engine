@@ -1,0 +1,66 @@
+{
+ "data": {
+  "latest_instrument_import": null,
+  "instrument_counts": {
+   "master": 250,
+   "published": 25
+  },
+  "latest_model_build": {
+   "build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+   "model_version": "multibagger-score-v1",
+   "factor_config_version": "factor-config-v1",
+   "factor_config_hash": "c952c0365bc64f377902d4e97097793d3b08778bc63fc120303889036efb6650",
+   "universe_name": "nifty-smallcap250",
+   "universe_version": "sha256:94c317be611993fe:ec984ce453fa",
+   "data_cutoff": "2026-08-01T11:10:03.765519Z",
+   "built_at": "2026-08-01T11:10:03.765519Z",
+   "provider_versions": {
+    "mbe": "0.1.0",
+    "yfinance": "runtime"
+   },
+   "validation_status": "modest positive 2-year Indian small-cap IC; survivorship-biased; sector momentum descriptive only",
+   "status": "complete",
+   "duration_seconds": 2.355499458994018,
+   "attempted_count": 250,
+   "scored_count": 250,
+   "failed_count": 0,
+   "source_data_version": "sha256:94c317be611993fe",
+   "notes": null,
+   "error_summary": null
+  },
+  "quote_providers": [
+   {
+    "provider": "yahoo",
+    "status": "configured",
+    "capability": "quotes"
+   }
+  ],
+  "datasets": [
+   {
+    "dataset": "weekly-rankings",
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  ],
+  "supported_markets": [
+   "IN"
+  ],
+  "supported_exchanges": [
+   "NSE",
+   "BSE"
+  ]
+ },
+ "meta": {},
+ "errors": [],
+ "warnings": [
+  "Persistent database status is available only from the dynamic API."
+ ],
+ "freshness": null,
+ "request_id": "static-build"
+}

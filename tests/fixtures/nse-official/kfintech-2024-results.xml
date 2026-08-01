@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Bounded factual excerpt captured from the official NSE Ind-AS XBRL attachment
+  on 2026-08-01. Full source SHA-256:
+  22a8fecb8fc2539d48637e29294cae0513ca32e34c0cc69faf3df0b69fc56bb8
+  The excerpt preserves the source values/contexts needed for deterministic tests.
+-->
+<xbrl>
+  <ReportingQuarter>Yearly</ReportingQuarter>
+  <DateOfStartOfReportingPeriod contextRef="FourD">2023-04-01</DateOfStartOfReportingPeriod>
+  <DateOfEndOfReportingPeriod contextRef="FourD">2024-03-31</DateOfEndOfReportingPeriod>
+  <NatureOfReportStandaloneConsolidated contextRef="FourD">Consolidated</NatureOfReportStandaloneConsolidated>
+  <RevenueFromOperations contextRef="FourD" unitRef="INR" decimals="-6">8375330000.00</RevenueFromOperations>
+  <Income contextRef="FourD" unitRef="INR" decimals="-6">8621840000.00</Income>
+  <FinanceCosts contextRef="FourD" unitRef="INR" decimals="-6">84350000.00</FinanceCosts>
+  <DepreciationDepletionAndAmortisationExpense contextRef="FourD" unitRef="INR" decimals="-6">530200000.00</DepreciationDepletionAndAmortisationExpense>
+  <ProfitBeforeTax contextRef="FourD" unitRef="INR" decimals="-6">3297900000.00</ProfitBeforeTax>
+  <ProfitLossForPeriod contextRef="FourD" unitRef="INR" decimals="-6">2460480000.00</ProfitLossForPeriod>
+  <PaidUpValueOfEquityShareCapital contextRef="FourD" unitRef="INR" decimals="-6">1709890000.00</PaidUpValueOfEquityShareCapital>
+  <FaceValueOfEquityShareCapital contextRef="FourD" unitRef="INRPerShare" decimals="INF">10</FaceValueOfEquityShareCapital>
+  <CashAndCashEquivalents contextRef="OneI" unitRef="INR" decimals="-6">564010000.00</CashAndCashEquivalents>
+  <CurrentAssets contextRef="OneI" unitRef="INR" decimals="-6">5911140000.00</CurrentAssets>
+  <Assets contextRef="OneI" unitRef="INR" decimals="-6">14186920000.00</Assets>
+  <EquityAttributableToOwnersOfParent contextRef="OneI" unitRef="INR" decimals="-6">11409900000.00</EquityAttributableToOwnersOfParent>
+  <Equity contextRef="OneI" unitRef="INR" decimals="-6">11409900000.00</Equity>
+  <BorrowingsNoncurrent contextRef="OneI" unitRef="INR" decimals="-6">0.00</BorrowingsNoncurrent>
+  <BorrowingsCurrent contextRef="OneI" unitRef="INR" decimals="-6">0.00</BorrowingsCurrent>
+  <CurrentLiabilities contextRef="OneI" unitRef="INR" decimals="-6">1149360000.00</CurrentLiabilities>
+  <CashFlowsFromUsedInOperatingActivities contextRef="FourD" unitRef="INR" decimals="-6">2892540000.00</CashFlowsFromUsedInOperatingActivities>
+  <PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities contextRef="FourD" unitRef="INR" decimals="-6">278850000.00</PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities>
+</xbrl>

@@ -1,0 +1,33 @@
+{
+  "audited": "Audited",
+  "bank": "N",
+  "broadCastDate": "29-Apr-2024 21:08:26",
+  "companyName": "Kfin Technologies Limited",
+  "consolidated": "Consolidated",
+  "cumulative": "Cumulative",
+  "difference": "00:00:17",
+  "exchdisstime": "29-Apr-2024 21:08:43",
+  "filingDate": "29-Apr-2024 21:08",
+  "financialYear": "01-Apr-2023 To 31-Mar-2024",
+  "format": "New",
+  "fromDate": "01-Apr-2023",
+  "indAs": "Ind-AS New",
+  "industry": "-",
+  "isin": "INE138Y01010",
+  "oldNewFlag": "N",
+  "params": "01-Apr-202331-Mar-2024ANANCCNEKFINTECH",
+  "period": "Annual",
+  "reInd": "N",
+  "relatingTo": "Annual",
+  "resultDescription": null,
+  "resultDetailedDataLink": null,
+  "seqNumber": "1169770",
+  "symbol": "KFINTECH",
+  "toDate": "31-Mar-2024",
+  "xbrl": "https://nsearchives.nseindia.com/corporate/xbrl/INDAS_104961_1111394_29042024090825.xml",
+  "_fixture_provenance": {
+    "captured_at": "2026-08-01",
+    "source": "https://www.nseindia.com/api/corporates-financial-results?index=equities&symbol=KFINTECH&period=Annual",
+    "purpose": "Deterministic offline contract test; private fixture metadata is never published verbatim."
+  }
+}

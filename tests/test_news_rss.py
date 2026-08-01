@@ -4,7 +4,14 @@ from datetime import datetime, timedelta, timezone
 from email.utils import format_datetime
 
 from mbe.data.cache import DiskCache
-from mbe.data.news_rss import NewsItem, dedupe_recent, parse_rss, company_news
+from mbe.data.news_rss import (
+    NewsItem,
+    company_news,
+    dedupe_recent,
+    filter_company_news,
+    parse_rss,
+    score_company_news,
+)
 
 GOOGLE_RSS = """<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel><title>q</title>
@@ -111,14 +118,22 @@ def test_company_news_builds_query_and_caches(tmp_path):
 
     def fake_http(url: str) -> str:
         calls.append(url)
-        return GOOGLE_RSS
+        return GOOGLE_RSS.replace(
+            "Fri, 17 Jul 2026 08:00:00 GMT", _RECENT
+        ).replace(
+            "Fri, 17 Jul 2026 09:00:00 GMT", _OLDER
+        )
 
     cache = DiskCache(tmp_path)
     items = company_news("Natco Pharma", "NATCOPHARM.NS", cache=cache, fetcher=fake_http)
-    assert items  # something survived (undated items always do)
-    assert any("Natco" in i.title or "Undated" in i.title for i in items)
+    assert items
+    assert all("Natco" in item.title for item in items)
     assert "news.google.com" in calls[0]
     assert "%22Natco%20Pharma%22" in calls[0]  # quoted company name in query
+    assert "%22NATCOPHARM%22" in calls[0]  # symbol is exchange/country-anchored
+    assert "India" in calls[0] and "NSE" in calls[0]
+    assert all(item.relevance_score >= 55 for item in items)
+    assert all(item.match_confidence in {"medium", "high"} for item in items)
     # second call served from cache: no new fetch
     company_news("Natco Pharma", "NATCOPHARM.NS", cache=cache, fetcher=fake_http)
     assert len(calls) == 1
@@ -129,6 +144,149 @@ def test_company_news_feed_failure_degrades_to_empty():
         raise OSError("network down")
 
     assert company_news("X Ltd", "X.NS", cache=None, fetcher=boom) == []
+
+
+def test_entity_match_rejects_ambiguous_symbol_only_news():
+    unrelated = [
+        NewsItem(
+            title="IAP BLS Course Successfully Conducted at KIMS",
+            link="https://example.com/medical",
+            source="KIIT",
+        ),
+        NewsItem(
+            title="Balanga team wins BLS Olympics",
+            link="https://example.com/sports",
+            source="Manila Standard",
+        ),
+    ]
+    assert filter_company_news(
+        unrelated,
+        name="BLS INTL SERVS LTD",
+        ticker="BLS.NS",
+        exchange="NSE",
+        industry="Specialty Business Services",
+    ) == []
+
+
+def test_entity_match_accepts_expanded_company_name_and_exposes_evidence():
+    item = NewsItem(
+        title="BLS International Services reports strong quarterly results",
+        link="https://example.com/company",
+        source="Economic Times",
+    )
+    scored = score_company_news(
+        item,
+        name="BLS INTL SERVS LTD",
+        ticker="BLS.NS",
+        exchange="NSE",
+        industry="Specialty Business Services",
+    )
+    assert scored.relevance_score is not None and scored.relevance_score >= 75
+    assert scored.match_confidence == "high"
+    assert any("company name" in reason for reason in scored.match_reasons)
+    assert scored.source_quality == 0.9
+
+
+def test_entity_match_requires_extra_corroboration_for_short_symbols():
+    item = NewsItem(
+        title="CAMS shares rise on NSE after quarterly results",
+        link="https://example.com/cams",
+        source="Moneycontrol.com",
+    )
+    scored = score_company_news(
+        item,
+        name="Computer Age Management Services Limited",
+        ticker="CAMS.NS",
+        exchange="NSE",
+        industry="Capital Markets",
+    )
+    assert scored.relevance_score is not None and scored.relevance_score >= 55
+    assert "ticker appears with market context" in scored.match_reasons
+
+
+def test_entity_match_rejects_bare_short_ticker_from_unrelated_domain():
+    item = NewsItem(
+        title="New CAMS imaging method improves medical diagnosis",
+        link="https://example.com/medicine",
+        source="Medical Journal",
+    )
+    scored = score_company_news(
+        item,
+        name="Computer Age Management Services Limited",
+        ticker="CAMS.NS",
+        exchange="NSE",
+    )
+    assert scored.match_confidence == "low"
+    assert filter_company_news(
+        [item],
+        name="Computer Age Management Services Limited",
+        ticker="CAMS.NS",
+    ) == []
+
+
+def test_entity_match_does_not_confuse_a_group_sibling_company():
+    item = NewsItem(
+        title="Welspun Living: WCPGL Becomes Associate Company",
+        link="https://example.com/welspun-living",
+        source="Market News",
+    )
+    assert filter_company_news(
+        [item],
+        name="Welspun Corp Limited",
+        ticker="WELCORP.NS",
+        industry="Steel",
+    ) == []
+
+
+def test_entity_match_does_not_treat_industry_noun_as_company_identity():
+    item = NewsItem(
+        title="Why India EV and Green Energy Push Is a Windfall for Copper Stocks",
+        link="https://example.com/copper-sector",
+        source="Economic Times",
+    )
+    assert filter_company_news(
+        [item],
+        name="Hindustan Copper Limited",
+        ticker="HINDCOPPER.NS",
+        industry="Copper",
+    ) == []
+
+
+def test_entity_match_does_not_treat_india_as_enough_ticker_context():
+    items = [
+        NewsItem(
+            title="Neeraj Chopra, India's javelin ace, wins silver",
+            link="https://example.com/ace-sport",
+            source="Hindustan Times",
+        ),
+        NewsItem(
+            title="Sri Vijaya Puram hosts young professionals roundtable in India",
+            link="https://example.com/vijaya-place",
+            source="Local News",
+        ),
+    ]
+    assert filter_company_news(
+        items[:1], name="Action Construction Equipment Ltd", ticker="ACE.NS"
+    ) == []
+    assert filter_company_news(
+        items[1:], name="Vijaya Diagnostic Centre Ltd", ticker="VIJAYA.NS"
+    ) == []
+
+
+def test_entity_match_rejects_a_different_declared_exchange_symbol():
+    item = NewsItem(
+        title="BLS E-Services Limited Revenue Breakdown – NSE:BLSE",
+        link="https://example.com/blse",
+        source="Market Data",
+    )
+    scored = score_company_news(
+        item,
+        name="BLS International Services Limited",
+        ticker="BLS.NS",
+        exchange="NSE",
+    )
+    assert scored.match_confidence == "low"
+    assert "different exchange symbol" in scored.match_reasons[0]
 
 
 def test_sector_policy_queries_the_regulator_not_the_taxonomy_label(tmp_path):

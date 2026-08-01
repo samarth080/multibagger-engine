@@ -1,0 +1,767 @@
+{
+ "data": {
+  "schema_version": "1.0",
+  "identity": {
+   "instrument_id": "217fb5e5-f5aa-521a-bb9a-a128cc5dd919",
+   "company_id": "5678595c-b22f-5b38-a693-5f65fc0feef1",
+   "display_name": "Gujarat Mineral Development Corporation Ltd.",
+   "legal_name": "Gujarat Mineral Development Corporation Ltd.",
+   "symbol": "GMDCLTD",
+   "exchange": "NSE",
+   "bse_code": null,
+   "isin": "INE131A01031",
+   "sector": "Energy",
+   "industry": "Metals & Mining",
+   "market_cap_category": null,
+   "index_membership": "Nifty Smallcap 250",
+   "is_sme": null,
+   "listing_status": "active",
+   "canonical_url": "/company/217fb5e5-f5aa-521a-bb9a-a128cc5dd919.html",
+   "legacy_url": "/reports/GMDCLTD_NS.html"
+  },
+  "quote": {
+   "price": 567.8499755859375,
+   "absolute_change": null,
+   "percentage_change": null,
+   "currency": "INR",
+   "market_status": "unavailable",
+   "timestamp": "2026-08-01T11:10:03.765519+00:00",
+   "delay_minutes": null,
+   "stale": true,
+   "state": "build_close",
+   "message": "Build-close price context; request a current quote before relying on it."
+  },
+  "ranking": {
+   "rank": 244,
+   "previous_rank": 244,
+   "rank_change": 0,
+   "multibagger_score": 29.1,
+   "previous_score": 29.1,
+   "score_change": 0.0,
+   "investment_score": 29.3,
+   "confidence": 0.958,
+   "risk_score": 24.0,
+   "investability": "Unavailable",
+   "technical_trend": "down",
+   "momentum_rank": null,
+   "coverage_quality": 0.958,
+   "has_missing_data": true,
+   "positive_signal_count": 7,
+   "red_flag_count": 2,
+   "model_version": "multibagger-score-v1",
+   "model_build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+   "build_timestamp": "2026-08-01T11:10:03.765519Z",
+   "data_cutoff": "2026-08-01T11:10:03.765519Z",
+   "validation_status": "modest positive 2-year Indian small-cap IC; survivorship-biased; sector momentum descriptive only",
+   "components": [
+    {
+     "name": "Financial Strength",
+     "score": 90.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 5.0,
+     "confidence": 0.85,
+     "evidence_count": 3
+    },
+    {
+     "name": "Momentum",
+     "score": 20.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Quality",
+     "score": 35.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Reinvestment",
+     "score": 45.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 0.0,
+     "confidence": 0.0,
+     "evidence_count": 0
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Valuation",
+     "score": 6.25,
+     "confidence": 0.8,
+     "evidence_count": 3
+    }
+   ]
+  },
+  "research_summary": [
+   "Gujarat Mineral Development Corporation Ltd. ranks 244 in the latest Nifty Smallcap 250 model build.",
+   "Its Multibagger Score is 29.1, with 96% model confidence and a risk score of 24.",
+   "Three-year revenue CAGR is -8.8%.",
+   "Three-year average ROCE is 7.2%.",
+   "Financial metrics use yahoo compatibility fallback; accepted Tier-A official NSE coverage is unavailable for this instrument."
+  ],
+  "explanations": [
+   {
+    "code": "score_vs_universe_median",
+    "label": "Multibagger Score",
+    "text": "Multibagger Score is 29.1, below the compatible covered-universe median of 50.6.",
+    "classification": "warning",
+    "source_field_ids": [
+     "ranking.multibagger_score"
+    ],
+    "current_value": 29.1,
+    "comparison_value": 50.6,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "revenue_cagr_vs_median",
+    "label": "Revenue CAGR",
+    "text": "Revenue CAGR over three years is -8.8%, below the compatible covered-universe median of 14.3%.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.revenue_cagr_3y"
+    ],
+    "current_value": -0.08799297040011,
+    "comparison_value": 0.14288424445127257,
+    "period": "3 years",
+    "source": "Yahoo compatibility fallback",
+    "freshness": "unknown",
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "roce_vs_median",
+    "label": "ROCE",
+    "text": "ROCE over three years is 7.2%, below the compatible covered-universe median of 13.4%.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.roce_3y"
+    ],
+    "current_value": 0.07185412056749095,
+    "comparison_value": 0.1341835134502367,
+    "period": "3 years",
+    "source": "Yahoo compatibility fallback",
+    "freshness": "unknown",
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "technical_trend",
+    "label": "Technical trend",
+    "text": "The validated technical trend state is down.",
+    "classification": "risk",
+    "source_field_ids": [
+     "technical.trend"
+    ],
+    "current_value": "down",
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "model_confidence",
+    "label": "Model confidence",
+    "text": "Model confidence is 96%; this is a coverage indicator, not a probability of investment success.",
+    "classification": "positive",
+    "source_field_ids": [
+     "ranking.confidence"
+    ],
+    "current_value": 0.958,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "model_risk",
+    "label": "Model risk",
+    "text": "Model risk score is 24 on a 0\u2013100 scale where higher means more model flags.",
+    "classification": "positive",
+    "source_field_ids": [
+     "ranking.risk_score"
+    ],
+    "current_value": 24.0,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "financial_fallback",
+    "label": "Financial source",
+    "text": "Public financial metrics use the approved Yahoo compatibility fallback; they are not accepted Tier-A official NSE metrics.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.selected_source",
+     "financials.official_tier_a_status"
+    ],
+    "current_value": "Yahoo compatibility fallback",
+    "comparison_value": null,
+    "period": null,
+    "source": "Yahoo compatibility fallback",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "partial_model_inputs",
+    "label": "Coverage quality",
+    "text": "Some model inputs are missing; missing values were not replaced with zero.",
+    "classification": "warning",
+    "source_field_ids": [
+     "ranking.has_missing_data",
+     "ranking.coverage_quality"
+    ],
+    "current_value": 0.958,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   }
+  ],
+  "strengths": [
+   {
+    "code": "model_confidence",
+    "label": "Model confidence",
+    "text": "Model confidence is 96%; this is a coverage indicator, not a probability of investment success.",
+    "classification": "positive",
+    "source_field_ids": [
+     "ranking.confidence"
+    ],
+    "current_value": 0.958,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "model_risk",
+    "label": "Model risk",
+    "text": "Model risk score is 24 on a 0\u2013100 scale where higher means more model flags.",
+    "classification": "positive",
+    "source_field_ids": [
+     "ranking.risk_score"
+    ],
+    "current_value": 24.0,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   }
+  ],
+  "risks": [
+   {
+    "code": "score_vs_universe_median",
+    "label": "Multibagger Score",
+    "text": "Multibagger Score is 29.1, below the compatible covered-universe median of 50.6.",
+    "classification": "warning",
+    "source_field_ids": [
+     "ranking.multibagger_score"
+    ],
+    "current_value": 29.1,
+    "comparison_value": 50.6,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "revenue_cagr_vs_median",
+    "label": "Revenue CAGR",
+    "text": "Revenue CAGR over three years is -8.8%, below the compatible covered-universe median of 14.3%.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.revenue_cagr_3y"
+    ],
+    "current_value": -0.08799297040011,
+    "comparison_value": 0.14288424445127257,
+    "period": "3 years",
+    "source": "Yahoo compatibility fallback",
+    "freshness": "unknown",
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "roce_vs_median",
+    "label": "ROCE",
+    "text": "ROCE over three years is 7.2%, below the compatible covered-universe median of 13.4%.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.roce_3y"
+    ],
+    "current_value": 0.07185412056749095,
+    "comparison_value": 0.1341835134502367,
+    "period": "3 years",
+    "source": "Yahoo compatibility fallback",
+    "freshness": "unknown",
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "technical_trend",
+    "label": "Technical trend",
+    "text": "The validated technical trend state is down.",
+    "classification": "risk",
+    "source_field_ids": [
+     "technical.trend"
+    ],
+    "current_value": "down",
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "financial_fallback",
+    "label": "Financial source",
+    "text": "Public financial metrics use the approved Yahoo compatibility fallback; they are not accepted Tier-A official NSE metrics.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.selected_source",
+     "financials.official_tier_a_status"
+    ],
+    "current_value": "Yahoo compatibility fallback",
+    "comparison_value": null,
+    "period": null,
+    "source": "Yahoo compatibility fallback",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   }
+  ],
+  "history": {
+   "points": [
+    {
+     "build_id": "577191f1-a9c2-4202-8ed2-85e13090e095",
+     "built_at": "2026-08-01T09:34:57.391942Z",
+     "rank": 244,
+     "multibagger_score": 29.1,
+     "confidence": null,
+     "risk_score": null,
+     "investment_score": null,
+     "components": []
+    },
+    {
+     "build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+     "built_at": "2026-08-01T11:10:03.765519Z",
+     "rank": 244,
+     "multibagger_score": 29.1,
+     "confidence": 0.958,
+     "risk_score": 24.0,
+     "investment_score": 29.3,
+     "components": [
+      {
+       "name": "Financial Strength",
+       "score": 90.0,
+       "confidence": 1.0,
+       "evidence_count": 5
+      },
+      {
+       "name": "Growth",
+       "score": 5.0,
+       "confidence": 0.85,
+       "evidence_count": 3
+      },
+      {
+       "name": "Momentum",
+       "score": 20.0,
+       "confidence": 1.0,
+       "evidence_count": 5
+      },
+      {
+       "name": "Quality",
+       "score": 35.25,
+       "confidence": 1.0,
+       "evidence_count": 5
+      },
+      {
+       "name": "Reinvestment",
+       "score": 45.0,
+       "confidence": 1.0,
+       "evidence_count": 1
+      },
+      {
+       "name": "Sector Momentum",
+       "score": 0.0,
+       "confidence": 0.0,
+       "evidence_count": 0
+      },
+      {
+       "name": "Size Runway",
+       "score": 75.0,
+       "confidence": 1.0,
+       "evidence_count": 1
+      },
+      {
+       "name": "Valuation",
+       "score": 6.25,
+       "confidence": 0.8,
+       "evidence_count": 3
+      }
+     ]
+    }
+   ],
+   "summary": "Across 2 compatible builds, score changed by +0.0 and rank changed from 244 to 244.",
+   "is_continuous": false,
+   "max_points": 26
+  },
+  "financials": {
+   "revenue_cagr_3y": -0.08799297040011,
+   "roce_3y": 0.07185412056749095,
+   "recent_facts": [
+    {
+     "metric_id": "revenue",
+     "label": "Revenue",
+     "value": 26533800000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "operating_income",
+     "label": "Operating profit",
+     "value": 3290700000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "net_income",
+     "label": "PAT",
+     "value": 9566700000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "cfo",
+     "label": "Cash flow from operations",
+     "value": 7437200000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "fcf",
+     "label": "Free cash flow",
+     "value": -2903100000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "total_debt",
+     "label": "Debt",
+     "value": 3165000000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "total_equity",
+     "label": "Net worth",
+     "value": 70727400000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    }
+   ],
+   "selected_source": "yahoo_compatibility",
+   "source_label": "Yahoo compatibility fallback",
+   "source_quality_tier": "B",
+   "fallback": true,
+   "basis": "unknown",
+   "basis_warning": "Yahoo compatibility statements do not identify consolidated versus standalone basis.",
+   "latest_period": "FY2026",
+   "data_cutoff": "2026-08-01T11:10:03.765519+00:00",
+   "source_date": null,
+   "freshness": "unknown",
+   "quality_status": "valid_with_warning",
+   "quality_warnings": [
+    "Statement basis and filing publication date are unavailable from the compatibility source.",
+    "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing."
+   ],
+   "official_tier_a_status": "unavailable",
+   "reconciliation_status": "not_reconciled",
+   "financial_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+   "metric_definition_version": "2026-08-01.1",
+   "source_selection_policy_version": "2026-08-01.2",
+   "source_selection_reason": "No fixture-qualified official multi-year series is present in the static dataset; the approved compatibility fallback remains selected for Revenue CAGR and ROCE only."
+  },
+  "technical": {
+   "trend": "down",
+   "momentum_rank": null,
+   "momentum_group": null,
+   "momentum_score": null,
+   "return_3m": null,
+   "return_6m": null,
+   "return_12m": null,
+   "relative_strength_3m": null,
+   "message": "Technical fields are descriptive current-build context and are not a trading signal."
+  },
+  "peers": [
+   {
+    "instrument_id": "eeeb2e23-f1eb-53c4-a0a4-1eef375cead3",
+    "canonical_url": "/company/eeeb2e23-f1eb-53c4-a0a4-1eef375cead3.html",
+    "display_name": "Jain Resource Recycling Ltd.",
+    "symbol": "JAINREC",
+    "rank": 207,
+    "multibagger_score": 35.0,
+    "confidence": 0.812,
+    "risk_score": 84.0,
+    "revenue_cagr_3y": 0.46098182194515647,
+    "roce_3y": 0.19057242049125148,
+    "technical_trend": "unknown",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 127.4231,
+    "selection_reasons": [
+     "Same industry",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "cee1d841-fe66-5ee8-9d78-dbafe6018fba",
+    "canonical_url": "/company/cee1d841-fe66-5ee8-9d78-dbafe6018fba.html",
+    "display_name": "NMDC Steel Ltd.",
+    "symbol": "NSLNISP",
+    "rank": 210,
+    "multibagger_score": 35.0,
+    "confidence": 0.932,
+    "risk_score": 60.0,
+    "revenue_cagr_3y": null,
+    "roce_3y": -0.0689567342164749,
+    "technical_trend": "sideways",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 122.6919,
+    "selection_reasons": [
+     "Same industry",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "dcf80a1a-8c11-5e91-a1e7-95e648419952",
+    "canonical_url": "/company/dcf80a1a-8c11-5e91-a1e7-95e648419952.html",
+    "display_name": "Sarda Energy and Minerals Ltd.",
+    "symbol": "SARDAEN",
+    "rank": 6,
+    "multibagger_score": 72.7,
+    "confidence": 0.983,
+    "risk_score": 0.0,
+    "revenue_cagr_3y": 0.1044309215228052,
+    "roce_3y": 0.1216957631210835,
+    "technical_trend": "down",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 117.5773,
+    "selection_reasons": [
+     "Same industry",
+     "Similar accepted revenue growth",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "986f6469-e561-5dcf-8daf-6cc0e4412857",
+    "canonical_url": "/company/986f6469-e561-5dcf-8daf-6cc0e4412857.html",
+    "display_name": "Gravita India Ltd.",
+    "symbol": "GRAVITA",
+    "rank": 127,
+    "multibagger_score": 50.5,
+    "confidence": 0.958,
+    "risk_score": 48.0,
+    "revenue_cagr_3y": 0.152375024015033,
+    "roce_3y": 0.1454543777120903,
+    "technical_trend": "sideways",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 116.8603,
+    "selection_reasons": [
+     "Same industry",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "a249db07-a98d-5276-a9d9-87d64b9ba831",
+    "canonical_url": "/company/a249db07-a98d-5276-a9d9-87d64b9ba831.html",
+    "display_name": "Hindustan Copper Ltd.",
+    "symbol": "HINDCOPPER",
+    "rank": 13,
+    "multibagger_score": 69.4,
+    "confidence": 0.983,
+    "risk_score": 24.0,
+    "revenue_cagr_3y": 0.2272581493190038,
+    "roce_3y": 0.2404185991768991,
+    "technical_trend": "up",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 115.1618,
+    "selection_reasons": [
+     "Same industry",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "1f8aec0c-f3d1-5654-b68e-04655a3a4acd",
+    "canonical_url": "/company/1f8aec0c-f3d1-5654-b68e-04655a3a4acd.html",
+    "display_name": "Mangalore Refinery & Petrochemicals Ltd.",
+    "symbol": "MRPL",
+    "rank": 155,
+    "multibagger_score": 44.2,
+    "confidence": 0.946,
+    "risk_score": 24.0,
+    "revenue_cagr_3y": -0.06657466118470312,
+    "roce_3y": 0.1701118096862715,
+    "technical_trend": "up",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 88.7032,
+    "selection_reasons": [
+     "Same sector",
+     "Similar accepted revenue growth",
+     "Similar accepted ROCE"
+    ]
+   }
+  ],
+  "peer_policy_version": "2026-08-01.1",
+  "filings": [],
+  "filings_state": "unavailable \u2014 no public-safe filing metadata in this build",
+  "news": [],
+  "news_state": "unavailable at the current entity-match threshold",
+  "checklist": [
+   {
+    "code": "financials",
+    "label": "Review the latest company financial summary"
+   },
+   {
+    "code": "quarterly_filing",
+    "label": "Read the latest quarterly result filing when available"
+   },
+   {
+    "code": "annual_filing",
+    "label": "Read the latest annual result filing when available"
+   },
+   {
+    "code": "score_history",
+    "label": "Check score and rank changes"
+   },
+   {
+    "code": "model_risks",
+    "label": "Review the main model risks"
+   },
+   {
+    "code": "peers",
+    "label": "Compare with industry peers"
+   },
+   {
+    "code": "news",
+    "label": "Review recent high-confidence news"
+   },
+   {
+    "code": "lineage",
+    "label": "Check data sources and freshness"
+   },
+   {
+    "code": "methodology",
+    "label": "Read the methodology and verify primary sources"
+   }
+  ],
+  "lineage": {
+   "model_build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+   "financial_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+   "model_version": "multibagger-score-v1",
+   "financial_metric_definition_version": "2026-08-01.1",
+   "explanation_policy_version": "2026-08-01.1",
+   "peer_policy_version": "2026-08-01.1",
+   "compatibility_policy_version": "2026-08-01.1",
+   "source_selection_policy_version": "2026-08-01.2",
+   "data_cutoff": "2026-08-01T11:10:03.765519Z",
+   "quote_timestamp": "2026-08-01T11:10:03.765519+00:00",
+   "news_cutoff": null,
+   "generated_at": "2026-08-01T11:10:03.765519+00:00",
+   "data_mode": "static",
+   "financial_source": "Yahoo compatibility fallback",
+   "financial_source_quality_tier": "B",
+   "official_tier_a_status": "unavailable",
+   "known_limitations": [
+    "Statement basis and filing publication date are unavailable from the compatibility source.",
+    "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing.",
+    "No public-safe official filing metadata is present in this static build.",
+    "No accepted entity-matched company news is present at this build cutoff.",
+    "The quote is unavailable or stale."
+   ]
+  },
+  "warnings": [
+   "Statement basis and filing publication date are unavailable from the compatibility source.",
+   "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing.",
+   "No public-safe official filing metadata is present in this static build.",
+   "No accepted entity-matched company news is present at this build cutoff.",
+   "The quote is unavailable or stale."
+  ],
+  "feature_flags": {
+   "quote_enhancement": true,
+   "history_chart": true,
+   "filings": false,
+   "news": false,
+   "checklist": true
+  },
+  "methodology_links": {
+   "model": "/methodology.html",
+   "financials": "/methodology.html#financial-methodology",
+   "validation": "/methodology.html#validation"
+  },
+  "compatibility": {
+   "model_financial_builds_aligned": true,
+   "financial_age_days_at_model_cutoff": 0,
+   "news_age_days_at_model_cutoff": null,
+   "peer_model_build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+   "allowed_runtime_differences": [
+    "live quote values",
+    "runtime market status",
+    "news after static cutoff"
+   ]
+  }
+ },
+ "meta": {},
+ "errors": [],
+ "warnings": [
+  "Statement basis and filing publication date are unavailable from the compatibility source.",
+  "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing.",
+  "No public-safe official filing metadata is present in this static build.",
+  "No accepted entity-matched company news is present at this build cutoff.",
+  "The quote is unavailable or stale."
+ ],
+ "freshness": {
+  "state": "unknown",
+  "source": "company-research-static-build",
+  "source_timestamp": "2026-08-01T11:10:03.765519Z",
+  "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+  "quality_status": "warning",
+  "reason": "Quote and news may change after the static build cutoff."
+ },
+ "request_id": "static-build"
+}

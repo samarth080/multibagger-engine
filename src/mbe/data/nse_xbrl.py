@@ -216,11 +216,47 @@ class NseFundamentals:
     """Fundamentals-only provider; pair with Yahoo via CompositeProvider."""
 
     def __init__(
-        self, cache: DiskCache | None = None, fetcher=default_http, sleep_s: float = 0.3
+        self, cache: DiskCache | None = None, fetcher=default_http, sleep_s: float = 0.3,
+        official_provider=None,
     ):
         self.cache = cache
         self.fetcher = fetcher
         self.sleep_s = sleep_s
+        self.official_provider = official_provider
+
+    def _official(self):
+        if self.official_provider is None:
+            from mbe.financials.nse_official import NseOfficialFilingProvider
+            self.official_provider = NseOfficialFilingProvider()
+        return self.official_provider
+
+    def discover_filings(self, nse_symbol: str, *, date_from: date, date_to: date,
+                         periods=("Annual", "Quarterly"), max_filings: int = 100,
+                         force: bool = False):
+        """Return typed announcement/attachment lineage without collapsing facts."""
+        return self._official().discover_symbol(
+            nse_symbol, date_from=date_from, date_to=date_to,
+            periods=tuple(periods), max_filings=max_filings, force=force,
+        )
+
+    def fetch_official_attachment(self, attachment, *, force: bool = False):
+        """Fetch one previously discovered attachment through the safe cache layer."""
+        return self._official().fetcher.fetch_document(
+            attachment.source_url,
+            filename=attachment.filename,
+            declared_content_type=attachment.declared_content_type,
+            force=force,
+        )
+
+    def list_filings(self, instrument_id: str, *, as_of=None):
+        raise ProviderError(
+            "canonical instrument IDs require an NSE symbol mapping; use discover_filings with that mapping"
+        )
+
+    def fetch_filing(self, source_filing_id: str):
+        raise ProviderError(
+            "fetch requires a validated discovered attachment, not an untrusted source filing ID"
+        )
 
     def get_financials(self, ticker: str) -> FinancialHistory:
         symbol = ticker.removesuffix(".NS").removesuffix(".BO").upper()

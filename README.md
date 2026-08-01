@@ -17,7 +17,23 @@ uv run mbe backtest nifty-midcap150 --limit 60   # does the score predict return
 uv run mbe universes                    # curated + NSE index universes
 uv run mbe sectors nifty-midcap150     # industry momentum ranking + themes
 uv run python scripts/build_site.py     # build the weekly picks site -> site/
+uv run mbe db-migrate                   # apply canonical relational migrations
+uv run mbe instruments-import --download-official --dry-run
+uv run mbe instruments-validate        # require all 250 mappings to be unique
+uv run mbe financials-import filings.json --dry-run
+uv run mbe financials-coverage         # latest normalized dataset status
+uv run mbe nse-filings-discover --fixture-dir tests/fixtures/nse-official
+uv run mbe nse-financials-ingest --fixture-dir tests/fixtures/nse-official --dry-run
+uv run mbe financials-unsupported      # safe unsupported/quarantine report
+uv run mbe financials-conflicts        # bounded reconciliation conflicts
+uv run mbe company-research-validate  # offline page/contract/route/leak validation
+uv run mbe company-research-measure   # static company HTML/JSON footprint
+uv run mbe official-pilot-validate     # Phase 6 bounded scope; offline
+uv run mbe official-pilot-corpus-verify
+uv run mbe official-pilot-evaluate --dry-run
+uv run mbe api                          # versioned read API -> :8001/docs
 uv run pytest                           # offline test suite
+npm ci && npm run check                 # frontend lint, types and unit tests
 ```
 
 ## What it does (v0.1)
@@ -73,6 +89,24 @@ src/mbe/
 
 Specs and plans live in `docs/superpowers/`.
 
+The current architecture audit and staged platform roadmap are in
+[`docs/architecture-audit-2026-08-01.md`](docs/architecture-audit-2026-08-01.md).
+Runtime variables and data cadences are documented in
+[`docs/environment.md`](docs/environment.md).
+For continuity across compacted chats and implementation phases, always start
+with [`docs/HANDOVER.md`](docs/HANDOVER.md) and update it at the end of each phase.
+Canonical identity, PostgreSQL/SQLite setup, imports, provider contracts,
+migrations and `/api/v1` are documented in
+[`docs/platform-foundation.md`](docs/platform-foundation.md).
+The Phase 2 frontend architecture and route migration plan are in
+[`docs/frontend-architecture.md`](docs/frontend-architecture.md).
+The Phase 3 typed screener, public fields, null/operator semantics and financial
+readiness assessment are in
+[`docs/screener-architecture.md`](docs/screener-architecture.md).
+Official NSE discovery, document safety, supported formats, reconciliation,
+source precedence and operator/legal gates are documented in
+[`docs/official-nse-ingestion.md`](docs/official-nse-ingestion.md).
+
 ## v0.2 additions
 
 - **NSE index universes** — NIFTY 50/500, Midcap 150, Smallcap 250, Microcap 250
@@ -106,16 +140,30 @@ Specs and plans live in `docs/superpowers/`.
 
 Every Monday, GitHub Actions builds a public read-only page of the NIFTY
 Smallcap 250 multibagger ranking — the lab (`mbe serve`, CLI, backtests)
-stays local; the site is only its published output. As of v0.12 the site
-wears a dual-theme trading-platform UI: Zerodha-Kite-inspired dark by
-default, Groww-inspired light behind a persistent ☀/☾ toggle.
+stays local; the site is only its published output. The Phase 2 site has a
+reusable, progressively enhanced research application shell. It respects the
+system colour preference until a persistent light/dark override is chosen.
 
-- **What the page shows** — the top-25 multibagger/investment ranking,
+- **What the page shows** — an interactive top-25 multibagger/investment ranking
+  with shareable filters, stable sorting, pagination, density and column
+  controls, canonical instrument search, explicit build/data-mode metadata,
   week-over-week entries/exits, sector-momentum context, 3-5 recent
   headlines per pick, policy/scheme headlines per industry (each sourced
-  and dated), and delayed (~15 min) quotes. Each pick's report page carries
+  and dated), and freshness-labelled quotes when available. Each pick's report page carries
   peer-comparison, ownership, financial-trend and scenario charts (v0.15) as
-  inline SVG — no JavaScript, and they follow the theme toggle.
+  inline SVG. Rankings remain server-rendered and useful without JavaScript;
+  browser enhancement reads either the typed API or versioned static snapshots.
+  The public `/screener.html` route screens all 250 scored weekly companies in
+  static mode and uses `POST /api/v1/screener/query` when the canonical database
+  is available. Phase 4 adds normalized financial lineage, Revenue CAGR and
+  ROCE filters, read-only financial coverage/metric/company APIs, and bounded
+  canonical summaries on the 25 published reports. Current values retain an
+  explicit Yahoo-compatibility/unknown-statement-basis caveat. Phase 5 adds an
+  explicit, disabled-by-default official NSE result-ingestion path with safe
+  caching, fixture-qualified Ind-AS XBRL, revision-aware views and provider
+  reconciliation. The current static dataset truthfully remains 0/250 official
+  multi-year coverage; no browser automation, OCR, paid feed or bulk scrape is
+  hidden inside the build.
 - **Architecture** — a GitHub Actions job runs the weekly build every
   Monday pre-open IST and commits the rebuilt `site/` back to the repo;
   Vercel's git integration auto-deploys on that push (no CLI, no token).
@@ -131,13 +179,19 @@ default, Groww-inspired light behind a persistent ☀/☾ toggle.
   rather than ship a degraded ranking; every page carries the same
   model-validation footer as the research reports.
 
-## Live search-any-stock (v0.11)
+## Canonical and live search (v0.11, upgraded in Phase 2)
 
-Type any ticker into the search box on the hosted page and get the full
-live research report — not just the weekly top-25, any name Yahoo covers.
+Open the command search with `/` or Ctrl/Cmd+K and search the pinned canonical
+Smallcap 250 master by symbol, company name or ISIN. The browser uses the typed
+lookup API when configured and the full versioned instrument snapshot otherwise.
+All scored names open the stable canonical `/company/{instrument_id}.html`
+research route. The 25 historical ticker report paths remain compatibility
+pages with canonical metadata. Other unscored master names use the existing
+on-demand analysis route. Direct `/api/analyze?ticker=…` requests still support
+other valid Yahoo-covered tickers.
 
-- **What it does** — a plain GET form on the hosted index posts a ticker to
-  `/api/analyze`, which runs the same `analyze_ticker()` pipeline as the CLI
+- **What live analysis does** — the no-JavaScript fallback and canonical search
+  can route a ticker to `/api/analyze`, which runs the same `analyze_ticker()` pipeline as the CLI
   and returns a full HTML report at a shareable URL. Labelled on the page as
   live, not part of the weekly ranking, and can take 10-30s (a cold
   serverless fetch against Yahoo, not a lookup from `data.json`).
@@ -204,6 +258,24 @@ environment. It replaces two failures that had both been shipping silently.
   a *descriptive* layer — turning either into a scored signal needs its own
   pre-registered validation and is not scheduled.
 - **v0.4** — web UI, scheduling, portfolio construction, continuous-improvement loop.
+
+## Release verification
+
+Phase 8 adds development-only real-browser, accessibility, visual-regression and
+performance checks. It does not add a production JavaScript dependency.
+
+```bash
+npm run check
+npm run test:browser:chromium
+npm run test:visual
+uv run python scripts/verify_release.py \
+  --fixture tests/fixtures/phase8-public-value-hashes.json
+```
+
+The complete promotion procedure and rollback criteria are in
+`docs/deployment-runbook.md` and `docs/pre-deployment-checklist.md`. Chrome is
+verified locally; Firefox/WebKit, VoiceOver + Safari and actual Vercel headers
+remain required preview gates. Phase 8 did not deploy, commit or push.
 
 ## Known limitations (v0.1)
 

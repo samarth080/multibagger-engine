@@ -15,8 +15,10 @@ doesn't have) — this is an honest one-shot report: full thesis, critique,
 evidence, same validation footer as everywhere else, just no history.
 """
 
+import json
 import re
 import sys
+from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -29,6 +31,14 @@ from mbe.pipeline import analyze_ticker  # noqa: E402
 from mbe.publish import render_error_page, render_report_page  # noqa: E402
 
 _TICKER_RE = re.compile(r"^[A-Za-z0-9.\-]{1,15}\Z")
+
+
+def _log(event: str, **fields) -> None:
+    print(json.dumps({
+        "event": event,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        **fields,
+    }, default=str))
 
 
 def _default_provider():
@@ -55,9 +65,10 @@ def render_analysis(ticker: str, provider=None) -> tuple[int, str]:
     try:
         bundle = analyze_ticker(ticker, provider)
     except ProviderError as exc:
+        _log("analysis_provider_failure", ticker=ticker, error_type=type(exc).__name__)
         return 404, render_error_page(ticker, str(exc))
     except Exception as exc:  # honest error page; real detail stays server-side
-        print(f"analyze_ticker unexpected error for {ticker!r}: {exc!r}")
+        _log("analysis_unexpected_failure", ticker=ticker, error_type=type(exc).__name__)
         return 500, render_error_page(
             ticker, "Unexpected error analyzing this ticker."
         )
@@ -71,5 +82,8 @@ class handler(BaseHTTPRequestHandler):
         status, body = render_analysis(ticker)
         self.send_response(status)
         self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("X-Frame-Options", "DENY")
         self.end_headers()
         self.wfile.write(body.encode())

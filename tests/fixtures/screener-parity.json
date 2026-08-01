@@ -1,0 +1,26 @@
+{
+  "rows": [
+    {"instrument_id": "b", "values": {"company": "Beta", "nse_symbol": "BETA", "sector": "Industrials", "rank": 2, "multibagger_score": 80, "has_missing_data": false}},
+    {"instrument_id": "a", "values": {"company": "Alpha", "nse_symbol": "ALPHA", "sector": "Consumer", "rank": 1, "multibagger_score": 80, "has_missing_data": true}},
+    {"instrument_id": "c", "values": {"company": "Gamma", "nse_symbol": "GAMMA", "sector": null, "rank": 3, "multibagger_score": null, "has_missing_data": true}}
+  ],
+  "query": {
+    "schema_version": "1.0",
+    "logic": "and",
+    "conditions": [
+      {"condition_id": "sector", "field_id": "sector", "operator": "none_of", "value": null, "value_to": null, "values": ["Consumer"]},
+      {"condition_id": "score", "field_id": "multibagger_score", "operator": "gte", "value": 70, "value_to": null, "values": null},
+      {"condition_id": "missing", "field_id": "has_missing_data", "operator": "is_false", "value": null, "value_to": null, "values": null}
+    ],
+    "sorts": [
+      {"field_id": "multibagger_score", "direction": "desc"},
+      {"field_id": "company", "direction": "asc"}
+    ],
+    "columns": ["company", "nse_symbol", "multibagger_score"],
+    "page": 1,
+    "page_size": 25,
+    "build_id": null,
+    "count_only": false
+  },
+  "expected_instrument_ids": ["b"]
+}

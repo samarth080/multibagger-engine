@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ page_description }}">
+  <meta name="color-scheme" content="dark light">
+  {% if noindex %}<meta name="robots" content="noindex,follow">{% endif %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_description }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <title>{{ page_title }}</title>
+  <link rel="icon" href="{{ asset_prefix }}/favicon.svg" type="image/svg+xml">
+  <script src="{{ asset_prefix }}/theme.js"></script>
+  <link rel="stylesheet" href="{{ asset_prefix }}/app.css">
+</head>
+<body data-data-mode="{{ data_mode }}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="app-header">
+    <div class="header-inner">
+      <a class="brand" href="{{ root_href }}" aria-label="Multibagger Engine home">
+        <span class="brand-mark" aria-hidden="true"><span>ME</span></span>
+        <span class="brand-name"><span class="brand-product">Multibagger</span> Engine</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a class="nav-link" href="{{ root_href }}#overview"{% if active_route == 'overview' %} aria-current="page"{% endif %}>Overview</a>
+        <a class="nav-link" href="{{ root_href }}#rankings"{% if active_route == 'rankings' %} aria-current="page"{% endif %}>Multibagger</a>
+        <a class="nav-link" href="/screener.html"{% if active_route == 'screener' %} aria-current="page"{% endif %}>Screener</a>
+        <a class="nav-link" href="{{ root_href }}#sectors">Sectors</a>
+        <a class="nav-link" href="{{ root_href }}#news">News</a>
+        <span class="nav-soon" aria-disabled="true">Calendar <span class="later-label">Later</span></span>
+        <a class="nav-link" href="{{ methodology_href }}"{% if active_route == 'methodology' %} aria-current="page"{% endif %}>Methodology</a>
+      </nav>
+      <div class="header-actions">
+        <button class="search-trigger" type="button" data-open-search aria-label="Search instruments" aria-haspopup="dialog" aria-controls="instrument-search">
+          <span aria-hidden="true">⌕</span><span class="search-trigger-label">Search instruments</span><kbd>⌘ K</kbd>
+        </button>
+        <span class="status-button" data-status-trigger role="status" aria-label="Data status: checking" title="Data status">
+          <span class="status-dot" data-state="checking" aria-hidden="true"></span><span class="status-label">Checking</span>
+        </span>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Change colour theme" title="Use light theme">
+          <span data-theme-icon aria-hidden="true">◐</span>
+        </button>
+        <button class="icon-button menu-button" type="button" data-open-menu aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded="false" aria-label="Open navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <noscript>
+    <form class="notice" action="/api/analyze" method="get">
+      <label for="noscript-ticker">JavaScript is off. Analyze a known NSE ticker:</label>
+      <input class="input" id="noscript-ticker" name="ticker" placeholder="e.g. RELIANCE.NS" required>
+      <button class="button" type="submit">Analyze</button>
+    </form>
+  </noscript>
+
+  <main id="main-content" class="page-shell" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-grid">
+      <div>
+        <strong>Research tooling, not investment advice.</strong>
+        Scores are model outputs with incomplete data and stated validation limits. Verify independently before making decisions.
+      </div>
+      <div><a href="{{ methodology_href }}">Read methodology &amp; limitations</a></div>
+    </div>
+  </footer>
+
+  <dialog class="dialog" id="instrument-search" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title">Search instruments</h2>
+    <div class="dialog-header">
+      <span aria-hidden="true">⌕</span>
+      <input class="dialog-search" data-search-input type="search" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Symbol, company name or ISIN" aria-controls="search-results" aria-describedby="search-help search-status">
+      <kbd>Esc</kbd>
+      <button class="icon-button" type="button" data-close-search aria-label="Close search">×</button>
+    </div>
+    <p class="sr-only" id="search-help">Type at least two characters. Use up and down arrow keys to choose a result, then Enter to open it.</p>
+    <div class="dialog-body">
+      <div class="dialog-status" id="search-status" data-search-status role="status" aria-live="polite">Search the canonical Nifty Smallcap 250 instrument master.</div>
+      <div data-recent-searches></div>
+      <ul class="search-results" id="search-results" data-search-results role="listbox" aria-label="Instrument matches"></ul>
+    </div>
+  </dialog>
+
+  <dialog class="mobile-drawer" id="mobile-navigation" aria-labelledby="mobile-nav-title">
+    <div class="drawer-head"><strong id="mobile-nav-title">Navigation</strong><button class="icon-button" type="button" data-close-menu aria-label="Close navigation">×</button></div>
+    <nav class="drawer-nav" aria-label="Mobile navigation">
+      <a class="nav-link" href="{{ root_href }}#overview">Overview</a>
+      <a class="nav-link" href="{{ root_href }}#rankings">Multibagger rankings</a>
+      <a class="nav-link" href="/screener.html"{% if active_route == 'screener' %} aria-current="page"{% endif %}>Advanced screener</a>
+      <a class="nav-link" href="{{ root_href }}#sectors">Sectors</a>
+      <a class="nav-link" href="{{ root_href }}#news">News</a>
+      <span class="nav-soon" aria-disabled="true">Calendar — later phase</span>
+      <a class="nav-link" href="{{ methodology_href }}">Methodology</a>
+    </nav>
+  </dialog>
+
+  <div class="sr-only" data-announcer role="status" aria-live="polite" aria-atomic="true"></div>
+  <script defer src="{{ asset_prefix }}/app.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

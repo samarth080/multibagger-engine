@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel state-panel"><div><p class="eyebrow">Analysis unavailable</p><h1>Could not analyze “{{ ticker }}”</h1><p>{{ reason }}</p><p style="margin-top:1rem"><a class="button" href="{{ root_href }}">Return to rankings</a></p></div></section>
+{% endblock %}

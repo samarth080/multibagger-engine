@@ -13,6 +13,16 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def test_vercel_requirements_include_versioned_api_framework() -> None:
+    requirements = {
+        line.split("[", 1)[0].split(">", 1)[0].split("=", 1)[0].strip().lower()
+        for line in (ROOT / "requirements.txt").read_text().splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    }
+
+    assert "fastapi" in requirements
+
+
 @pytest.mark.parametrize("entrypoint", ["api/quotes.py", "api/analyze.py", "api/v1.py"])
 def test_vercel_entrypoint_imports_without_repo_pythonpath(
     entrypoint: str, tmp_path: Path

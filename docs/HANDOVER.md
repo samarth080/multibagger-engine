@@ -1,13 +1,15 @@
 # Multibagger Engine living handover
 
-Last updated: 2026-08-01 (after Phase 8 release-readiness hardening)
+Last updated: 2026-08-01 (after authenticated Phase 9B RC3 validation)
 
-Status: Phases 0 through 8 complete and verified. Phase 8 is ready with
-conditions for an explicitly authorized preview, but not approved for production
-until Firefox/WebKit, VoiceOver + Safari and real Vercel header/function checks
-pass. Phase 6's no-go for production official ingestion remains unchanged.
-Changes are present in the working tree but have not been committed, pushed or
-deployed.
+Status: Phases 0 through 8 are committed and the release branch now resolves to
+`v1.0.0-rc3` after two separately tested Vercel packaging fixes. Authenticated
+Safari validation reached the real preview and passed representative static
+routes, live quotes, typed health/unavailable contracts, the analysis error
+contract and runtime-log checks. Mandatory hosted Chromium/Firefox/WebKit,
+VoiceOver, actual application-header/compression/cache, preview performance,
+axe/visual and exhaustive hosted-integrity gates remain unresolved. Production
+is blocked and unchanged. Phase 6's official-ingestion no-go is unchanged.
 
 ## How to use this document
 
@@ -103,6 +105,8 @@ Do not:
   accessibility, security and operations:
   [`company-research-architecture.md`](company-research-architecture.md)
 - Project overview and commands: [`../README.md`](../README.md)
+- Phase 9 release and authenticated-preview evidence:
+  [`phase9-preview-release-report.md`](phase9-preview-release-report.md)
 - Historical design specifications and plans: `docs/superpowers/`
 - Original product brief: conversation attachment; its requirements are
   summarized in the audit and this handover.
@@ -159,6 +163,7 @@ quote enhancement. A typed bounded screener now exists in dynamic and full
 | Phase 6 — controlled official-corpus pilot | Complete — no-go | 12-company versioned pilot, explicit private operator-review gate, request/byte/runtime/denial stops, immutable captured-corpus manifest, versioned concept registry, fact evidence, private review workflow, independent ground truth, Tier-A/publication gate and evidence-based readiness reports | 449 Python tests and 21 frontend tests passed; ESLint/type-check/compileall/diff/JSON/HTML/migrations/offline corpus/build/HTTP passed; 8/8 captured ground-truth facts exact; 0 live requests, 0 Tier-A facts/metrics, 13 unresolved review items; public values unchanged; real browser unavailable | Working tree only; not committed/pushed/deployed; no new migration/dependency; PostgreSQL not provisioned; no operator acknowledgement or live pilot acquisition |
 | Phase 7 — canonical company research | Complete | Immutable instrument-ID route for 250 companies, 25 legacy compatibility pages, typed research schema, deterministic explanations/strengths/risks/summary/peers, bounded history, approved financials, technical/filing/news states, local checklist, trust panel, static/dynamic APIs and parity | 456 Python and 24 frontend tests passed; lint/type-check/compileall/migrations/build/JSON/HTML/CSP/routes/leaks/HTTP/diff passed; public values unchanged; real browser unavailable | Working tree only; not committed/pushed/deployed; no migration/dependency/environment variable; PostgreSQL not provisioned; NSE gate untouched |
 | Phase 8 — release-readiness hardening | Complete — preview conditions remain | Real Chrome journeys, 320–1440 responsive/zoom/reduced-motion coverage, axe WCAG-oriented audit, 11-state visual baselines, performance/Lighthouse evidence, generated 404/robots/favicon, noindex correction, external theme bootstrap, stricter CSP/security/cache policy, deterministic release/public-value verifier, dependency audit and deployment/rollback runbooks | 457 Python, 24 frontend and 65 real-Chrome browser tests passed; static release verifier, Lighthouse, npm/pip audits, compileall/migrations/build/JSON/HTML/SEO/CSP/public-value/diff passed | Working tree only; not committed/pushed/deployed; no migration/runtime environment variable/provider/scoring change; test-only Node dependencies; Firefox/WebKit/VoiceOver/Vercel preview gates remain; NSE no-go untouched |
+| Phase 9 — controlled preview release | Blocked — production not authorized | RC1 release/push/preview plus authenticated Phase 9B validation; fixed missing `src` bootstrap and missing FastAPI packaging in separate RC2/RC3 commits; Safari exercised rankings, screener, methodology, complete/missing company, legacy/404/static JSON and functions | Local after fixes: 461 Python and 24 frontend passed; ESLint/type-check/compileall/diff passed; original 65 Chrome and 11 visual remained green. RC3 build Ready in 1m28s; runtime logs showed expected quote 200, health 200, status 503 and analysis 400 with zero warning/error/fatal events | HEAD `9de4642`, tag `v1.0.0-rc3`, branch/tag pushed; validated deployment `7iyyZhWCQDYg4XepdSx8W1ywedum`; production untouched; cross-browser/VoiceOver/actual headers/compression/cache/performance/hosted hashes unresolved; docs uncommitted |
 
 ## Phase 0 implementation details
 
@@ -1386,26 +1391,94 @@ or public product scope.
 - Release decision: ready with conditions for an explicitly authorized preview;
   not approved for production. No preview/deploy/commit/push occurred.
 
+## Phase 9 implementation and verification record
+
+Phase 9 created an auditable release candidate without changing product scope.
+The candidate-file review excluded ignored runtime databases/caches, browser
+artifacts and private operator records. Staged scans found no credential-shaped
+secret, sensitive filename or ignored file. Two intentional visual-baseline
+PNGs were the only candidate files larger than 1 MiB.
+
+- Created branch `release/v1.0.0-rc1` from `main` at `dcaf069`.
+- Committed 953 files as `6797a2eadf9d4fed6bbfbce6f02c9a5c7b22d89b`
+  with message `release: prepare Multibagger Engine v1.0.0-rc1` and created
+  annotated tag `v1.0.0-rc1`.
+- Existing Vercel Git integration created RC1 deployment
+  `7K7NSKs89gv9bGHNWzdMyfPeCmVt`. The exact protected alias remains omitted
+  from public documentation.
+- Authenticated Safari access later reached the actual application. RC1 quote
+  requests failed because Vercel functions could not import `mbe`; runtime logs
+  showed `ModuleNotFoundError: No module named 'mbe'`.
+- Added explicit `src` bootstraps to `api/quotes.py` and `api/v1.py`, plus
+  subprocess entrypoint regression tests. Commit
+  `786e61d803f5c0e0cb15121a4eb7120626934823`, tag `v1.0.0-rc2` and deployment
+  `9ZYwbgXU7kt9SoaSMP2cZWYgWTdN` restored quotes.
+- RC2 then exposed `ModuleNotFoundError: No module named 'fastapi'` on
+  `/api/v1/health`. Added FastAPI to the Vercel root requirements and a
+  packaging regression assertion. Commit
+  `9de46429119ae918b5b221fa4787fe400ed1446f`, tag `v1.0.0-rc3` and deployment
+  `7iyyZhWCQDYg4XepdSx8W1ywedum` restored the typed routes.
+- The remote release branch and peeled `v1.0.0-rc3` tag resolve to RC3. No
+  force push or history rewrite occurred. GitHub CLI and a callable in-app
+  browser engine remain unavailable, so no pull request was created.
+
+RC3 authenticated Safari validation passed the root/rankings with live quotes,
+methodology, screener and its High Score/Moderate Risk preset, KFINTECH complete
+company, CANHLIFE missing-data company, KFINTECH legacy report, product 404,
+instrument/research JSON, degraded health, intended database-unavailable status
+and missing/invalid ticker analysis contracts. The KFINTECH page showed the
+same 22.5% Revenue CAGR, 27.4% ROCE and Tier-B source disclosure; CANHLIFE kept
+missing Revenue CAGR/ROCE unavailable without zero imputation.
+
+Authenticated Vercel evidence records RC3 Ready in 1m 28s. Its 39-line deploy
+log uses Python 3.12 and uv 0.10.11, installs dependencies, compiles bytecode and
+completes `/vercel/output` in 29 seconds. Deployment-filtered runtime logs show
+zero Warning/Error/Fatal console events, quote 200, health 200, intended status
+503 with request ID, and intended analysis 400 responses.
+
+Local pre-commit RC1 results remain 457 Python, 24 frontend, 65 Chrome and 11
+visual tests. After both fixes, 461 Python and 24 frontend tests, ESLint,
+JavaScript type checking, compileall, `git diff --check` and the release verifier
+pass. The RC3 verifier reconfirmed 279 HTML, 507 JSON, 250 companies, 25 legacy
+routes, 253 indexable/sitemap routes and both public hashes. Fixes did not change
+generated site/scoring/provider/NSE content. The cached build remains 250/250
+with zero failures; model build
+`1bd53d15-67c6-4b02-b830-0eb0bb1d582b`, financial build
+`34baaa1c-e2f6-508b-b2f0-389669739b2a`, generated
+`2026-08-01T11:10:03.765519+00:00`. Public score/financial hashes remain
+`12a5ef89c55847e010a33a0b9cada7280033219cc285d1d16164a43103a2cb19` and
+`3e99218116374dcf3968a08dda0bb187926178f357b07ce7cedb1a3ac7955638`;
+official coverage remains 0/250, fallback coverage remains 246/250 Revenue CAGR
+and 232/250 ROCE, Phase 6 remains `live_enabled: false`, and Phase 9/9B made zero
+live NSE requests.
+
+Decision: preview failed — production blocked. Authenticated Chromium, Firefox
+and WebKit/mobile automation, real VoiceOver, actual application headers,
+compression/cache, preview axe/visual/performance and exhaustive hosted
+hash/private-leak checks remain unresolved. Deployment
+`rBeoLhBW8hNZv5fX3iT64nwrvCsc` remains the unchanged last-known-good production
+rollback target. Full evidence is in `phase9-preview-release-report.md`.
+
 ## Current working-tree state
 
-Branch: `main`, tracking `origin/main`.
+Branch: `release/v1.0.0-rc1`, tracking `origin/release/v1.0.0-rc1`.
 
-Phase 0 through Phase 8 changes are uncommitted. The working tree contains
-modified legacy source/tests/generated output plus all new canonical platform
-and frontend/screener/official-financial/pilot source, four migrations,
-Python/Node/real-browser tests, visual baselines, release tooling, documentation,
-canonical master snapshot, application assets and static v1 artifacts. These
-changes belong to the current work and must not be reset, discarded or
-overwritten. Run `git status --short --branch` before beginning the next phase.
+Phase 0 through Phase 8 source, generated output and verification assets are in
+commit `6797a2e` and annotated tag `v1.0.0-rc1`. Preview fixes are in pushed
+commits `786e61d`/`9de4642` and annotated tags `v1.0.0-rc2`/`v1.0.0-rc3`.
+Current HEAD, the remote release branch and the peeled RC3 tag resolve to
+`9de46429119ae918b5b221fa4787fe400ed1446f`. The Phase 9 report,
+runbook/checklist status and living-handover update remain intentionally
+uncommitted so validated RC3 is not silently replaced by a documentation-only
+deployment. Preserve these documentation changes.
 
 Repository-local `.git/info/exclude` was narrowed from the overly broad `data`
 pattern to `/data/`; this keeps root runtime data ignored while ensuring new
 tracked-source candidates under `src/mbe/data/` appear in `git status` and
 cannot be omitted accidentally.
 
-No commit, push or Vercel deployment was performed. The existing deployment
-will update only after the changes are committed and pushed through the normal
-Git/Vercel workflow.
+Production remains on the prior deployment. Protected RC3 passed the exercised
+Safari/function paths but has not completed every required production gate.
 
 ## Known limitations and open risks
 
@@ -1457,9 +1530,11 @@ Git/Vercel workflow.
 
 ### Product and frontend
 
-- The new application experience is implemented but not deployed. Until these
-  working-tree changes are committed and pushed, production remains on the
-  previous static UI.
+- The new application experience is committed and present in a protected
+  preview, but production remains on the previous static UI. Deployment
+  Protection currently prevents automated and manual unauthenticated preview
+  validation; an authenticated operator session or approved secure bypass is
+  required before any promotion decision.
 - Static ranking scope remains the published top 25. The full 250-name snapshot
   is for canonical search, not a fabricated ranking of unpublished results.
 - Static screener scope is the 250 successfully scored companies in the weekly
@@ -1600,32 +1675,51 @@ Git/Vercel workflow.
 40. Promote an immutable artifact through preview before production and retain a
     last-known-good deployment for rollback. Phase 8 authorizes neither preview
     creation nor production promotion.
+41. A Vercel build-success status is not a preview pass. Application routes,
+    headers, functions and browsers must reach the actual artifact; an SSO
+    redirect is a blocked gate and cannot be substituted with config review.
+42. Keep protected preview aliases and bypass credentials out of public
+    documentation. Authenticate through the existing team or use an approved
+    secure bypass; do not weaken Deployment Protection merely for automation.
+43. Treat every Vercel Python entrypoint as independently packaged: bootstrap
+    repository `src` explicitly and regression-test imports without ambient
+    working-directory or `PYTHONPATH` assumptions.
+44. Keep root Vercel `requirements.txt` aligned with every imported serverless
+    runtime dependency; a dependency present only in `pyproject.toml` is not
+    proof that Vercel functions receive it.
+45. Authenticated Safari accessibility-tree evidence is useful semantic QA but
+    is neither cross-browser automation nor a VoiceOver pass. Protection-layer
+    headers are never application-header evidence.
 
 ## Next phase
 
-### Phase 9 — controlled preview and promotion gate
+### Phase 9C — authenticated cross-browser and response-evidence closure
 
-Objective: with explicit user authorization, deploy the already-verified
-immutable artifact to a Vercel preview, close the remaining cross-engine,
-assistive-technology and platform-runtime conditions, and make a separate
-evidence-based production promotion decision. Do not deploy merely because a
-generic continuation request is received.
+Objective: close the remaining production gates against the existing RC3
+deployment `7iyyZhWCQDYg4XepdSx8W1ywedum` without changing product scope or
+rebuilding merely to work around Deployment Protection.
 
-1. Create a preview only after the user explicitly authorizes deployment and a
-   reviewed immutable commit exists; do not rebuild between preview and any
-   later production promotion.
-2. Run Firefox and WebKit/Safari journeys against the preview, including mobile
-   layouts, search, rankings, screener, complete/missing company, legacy, 404,
-   JavaScript-disabled and API-fallback states.
-3. Perform and record a human VoiceOver + Safari journey covering landmarks,
-   tables/scrollers, SVG descriptions, live feedback, disclosures and focus.
-4. Verify actual Vercel CSP/HSTS/cache/compression headers, static/dynamic route
-   precedence, quotes, unavailable-database behavior, request IDs and logs.
-5. Re-run the public-value/release verifier against the exact artifact, measure
-   preview Lighthouse/transfer sizes, record the rollback deployment ID, then
-   decide ready / ready with conditions / not ready for production.
-6. Production promotion, commit/push strategy and rollback execution each still
-   require the user's explicit instruction. Keep the Phase 6 NSE no-go intact.
+1. Obtain authenticated access in callable Chromium, Firefox and WebKit engines
+   or an operator-approved temporary bypass delivered through a secure channel.
+   Never commit, print or place a bypass value in public documentation.
+2. Run desktop/mobile, JavaScript-disabled and static/API-fallback journeys for
+   navigation, search, rankings, screener, complete/missing company, legacy and
+   404 states. Re-run hosted axe and visual checks.
+3. Perform and record a real VoiceOver + Safari journey covering landmarks,
+   dialogs, tables/scrollers, charts/SVG descriptions, live feedback,
+   disclosures, checklist state and focus order.
+4. Capture actual authenticated application status/MIME/CSP/HSTS/referrer/
+   permissions/frame/nosniff headers, compression and static/dynamic cache
+   behavior. Do not count Deployment Protection headers.
+5. Run preview Lighthouse/transfer/request measurements plus exhaustive hosted
+   public-value hashes, private-data/leak/security checks and route-count probes;
+   inspect RC3 runtime logs afterward.
+6. If a release-blocking defect appears, add a regression test, make a separate
+   fix commit/tag/preview and revalidate the affected gates. Otherwise update
+   the release report with the final gate outcome.
+7. Obtain new explicit production-promotion authorization only after every
+   required gate passes or the user explicitly accepts a bounded unresolved
+   condition. Keep the Phase 6 NSE no-go intact.
 
 Out of scope: new metrics/model weights, live NSE corpus work without its exact
 private gate, authentication/watchlists/alerts, full comparison workspace,

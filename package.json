@@ -1,0 +1,27 @@
+{
+  "name": "multibagger-engine-frontend",
+  "private": true,
+  "version": "0.2.0",
+  "description": "Development checks for the progressively enhanced static frontend",
+  "scripts": {
+    "lint": "eslint src/mbe/frontend/assets/*.js tests/frontend tests/browser",
+    "typecheck": "tsc -p tsconfig.frontend.json",
+    "test": "node --test tests/frontend/*.test.js",
+    "check": "npm run lint && npm run typecheck && npm test",
+    "test:browser": "playwright test",
+    "test:browser:chromium": "playwright test --project=chromium",
+    "test:visual": "playwright test tests/browser/visual.spec.js --project=chromium",
+    "test:visual:update": "playwright test tests/browser/visual.spec.js --project=chromium --update-snapshots"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.62.1",
+    "eslint": "^9.35.0",
+    "jsdom": "^26.1.0",
+    "lighthouse": "13.4.1",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

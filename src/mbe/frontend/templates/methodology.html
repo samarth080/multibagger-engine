@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<span id="financial-methodology"></span>
+<section class="page-heading"><div><p class="eyebrow">Transparent by design</p><h1>Methodology &amp; limitations</h1><p class="lede">How the Multibagger Engine turns incomplete public data into an explainable research ranking—and where that ranking can fail.</p></div><div class="context-actions"><span class="badge badge-info">Model {{ methodology.model_version }}</span><a class="button" href="{{ root_href }}#rankings">View rankings</a></div></section>
+<div class="methodology-grid">
+  <article class="panel prose-panel">
+    <h2>What the score means</h2>
+    <p>The Multibagger Score ranks relative business and market characteristics in the current research universe. It is not a probability, price target or guarantee of future returns. Investment Score is a complementary quality/value assessment. Confidence reflects coverage and input completeness—not the probability that a thesis succeeds. Risk summarizes identified model flags and should be read in context.</p>
+    <h2>Components</h2>
+    <ul class="component-list">{% for name, weight in methodology.components %}<li><span>{{ name }}</span><strong>{{ '%.0f%%' | format(weight * 100) }}</strong></li>{% endfor %}</ul>
+    <h2>Build cadence and lineage</h2>
+    <p>The Nifty Smallcap 250 screen is rebuilt weekly before the Monday NSE session. Each versioned build records its universe version, data cutoff, model version, factor configuration hash, provider versions and validation status. Static deployments show the last completed snapshot; database-backed deployments can serve the latest persisted build.</p>
+    <h2>Validation caveat</h2>
+    <p>{{ methodology.validation_status }}. Historical tests retain survivorship, point-in-time data and transaction-cost limitations. Sector momentum failed its registered ablation and remains descriptive only. News and policy context are never scored.</p>
+    <h2>Data limitations</h2>
+    <ul>{% for item in methodology.limitations %}<li>{{ item }}</li>{% endfor %}</ul>
+    <h2>Financial methodology</h2>
+    <p>Canonical financial facts preserve source filing, fiscal period, currency, unit, statement basis, revision and quality lineage. The first fundamental filters are annual three-year Revenue CAGR and three-year average ROCE. Missing values stay missing; zero is never treated as missing; numerators and denominators must share period, source, currency and basis.</p>
+    <p>Current static production uses a Yahoo compatibility history whose filing date and consolidated-versus-standalone basis are unavailable. Those values are labelled <em>Ready with caveat</em>. Verify issuer or NSE filings independently. Operating margin, leverage, coverage, cash-flow and valuation filters remain withheld until their lineage and comparability pass the documented readiness gate.</p>
+    <h2>Static versus live data</h2>
+    <p>Static mode reads versioned weekly JSON and remains operational without PostgreSQL. Live API mode reads the canonical database with server-side pagination. The interface never merges rows from incompatible build IDs. Quotes are a separate, failure-tolerant layer and do not determine whether rankings can render.</p>
+  </article>
+  <aside class="panel prose-panel" aria-label="Methodology summary">
+    <h2>Current build</h2>
+    <p><strong>Build ID</strong><br><span class="mono">{{ build.build_id if build else 'Unavailable' }}</span></p>
+    <p><strong>Data cutoff</strong><br>{{ build.data_cutoff if build else built_at }}</p>
+    <p><strong>Universe</strong><br>{{ build.universe_name if build else universe }}</p>
+    <p><strong>Validation</strong><br>{{ build.status if build else 'Snapshot metadata unavailable' }}</p>
+    <div class="notice notice-warning"><span aria-hidden="true">△</span><div><strong>Research tooling only.</strong> Verify financial statements, corporate actions and current prices independently.</div></div>
+  </aside>
+</div>
+{% endblock %}

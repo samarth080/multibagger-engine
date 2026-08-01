@@ -70,6 +70,18 @@ CREATE TABLE IF NOT EXISTS backtests (
 );
 """
 
+# Additive compatibility migrations for the legacy DuckDB research ledger.
+# The canonical PostgreSQL schema is managed by Alembic; this small registry
+# exists only so old local ``mbe.duckdb`` files remain readable as canonical
+# IDs/build IDs are introduced.  Never rewrite or drop research history here.
+_MIGRATIONS: list[tuple[int, tuple[str, ...]]] = [
+    (1, (
+        "ALTER TABLE runs ADD COLUMN IF NOT EXISTS build_id TEXT",
+        "ALTER TABLE results ADD COLUMN IF NOT EXISTS instrument_id TEXT",
+        "ALTER TABLE results ADD COLUMN IF NOT EXISTS build_id TEXT",
+    )),
+]
+
 
 class RunStore:
     def __init__(self, db_path: str | Path):
@@ -77,21 +89,56 @@ class RunStore:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         with self._conn() as conn:
             conn.execute(_SCHEMA)
+            conn.execute(
+                "CREATE TABLE IF NOT EXISTS schema_migrations "
+                "(version INTEGER PRIMARY KEY, applied_at TIMESTAMP)"
+            )
+            applied = {
+                row[0] for row in conn.execute(
+                    "SELECT version FROM schema_migrations"
+                ).fetchall()
+            }
+            for version, statements in _MIGRATIONS:
+                if version in applied:
+                    continue
+                conn.execute("BEGIN TRANSACTION")
+                try:
+                    for statement in statements:
+                        conn.execute(statement)
+                    conn.execute(
+                        "INSERT INTO schema_migrations VALUES (?, ?)",
+                        [version, datetime.now()],
+                    )
+                    conn.execute("COMMIT")
+                except Exception:
+                    conn.execute("ROLLBACK")
+                    raise
 
     def _conn(self) -> duckdb.DuckDBPyConnection:
         return duckdb.connect(str(self.db_path))
 
-    def save_run(self, result: ScreenResult, universe: str) -> str:
+    def save_run(
+        self,
+        result: ScreenResult,
+        universe: str,
+        *,
+        build_id: str | None = None,
+        instrument_ids: dict[str, str] | None = None,
+    ) -> str:
         run_id = uuid.uuid4().hex[:12]
         with self._conn() as conn:
             first = result.ranked[0].as_of if result.ranked else datetime.now().date()
             conn.execute(
-                "INSERT INTO runs VALUES (?, ?, ?, ?)",
-                [run_id, first, universe, datetime.now()],
+                "INSERT INTO runs (run_id, as_of, universe, created_at, build_id) "
+                "VALUES (?, ?, ?, ?, ?)",
+                [run_id, first, universe, datetime.now(), build_id],
             )
             for b in result.ranked:
                 conn.execute(
-                    "INSERT INTO results VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO results "
+                    "(run_id, ticker, investment, multibagger, confidence, risk_score, "
+                    "trend_state, price, market_cap, verdict, pillars_json, metrics_json, "
+                    "instrument_id, build_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     [
                         run_id,
                         b.card.ticker,
@@ -116,6 +163,8 @@ class RunStore:
                                 "peg": b.val.peg,
                             }
                         ),
+                        (instrument_ids or {}).get(b.card.ticker),
+                        build_id,
                     ],
                 )
         return run_id

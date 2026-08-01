@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Build explainable screens across the weekly Nifty Smallcap 250 using typed model, risk, classification and trend fields.">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://multibagger-engine.vercel.app/screener.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Advanced Stock Screener | Multibagger Engine">
+  <meta property="og:description" content="Build explainable screens across the weekly Nifty Smallcap 250 using typed model, risk, classification and trend fields.">
+  <meta property="og:url" content="https://multibagger-engine.vercel.app/screener.html">
+  <title>Advanced Stock Screener | Multibagger Engine</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <script src="/assets/theme.js"></script>
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body data-data-mode="static">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="app-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Multibagger Engine home">
+        <span class="brand-mark" aria-hidden="true"><span>ME</span></span>
+        <span class="brand-name"><span class="brand-product">Multibagger</span> Engine</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a class="nav-link" href="/#overview">Overview</a>
+        <a class="nav-link" href="/#rankings">Multibagger</a>
+        <a class="nav-link" href="/screener.html" aria-current="page">Screener</a>
+        <a class="nav-link" href="/#sectors">Sectors</a>
+        <a class="nav-link" href="/#news">News</a>
+        <span class="nav-soon" aria-disabled="true">Calendar <span class="later-label">Later</span></span>
+        <a class="nav-link" href="/methodology.html">Methodology</a>
+      </nav>
+      <div class="header-actions">
+        <button class="search-trigger" type="button" data-open-search aria-label="Search instruments" aria-haspopup="dialog" aria-controls="instrument-search">
+          <span aria-hidden="true">⌕</span><span class="search-trigger-label">Search instruments</span><kbd>⌘ K</kbd>
+        </button>
+        <span class="status-button" data-status-trigger role="status" aria-label="Data status: checking" title="Data status">
+          <span class="status-dot" data-state="checking" aria-hidden="true"></span><span class="status-label">Checking</span>
+        </span>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Change colour theme" title="Use light theme">
+          <span data-theme-icon aria-hidden="true">◐</span>
+        </button>
+        <button class="icon-button menu-button" type="button" data-open-menu aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded="false" aria-label="Open navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <noscript>
+    <form class="notice" action="/api/analyze" method="get">
+      <label for="noscript-ticker">JavaScript is off. Analyze a known NSE ticker:</label>
+      <input class="input" id="noscript-ticker" name="ticker" placeholder="e.g. RELIANCE.NS" required>
+      <button class="button" type="submit">Analyze</button>
+    </form>
+  </noscript>
+
+  <main id="main-content" class="page-shell" tabindex="-1">
+<section class="page-heading screener-heading" aria-labelledby="page-title">
+  <div>
+    <p class="eyebrow">India-first research · Nifty Smallcap 250</p>
+    <h1 id="page-title">Advanced Stock Screener</h1>
+    <p class="lede">Build transparent, reproducible screens from canonical classification, model scores, risk, coverage and technical trend. Every active condition remains visible and editable.</p>
+    <p class="build-line">
+      Model <strong>multibagger-score-v1</strong>
+      · Build <span class="mono">1bd53d15</span>
+      · Cutoff <time datetime="2026-08-01T11:10:03.765519Z">01 Aug 2026, 16:40 IST</time>
+    </p>
+  </div>
+  <div class="context-actions">
+    <span class="badge badge-warning" data-screener-mode>Static snapshot</span>
+    <a class="button button-quiet" href="/methodology.html">Methodology</a>
+    <button class="button button-quiet" type="button" data-share-screen>Copy screen link</button>
+  </div>
+</section>
+
+<div class="notice notice-info" data-screener-scope>
+  <span aria-hidden="true">i</span><div><strong>Bounded weekly universe.</strong> Static mode screens all 250 successfully scored Nifty Smallcap 250 companies in this build. It is not an all-market NSE/BSE screen.</div>
+</div>
+
+<section class="screener-layout" data-screener-app data-build-id="1bd53d15-67c6-4b02-b830-0eb0bb1d582b">
+  <details class="panel screener-builder" data-filter-panel open>
+    <summary><span><span class="eyebrow">AND-first filter builder</span><strong>Screen conditions</strong></span><span class="badge badge-info" data-condition-count>0 active</span></summary>
+    <div class="builder-body">
+      <div class="preset-strip" aria-labelledby="preset-title">
+        <strong id="preset-title">Transparent presets</strong>
+        <div data-preset-list class="preset-list"><span class="cell-note">Loading available presets…</span></div>
+      </div>
+
+      <form class="condition-editor" data-condition-form novalidate>
+        <input type="hidden" data-condition-id>
+        <div class="field field-grow">
+          <label for="field-search">Find a field</label>
+          <input class="input" id="field-search" data-field-search type="search" maxlength="80" placeholder="Score, sector, risk, trend…" aria-describedby="field-help">
+          <span class="cell-note" id="field-help">Only reliable fields in the selected data mode are shown.</span>
+        </div>
+        <div class="field field-grow">
+          <label for="screener-field">Field</label>
+          <select class="select" id="screener-field" data-field-select required><option value="">Choose a field</option></select>
+        </div>
+        <div class="field">
+          <label for="screener-operator">Operator</label>
+          <select class="select" id="screener-operator" data-operator-select required disabled><option value="">Choose an operator</option></select>
+        </div>
+        <div class="field field-grow" data-value-host></div>
+        <div class="field editor-action"><span class="control-label">Condition</span><button class="button button-primary" type="submit" data-add-condition>Add condition</button></div>
+        <div class="form-error" data-condition-error role="alert" hidden></div>
+      </form>
+
+      <div class="active-conditions" aria-labelledby="conditions-title">
+        <div class="section-line"><strong id="conditions-title">Active conditions</strong><button class="button button-small button-quiet" type="button" data-clear-conditions>Clear conditions</button></div>
+        <ol class="condition-list" data-condition-list><li class="empty-condition">No conditions yet. The default screen shows the complete scored universe.</li></ol>
+      </div>
+    </div>
+  </details>
+
+  <section class="panel screener-results" aria-labelledby="results-title">
+    <div class="table-meta screener-toolbar">
+      <div><h2 id="results-title" class="compact-title">Results</h2><strong data-screener-count>250 companies</strong> <span class="cell-note" data-screener-status>from the versioned static build</span></div>
+      <div class="table-actions">
+        <label class="sr-only" for="screener-sort">Sort results</label><select class="select" id="screener-sort" data-screener-sort style="width:auto"></select>
+        <label class="sr-only" for="screener-direction">Sort direction</label><select class="select" id="screener-direction" data-screener-direction style="width:auto"><option value="asc">Ascending</option><option value="desc">Descending</option></select>
+        <label class="sr-only" for="screener-page-size">Rows per page</label><select class="select" id="screener-page-size" data-screener-page-size style="width:auto"><option value="10">10 rows</option><option value="25" selected>25 rows</option><option value="50">50 rows</option><option value="100">100 rows</option></select>
+        <label class="sr-only" for="screener-density">Table density</label><select class="select" id="screener-density" data-screener-density style="width:auto"><option value="compact">Compact</option><option value="standard" selected>Standard</option><option value="comfortable">Comfortable</option></select>
+        <button class="button button-small" type="button" data-screener-columns aria-expanded="false">Columns</button>
+        <div class="popover screener-column-popover" data-screener-column-popover hidden><strong>Visible columns</strong><div class="column-list" data-screener-column-list></div><button class="button button-small button-quiet" type="button" data-screener-column-reset>Restore defaults</button></div>
+        <button class="button button-small button-quiet" type="button" data-screener-export>Export CSV</button>
+        <button class="button button-small button-quiet" type="button" data-reset-screen>Reset screen</button>
+      </div>
+    </div>
+    <div class="notice notice-warning" data-screener-warning hidden><span aria-hidden="true">△</span><div data-screener-warning-copy></div></div>
+    <div class="table-scroll" tabindex="0" aria-label="Scrollable screener results table">
+      <table class="rankings-table screener-table" data-screener-table data-density="standard">
+        <caption class="sr-only">Companies matching every active screener condition.</caption>
+        <thead data-screener-head><tr><th scope="col" class="company-col">Company</th><th scope="col">NSE symbol</th><th scope="col">Sector</th><th scope="col" class="number">Rank</th><th scope="col" class="number">MB score</th><th scope="col" class="number">Confidence</th><th scope="col" class="number">Risk</th><th scope="col">Trend</th><th scope="col">Positive signal</th><th scope="col">Main risk</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
+        <tbody data-screener-rows>
+<tr data-instrument-id="aa5d17e7-8fe4-5305-960d-ec7b21aa0211">
+            <td class="company-col"><strong>BLS International Services Ltd.</strong></td><td>BLS</td><td>Industrials</td><td class="number">1</td><td class="number"><span class="score">78.8</span></td><td class="number">98%</td><td class="number">0</td><td>strong down</td><td>Price below conservatively-estimated intrinsic value</td><td>code=&#39;MULTIPLE_AT_LOW&#39; severity=1 detail=&#39;Trades at the 1% percentile of its own multiple history (median 49.2x) — cheap relative to its own past, not just to peers&#39;</td><td><a class="button button-small" href="/company/aa5d17e7-8fe4-5305-960d-ec7b21aa0211.html">Report</a></td>
+          </tr><tr data-instrument-id="65a35257-0172-5c13-a348-6d28ffef8a0b">
+            <td class="company-col"><strong>HBL Engineering Ltd.</strong></td><td>HBLENGINE</td><td>Industrials</td><td class="number">2</td><td class="number"><span class="score">76.6</span></td><td class="number">98%</td><td class="number">0</td><td>strong down</td><td>Top-line growth is the rawest demand signal</td><td>code=&#39;MULTIPLE_AT_LOW&#39; severity=1 detail=&#39;Trades at the 1% percentile of its own multiple history (median 74.1x) — cheap relative to its own past, not just to peers&#39;</td><td><a class="button button-small" href="/company/65a35257-0172-5c13-a348-6d28ffef8a0b.html">Report</a></td>
+          </tr><tr data-instrument-id="6fde7302-fb6e-5040-b627-981b3843d33d">
+            <td class="company-col"><strong>Chalet Hotels Ltd.</strong></td><td>CHALET</td><td>Consumer Cyclical</td><td class="number">3</td><td class="number"><span class="score">74.8</span></td><td class="number">98%</td><td class="number">0</td><td>strong down</td><td>Top-line growth is the rawest demand signal</td><td>code=&#39;MULTIPLE_AT_LOW&#39; severity=1 detail=&#39;Trades at the 0% percentile of its own multiple history (median 75.1x) — cheap relative to its own past, not just to peers&#39;</td><td><a class="button button-small" href="/company/6fde7302-fb6e-5040-b627-981b3843d33d.html">Report</a></td>
+          </tr><tr data-instrument-id="c6091115-5a88-563c-8879-309a188b265e">
+            <td class="company-col"><strong>NATCO Pharma Ltd.</strong></td><td>NATCOPHARM</td><td>Healthcare</td><td class="number">4</td><td class="number"><span class="score">74.0</span></td><td class="number">98%</td><td class="number">0</td><td>sideways</td><td>Price below conservatively-estimated intrinsic value</td><td>No model flag</td><td><a class="button button-small" href="/company/c6091115-5a88-563c-8879-309a188b265e.html">Report</a></td>
+          </tr><tr data-instrument-id="4fdb9122-8675-5564-a65b-e2ded5d51499">
+            <td class="company-col"><strong>Action Construction Equipment Ltd.</strong></td><td>ACE</td><td>Industrials</td><td class="number">5</td><td class="number"><span class="score">73.2</span></td><td class="number">98%</td><td class="number">0</td><td>sideways</td><td>Profit growth shows demand converts to economics</td><td>code=&#39;FORECAST_INCOHERENT&#39; severity=2 detail=&#34;Bull case assumes 15% growth but the market already prices 28% — the model&#39;s most optimistic case is below consensus, so treat the forecast as understated&#34;</td><td><a class="button button-small" href="/company/4fdb9122-8675-5564-a65b-e2ded5d51499.html">Report</a></td>
+          </tr><tr data-instrument-id="dcf80a1a-8c11-5e91-a1e7-95e648419952">
+            <td class="company-col"><strong>Sarda Energy and Minerals Ltd.</strong></td><td>SARDAEN</td><td>Basic Materials</td><td class="number">6</td><td class="number"><span class="score">72.7</span></td><td class="number">98%</td><td class="number">0</td><td>down</td><td>Price below conservatively-estimated intrinsic value</td><td>No model flag</td><td><a class="button button-small" href="/company/dcf80a1a-8c11-5e91-a1e7-95e648419952.html">Report</a></td>
+          </tr><tr data-instrument-id="81284062-8237-5dfb-bb3f-d80030a87912">
+            <td class="company-col"><strong>Zen Technologies Ltd.</strong></td><td>ZENTEC</td><td>Industrials</td><td class="number">7</td><td class="number"><span class="score">72.6</span></td><td class="number">98%</td><td class="number">48</td><td>up</td><td>Top-line growth is the rawest demand signal</td><td>code=&#39;EARNINGS_QUALITY&#39; severity=2 detail=&#39;Cash conversion 0.48 — weak profit-to-cash translation&#39;</td><td><a class="button button-small" href="/company/81284062-8237-5dfb-bb3f-d80030a87912.html">Report</a></td>
+          </tr><tr data-instrument-id="6595a638-fa9a-5845-b4c1-945dff6bd114">
+            <td class="company-col"><strong>Force Motors Ltd.</strong></td><td>FORCEMOT</td><td>Consumer Cyclical</td><td class="number">8</td><td class="number"><span class="score">71.8</span></td><td class="number">97%</td><td class="number">0</td><td>sideways</td><td>Profit growth shows demand converts to economics</td><td>code=&#39;MULTIPLE_AT_LOW&#39; severity=1 detail=&#39;Trades at the 2% percentile of its own multiple history (median 30.7x) — cheap relative to its own past, not just to peers&#39;</td><td><a class="button button-small" href="/company/6595a638-fa9a-5845-b4c1-945dff6bd114.html">Report</a></td>
+          </tr><tr data-instrument-id="8de77c34-8c04-5aa8-bc0f-81362dba02dc">
+            <td class="company-col"><strong>Ceat Ltd.</strong></td><td>CEATLTD</td><td>Consumer Cyclical</td><td class="number">9</td><td class="number"><span class="score">71.5</span></td><td class="number">98%</td><td class="number">12</td><td>sideways</td><td>Profit growth shows demand converts to economics</td><td>code=&#39;COVERAGE&#39; severity=1 detail=&#39;Interest coverage 3.9x — limited headroom&#39;</td><td><a class="button button-small" href="/company/8de77c34-8c04-5aa8-bc0f-81362dba02dc.html">Report</a></td>
+          </tr><tr data-instrument-id="ab20bbf4-8692-5426-a5ef-8e0746e0bfed">
+            <td class="company-col"><strong>Welspun Corp Ltd.</strong></td><td>WELCORP</td><td>Basic Materials</td><td class="number">10</td><td class="number"><span class="score">70.7</span></td><td class="number">98%</td><td class="number">0</td><td>strong up</td><td>Profit growth shows demand converts to economics</td><td>code=&#39;FORECAST_INCOHERENT&#39; severity=2 detail=&#34;Bull case assumes 20% growth but the market already prices 28% — the model&#39;s most optimistic case is below consensus, so treat the forecast as understated&#34;</td><td><a class="button button-small" href="/company/ab20bbf4-8692-5426-a5ef-8e0746e0bfed.html">Report</a></td>
+          </tr><tr data-instrument-id="726eeb24-5e28-5151-bcdd-e140b1001c42">
+            <td class="company-col"><strong>Vijaya Diagnostic Centre Ltd.</strong></td><td>VIJAYA</td><td>Healthcare</td><td class="number">11</td><td class="number"><span class="score">70.5</span></td><td class="number">98%</td><td class="number">24</td><td>strong up</td><td>Profit growth shows demand converts to economics</td><td>code=&#39;VALUATION_HOT&#39; severity=2 detail=&#39;Market pricing 50% growth — little room for error&#39;</td><td><a class="button button-small" href="/company/726eeb24-5e28-5151-bcdd-e140b1001c42.html">Report</a></td>
+          </tr><tr data-instrument-id="915935fa-a4f2-50d1-b7c6-4fd92eda9a52">
+            <td class="company-col"><strong>Computer Age Management Services Ltd.</strong></td><td>CAMS</td><td>Technology</td><td class="number">12</td><td class="number"><span class="score">69.4</span></td><td class="number">98%</td><td class="number">24</td><td>up</td><td>High return on capital employed is the engine of compounding</td><td>code=&#39;VALUATION_HOT&#39; severity=2 detail=&#39;Market pricing 30% growth — little room for error&#39;</td><td><a class="button button-small" href="/company/915935fa-a4f2-50d1-b7c6-4fd92eda9a52.html">Report</a></td>
+          </tr><tr data-instrument-id="a249db07-a98d-5276-a9d9-87d64b9ba831">
+            <td class="company-col"><strong>Hindustan Copper Ltd.</strong></td><td>HINDCOPPER</td><td>Basic Materials</td><td class="number">13</td><td class="number"><span class="score">69.4</span></td><td class="number">98%</td><td class="number">24</td><td>up</td><td>Profit growth shows demand converts to economics</td><td>code=&#39;VALUATION_HOT&#39; severity=2 detail=&#39;Market pricing 31% growth — little room for error&#39;</td><td><a class="button button-small" href="/company/a249db07-a98d-5276-a9d9-87d64b9ba831.html">Report</a></td>
+          </tr><tr data-instrument-id="4bade4e0-f7f8-5bc4-9c40-95b0d4de860c">
+            <td class="company-col"><strong>Cemindia Projects Ltd.</strong></td><td>CEMPRO</td><td>Industrials</td><td class="number">14</td><td class="number"><span class="score">69.2</span></td><td class="number">98%</td><td class="number">24</td><td>strong up</td><td>Top-line growth is the rawest demand signal</td><td>code=&#39;VALUATION_HOT&#39; severity=2 detail=&#39;Market pricing 35% growth — little room for error&#39;</td><td><a class="button button-small" href="/company/4bade4e0-f7f8-5bc4-9c40-95b0d4de860c.html">Report</a></td>
+          </tr><tr data-instrument-id="ac9d152a-600c-5f2f-90bc-93456187cdf6">
+            <td class="company-col"><strong>Indian Energy Exchange Ltd.</strong></td><td>IEX</td><td>Financial Services</td><td class="number">15</td><td class="number"><span class="score">67.7</span></td><td class="number">98%</td><td class="number">0</td><td>sideways</td><td>High return on capital employed is the engine of compounding</td><td>code=&#39;MULTIPLE_AT_LOW&#39; severity=1 detail=&#39;Trades at the 3% percentile of its own multiple history (median 39.3x) — cheap relative to its own past, not just to peers&#39;</td><td><a class="button button-small" href="/company/ac9d152a-600c-5f2f-90bc-93456187cdf6.html">Report</a></td>
+          </tr><tr data-instrument-id="cba5e174-9a5c-596c-b117-fb7820eb1c78">
+            <td class="company-col"><strong>Kfin Technologies Ltd.</strong></td><td>KFINTECH</td><td>Technology</td><td class="number">16</td><td class="number"><span class="score">67.7</span></td><td class="number">98%</td><td class="number">24</td><td>down</td><td>Low leverage survives downturns and funds opportunity</td><td>code=&#39;VALUATION_HOT&#39; severity=2 detail=&#39;Market pricing 37% growth — little room for error&#39;</td><td><a class="button button-small" href="/company/cba5e174-9a5c-596c-b117-fb7820eb1c78.html">Report</a></td>
+          </tr><tr data-instrument-id="6a479fdf-58da-5763-8f93-5d2c6d0fa5a4">
+            <td class="company-col"><strong>eClerx Services Ltd.</strong></td><td>ECLERX</td><td>Technology</td><td class="number">17</td><td class="number"><span class="score">67.5</span></td><td class="number">98%</td><td class="number">0</td><td>sideways</td><td>Coverage headroom protects equity from creditors</td><td>code=&#39;FORECAST_INCOHERENT&#39; severity=2 detail=&#34;Bull case assumes 16% growth but the market already prices 17% — the model&#39;s most optimistic case is below consensus, so treat the forecast as understated&#34;</td><td><a class="button button-small" href="/company/6a479fdf-58da-5763-8f93-5d2c6d0fa5a4.html">Report</a></td>
+          </tr><tr data-instrument-id="eb2293f5-edc9-55ad-abf0-f7fafad1d396">
+            <td class="company-col"><strong>Netweb Technologies India Ltd.</strong></td><td>NETWEB</td><td>Technology</td><td class="number">18</td><td class="number"><span class="score">67.3</span></td><td class="number">98%</td><td class="number">48</td><td>strong up</td><td>Top-line growth is the rawest demand signal</td><td>code=&#39;EARNINGS_QUALITY&#39; severity=2 detail=&#39;Cash conversion 0.45 — weak profit-to-cash translation&#39;</td><td><a class="button button-small" href="/company/eb2293f5-edc9-55ad-abf0-f7fafad1d396.html">Report</a></td>
+          </tr><tr data-instrument-id="b1c2614f-eb4d-502a-bbaa-d1eab7102c9f">
+            <td class="company-col"><strong>Lemon Tree Hotels Ltd.</strong></td><td>LEMONTREE</td><td>Consumer Cyclical</td><td class="number">19</td><td class="number"><span class="score">67.1</span></td><td class="number">98%</td><td class="number">36</td><td>strong down</td><td>Profit growth shows demand converts to economics</td><td>code=&#39;SOLVENCY_DEBT&#39; severity=2 detail=&#39;Debt/equity 1.44 — elevated leverage&#39;</td><td><a class="button button-small" href="/company/b1c2614f-eb4d-502a-bbaa-d1eab7102c9f.html">Report</a></td>
+          </tr><tr data-instrument-id="f8992bf9-91f8-5df1-915a-9457ee6bd882">
+            <td class="company-col"><strong>Niva Bupa Health Insurance Company Ltd.</strong></td><td>NIVABUPA</td><td>Financial Services</td><td class="number">20</td><td class="number"><span class="score">67.0</span></td><td class="number">83%</td><td class="number">12</td><td>up</td><td>Price below conservatively-estimated intrinsic value</td><td>code=&#39;COVERAGE&#39; severity=1 detail=&#39;Interest coverage 3.3x — limited headroom&#39;</td><td><a class="button button-small" href="/company/f8992bf9-91f8-5df1-915a-9457ee6bd882.html">Report</a></td>
+          </tr><tr data-instrument-id="443ed2b9-dbdc-57b9-8186-66857bc42871">
+            <td class="company-col"><strong>Caplin Point Laboratories Ltd.</strong></td><td>CAPLIPOINT</td><td>Healthcare</td><td class="number">21</td><td class="number"><span class="score">66.9</span></td><td class="number">98%</td><td class="number">24</td><td>strong up</td><td>Low leverage survives downturns and funds opportunity</td><td>code=&#39;VALUATION_HOT&#39; severity=2 detail=&#39;Market pricing 39% growth — little room for error&#39;</td><td><a class="button button-small" href="/company/443ed2b9-dbdc-57b9-8186-66857bc42871.html">Report</a></td>
+          </tr><tr data-instrument-id="b3bbc1f0-a9e4-56cf-afc7-70e8ea75ffed">
+            <td class="company-col"><strong>International Gemological Institute Ltd.</strong></td><td>IGIL</td><td>Basic Materials</td><td class="number">22</td><td class="number"><span class="score">66.8</span></td><td class="number">89%</td><td class="number">0</td><td>sideways</td><td>Top-line growth is the rawest demand signal</td><td>No model flag</td><td><a class="button button-small" href="/company/b3bbc1f0-a9e4-56cf-afc7-70e8ea75ffed.html">Report</a></td>
+          </tr><tr data-instrument-id="56d009c1-34d1-5ca5-9388-a66efbe3ac7b">
+            <td class="company-col"><strong>Cartrade Tech Ltd.</strong></td><td>CARTRADE</td><td>Consumer Cyclical</td><td class="number">23</td><td class="number"><span class="score">66.7</span></td><td class="number">98%</td><td class="number">24</td><td>up</td><td>Top-line growth is the rawest demand signal</td><td>code=&#39;VALUATION_HOT&#39; severity=2 detail=&#39;Market pricing 35% growth — little room for error&#39;</td><td><a class="button button-small" href="/company/56d009c1-34d1-5ca5-9388-a66efbe3ac7b.html">Report</a></td>
+          </tr><tr data-instrument-id="92f953ac-65e0-5f6d-ac14-44420f59656d">
+            <td class="company-col"><strong>LT Foods Ltd.</strong></td><td>LTFOODS</td><td>Consumer Defensive</td><td class="number">24</td><td class="number"><span class="score">66.2</span></td><td class="number">98%</td><td class="number">0</td><td>sideways</td><td>Growing free cash funds growth without dilution</td><td>code=&#39;FORECAST_INCOHERENT&#39; severity=2 detail=&#34;Bull case assumes 17% growth but the market already prices 22% — the model&#39;s most optimistic case is below consensus, so treat the forecast as understated&#34;</td><td><a class="button button-small" href="/company/92f953ac-65e0-5f6d-ac14-44420f59656d.html">Report</a></td>
+          </tr><tr data-instrument-id="e5836c6e-e04a-53f0-a090-40c085ebda63">
+            <td class="company-col"><strong>Bombay Burmah Trading Corporation Ltd.</strong></td><td>BBTC</td><td>Consumer Defensive</td><td class="number">25</td><td class="number"><span class="score">66.1</span></td><td class="number">96%</td><td class="number">0</td><td>strong down</td><td>Price below conservatively-estimated intrinsic value</td><td>code=&#39;MULTIPLE_AT_LOW&#39; severity=1 detail=&#39;Trades at the 0% percentile of its own multiple history (median 15.4x) — cheap relative to its own past, not just to peers&#39;</td><td><a class="button button-small" href="/company/e5836c6e-e04a-53f0-a090-40c085ebda63.html">Report</a></td>
+          </tr>        </tbody>
+      </table>
+    </div>
+    <div class="state-panel" data-screener-empty hidden><div><h2 data-screener-state-title>No companies match</h2><p data-screener-state-copy>Change or remove a condition to widen this research screen.</p></div></div>
+    <nav class="pagination" aria-label="Screener result pages"><span data-screener-page>Page 1</span><div class="pagination-controls"><button class="button button-small" type="button" data-screener-prev disabled>Previous</button><button class="button button-small" type="button" data-screener-next>Next</button></div></nav>
+  </section>
+</section>
+
+<noscript><div class="notice notice-warning"><strong>Interactive filters require JavaScript.</strong> The table above is the first page of the complete static build; use a modern browser to create and share screens.</div></noscript>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-grid">
+      <div>
+        <strong>Research tooling, not investment advice.</strong>
+        Scores are model outputs with incomplete data and stated validation limits. Verify independently before making decisions.
+      </div>
+      <div><a href="/methodology.html">Read methodology &amp; limitations</a></div>
+    </div>
+  </footer>
+
+  <dialog class="dialog" id="instrument-search" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title">Search instruments</h2>
+    <div class="dialog-header">
+      <span aria-hidden="true">⌕</span>
+      <input class="dialog-search" data-search-input type="search" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Symbol, company name or ISIN" aria-controls="search-results" aria-describedby="search-help search-status">
+      <kbd>Esc</kbd>
+      <button class="icon-button" type="button" data-close-search aria-label="Close search">×</button>
+    </div>
+    <p class="sr-only" id="search-help">Type at least two characters. Use up and down arrow keys to choose a result, then Enter to open it.</p>
+    <div class="dialog-body">
+      <div class="dialog-status" id="search-status" data-search-status role="status" aria-live="polite">Search the canonical Nifty Smallcap 250 instrument master.</div>
+      <div data-recent-searches></div>
+      <ul class="search-results" id="search-results" data-search-results role="listbox" aria-label="Instrument matches"></ul>
+    </div>
+  </dialog>
+
+  <dialog class="mobile-drawer" id="mobile-navigation" aria-labelledby="mobile-nav-title">
+    <div class="drawer-head"><strong id="mobile-nav-title">Navigation</strong><button class="icon-button" type="button" data-close-menu aria-label="Close navigation">×</button></div>
+    <nav class="drawer-nav" aria-label="Mobile navigation">
+      <a class="nav-link" href="/#overview">Overview</a>
+      <a class="nav-link" href="/#rankings">Multibagger rankings</a>
+      <a class="nav-link" href="/screener.html" aria-current="page">Advanced screener</a>
+      <a class="nav-link" href="/#sectors">Sectors</a>
+      <a class="nav-link" href="/#news">News</a>
+      <span class="nav-soon" aria-disabled="true">Calendar — later phase</span>
+      <a class="nav-link" href="/methodology.html">Methodology</a>
+    </nav>
+  </dialog>
+
+  <div class="sr-only" data-announcer role="status" aria-live="polite" aria-atomic="true"></div>
+  <script defer src="/assets/app.js"></script>
+<script defer src="/assets/screener.js"></script></body>
+</html>

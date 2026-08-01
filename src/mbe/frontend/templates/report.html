@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="context-actions" style="justify-content:flex-start;margin-bottom:1rem"><a class="button button-quiet" href="{{ back_href }}">← Back to rankings</a></div>
+<article class="panel report">{{ body | safe }}</article>
+{% if financial %}
+<section class="panel financial-summary" aria-labelledby="canonical-financials">
+  <div class="section-heading"><div><p class="eyebrow">Canonical financial summary</p><h2 id="canonical-financials">Latest normalized annual view</h2></div><a href="{{ methodology_href }}#financial-methodology">Financial methodology</a></div>
+  <p class="cell-note"><strong>{{ "Official NSE filing" if financial.selected_source == "nse_financial_results" else "Compatibility-provider fallback" }}</strong> · FY{{ financial.latest_annual_fiscal_year or "—" }} · {{ financial.basis | replace('_', ' ') | title }} basis · cutoff {{ financial.data_cutoff[:10] }}</p>
+  <div class="table-scroll" tabindex="0" aria-label="Latest annual normalized financial facts">
+    <table><thead><tr><th scope="col">Period</th><th scope="col">Revenue (₹ cr)</th><th scope="col">Operating profit (₹ cr)</th><th scope="col">PAT (₹ cr)</th><th scope="col">CFO (₹ cr)</th><th scope="col">FCF (₹ cr)</th><th scope="col">Debt (₹ cr)</th><th scope="col">Net worth (₹ cr)</th></tr></thead>
+    <tbody><tr><th scope="row">FY{{ financial.latest_annual_fiscal_year or "—" }}</th>
+    {% for metric in ['revenue','operating_income','net_income','cfo','fcf','total_debt','total_equity'] %}{% set fact = financial.facts | selectattr('metric_id', 'equalto', metric) | first %}<td>{% if fact %}{{ "{:,.1f}".format(fact.value / 10000000) }}{% else %}—{% endif %}</td>{% endfor %}
+    </tr></tbody></table>
+  </div>
+  <dl class="metric-strip"><div><dt>Revenue CAGR (3y)</dt><dd>{% if financial['values']['revenue_cagr_3y'] is not none %}{{ "{:.1%}".format(financial['values']['revenue_cagr_3y']) }}{% else %}Unavailable{% endif %}</dd></div><div><dt>ROCE (3y average)</dt><dd>{% if financial['values']['roce_3y'] is not none %}{{ "{:.1%}".format(financial['values']['roce_3y']) }}{% else %}Unavailable{% endif %}</dd></div><div><dt>Quality</dt><dd>{{ financial.quality_status | replace('_', ' ') | title }}</dd></div></dl>
+  <div class="notice notice-warning"><span aria-hidden="true">△</span><div><strong>Source caveat.</strong> {{ financial.quality_warnings | join(' ') }}</div></div>
+  <details class="source-lineage">
+    <summary>Source lineage and reconciliation</summary>
+    <dl>
+      <div><dt>Selected source</dt><dd>{{ "Official NSE filing" if financial.selected_source == "nse_financial_results" else "Yahoo compatibility fallback" }}<span class="sr-only">. {{ "Official filing source" if financial.selected_source == "nse_financial_results" else "Fallback source, not an official filing" }}.</span></dd></div>
+      <div><dt>Source quality</dt><dd>Tier {{ financial.source_quality_tier }} · {{ financial.source_selection_status | replace('_', ' ') }}</dd></div>
+      <div><dt>Statement basis</dt><dd>{{ financial.basis | replace('_', ' ') | title }}</dd></div>
+      <div><dt>Filing date</dt><dd>{{ financial.official_filing_date or "Unavailable from selected source" }}</dd></div>
+      <div><dt>Revision</dt><dd>{{ "Restated or revised" if financial.restated else "No official revision state available" }}</dd></div>
+      <div><dt>Reconciliation</dt><dd>{{ financial.reconciliation_status | replace('_', ' ') | title }}</dd></div>
+      <div><dt>Financial dataset build</dt><dd>{{ financial.financial_dataset_build_id or "Shown in the linked static financial contract" }}</dd></div>
+    </dl>
+    <p>{{ financial.source_selection_reason }}</p>
+    {% if financial.official_source_url %}<p><a href="{{ financial.official_source_url }}" rel="noopener noreferrer">Open the official NSE filing</a></p>{% endif %}
+  </details>
+  <p class="cell-note">Static build. Values are research inputs, not audited reproductions. Verify the issuer or exchange filing independently.</p>
+</section>
+{% endif %}
+{% endblock %}

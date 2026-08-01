@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel state-panel" aria-labelledby="not-found-title">
+  <div>
+    <p class="eyebrow">Page unavailable</p>
+    <h1 id="not-found-title">This research page could not be found</h1>
+    <p>The address may be outdated or the canonical instrument ID may be invalid. Search the current instrument master or return to the rankings.</p>
+    <div class="context-actions">
+      <button class="button button-primary" type="button" data-open-search>Search instruments</button>
+      <a class="button button-quiet" href="/">Return to rankings</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

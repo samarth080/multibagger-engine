@@ -1,0 +1,222 @@
+{
+ "data": {
+  "instrument_id": "0163ffad-c887-56fa-8796-0c4e8c244ae9",
+  "latest_annual_fiscal_year": 2026,
+  "latest_quarterly_period": null,
+  "basis": "unknown",
+  "basis_reason": "Yahoo compatibility statements do not identify consolidated versus standalone basis.",
+  "source_code": "yahoo_compatibility",
+  "source_category": "compatibility-provider fallback",
+  "preferred_source": "nse_financial_results",
+  "selected_source": "yahoo_compatibility",
+  "source_quality_tier": "B",
+  "source_selection_status": "approved_metric_specific_fallback",
+  "source_selection_reason": "No fixture-qualified official multi-year series is present in the static dataset; the approved compatibility fallback remains selected for Revenue CAGR and ROCE only.",
+  "selection_policy_version": "2026-08-01.2",
+  "reconciliation_status": "not_reconciled",
+  "official_filing_id": null,
+  "official_filing_date": null,
+  "official_period_end": null,
+  "official_source_url": null,
+  "audited_status": "unknown",
+  "restated": false,
+  "quality_status": "valid_with_warning",
+  "quality_warnings": [
+   "Statement basis and filing publication date are unavailable from the compatibility source.",
+   "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing."
+  ],
+  "data_cutoff": "2026-08-01T11:10:03.765519+00:00",
+  "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+  "metric_definition_version": "2026-08-01.1",
+  "values": {
+   "revenue_cagr_3y": 0.09765232107961075,
+   "roce_3y": 0.07453950238209646
+  },
+  "metric_lineage": {
+   "revenue_cagr_3y": {
+    "selected_source": "yahoo_compatibility",
+    "source_quality_tier": "B",
+    "reconciliation_status": "compatibility_only",
+    "basis": "unknown"
+   },
+   "roce_3y": {
+    "selected_source": "yahoo_compatibility",
+    "source_quality_tier": "B",
+    "reconciliation_status": "compatibility_only",
+    "basis": "unknown"
+   }
+  },
+  "facts": [
+   {
+    "metric_id": "revenue",
+    "value": 82250000000.0,
+    "fiscal_year": 2026,
+    "period_type": "annual",
+    "unit": "INR",
+    "currency": "INR"
+   },
+   {
+    "metric_id": "operating_income",
+    "value": 8194000000.0,
+    "fiscal_year": 2026,
+    "period_type": "annual",
+    "unit": "INR",
+    "currency": "INR"
+   },
+   {
+    "metric_id": "net_income",
+    "value": 3985000000.0,
+    "fiscal_year": 2026,
+    "period_type": "annual",
+    "unit": "INR",
+    "currency": "INR"
+   },
+   {
+    "metric_id": "ebitda",
+    "value": 12663000000.0,
+    "fiscal_year": 2026,
+    "period_type": "annual",
+    "unit": "INR",
+    "currency": "INR"
+   },
+   {
+    "metric_id": "cfo",
+    "value": 12268000000.0,
+    "fiscal_year": 2026,
+    "period_type": "annual",
+    "unit": "INR",
+    "currency": "INR"
+   },
+   {
+    "metric_id": "fcf",
+    "value": -2223000000.0,
+    "fiscal_year": 2026,
+    "period_type": "annual",
+    "unit": "INR",
+    "currency": "INR"
+   },
+   {
+    "metric_id": "total_debt",
+    "value": 36147000000.0,
+    "fiscal_year": 2026,
+    "period_type": "annual",
+    "unit": "INR",
+    "currency": "INR"
+   },
+   {
+    "metric_id": "total_equity",
+    "value": 70928000000.0,
+    "fiscal_year": 2026,
+    "period_type": "annual",
+    "unit": "INR",
+    "currency": "INR"
+   }
+  ],
+  "fingerprint": "02ecae20bea45b7eecf193c3c59cc1775c405edcd39458d1b5c723e34a723974",
+  "financial_dataset_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+  "financial_dataset_build": {
+   "financial_dataset_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+   "schema_version": "1.1",
+   "metric_definition_version": "2026-08-01.1",
+   "source_cutoff": "2026-08-01T11:10:03.765519+00:00",
+   "built_at": "2026-08-01T11:10:03.938100+00:00",
+   "companies_attempted": 250,
+   "companies_completed": 250,
+   "companies_failed": 0,
+   "status": "complete",
+   "source_versions": {
+    "yahoo_compatibility": "runtime-cache",
+    "nse_financial_results": "not imported into static build"
+   },
+   "official_discovery_cutoff": null,
+   "compatibility_source_cutoff": "2026-08-01T11:10:03.765519+00:00",
+   "official_filing_count": 0,
+   "attachment_count": 0,
+   "parser_versions": {
+    "nse_ind_as_results_xbrl": "2026-08-01.1"
+   },
+   "reconciliation_rule_version": "2026-08-01.1",
+   "source_selection_rule_version": "2026-08-01.2",
+   "official_coverage": {
+    "revenue_cagr_3y": {
+     "covered": 0,
+     "coverage_percent": 0.0
+    },
+    "roce_3y": {
+     "covered": 0,
+     "coverage_percent": 0.0
+    }
+   },
+   "compatibility_fallback_coverage": {
+    "revenue_cagr_3y": {
+     "covered": 246,
+     "missing": 4,
+     "coverage_percent": 98.4
+    },
+    "roce_3y": {
+     "covered": 232,
+     "missing": 18,
+     "coverage_percent": 92.8
+    }
+   },
+   "conflict_count": 0,
+   "reconciliation_summary": {
+    "revenue_cagr_3y": {
+     "exact_match": 0,
+     "within_rounding_tolerance": 0,
+     "material_difference": 0,
+     "official_only": 0,
+     "compatibility_only": 246,
+     "both_missing": 4,
+     "not_comparable_without_official_series": 250
+    },
+    "roce_3y": {
+     "exact_match": 0,
+     "within_rounding_tolerance": 0,
+     "material_difference": 0,
+     "official_only": 0,
+     "compatibility_only": 232,
+     "both_missing": 18,
+     "not_comparable_without_official_series": 250
+    }
+   },
+   "selected_source_distribution": {
+    "nse_financial_results": 0,
+    "yahoo_compatibility": 478
+   },
+   "unknown_basis_count": 250,
+   "unsupported_format_count": 0,
+   "public_metric_eligibility": {
+    "revenue_cagr_3y": "Tier B approved compatibility fallback; promote per instrument only after official multi-year lineage passes Tier A gates.",
+    "roce_3y": "Tier B approved compatibility fallback; promote per instrument only after official multi-year lineage passes Tier A gates."
+   },
+   "coverage": {
+    "revenue_cagr_3y": {
+     "covered": 246,
+     "missing": 4,
+     "coverage_percent": 98.4
+    },
+    "roce_3y": {
+     "covered": 232,
+     "missing": 18,
+     "coverage_percent": 92.8
+    }
+   },
+   "quality_summary": {
+    "valid_with_warning": 250
+   },
+   "warnings": [
+    "The current static dataset contains no canonical official filing series; all public financial rows use an approved compatibility fallback with unknown statement basis."
+   ],
+   "configuration_hash": "c4f3a5102a13ae58bbadf190cbb1bedf3f3679c00d6eb6239acc198ea0e0ed45"
+  }
+ },
+ "meta": {},
+ "errors": [],
+ "warnings": [
+  "Statement basis and filing publication date are unavailable from the compatibility source.",
+  "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing."
+ ],
+ "freshness": null,
+ "request_id": "static-build"
+}

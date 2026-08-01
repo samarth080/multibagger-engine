@@ -1,0 +1,3330 @@
+{
+ "data": [
+  {
+   "instrument_id": "aa5d17e7-8fe4-5305-960d-ec7b21aa0211",
+   "rank": 1,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "BLS",
+   "legacy_ticker": "BLS.NS",
+   "exchange": "NSE",
+   "name": "BLS International Services Ltd.",
+   "sector": "Industrials",
+   "industry": "Consumer Services",
+   "multibagger_score": 78.8,
+   "investment_score": 80.4,
+   "confidence": 0.983,
+   "risk_score": 0,
+   "investability": "Strong candidate \u2014 deep-dive diligence warranted; elevated multibagger characteristics",
+   "positive_signal_count": 20,
+   "red_flag_count": 1,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "strong_down",
+   "group_rank": 20,
+   "main_positive_signal": "Price below conservatively-estimated intrinsic value",
+   "main_risk": "code='MULTIPLE_AT_LOW' severity=1 detail='Trades at the 1% percentile of its own multiple history (median 49.2x) \u2014 cheap relative to its own past, not just to peers'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 90.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 94.25,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 89.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 92.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 11.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 65.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 42.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Sypha AI and BLS International Partner on Visa Technology Upgrade",
+     "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ZSmtSNFlHZGN6X1pRd19xSHE4d0J0bkJpLVdRT1NjaUtYQmJVOFhTZU12cm5oV2d3bFZNQ0VRcndrWk1GN1NuXzV3WWlxNng4aFEwOUVUbHFLTXBaak1DQUxwdk5oOGFtTi16VVJqZTM?oc=5",
+     "published": "2026-07-31T08:59:35Z",
+     "source": "safariindia.com",
+     "sectors": [],
+     "relevance_score": 59.4,
+     "match_confidence": "medium",
+     "match_reasons": [
+      "multiple company-name tokens appear in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "BLS International Appoints New Global Strategic Advisor",
+     "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE85bFBXX2ZMVzJoRS04bDF6eXl0N0NrY1R4OHV0UWt4S1l3Y1VnSFBqUUZpS3U0c2NXSFdCS2JFWTlZNHpCN2R6VS1nR19WSzJENVQ3Qi1qaWEtOFpVOFowRjZFV1YxbGVSZ3JTQXktTlZQbklJNVE?oc=5",
+     "published": "2026-07-30T08:10:53Z",
+     "source": "safariindia.com",
+     "sectors": [],
+     "relevance_score": 59.4,
+     "match_confidence": "medium",
+     "match_reasons": [
+      "multiple company-name tokens appear in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "BLS International Achieves CMMI Maturity Level 5 for DEV, SVC & Security (V3.0)",
+     "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOdGJCSTcxNm9jZHBTNFJZcDlqZmlOdjBlUHFpMjBLVTZxV2ZDSjA0ZE1pb1VmRl9FcEI0U3pYRUpPcjBSb1pPRktKYm14Y1dhdWZDeXUtYUp1dE5FOVJ3b29XXzk1cGRzMXp5QnRsbDlSRXNzYnc3cXJHUkNDd1FZVGxVSm9vY0UwVWVOYlF0YlRiOVE1RkFYaFk3S1hBVllYRXBHS3F1Tml4dw?oc=5",
+     "published": "2026-07-29T07:24:39Z",
+     "source": "India Technology News",
+     "sectors": [],
+     "relevance_score": 59.4,
+     "match_confidence": "medium",
+     "match_reasons": [
+      "multiple company-name tokens appear in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    }
+   ],
+   "report_url": "/company/aa5d17e7-8fe4-5305-960d-ec7b21aa0211.html",
+   "price_at_build": 236.89999389648438,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "65a35257-0172-5c13-a348-6d28ffef8a0b",
+   "rank": 2,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "HBLENGINE",
+   "legacy_ticker": "HBLENGINE.NS",
+   "exchange": "NSE",
+   "name": "HBL Engineering Ltd.",
+   "sector": "Industrials",
+   "industry": "Capital Goods",
+   "multibagger_score": 76.6,
+   "investment_score": 74.7,
+   "confidence": 0.983,
+   "risk_score": 0,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting; elevated multibagger characteristics",
+   "positive_signal_count": 20,
+   "red_flag_count": 2,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "strong_down",
+   "group_rank": 2,
+   "main_positive_signal": "Top-line growth is the rawest demand signal",
+   "main_risk": "code='MULTIPLE_AT_LOW' severity=1 detail='Trades at the 1% percentile of its own multiple history (median 74.1x) \u2014 cheap relative to its own past, not just to peers'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 84.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 94.25,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 92.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 69.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 15.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 85.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 68.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "HBL Engineering Board Meeting Aug 8 for Q1 Results",
+     "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPY2MweVBTdFR4TjRPUVAweGRSU1NaN01qRnhkQjlkOTE2Z1l5d2M3TFZxQlJ6YTF4dTQ0NU9rMTNnekppVFVEVWZ5YUw0c1QwTk41UFZQSllJWGhFWWlIWWZPR0l4YTVTUDdmRnhIOTFmMnNJTnRfVEVBenByLUVBZUlWdVNYQWx6RThJdGJQWlpzZw?oc=5",
+     "published": "2026-07-30T08:10:55Z",
+     "source": "InvestyWise",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    }
+   ],
+   "report_url": "/company/65a35257-0172-5c13-a348-6d28ffef8a0b.html",
+   "price_at_build": 718.7000122070312,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "6fde7302-fb6e-5040-b627-981b3843d33d",
+   "rank": 3,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "CHALET",
+   "legacy_ticker": "CHALET.NS",
+   "exchange": "NSE",
+   "name": "Chalet Hotels Ltd.",
+   "sector": "Consumer Cyclical",
+   "industry": "Consumer Services",
+   "multibagger_score": 74.8,
+   "investment_score": 67.9,
+   "confidence": 0.983,
+   "risk_score": 0,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 16,
+   "red_flag_count": 2,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "strong_down",
+   "group_rank": 12,
+   "main_positive_signal": "Top-line growth is the rawest demand signal",
+   "main_risk": "code='MULTIPLE_AT_LOW' severity=1 detail='Trades at the 0% percentile of its own multiple history (median 75.1x) \u2014 cheap relative to its own past, not just to peers'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 65.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 94.25,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 49.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 79.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 45.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 70.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 29.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Buy Chalet Hotels Ltd For Target Rs. 991 by Prabhudas Liladhar Capital Ltd",
+     "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNcUlmYWZPSWtWR1NPcWtKQk1EeXlRUXlCbjRTR0l5OXlvMHZmZGNJNnEzSmhWY0lpSVRpN041eUZYSzk5UTlJbkxPejBaZjczc2tGVVgtNDdYZU5uUlZ5OWsxdmRoRnlTckVkRUpTei0tQWVrNVZfTXdBQWM5Z1lkSTAtNHVFUnRUQ1FpR19vaDhoRFNUMW5uemFZVThDd0hmZXQ4RFBKaG5aelJGVk9nbjVyMlpWRldxOHBmV2lPcw?oc=5",
+     "published": "2026-07-31T19:32:15Z",
+     "source": "Investment Guru",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Chalet Hotels appoints Manoj Agarwal as Chief Growth & Product Officer",
+     "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPb3NHb3drcFVlcUdpVWI3cXFmcDZPNTgxbmkySlUtb0ZsVnVWUFNsay1VNUhFMGEtVDVKMWtEUmtUV3BuYl9iWDREV0d1MjhLZHRlVTZZQ3hJNHk1TnBZZXRIVi1vQ2lUNkk4UUc5cU5vUmF5S3pMd21GTE13Q3hhTVh5Y0Ztc0hOQjRoSHZrUnQ4UQ?oc=5",
+     "published": "2026-07-31T09:47:35Z",
+     "source": "hrtoday.in",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Chalet Hotels Q1 Revenue Rises 9.6% Led by Hospitality Growth",
+     "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNWF9TRlNPN1Rnd0w5cFhpY1NjdHYyM09ZUy1ZRWF4NEtvVXFuTXRiY3U0ZC1vWWg1YWk1OFByeEF0OEk1Tm9LbThwblEwYTZ5dDBQdldHcmN1SmJ6M1RFakRoS3BXS2IzblFKN3FfUW81aHVNU3dFbkI5VXduQ1UzOFh4R3FVZUtzNWQtMXdrS2Fwa1NoR2drRVA5cUotemtuZmRKdHJ1RnlCc3NacUVpRmVyRnpGMVFHVWNQS2FJN0YyRkhwMC04c19ERUlJUE1xVTVsSUU5cVg3S0U?oc=5",
+     "published": "2026-07-31T07:37:38Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Chalet Hotels Q1 Results: \u0939\u0949\u0938\u094d\u092a\u093f\u091f\u0945\u0932\u093f\u091f\u0940\u092e\u0941\u0933\u0947 \u0915\u092e\u093e\u0908\u0924 **9.6%** \u0935\u093e\u0922, \u0928\u0935\u0940\u0928 \u092a\u094d\u0930\u094b\u091c\u0947\u0915\u094d\u091f\u094d\u0938\u092e\u0941\u0933\u0947 \u092d\u0935\u093f\u0937\u094d\u092f\u093e\u0924 \u092d\u0930\u093e\u0930\u0940?",
+     "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOSnRZRGU2QnBZSGZLaXZhSjVaTUxXYVJFNmVDdGthMzBTOEFpR05Ba3p6OGZrWFJ6MkltU3JNN2JqeE5HVTZEaDcweWQ1Tk1teDdKcjZ5Ulhpazh1MXFDeW53WGIxT1VndUpBZnlrTlhnY09sUWZ6aW5zY29NUl9hakFGSmxVOUFfcDk5QVFYYnRXNUE2Z19UcHhseFRlb3AyTVo2U0ZzTS0yeklQZ2J5NzBPR0VXd2VYMkpySjRvUFgxc0pwRW0xNlFkYWplNlotTTZzZ3Vqbkx1bWM?oc=5",
+     "published": "2026-07-31T07:37:38Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Chalet Hotels: \u0a2a\u0a39\u0a3f\u0a32\u0a40 \u0a24\u0a3f\u0a2e\u0a3e\u0a39\u0a40 '\u0a1a \u0a2e\u0a3e\u0a32\u0a40\u0a06 **9.6%** \u0a35\u0a27\u0a3f\u0a06, \u0a39\u0a4b\u0a1f\u0a32 \u0a15\u0a3e\u0a30\u0a4b\u0a2c\u0a3e\u0a30 \u0a28\u0a47 \u0a15\u0a40\u0a24\u0a40 \u0a15\u0a2e\u0a3e\u0a32",
+     "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNaVZuUmx5bzNPMWkzSGFvamVVM21tdW1aU2RRY2tUa1ItU2xtbk5ReU0yN1F0REtrZmJIalFjNUZSSld5Mnh2aW12eXloVGp2aWNjYUhZVE9wRFdJaWhnVXZUSkJVZDBsaUgxNDVUVE1WN0NKbUd3THBzcWtrRXdXWkd5aHg4bGJxOVBaMm5pT09YTTAySDNGRmprWkdzbmVoNDJycWViczQ3aGhwWXVBUVV2ZW9zWE1VUk00Vk5CS2h0QVBfRmFvcy1ZWm55REFrVVNpbGQxZUg3eWs?oc=5",
+     "published": "2026-07-31T07:37:38Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    }
+   ],
+   "report_url": "/company/6fde7302-fb6e-5040-b627-981b3843d33d.html",
+   "price_at_build": 805.25,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "c6091115-5a88-563c-8879-309a188b265e",
+   "rank": 4,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "NATCOPHARM",
+   "legacy_ticker": "NATCOPHARM.NS",
+   "exchange": "NSE",
+   "name": "NATCO Pharma Ltd.",
+   "sector": "Healthcare",
+   "industry": "Healthcare",
+   "multibagger_score": 74.0,
+   "investment_score": 78.0,
+   "confidence": 0.983,
+   "risk_score": 0,
+   "investability": "Strong candidate \u2014 deep-dive diligence warranted",
+   "positive_signal_count": 19,
+   "red_flag_count": 0,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "sideways",
+   "group_rank": 10,
+   "main_positive_signal": "Price below conservatively-estimated intrinsic value",
+   "main_risk": null,
+   "components": [
+    {
+     "name": "Quality",
+     "score": 78.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 76.75,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 92.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 92.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 38.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 65.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 78.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "NATCO Pharma gets CDSCO approval for Generic Semaglutide Injection, launch set for March 2026",
+     "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNMGhlWm9PZnRlb19od3MwMmJudWkxbmhQdTBtdE9ScUxKcVBKQUw2cU9OcE1ZUUNsOVprcDRjSENnOTU4ai1iYnZadkV5TUVtTjkzRGlVbjM0YlNDQTJ4TjVXUXhCbnRmWlVkeTMySW1IWTRtYy1TSlJrRTcxeWltUFdaNXVQMS1sOEtXRFJsQUI2Wk5iUnM4YllkQzY1aGo0Z0JtUm1ndUlUWUhHNXpPUGY2amRVV2tjeElXZ2xiZ3BKLWxhOF9XQTBjOWZBdEVy?oc=5",
+     "published": "2026-07-24T22:43:00Z",
+     "source": "Business Upturn",
+     "sectors": [],
+     "relevance_score": 84.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 8
+    }
+   ],
+   "report_url": "/company/c6091115-5a88-563c-8879-309a188b265e.html",
+   "price_at_build": 927.0999755859375,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "4fdb9122-8675-5564-a65b-e2ded5d51499",
+   "rank": 5,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "ACE",
+   "legacy_ticker": "ACE.NS",
+   "exchange": "NSE",
+   "name": "Action Construction Equipment Ltd.",
+   "sector": "Industrials",
+   "industry": "Capital Goods",
+   "multibagger_score": 73.2,
+   "investment_score": 72.2,
+   "confidence": 0.983,
+   "risk_score": 0,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 19,
+   "red_flag_count": 1,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "sideways",
+   "group_rank": 20,
+   "main_positive_signal": "Profit growth shows demand converts to economics",
+   "main_risk": "code='FORECAST_INCOHERENT' severity=2 detail=\"Bull case assumes 15% growth but the market already prices 28% \u2014 the model's most optimistic case is below consensus, so treat the forecast as understated\"",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 80.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 79.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 91.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 46.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 64.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 85.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 36.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [],
+   "report_url": "/company/4fdb9122-8675-5564-a65b-e2ded5d51499.html",
+   "price_at_build": 1071.699951171875,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "dcf80a1a-8c11-5e91-a1e7-95e648419952",
+   "rank": 6,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "SARDAEN",
+   "legacy_ticker": "SARDAEN.NS",
+   "exchange": "NSE",
+   "name": "Sarda Energy and Minerals Ltd.",
+   "sector": "Basic Materials",
+   "industry": "Metals & Mining",
+   "multibagger_score": 72.7,
+   "investment_score": 69.2,
+   "confidence": 0.983,
+   "risk_score": 0,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 19,
+   "red_flag_count": 0,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "down",
+   "group_rank": 4,
+   "main_positive_signal": "Price below conservatively-estimated intrinsic value",
+   "main_risk": null,
+   "components": [
+    {
+     "name": "Quality",
+     "score": 65.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 79.55,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 68.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 92.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 28.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 85.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 67.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Sarda Energy & Minerals Limited Revenue Breakdown \u2013 NSE:SARDAEN",
+     "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE82Y2Ntd19MckZkeGJmaTdaWmZwOUZfSWROelpsb1p2REs4N05kLXFnNUd4QzdSN2thMHhJLXVuaFZraER1cVlxSUtBZmRGdGJuZEM4R2JlMjAtQXBrcWZWR0pIbFB6XzByM2JTczBTWHJ5WUs4eHVr?oc=5",
+     "published": "2026-07-25T05:36:08Z",
+     "source": "TradingView",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 7
+    }
+   ],
+   "report_url": "/company/dcf80a1a-8c11-5e91-a1e7-95e648419952.html",
+   "price_at_build": 517.6500244140625,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "81284062-8237-5dfb-bb3f-d80030a87912",
+   "rank": 7,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "ZENTEC",
+   "legacy_ticker": "ZENTEC.NS",
+   "exchange": "NSE",
+   "name": "Zen Technologies Ltd.",
+   "sector": "Industrials",
+   "industry": "Capital Goods",
+   "multibagger_score": 72.6,
+   "investment_score": 61.3,
+   "confidence": 0.983,
+   "risk_score": 48,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 19,
+   "red_flag_count": 3,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "up",
+   "group_rank": 20,
+   "main_positive_signal": "Top-line growth is the rawest demand signal",
+   "main_risk": "code='EARNINGS_QUALITY' severity=2 detail='Cash conversion 0.48 \u2014 weak profit-to-cash translation'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 66.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 90.95,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 90.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 42.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 65.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 85.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 36.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Zen Technologies Unveils India\u2019s First High-Altitude Anti-Drone System",
+     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPU3RMX3dqdmJUclY0Ni1kTThFUm82ak1MNV9RVXVpbDM1eDdMZ3FiZ0JpLU1zNUJRckQyREtiZUUtMFBrc0dzeHhmTVZoSk8taHNqTldrbno4VF9mdFJLZ1RoZ3ppdHc0WGRWVFMxcmlBYUNMakptQ2ZvWXBXSmVNam9uaEVoMnVORGljMG9lbC1xclBJQTg3d3U1eGhQTEE?oc=5",
+     "published": "2026-07-27T07:53:13Z",
+     "source": "Raksha Anirveda",
+     "sectors": [],
+     "relevance_score": 82.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "India/exchange context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 5
+    },
+    {
+     "title": "Zen Technologies Sets Virtual Date for 33rd Annual General Meeting",
+     "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNZFUydjFTcVpMbzJRcDg1TkdHbnRvVzBGblREck50MzZBWTktcGRBaDVYZi1qbFBUVldkaWtXOEdMN29tUHBvQ3FBZktyNmN4U00xR05jOUlXUDBjWjdTWndTQ1dKUnB5Y2s0VkozMHNIMmtFY2JiRVR3M3NjT0VwUHdtejFZbjBrTzVtakMzQzhaT2hZVkVSUGtfRzl3ZUNnRlVYb1laSXBhTDRhbGN6aUc0V1U0QnpTMXc?oc=5",
+     "published": "2026-07-28T20:34:16Z",
+     "source": "TipRanks",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 4
+    },
+    {
+     "title": "Zen Technologies schedules AGM for August 29, recommends \u20b91 dividend",
+     "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNUWpqdUx1aTcyVEdsYk1WS1MxdDZxM2dDeVJQZDZPTXVtYlJZdnRpOXlrclVVOWpQMG83QzlFRFBGZzNpc1dHazVtVXdsejNxaVRaQV9CME5wdjJtY19TbUt2ei1LdTRJUFVxTi01eHZXd1d1V3U5UEFURk1pZl9BM0NQanF1dF80WVUwOWotc1RvOGJmenVQb1laYTUxd2NIa284OUVOenVvcWlzZnRrbTZwZUViNW8xXzFZQ3BuMWo?oc=5",
+     "published": "2026-07-28T19:34:10Z",
+     "source": "scanx.trade",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 4
+    },
+    {
+     "title": "Zen Technologies Q1 Results: Earnings call recording now available",
+     "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNMm9IVXVreFRUMWE4eDQzQUwwU0JockxYZVJGckZhSldGdzBwUWZOcmVweEdleVUyWGhScDRoTXlHWHY2dHQyWWJFWHVlal9JMk9xY0kyYWJ4S2tzVzRzNTh1eTNFd1RFdnlfT3F0dGhNWE1yWkNmTDFnSnN1Sm1mRG5laFZLYXNHWW5BVV9peTJDaUtSUHJxOUpqRkxuUkRlWXVPWTMyREwzSzdOREY3VkJUajU3M1JTZXpiSGp2Zw?oc=5",
+     "published": "2026-07-28T16:31:49Z",
+     "source": "scanx.trade",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 4
+    },
+    {
+     "title": "Zen Technologies Launches Indigenous High-Altitude Portable Anti-Drone System",
+     "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPeWVBUnZvaUdxeEozZWUtbXhVTTZKb01BaVV5OGZlMDVPYWE0YjdVZGVoVG1fMVo5VmFQX3VYdXpQcjBMcnFYN0F3VHd3dFNhdWdOazhpQWxrSkIxWlFjeHpLeW1zS0hEc1BBTXdBQU1wYUdrTnVKcmszc1NLLW5rYmVWUmJjb0lCNUl0d1JhUElTWWVxT2pEcGdEZ1RBamdTSl9BSFNhbjAyN1VIa0NWbQ?oc=5",
+     "published": "2026-07-28T11:36:29Z",
+     "source": "Machine Maker",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 4
+    }
+   ],
+   "report_url": "/company/81284062-8237-5dfb-bb3f-d80030a87912.html",
+   "price_at_build": 1646.0999755859375,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "6595a638-fa9a-5845-b4c1-945dff6bd114",
+   "rank": 8,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "FORCEMOT",
+   "legacy_ticker": "FORCEMOT.NS",
+   "exchange": "NSE",
+   "name": "Force Motors Ltd.",
+   "sector": "Consumer Cyclical",
+   "industry": "Automobile and Auto Components",
+   "multibagger_score": 71.8,
+   "investment_score": 77.2,
+   "confidence": 0.973,
+   "risk_score": 0,
+   "investability": "Strong candidate \u2014 deep-dive diligence warranted",
+   "positive_signal_count": 17,
+   "red_flag_count": 2,
+   "coverage_quality": 0.973,
+   "has_missing_data": true,
+   "technical_trend": "sideways",
+   "group_rank": 23,
+   "main_positive_signal": "Profit growth shows demand converts to economics",
+   "main_risk": "code='MULTIPLE_AT_LOW' severity=1 detail='Trades at the 2% percentile of its own multiple history (median 30.7x) \u2014 cheap relative to its own past, not just to peers'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 81.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 91.8,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 93.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 32.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 50.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 65.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 15.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Force Motors gains as Q1 PAT jumps 23% YoY to Rs 217 crore",
+     "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPZ3BlM1BFb283UkZYSWN6U1lNQ3FQdVZ2M2NmM2Z1Q1JQQmp6aHNyMF9MRUl3ZXNhNlRxbEU4TGF2WlBaNy1PeDl0cGhKOHNJeVVVaUE2TU9YU1NuVzRYTk51V2RKWm9YcmxnWHZQVXdPaUI0N0dkMFVVb3h5S0VBNWhJMVhvYjdRQTVIUUJyS0FveUtHYkQ1QnpJWTMyZ2g4eEhaUUFLM2d6NXk1aU9vZjBoNTFtTGw2dTlSTnZZVnpQc2d4cVo2QUxBU3JjR0llS2ltQldUU0pRVzjSAdsBQVVfeXFMT2dwZTNQRW9vN1JGWEljelNZTUNxUHVWdjNjZjNmdUNSUEJqemhzcjBfTEVJd2VzYTZUcWxFOExhdlpQWjctT3g5dHBoSjhzSXlVVWlBNk1PWFNTblc0WE5OdVdkSlpvWHJsZ1h2UFV3T2lCNDdHZDBVVW94eUtFQTVoSTFYb2I3UUE1SFFCcktBb3lLR2JENUJ6SVkzMmdoOHhIWlFBSzNnejV5NWlPb2YwaDUxbUxsNnU5Uk52WVZ6UHNneHFaNkFMQVNyY0dJZUtpbUJXVFNKUVc4?oc=5",
+     "published": "2026-07-30T04:34:11Z",
+     "source": "Business Standard",
+     "sectors": [],
+     "relevance_score": 79.2,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.9,
+     "age_days": 2
+    },
+    {
+     "title": "Force Motors Q1 Results: Net profit rises 23% YoY to \u20b9216.59 crore",
+     "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxObVNjQ19nUGRVdWRoTmpjSlV4NGR4MFgtaF82eEo4d2R2QjEyeHZIRlRHZUFmdmk4ZkY0VjdtLWZMX3M0a1BOWTJLVXg1eHRXRWtkcFNSbVZZdjM4YkVsVF9JSnd5eTlab1pMR1RFQVZEdV9TNG41MGpBSkx6Ry02SUhuaDFRVlpkQW16bXo3Q0ZSZHh2ZU50UnpBYVkxM1l0YldRYzdGTUlWZ3d5WGJtaGdIeXl3NGxTaWdXdw?oc=5",
+     "published": "2026-07-30T09:05:20Z",
+     "source": "scanx.trade",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "Force Motors Ltd Sees Sharp Open Interest Surge Amidst Mixed Market Signals",
+     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPR0dpOUswOGQ5OGZOeFQ3SlZvWlBCY1N6UERJdUZNelF6YXZlUGlOWXZneVdLcXE5UHFjeUs1Z2YtdU40LVBnUzJncjltalk2aXI3djdDYWJhVnNEeWhtbnZjaEx5M1VXamR5UnIzamxWZWNpZjJPempqb3JfWkhJd1NNd3VQR1hXSFZzcDRqSEZCLVZ3dHg0NURDbmJncE1HNHc3dHJFM3dqbmN6ZGxBM0hkaktkVzJHbG5NZ0hnTzBwZjVIN1BGMEJGVl9iUQ?oc=5",
+     "published": "2026-07-30T08:11:30Z",
+     "source": "MarketsMojo",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "Force Motors Ltd re-appoints Vallabh Bhanshali as Ind. Director",
+     "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOTnI4M2tRU0s1YUNSYngwZTc4YWZMYVkwclZaYUJ5Z3N2X3NGX3MydWxJTU5uNVZ5WVVRdXpMbXJUbGZ4TVBudzdwR25sNFVvOGRHa1A4QldZb3BJU2ZYWlpVUzh1RlAxT0NJcHpuTGtrUGxMWGxLTVlqLTlFSXNsT3l6dV9rSzFDTTJBc0YycXJ4TzZhb1pCaE9EMEo4SWF4NllF?oc=5",
+     "published": "2026-07-30T05:28:57Z",
+     "source": "Whispers in the Corridors",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "Force Motors re-appoints 3 independent directors for second five-year term",
+     "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOTTRmQW1zWHRzWGtwTEItRE12NXBIR0Q4blVraFpaeUJjQ3hJeXR6NGUyQkR1d3NKNHpEb2VqbVZ4dFVzVTBOa0o4Wm1CdFl6eDFUejNJcVh3djN0czFkcmRyQ25KN1dXNTlhV1dwOG5VZ0hWaTdpejVCel9vWU0wLXMzQmVEbmxhb2NwWnBINXIzS1N3SXJicDA1U1p6MVF0TUZieHRpWFdtMHBtTUxvRTIyTEYtVmJsYzdVYnk1ZExwVGs?oc=5",
+     "published": "2026-07-30T04:39:21Z",
+     "source": "scanx.trade",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    }
+   ],
+   "report_url": "/company/6595a638-fa9a-5845-b4c1-945dff6bd114.html",
+   "price_at_build": 18027.0,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "8de77c34-8c04-5aa8-bc0f-81362dba02dc",
+   "rank": 9,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "CEATLTD",
+   "legacy_ticker": "CEATLTD.NS",
+   "exchange": "NSE",
+   "name": "Ceat Ltd.",
+   "sector": "Consumer Cyclical",
+   "industry": "Automobile and Auto Components",
+   "multibagger_score": 71.5,
+   "investment_score": 63.5,
+   "confidence": 0.983,
+   "risk_score": 12,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 14,
+   "red_flag_count": 2,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "sideways",
+   "group_rank": 7,
+   "main_positive_signal": "Profit growth shows demand converts to economics",
+   "main_risk": "code='COVERAGE' severity=1 detail='Interest coverage 3.9x \u2014 limited headroom'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 61.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 82.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 47.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 85.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 44.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 70.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 71.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [],
+   "report_url": "/company/8de77c34-8c04-5aa8-bc0f-81362dba02dc.html",
+   "price_at_build": 3434.39990234375,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "ab20bbf4-8692-5426-a5ef-8e0746e0bfed",
+   "rank": 10,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "WELCORP",
+   "legacy_ticker": "WELCORP.NS",
+   "exchange": "NSE",
+   "name": "Welspun Corp Ltd.",
+   "sector": "Basic Materials",
+   "industry": "Capital Goods",
+   "multibagger_score": 70.7,
+   "investment_score": 73.5,
+   "confidence": 0.977,
+   "risk_score": 0,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 21,
+   "red_flag_count": 1,
+   "coverage_quality": 0.977,
+   "has_missing_data": true,
+   "technical_trend": "strong_up",
+   "group_rank": 4,
+   "main_positive_signal": "Profit growth shows demand converts to economics",
+   "main_risk": "code='FORECAST_INCOHERENT' severity=2 detail=\"Bull case assumes 20% growth but the market already prices 28% \u2014 the model's most optimistic case is below consensus, so treat the forecast as understated\"",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 68.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 85.88235294117648,
+     "confidence": 0.85,
+     "evidence_count": 3
+    },
+    {
+     "name": "Financial Strength",
+     "score": 77.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 57.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 88.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 50.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 70.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 67.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Welspun Corp Limited Revenue Breakdown \u2013 NSE:WELCORP",
+     "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBaZHdMcXlFaXZtU1RaV2E2aW8teU14U0ZtSzlHMGpoTGhSWFVYUzltVmhVUDI4V1JEcDJNNEZ4anJGUTRCOHdLcVZmNWhaR0RFSWxVSnpILXVFRFBES0lKdk1HYnNQMFVnY1ZEQ284azJiQndQcm1Z?oc=5",
+     "published": "2026-07-29T00:58:04Z",
+     "source": "TradingView",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "Metal sector stocks rally today, July 29: SAIL jumps 5%, Welspun Corp rises 3.42%, Tata Steel up 2.57%",
+     "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNWWdVdUdxLWJETzdURG53UTQ2VGFBZDRkUFJ4WDdydEFmeXdGSHJFdmlhRG12Z2dERVJRM2dHYldSVV9Xc1RxLUtvRUxFY3JHTkVleGxXTjItb0RaOVNvMnVGTDFZTDNKemhWbkE0WmoxcVhVbmQ0eGpIWlpFOTluNi02Z2ZxMGxILW9pVUViMi1mWVRrVFEwRkhtRHdwR25TMmFYMzFJVlhZclRQYVJSMVdZZWFyaFNFVmVXVjBIcnFpZHZmT09MNnRLUU1XQlJ5Yk5rdEdQajBpVFMy?oc=5",
+     "published": "2026-07-29T05:18:12Z",
+     "source": "Business Upturn",
+     "sectors": [],
+     "relevance_score": 84.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "Daily Brief India: Juniper Green Energy Ltd, Manipal Health Enterprises Ltd, Welspun Corp and more",
+     "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQSG1WZ3h2c3V5S2tkOEZWMFlOLURWcG1Kd1JLVVlQcWRRZVd5bGZGb0lWTUJmWmxITk5VeVhfLVZ2UDdTQ0JHUlNKV0hYTG5WYm1WX25BX0ZIWDdaOG9ia1NCYnZJU3lSa0lENnZUUXdMTXhIZE9VbXAzNWhIV0RLZ1o5b0ZqMF9SX3AydmswQTU4M0lxMVlJVi15d2lsbHphLWVEWm5BLW5MVmRDQnNnSWFJRFI4SDlUZVJsdmNiQW1CcTNmWFZqa3BiSzc5ams1SEdWMHUweTQ?oc=5",
+     "published": "2026-07-30T02:01:06Z",
+     "source": "Smartkarma",
+     "sectors": [],
+     "relevance_score": 82.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "India/exchange context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "Welspun Corp Ltd soars 3.13%, rises for third straight session",
+     "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNeFhUNFI4eGlYd2xlVVNsdm5lTHNqZjZPX2RfQlBqZ1lfYkRyNnctenhCZzd4TDZaY0E3b3BDQnhXR0dKVXJ4Uk5NX0pTM1Y0YllTWXhqMFh2bU1qWFI2QkJsajByTjJYRzNENVBQNXBQdlNHc3dMRXlOUDNWSlRxMzJpNVV6TGkteWZzNE8ySklQTGlqM1p4YWktR0xwamtHOWFTMDNaazh6RjBLTDJaOWtUZEw2TF8zdVhGbDZQYjAzeWZfMkxLYXBnWGZFaXpwQTNZNm5VNHRSQdIB3wFBVV95cUxQSWlqeFFxTHB4dGdNTXVLWmkybGNvRVd4cks4UnJjRU0ySDFZLTRlTVctYzlObEZqcld3RjF3NUx2VVFWdUdxSnY0MkRoNGxPTU5JS25DWEJaNXJaWmdtakNqNG5PWWFnVVZQZFVRb004b3Bnd2M3Sl9DSXFGcktST0l0MFNIU2U2OURDWURpb0E3Vk8yX1c5UXhYb1BzUnlxQXVXX2pfZlFza1REVjlScFMzYndJUHYxcDJnWGNrdzgxaWpMWDUtM1VaaGZQNFdFdmkyc2NFU3ZkTGZsTV93?oc=5",
+     "published": "2026-07-29T07:47:34Z",
+     "source": "Business Standard",
+     "sectors": [],
+     "relevance_score": 79.2,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.9,
+     "age_days": 3
+    },
+    {
+     "title": "Welspun Corp Completes 51% Stake Acquisition",
+     "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQMnNsekY3S0l6Y2ZjWktyOW5yUkRjZWJSMnl6RUkxTGpsckctZnFjeUpPRWp3NHRyeFFfbFhWeTFlTHAxa3ZQbmtrTEtqSFk0a2MtNUdyS1M2OGpxRk96RlVBWmtZWHpUaE9TR2U4WjE0NGdfMjBMS0tKTnBtMkNaNC1IZDJwUjQ?oc=5",
+     "published": "2026-07-31T14:42:30Z",
+     "source": "InvestyWise",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    }
+   ],
+   "report_url": "/company/ab20bbf4-8692-5426-a5ef-8e0746e0bfed.html",
+   "price_at_build": 1653.199951171875,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "726eeb24-5e28-5151-bcdd-e140b1001c42",
+   "rank": 11,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "VIJAYA",
+   "legacy_ticker": "VIJAYA.NS",
+   "exchange": "NSE",
+   "name": "Vijaya Diagnostic Centre Ltd.",
+   "sector": "Healthcare",
+   "industry": "Healthcare",
+   "multibagger_score": 70.5,
+   "investment_score": 60.5,
+   "confidence": 0.983,
+   "risk_score": 24,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 20,
+   "red_flag_count": 2,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "strong_up",
+   "group_rank": 3,
+   "main_positive_signal": "Profit growth shows demand converts to economics",
+   "main_risk": "code='VALUATION_HOT' severity=2 detail='Market pricing 50% growth \u2014 little room for error'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 72.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 91.8,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 71.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 17.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 78.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 70.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 81.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [],
+   "report_url": "/company/726eeb24-5e28-5151-bcdd-e140b1001c42.html",
+   "price_at_build": 1346.9000244140625,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "915935fa-a4f2-50d1-b7c6-4fd92eda9a52",
+   "rank": 12,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "CAMS",
+   "legacy_ticker": "CAMS.NS",
+   "exchange": "NSE",
+   "name": "Computer Age Management Services Ltd.",
+   "sector": "Technology",
+   "industry": "Financial Services",
+   "multibagger_score": 69.4,
+   "investment_score": 64.9,
+   "confidence": 0.983,
+   "risk_score": 24,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 19,
+   "red_flag_count": 2,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "up",
+   "group_rank": 19,
+   "main_positive_signal": "High return on capital employed is the engine of compounding",
+   "main_risk": "code='VALUATION_HOT' severity=2 detail='Market pricing 30% growth \u2014 little room for error'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 91.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 90.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 21.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 64.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 65.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 29.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [],
+   "report_url": "/company/915935fa-a4f2-50d1-b7c6-4fd92eda9a52.html",
+   "price_at_build": 796.9000244140625,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "a249db07-a98d-5276-a9d9-87d64b9ba831",
+   "rank": 13,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "HINDCOPPER",
+   "legacy_ticker": "HINDCOPPER.NS",
+   "exchange": "NSE",
+   "name": "Hindustan Copper Ltd.",
+   "sector": "Basic Materials",
+   "industry": "Metals & Mining",
+   "multibagger_score": 69.4,
+   "investment_score": 68.4,
+   "confidence": 0.983,
+   "risk_score": 24,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 18,
+   "red_flag_count": 3,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "up",
+   "group_rank": 0,
+   "main_positive_signal": "Profit growth shows demand converts to economics",
+   "main_risk": "code='VALUATION_HOT' severity=2 detail='Market pricing 31% growth \u2014 little room for error'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 80.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 91.8,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 93.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 52.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 40.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 50.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 70.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 0.0,
+     "confidence": 0.0,
+     "evidence_count": 0
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Hindustan Zinc, Nalco, Vedanta, SAIL, Hindustan Copper, To Hindalco: Why Are Metal Stocks Falling Today?",
+     "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPc2lsNmdjV0FidjRkN3U4bzVhaTlBUzAzM3BuTl95aURvckZwYnJSS0liaXBIQ1JQMXRfQ2ZUbHFBcktiSzdwajZFOG5vZXMtUXhVdFlFekpLcFNyaWYteUpJaVNjS1Bxb19ycjJEX25vT1ViNjdtT2lXaWYteEhmUTRyZ1QyTHVsQWhsaWFCMS1zT2NiNjY2WDE1b1JwSmthT1gwLUNvV2pyQmtjaExRZFpNaHFNWUNWeTYxTUtJUVlUYlNvZkxpbjl5MmNlYXpoNUU4WGN3?oc=5",
+     "published": "2026-07-30T08:44:02Z",
+     "source": "goodreturns.in",
+     "sectors": [],
+     "relevance_score": 84.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "Finnish Proverse to digitalise Indian copper mines in landmark project with Hindustan Copper",
+     "link": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxOR2ZuRWlQRk9yakR2VmY3S2VFMjY2TEtCckdPUzl4ZGNORm9JTVplQTZKR1VjSTk5X3hteFdxS2FXM1NDWnN4c2twUTFSVlhNQTFxSVVRMmZSNUZyU0FRNDFoM1pneUpRWWl5NDRSbm9MdEYwSjZMYkpZcXoyUm03N3hiZlRINGFmMWprSko5VHBabFBVQk03ZUsxYnpNekhHNzVFSjVyQ1dTSmhkOWNkQ2kyaFdpZmhrdGR5YXg3akxRR3RvVlVOUTZvV0hDRkI0aTdWRVZUOHBfMnpLTUVGbmJnZWhDcE5GX1Aza01hc1I0cXc?oc=5",
+     "published": "2026-07-28T10:50:34Z",
+     "source": "STT Info",
+     "sectors": [],
+     "relevance_score": 84.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 4
+    }
+   ],
+   "report_url": "/company/a249db07-a98d-5276-a9d9-87d64b9ba831.html",
+   "price_at_build": 493.29998779296875,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "4bade4e0-f7f8-5bc4-9c40-95b0d4de860c",
+   "rank": 14,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "CEMPRO",
+   "legacy_ticker": "CEMPRO.NS",
+   "exchange": "NSE",
+   "name": "Cemindia Projects Ltd.",
+   "sector": "Industrials",
+   "industry": "Construction",
+   "multibagger_score": 69.2,
+   "investment_score": 65.5,
+   "confidence": 0.983,
+   "risk_score": 24,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 18,
+   "red_flag_count": 2,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "strong_up",
+   "group_rank": 31,
+   "main_positive_signal": "Top-line growth is the rawest demand signal",
+   "main_risk": "code='VALUATION_HOT' severity=2 detail='Market pricing 35% growth \u2014 little room for error'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 68.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 92.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 74.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 45.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 50.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 70.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 25.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Is There Now An Opportunity In Cemindia Projects Limited (NSE:CEMPRO)?",
+     "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxOT0xEaldydk1vNWVNdUQwbjlUMlVxVkVjS1laRHlOaklIaWV6YTFCNUNwZlk1Q2dUeTNwcno4TWtkYVl0WnY2cm5aLVBvbHR1a243QVUybzR1dnphM1dxS2Y3WUhWWDFETlFaSUx1N0dpR3lsWW1PNDR1ZHgwVHFhb3p1WHFKbjdOem9xbHVWV1lHbWo4RFdxbVB1c3RNZ1RLbzIzUW40anhGOXpUTVVLY1pGZTNYbDFKSFRpM0Y1d0ZhVzZXX3JOWlpERG9yMUtFOURRZDUxWWdGQVNPOHc4MEU0anlkZ9IB5gFBVV95cUxOT0xEaldydk1vNWVNdUQwbjlUMlVxVkVjS1laRHlOaklIaWV6YTFCNUNwZlk1Q2dUeTNwcno4TWtkYVl0WnY2cm5aLVBvbHR1a243QVUybzR1dnphM1dxS2Y3WUhWWDFETlFaSUx1N0dpR3lsWW1PNDR1ZHgwVHFhb3p1WHFKbjdOem9xbHVWV1lHbWo4RFdxbVB1c3RNZ1RLbzIzUW40anhGOXpUTVVLY1pGZTNYbDFKSFRpM0Y1d0ZhVzZXX3JOWlpERG9yMUtFOURRZDUxWWdGQVNPOHc4MEU0anlkZw?oc=5",
+     "published": "2026-07-31T00:14:01Z",
+     "source": "simplywall.st",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Cemindia Projects Q1 Results: Analyst call audio uploaded for review",
+     "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPSHV2ZDJwRU9vaEJET0luQkVrMFZfVHdzb2lMZHozd1FzUzRwWlpsRUR2TVg0VFNmX1hxRUpVY01vbnRtcEFZeTdlU3V3Nmx3cHRLRVBsX0hNQ3BvZWUxNF85dm1wSmpMNFVBUnpVQjczU3RMajlJSVRqYVM1M21fTVBDNnBtTGRyODA4N1NnYUs4Z1hfbno1SHQxRE03d0M2WjFEQ3AtZi1SRmY4TzVHNWZBRFdXR3F2eVVIcTBkelRNdw?oc=5",
+     "published": "2026-07-29T12:38:10Z",
+     "source": "scanx.trade",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "CemIndia Projects: \u0928\u092b\u094d\u092f\u093e\u0924 \u0918\u0938\u0930\u0923, \u092a\u0923 Dynacons \u0906\u0923\u093f RailTel \u091a\u094d\u092f\u093e \u0939\u093e\u0924\u0940 \u092e\u094b\u0920\u0947 \u0911\u0930\u094d\u0921\u0930\u094d\u0938!",
+     "link": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxNS2dQTGR5cC1nOFAxd0NlMUttYmhrSnpNankxNnJ4SkNqWXNLRWJmY00zSlRhdVBzNkoxZFhFYUdiQUJ2MC01UVNoNG8tczladERHYlZhWEdwR2JzNUZKUjJmUlFIVHE2Z096V1B2NXdPR2U5aGtCblJWeHZGdDlWMmQ5ZkVQWmZNXzA3OWp0RnV1d1pNaGRkRXdqSzJDTmU1SW5fU0wyU3R2YTJOOC1EYm52Tm9semozTzZkaTY1c1lHN3dITEY4TUxtZVNsY3BMLWpRbUtMMlNoZjRrdlF6ZFp2bVV3bndqLU9lNXJzOThsLTlva2FB?oc=5",
+     "published": "2026-07-29T03:07:23Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "Cemindia Projects Q1 FY27 Revenue \u20b92,721 Cr; Orderbook Hits \u20b931,307 Cr",
+     "link": "https://news.google.com/rss/articles/CBMimAJBVV95cUxPYzJaR1ZzekY3TUtVNkVmZlBxQnU0ZnA4MEhLeGJkY1dGd2ZjMEZ4OG5PVnNDeG9jZ2pVcGdzTDJxWVdnbmxOa1lBNmZ3UEFwUUFZd3dhOE9mMEpEYkNhcXRHeDFXejg4VjFoV0VFbjNYeEZRSjdTTE1SOGhNMGwtVW1OOXhQOXoxWFJLb2FyLTBRX01mXzhUbFhlQ2hYRGN0SENjN01fUlYwUXFSNUpyRGNiRHhscXd5LWcyaXo3aFd1TGNCdEVfVmFNQUxVbHZjUVptckpFcUFzYU9Ea3ozOUowVlpOaHFlUXRxSVM4YWxFT2ZtdjNYRlh2S1BiU2JJQkdJRFVjallqenhvVXVreW52TzU1djN0?oc=5",
+     "published": "2026-07-28T09:38:23Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 4
+    },
+    {
+     "title": "Cemindia Projects reports 5.6% revenue rise to \u20b92,721 cr in Q1FY27",
+     "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPWnVORnJ0dmVOb0dVYVJGRnl2V0xnSVdFdlBwVmtGWEx3WElCRHZQNk5DOUIxVFc0djRTTjBnUlZZX1VrS2pVUG9hVUxkMjVMS3VWbnk1dUl0RFRCSng4dWc1RG9yVE12Mk1lLUYwN2E4ZVdMb3BtZWdmUTJXZWdySi1sQjQ1UWdUWDJiWWVZTDI3V2NCQ3NDTzc0ekllY0FDRHhoLXNFTkpHS2hQbFNYbkItRS1BWHBKQU84akNrX04zZGRORk5XV0NWOXNGRFlKZy1V?oc=5",
+     "published": "2026-07-28T09:36:02Z",
+     "source": "scanx.trade",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 4
+    }
+   ],
+   "report_url": "/company/4bade4e0-f7f8-5bc4-9c40-95b0d4de860c.html",
+   "price_at_build": 1338.0,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "ac9d152a-600c-5f2f-90bc-93456187cdf6",
+   "rank": 15,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "IEX",
+   "legacy_ticker": "IEX.NS",
+   "exchange": "NSE",
+   "name": "Indian Energy Exchange Ltd.",
+   "sector": "Financial Services",
+   "industry": "Financial Services",
+   "multibagger_score": 67.7,
+   "investment_score": 71.6,
+   "confidence": 0.977,
+   "risk_score": 0,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 15,
+   "red_flag_count": 2,
+   "coverage_quality": 0.977,
+   "has_missing_data": true,
+   "technical_trend": "sideways",
+   "group_rank": 27,
+   "main_positive_signal": "High return on capital employed is the engine of compounding",
+   "main_risk": "code='MULTIPLE_AT_LOW' severity=1 detail='Trades at the 3% percentile of its own multiple history (median 39.3x) \u2014 cheap relative to its own past, not just to peers'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 85.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 75.0,
+     "confidence": 0.85,
+     "evidence_count": 3
+    },
+    {
+     "name": "Financial Strength",
+     "score": 93.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 41.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 59.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 40.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 26.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Indian Energy Exchange Ltd. Revenue Breakdown \u2013 BSE:IEX",
+     "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1IU1RxS1JnR2pvazNFWjV3RDdYd3IwR2VmblJ5ejRnSVJubEc3VVNNWWtRWEFjd21tQVV0QllWSTNBZlRKZW9xT05DQTN5eWJScXVrdWxBQ1A3ajRLcjVleVctVEZDYTJfMURzdkdfZXpRZw?oc=5",
+     "published": "2026-07-25T16:50:02Z",
+     "source": "TradingView",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 7
+    },
+    {
+     "title": "Suzlon Energy, Waaree Renewables, Satvik To IEX | 5 Mid, Small-Cap Stocks Below Industry Average P/E",
+     "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNYy0zdVR1UWptdVc5Q2RtNGdMalkwUDREU2FoYzVHZjhUS0FDOGQ1U3pnMUREbDNpbEdDenZ1UXhTV3lYZG1pZU1LQ2VwekNnNjlfS2VhOGg3Um5NX1lPdzdDZXJjVWpZTE01TkZQTEdXMFFYVVZKNGZXOW1SZ3Bnc2tSa1RvX0JaN2dhemVseThGNXAyR2NqSkxaTEVLMlNTQnc2UkFxRDV0aWE5b05qU2U0SVI5dDJKbWJBRXJwRmg2NnE4WF9ZeU83RzFJTHlDS3dsbi1B?oc=5",
+     "published": "2026-07-31T08:04:42Z",
+     "source": "goodreturns.in",
+     "sectors": [],
+     "relevance_score": 90.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "distinctive company-name token appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Indian Green Energy Stocks See Mixed Trading As IEX Gains And Renewable Majors Decline (28 July 2026)",
+     "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOX2RwQjNhNk5WbWsxc0RQTkNQTG03QW5PYlJNQk4xS1NCYWFnclM3YTdqQ2hyWkRSdzh0VDEzSTFzZ3poMFRlemdNakRWUkg0OFBCanBxeGJsTWp0cjRvdFZQT21xRGF1OHZQLXRvSnppWWhnUVZwUkVSdTZWR1Z2NTJxRThNOUxteWplYVBKdXhVVkVSSmNDQ2VPQk43ZERLQ3F4bUx3WE94bV9na182cVdJZHFTRUptTVlBUTBQbkc5OGNhYkNFRGJVNHZ2alB4Snc?oc=5",
+     "published": "2026-07-28T12:46:53Z",
+     "source": "SolarQuarter",
+     "sectors": [],
+     "relevance_score": 90.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "distinctive company-name token appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 4
+    }
+   ],
+   "report_url": "/company/ac9d152a-600c-5f2f-90bc-93456187cdf6.html",
+   "price_at_build": 131.61000061035156,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "cba5e174-9a5c-596c-b117-fb7820eb1c78",
+   "rank": 16,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "KFINTECH",
+   "legacy_ticker": "KFINTECH.NS",
+   "exchange": "NSE",
+   "name": "Kfin Technologies Ltd.",
+   "sector": "Technology",
+   "industry": "Financial Services",
+   "multibagger_score": 67.7,
+   "investment_score": 62.7,
+   "confidence": 0.983,
+   "risk_score": 24,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 17,
+   "red_flag_count": 2,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "down",
+   "group_rank": 26,
+   "main_positive_signal": "Low leverage survives downturns and funds opportunity",
+   "main_risk": "code='VALUATION_HOT' severity=2 detail='Market pricing 37% growth \u2014 little room for error'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 86.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 78.1,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 92.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 17.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 57.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 65.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 31.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "KFINTECH Share Price Today - KFin Technologies on NSE/BSE",
+     "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5ubmFpdVphSXZUUWhZU1J0M1c2SUJ5dlZ6Wm1leWRCbVE2ZDJ4QktYWXlYR3o4bENsTzJjcnI4MVFWX0tOMFAtY0FtU3c5NFVnMlZCa2NsU240bFR1bEE?oc=5",
+     "published": "2026-07-29T01:52:11Z",
+     "source": "scanx.trade",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "KFin Technologies Limited (NSE:KFINTECH) Just Released Its First-Quarter Results And Analysts Are Updating Their Estimates",
+     "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxOVjVKb3l4YnJzT2tGZVFhSGFocGk2NFkwVHNXaWlKcFFjcFRoSHU3RHhiUTZfWnVtTVRmNl9jeVdUemx6QmU0Wmt3emdscnlLTGRPR2pHU1cyVWZGRDdsd3RPRFZtaWI1ZHZrRDdTd2dMTzQ5NWUwdW14Qld5MmFSbHJlanZCLTBrd1NQbXRHajcxMUptS0YzTkhMdUpTbkFPWkQ0bUdKTUZFVlh3aDBlYVYtUThlMzBzM01ITE14V0xKMDNtUWdHRHcyc3FmNF96b1l5ZHRudWNCa3RGZXBmUVdZNEZHMXY5NjhHRTJsMNIB9AFBVV95cUxOVWdyd2dUT1VRQjlDY0paUkdrMlJ2amtNRzdPbmdGZEN5ZjZocG5Zd0Z6UC1mOWRmQXpfaGZ0cGs5ZWpTRmhUb2tLT3J5djBlX3gzWGwxYzVoR3JDS2t0RTRFclh4YmxkeG5IMnIyMUdfaHptazg0VzlKbW5PZWlsZWppb0g0czRmQktudDFYdmJkeGxRc0w1a3NLMDZnbEdwRk44WDZ3ODJaNWItVWxlZTQ5TEdrX183a0d0dGNJaU1Ra2hYSk1XVTBYS2hQbjhGcS1hRGRTdC14UkdVNnhJYVZCVnYyam53SjFRVjh3UmNhYm1L?oc=5",
+     "published": "2026-07-29T01:04:54Z",
+     "source": "simplywall.st",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "KFin Technologies expects 40% margin by FY27-end despite Ascent integration",
+     "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNR3FRN2NLSTJUUUxiWDQ1RWhQU2F6MXp3anNnOGFPRmdqSk9jblNZTTlLTVdTNktyUHRRaHVJTmk1OTRMbExDNlNTWlZOVTFheUlNS0YtRm9qUUIwRjZNZUI0VlRkZFZ3Tk5XWi13dUxwdVRDWEJ1bXYxZVRKeFpFYmhTM2J5alR1TEJKLXZWMG9yX0RhMjVwNEtuNXY3Yk13ZEhoR0Q0cEVRUk85Vk9pbThjVG02bGxiaDlkcGIyZG8xWmEwdGtpbURyX09Bdlc4VHktckFkendUZ0dnRzBRakVHdWhQcUQ1V1hGcjBYb9IB9AFBVV95cUxQcHRkUEZQckFTN3V3dEF2X29SQzl0dHM1OUV5bnRPanNrUUVtRUpGNlVlY0toX0dFdzNZcDdTa1lrejdCR1VPdmhMTjdCelY4ajFhMWw4WENQallFbzZVSWp3RThWQkpRdkNxenlYOEtZUmFVNUdhYVBSRmgwRnZnZDhQZHdpUHYzSTM3eXgzYXRkbFg0VHlKN08xMlhNTmxTN3FXY3ZUZmJOVDF2RncyWWoyWHh0RXlCSGxiVktHR1JiTm9sMVF4c3FrcEgyaTFnMlB5Z0gwQ2JpZUE3a3VKYWF4dnlHQmpzZ0pBX1IyOENYQWMt?oc=5",
+     "published": "2026-07-29T10:45:43Z",
+     "source": "CNBC TV18",
+     "sectors": [],
+     "relevance_score": 79.2,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.9,
+     "age_days": 3
+    },
+    {
+     "title": "KFin Technologies Senior Executive Retires",
+     "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNOFZUVTNNVUpZd25xbkVYbUVFVmY0bEx2T2FtNFNXYUxlbkxSYVIwTnlWYXZwV3BiRTlFYWVtT3A0eGRJdnFpcmk4X2M5RU1WT0YwQ1l0YTQtcjRyTEJ5N3FtUzBHRUNZUEM5eXdGWjZkdFRONS02ZDNMRUFqT3NibVpLT0E3ZUJJZ1gwdnBzZ1hhd2MxT3FTQw?oc=5",
+     "published": "2026-07-31T15:12:32Z",
+     "source": "InvestyWise",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "KFin Technologies Revenue Up 30% YoY in Q1 FY27",
+     "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPTFltWFFRZFNBbmtzRlQ0VFlYWTNTUjRoNnNLV0UxMnlwSHNvZFJaR1p3RTdGd0Q4alBNQzlhVWZmNlBZYjRla2t3b2pDMlNod0JHVnAwSlNodVZVYlFmUGszOFBqendtd3dDX2U5a201UlRfN1ktZXlnTjBGbTFxZmJMQlVwMjBoWThBeHBTZUx3LUVfV2x0SEZtYUJ4eGUyamF3cE53eWFsdGd1T0t6djZWMnpGQWgzd1hYR2NKcDhoT2RNeXo4NWhNVnktMElEUkE?oc=5",
+     "published": "2026-07-28T16:18:24Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 4
+    }
+   ],
+   "report_url": "/company/cba5e174-9a5c-596c-b117-fb7820eb1c78.html",
+   "price_at_build": 949.0499877929688,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "6a479fdf-58da-5763-8f93-5d2c6d0fa5a4",
+   "rank": 17,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "ECLERX",
+   "legacy_ticker": "ECLERX.NS",
+   "exchange": "NSE",
+   "name": "eClerx Services Ltd.",
+   "sector": "Technology",
+   "industry": "Services",
+   "multibagger_score": 67.5,
+   "investment_score": 72.9,
+   "confidence": 0.983,
+   "risk_score": 0,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 18,
+   "red_flag_count": 1,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "sideways",
+   "group_rank": 19,
+   "main_positive_signal": "Coverage headroom protects equity from creditors",
+   "main_risk": "code='FORECAST_INCOHERENT' severity=2 detail=\"Bull case assumes 16% growth but the market already prices 17% \u2014 the model's most optimistic case is below consensus, so treat the forecast as understated\"",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 86.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 65.7,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 91.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 51.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 66.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 40.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 26.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "eClerx Services Q1 Results: Board meeting set for Aug 5 to approve financials",
+     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQUnd0Y3I0VEd0bk45ZG9yZ1JDMGRSRTNGb0tVNmVFRmRYQzZ0ZlhUTG1mTjQzZDhtSUtqTUIzWWwtdWd3eVBBdG1UajRVbUliTjljSDhobGxqN1E1NGhpR0pKQ2xEcVZjVDd4TEs1SlRaLVR4RjZHTGpsNWxHQTRCUzkxYUpiV1Z1Ymo4amw5NTRYTkl4ZzNGTjJxWGp4bVh2eFIyN2laLXhtUnZ0VDRNZndyVy1iZTZ6cjlNb2NiTm8yVDZiNlJIWFd0aVJuZw?oc=5",
+     "published": "2026-07-29T14:53:32Z",
+     "source": "scanx.trade",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "eClerx Services Ltd is Rated Hold by MarketsMOJO",
+     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNOVgzbkVZR3pRS202amd2SDFkNmFvRlJackxjQjIyVFR4MXNfZkZlaWZybjRYZ2Z6UmZ3R3RRQkYtQ1c0RDVHMXduWlRkQkNLd2ZUQjMyWTFyUnhIbFVPaldVUjdmSHVFNFRyLTV6R2RsRUxZaUpnNVZHdTN2TnZDMnNvY19xVGJISUVWdUVqUGxlWmphYV9KZDM2bTB4dmFkcV9tN2drcEpXUDJpNThV?oc=5",
+     "published": "2026-07-29T05:53:39Z",
+     "source": "MarketsMojo",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "eClerx Services - Negative Breakout: These 6 stocks cross below their 200 DMAs",
+     "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQZmF1ZkFlYUU5bVNjWTJ0bVZtOV8zd2ZfUzdVMzlYb1lTV2U5OGVSMEFqdXJiMDMzMGYtTHVYVUE1QjlHb3UyazRmdlUwY2N5Q0ZFaXlVblFBWEFUSmtxekNhMHpMTGsyY0VTREU0Q3BsY1ZjSFFUY0NFM0swNlpieExuWDhmZERuN1c4TlgyekJ0b09DWjM5WHFvY2ludUV3OVhuYXBNMlVocU1GOEN0Z3hld2hiUlFXMUlUbEZ5UF9oZ2c5QnFfU1ViX0hGelJmVHpyeVdvME1EYVNfVnJXVg?oc=5",
+     "published": "2026-07-27T02:31:36Z",
+     "source": "economictimes.com",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 5
+    },
+    {
+     "title": "Compare with Eclerx Services",
+     "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQRlVCZlpQeXJwRjJFTUdlSzk4WjhGbDd3RXlid1h1SDFJeUVKMG5hVjJlRUJQZEtuOUtpNzlianJUMVpSN3hEYmxhbk9vMzU3b21hUnlhdWFkamNJbWdXeTIwOGxvZ1NUQjZlMkNqYkdPV2dNMjZ1QlRfclJwWWgwY0M3N1V2MW9UOWJQR3NZRkNzdUNaekhydVNpeXoyc3Vl?oc=5",
+     "published": "2026-07-26T01:52:02Z",
+     "source": "Equitymaster",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 6
+    }
+   ],
+   "report_url": "/company/6a479fdf-58da-5763-8f93-5d2c6d0fa5a4.html",
+   "price_at_build": 1871.699951171875,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "eb2293f5-edc9-55ad-abf0-f7fafad1d396",
+   "rank": 18,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "NETWEB",
+   "legacy_ticker": "NETWEB.NS",
+   "exchange": "NSE",
+   "name": "Netweb Technologies India Ltd.",
+   "sector": "Technology",
+   "industry": "Information Technology",
+   "multibagger_score": 67.3,
+   "investment_score": 59.1,
+   "confidence": 0.983,
+   "risk_score": 48,
+   "investability": "Watchlist \u2014 needs a catalyst or better price",
+   "positive_signal_count": 16,
+   "red_flag_count": 4,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "strong_up",
+   "group_rank": 26,
+   "main_positive_signal": "Top-line growth is the rawest demand signal",
+   "main_risk": "code='EARNINGS_QUALITY' severity=2 detail='Cash conversion 0.45 \u2014 weak profit-to-cash translation'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 65.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 86.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 81.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 38.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 74.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 50.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 85.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 15.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "AI trade optimism rebounds: Netweb, E2E Networks, Hitachi Energy India, other AI-related stocks rise up to...",
+     "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxPZ01fVnYtYTVFMzZMNlQtY2RuRUZJTlloRUotUHZ1X3ViVEJLdUc1OU1ia3l4c2F6YWdVMU5tR0doRnNMNWVTS01yRkpoc21fQTgzWGpqN20tN0VZekZJNURQaXVOQnA3R2FJNXpLWEJlV2VUV3VBcGNVNkdMMm9GR3hGNG1wT2ZmNnMwQ29HSHJzUVRGVVZZX0plQ21pTDIwUzFvSnl2RUVjbVFUTVFYcEhmUElET2VtUWdoYkNCVG8xRHNZQ3VtTGdXRHIxaWEzTU1rU1lYX2U4MUlWUGFwSmJpVk5JLUpXNlUyMEpyR1gwdFQ3UXZqVEZmaXpIQdIBgwJBVV95cUxQbHRFWmVLQ2REYUhXbEhNN3ZBZkNqYThPLWpCOWNPQ2F2UVBxZlAydU54MHdYZHdmSmo5clpYMlc4MmpER3JrcVJhejVsbnhkOWpiMFFPOXNVM1d4cEdVUktDbFZ0UTUydDE4c2VCeDJSTTNSNXFvZXozcV8xSzVmcjdHUW1KWU0wN1E0X0V2NXpEX1VCeGxOSlViOFpodkVCamx0bUZoQ0c1MmRTRnh2eHJUNnBEMUk2MU9aY1dScVVxYVhPbXI2R3FPOU00cVJHX0hVMFpWVWx6UjlwLUNnTFNOQWZ3WUVfYnpyb1VrdEJROVBLZXdpdFFleV83YVFuM2lN?oc=5",
+     "published": "2026-07-31T06:22:05Z",
+     "source": "Moneycontrol.com",
+     "sectors": [],
+     "relevance_score": 65.2,
+     "match_confidence": "medium",
+     "match_reasons": [
+      "ticker appears with market context",
+      "India/exchange context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.9,
+     "age_days": 1
+    },
+    {
+     "title": "NETWEB Share Price | Netweb Technologies India Ltd Stock Analysis & Recommendation",
+     "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE4yb1JPemdNSnd1R3hPS2NUeHJRdFVzcXBMUW9vNlpUeXB1MmtaU0hFb3JtdURHZjgwa0VFYXJsR2haTnRkYTdHVjlaQ2FWUnpDMFpRR0ZNbWJyVUFsX1Zlb0tNdTZHaGI5eGEtWWl2WHpKRVJ4TUI4dg?oc=5",
+     "published": "2026-07-30T22:56:31Z",
+     "source": "MarketsMojo",
+     "sectors": [],
+     "relevance_score": 62.4,
+     "match_confidence": "medium",
+     "match_reasons": [
+      "ticker appears with market context",
+      "India/exchange context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "Transcript : Netweb Technologies India Limited, Q1 2027 Earnings Call, Jul 29, 2026",
+     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQR1A0aHc4SDEtLWpxcU9iZHAzYl9OR3Q5YlcwNTRJTllKRHlDcTBJeTlsRElNZ285bjgxcGc1N2Q2YU9GSHVfMmhTQkdNWVY1eTh1bTd5cjFtZkZPYkcyX05IZjI4OFhuYWNjVGQ5WUY3b3RjRUl4TVVVVmRkVzV4MmRyMGtQdUZSSUV0bU9Ha3M1Uktrb0tmTFB3cHRUOVJxcGNnUlpmUnlEYjV2aW5VRHB6RC1qX1ZycWwzR2R3NC1fcWdVZWo0ZnUyaw?oc=5",
+     "published": "2026-07-29T15:45:50Z",
+     "source": "marketscreener.com",
+     "sectors": [],
+     "relevance_score": 62.4,
+     "match_confidence": "medium",
+     "match_reasons": [
+      "ticker appears with market context",
+      "India/exchange context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "Multibagger stock Netweb Technologies surges almost 10% in a lacklustre market; what should investors do?",
+     "link": "https://news.google.com/rss/articles/CBMiggJBVV95cUxOWUpCbVg5bHVTX05NVGZSZ0FXTWVWSC1zTk5PUTJEbUJfUnRQMDFFMzU1Ym42eFVvUnItckk1MnoxQWd5RkJ5QV9mY21mN3g4UkhOdHQ5QkdjVUd2NVFUOXVZdXpBa0Z6U2taQW9Ca09pVnJ4VHVZU0ZxUkJGTDVFOWhlZXZDTEVGSWFqcE5xN3JYaWt3a3p3ZkFlZks0SUhIcGhKLUQwcVRoSmNpNHBUTnVuX0tCRmREUnNLVGtqdHB3YlJrd09EWHpTZjlHdGpvQ1NxdHg4S2t4b2JHTjZreExIRFNBWHhxWERkSW4tQnlpbFQ4YU11QXg4amNoRmxtNHfSAYcCQVVfeXFMUE5vRmJoSG5rNmxOeWdYT2FuWTM5Q2FGTlhSTmlzeFNmUzVPdE92ejh6TjVneU9FVTRsNHhzc0pncEV2WXJ0Rkc0enRLX3d2R3o5Mm5JNno3WUFzb0ZQQXZxLWJuOVFwcnpXRm9JVHZIZXV5emlkaTdNeWlCSkV1cl82Q0JkVDEwUElYdXZMenpJUjNGUXdCSEJfUF9ROS1TRXduQ0ZHVjE0YmM0Y1c2NVZGMFY3MktLcU93OWFkTjh2NThkXzB6UUpHZVVGbFk4aW92TGp2UGhCZ3UxR1lpY1Y3NXpyNjh4Y3EtN0FGXy1pWGNFVFNIOG9uZ2dBSnRySWJQa1c2bVk?oc=5",
+     "published": "2026-07-31T07:12:10Z",
+     "source": "livemint.com",
+     "sectors": [],
+     "relevance_score": 59.2,
+     "match_confidence": "medium",
+     "match_reasons": [
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.9,
+     "age_days": 1
+    },
+    {
+     "title": "Netweb Technologies shares gain nearly 10%, snap two-day losing streak; ICICI Sec sees 28% upside",
+     "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPVDFOZUJOdHF1NndMM2FndndXOGVpUEg2Qk11TzUxdzhhc01pNnNTVzg3U1lJck5VWDBqRE9YR1F0SEFvWE5TOE1TUlZ1ODBobzZLdUQ4czRJckVBaDVvVW9EZ202NkZXQTZaeVgtZUpqWmI3Z01YeG5neWF5MTJfaGNxTE9SdlI2eFVXNko1QS1FVkJxSkFzeFFWUm9RUjRQRnkzN05qYWo5dmR4b3BIeVl3UnVrYjFFYlA0Z0w5UXRaOWMyaV9keFhPNkvSAdIBQVVfeXFMTUlPWkdaNjdBWDYxMTc4U2pVWGpkVjQ4UThNQmlhaFBnVy1aZjRha19Tcl9lUjVKYkRsQ3Y4QmExVHIzbjVvUHhSeHZFXzM3RHp4Q0NCdV91Ylp1eWNYeXlac3ZNSW1sRi1paGJGeDUwN2lYUXdTYnhaOEpJRE82bS1WSmFSSUd3eWFOSEMwWkFFdmVwc2dhRmtpbkRDZG8wa0JwWlllVnFuZHN1V0JpWEtMTGZsaTZVTVhudW9hZDBhN0FuNGxmQ1dCZE5iNGRDeXlB?oc=5",
+     "published": "2026-07-31T05:41:07Z",
+     "source": "CNBC TV18",
+     "sectors": [],
+     "relevance_score": 59.2,
+     "match_confidence": "medium",
+     "match_reasons": [
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.9,
+     "age_days": 1
+    }
+   ],
+   "report_url": "/company/eb2293f5-edc9-55ad-abf0-f7fafad1d396.html",
+   "price_at_build": 4547.10009765625,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "b1c2614f-eb4d-502a-bbaa-d1eab7102c9f",
+   "rank": 19,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "LEMONTREE",
+   "legacy_ticker": "LEMONTREE.NS",
+   "exchange": "NSE",
+   "name": "Lemon Tree Hotels Ltd.",
+   "sector": "Consumer Cyclical",
+   "industry": "Consumer Services",
+   "multibagger_score": 67.1,
+   "investment_score": 51.0,
+   "confidence": 0.983,
+   "risk_score": 36,
+   "investability": "Watchlist \u2014 needs a catalyst or better price",
+   "positive_signal_count": 13,
+   "red_flag_count": 4,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "strong_down",
+   "group_rank": 12,
+   "main_positive_signal": "Profit growth shows demand converts to economics",
+   "main_risk": "code='SOLVENCY_DEBT' severity=2 detail='Debt/equity 1.44 \u2014 elevated leverage'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 69.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 73.45,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 36.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 66.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 15.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 85.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 54.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Lemon Tree Hotels Subsidiary Fleur Hotels Secures DDA LOA Extension To August 2027",
+     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNdzFlUlJ1QmFMME9vQy1hUHNCSTd5cFFkWXItZWlFZzhaUWI4V2lEMWI2ZUg1SGZmazdrRkF0d1d6S0JjWFdaM3J4c0o5WnJ2VWk5bl9qX2UtZWlJdFZCLVhuTWNFVzhYUHhhTnNROGk0aVRsbkpmZGM4LTNhOFU0UUxjNWNjSGN1V0drRDhDUUhZWWxKYVZ2eElUTGM1Ni04QXhnckdLZWVoNmpVTkhGQVlDTlRtVWdwU1dxM2FR?oc=5",
+     "published": "2026-07-31T15:24:45Z",
+     "source": "Sahi",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Lemon Tree Hotels opens Keys Prima in Mussoorie",
+     "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOTkd5eWtPOEM2UHBSM3pGTkVuWGp6dFI1MGRMSXdtUXdUOFV0RmhRT0lDQVNTckMwU0lSNzBRblN4YU5fQmFnM0Y1MTBsc3k0QkVCUlhYeE5ONmZKVzNLZnl6RHRhR1FvRXpjdjhsM0VvdHpCSnNtbHVIQUZTWW00RlBrN0Zjbjl4VGNuVmM4TUVJYmM?oc=5",
+     "published": "2026-07-31T09:04:41Z",
+     "source": "BW Hotelier",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Lemon Tree Hotels moves up on opening Keys Prima by Lemon Tree Hotels in Mussoorie",
+     "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPLUpfVlFpLS1GcW9jN3FfUWdKYmpDTUJ3YWdfZHgyU1A3eGFTZ3pCM0UwRkFKZmlUUUFXbFo2aEhxcVNQVW1rSF9yUXRYcHFuREJHMkVJclItUW1ad2prdmdjcHBwWVBDWXFRT3ZSRTdqVHdlSnVqbjkyQWpwN0RWUzZkN3haZVFXQmw2TGhoMFpOREgtR1VfRndOQmR0VEFGbmZyQjNqQWVPUVQ2?oc=5",
+     "published": "2026-07-31T08:52:59Z",
+     "source": "Udaipur Kiran",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Lemon Tree Hotels opens its second property in Mussoorie taking its operational portfolio in Uttarakhand to ..",
+     "link": "https://news.google.com/rss/articles/CBMijgJBVV95cUxNNkdtUGZDQnBsdVZjRy03bE1UbmZObnBEaVhWMm1MTG1weVBNM1lIc3MyQ3JobnAxWUEwcWdMZHBIT2FYdmtPYXdybmh2SzBxVk4tUVV5SFdFVEdFdERHSk5LNHR2MXJLNnRxbm9qUmRyRlNvSU1PME9scF9NUnNpNWl2UkhmN0VmdXUwcnFKejBVZWE5UHN0U0VXNzU5cGxZa1dhMTBBMkI5aG5nTnRsVG9xYm9nMWtEZmR3T1V5Tm9fa3RNSnJ5UnVXQnZwTVdHX0hDR1Uyb3J1RlJOQ01qYlVHMUs4SGFzSnNnNDdWWDAySk41Yk1ENGRoanNiRFUzNzNKelNWSGVrdl9TckHSAZMCQVVfeXFMTl9sZEZfWm5ZZUFzSFBjbzZHQTI0ZVZ5WlQ5MjBUWHNVZndTc29Pc25Oc3ZwMkVDVE9ONzJKdGMxR1g1eUZsUk1NMm5hSm4zS2VVcWtwMWdkaW1TcXZjdWhSc0NITUpISk5KYWhGQVg1bmtId3hSVFZZYVh4VUM1MFRXZnpyX20zMkdmWFpsZEdqRy1fbTNyMFdWUENIUW1Qem51UkdkTzQ1S2ZsY0Z5bDcwN2NNdGFWVHBraERtXzNDanl1YzBCNTZ2Q0J1ajBVdVZuQ0ZxOEp5R2lXNjhjcXNybWFzNE0tLUpyRW9TRlc2T3BBUGM1eVd1QkZJbFNDTnZRUTgwT1dLT2NBRUwwaXRqc1E?oc=5",
+     "published": "2026-07-31T06:30:00Z",
+     "source": "ET Hospitality",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "Lemon Tree Hotels signs properties in Nepal and Andhra Pradesh",
+     "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOem1QQzdmQ2VqVEZsaGdXY0pvRWVkNU1IM252dlBiRlRZUEdSU1JjWUxueFJGWG9WQXEybmZoRG5EYVcyaVdOVDFnTkxqQUhKSTA2a25tU00yeThIcE5RWDBCeWo1XzBDYWhkSG5EeFlCU2pucVNpLS16Y1VOdmcySWdGOTNjWlM3VjlrVElFSnpyRGZESkx1OTBKc1Y5Q2N0eEJMX1hXUQ?oc=5",
+     "published": "2026-07-31T03:41:07Z",
+     "source": "BW Hotelier",
+     "sectors": [],
+     "relevance_score": 76.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    }
+   ],
+   "report_url": "/company/b1c2614f-eb4d-502a-bbaa-d1eab7102c9f.html",
+   "price_at_build": 109.5,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "f8992bf9-91f8-5df1-915a-9457ee6bd882",
+   "rank": 20,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "NIVABUPA",
+   "legacy_ticker": "NIVABUPA.NS",
+   "exchange": "NSE",
+   "name": "Niva Bupa Health Insurance Company Ltd.",
+   "sector": "Financial Services",
+   "industry": "Financial Services",
+   "multibagger_score": 67.0,
+   "investment_score": 62.4,
+   "confidence": 0.834,
+   "risk_score": 12,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 16,
+   "red_flag_count": 1,
+   "coverage_quality": 0.834,
+   "has_missing_data": true,
+   "technical_trend": "up",
+   "group_rank": 14,
+   "main_positive_signal": "Price below conservatively-estimated intrinsic value",
+   "main_risk": "code='COVERAGE' severity=1 detail='Interest coverage 3.3x \u2014 limited headroom'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 31.42857142857143,
+     "confidence": 0.7,
+     "evidence_count": 3
+    },
+    {
+     "name": "Growth",
+     "score": 86.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 68.07692307692308,
+     "confidence": 0.65,
+     "evidence_count": 3
+    },
+    {
+     "name": "Valuation",
+     "score": 86.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 63.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 0.0,
+     "confidence": 0.0,
+     "evidence_count": 0
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 33.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Niva Bupa Health Insurance Company Limited Revenue Breakdown \u2013 NSE:NIVABUPA",
+     "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBrbHFhM0hXQlFRWHlxMUlmSHRiTWQzM1d6MWhNb2lkYV9GYi05RWJBX3poYzVHOW50YWdZekhLZEN2SlRGT3BMcWdNYnRaM1gzbHFIY01aa080bk9JcWtxanBybTFSMVFFNk1JN3NUNDRXZklyenp6ZA?oc=5",
+     "published": "2026-07-25T14:06:34Z",
+     "source": "TradingView",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "multiple company-name tokens appear in title",
+      "ticker appears with market context",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 7
+    }
+   ],
+   "report_url": "/company/f8992bf9-91f8-5df1-915a-9457ee6bd882.html",
+   "price_at_build": 86.7300033569336,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "443ed2b9-dbdc-57b9-8186-66857bc42871",
+   "rank": 21,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "CAPLIPOINT",
+   "legacy_ticker": "CAPLIPOINT.NS",
+   "exchange": "NSE",
+   "name": "Caplin Point Laboratories Ltd.",
+   "sector": "Healthcare",
+   "industry": "Healthcare",
+   "multibagger_score": 66.9,
+   "investment_score": 61.1,
+   "confidence": 0.983,
+   "risk_score": 24,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 19,
+   "red_flag_count": 2,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "strong_up",
+   "group_rank": 10,
+   "main_positive_signal": "Low leverage survives downturns and funds opportunity",
+   "main_risk": "code='VALUATION_HOT' severity=2 detail='Market pricing 39% growth \u2014 little room for error'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 66.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 94.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 22.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 78.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 85.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 72.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [],
+   "report_url": "/company/443ed2b9-dbdc-57b9-8186-66857bc42871.html",
+   "price_at_build": 2508.89990234375,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "b3bbc1f0-a9e4-56cf-afc7-70e8ea75ffed",
+   "rank": 22,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "IGIL",
+   "legacy_ticker": "IGIL.NS",
+   "exchange": "NSE",
+   "name": "International Gemological Institute Ltd.",
+   "sector": "Basic Materials",
+   "industry": "Services",
+   "multibagger_score": 66.8,
+   "investment_score": 69.4,
+   "confidence": 0.891,
+   "risk_score": 0,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 14,
+   "red_flag_count": 0,
+   "coverage_quality": 0.891,
+   "has_missing_data": true,
+   "technical_trend": "sideways",
+   "group_rank": 0,
+   "main_positive_signal": "Top-line growth is the rawest demand signal",
+   "main_risk": null,
+   "components": [
+    {
+     "name": "Quality",
+     "score": 76.75,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 79.05,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 89.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 47.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 52.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 40.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 0.0,
+     "confidence": 0.0,
+     "evidence_count": 0
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "IGIL Share Price Today - International Gemological Institute on NSE/BSE",
+     "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTFB4TTJsTG9wZjZnYVlYQ19pUUU0dXR6a1EzVWh5R1FaZkZ0QUpMVUxQamZxcE5SY0loazgzdEJGdkNraEg2eFdNZUxWTmRvYmY0OEJncWNpWUJLdHZmMEQyRC1MSU12enVTUDRGY0VXZXNQUnZRbnQ0?oc=5",
+     "published": "2026-07-30T03:38:36Z",
+     "source": "scanx.trade",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "International Gemological Institute Ltd Revenue Breakdown \u2013 NSE:IGIL",
+     "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1lY2tyWWZuNndsTkhLNU5HX2dIOXdsVzhZUHRKUXc4ajFkWUEyMUFzY3pNaWVOclIyS0k1LW5FNjZ1SVhKQ2R6TnM1NmlrVmNsNkltQ0tCRXpxdDVGRFZpVW9ZRzlFTHI4ejg4cTYzOHNTMm8?oc=5",
+     "published": "2026-07-25T14:40:21Z",
+     "source": "TradingView",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "ticker appears with market context",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 7
+    }
+   ],
+   "report_url": "/company/b3bbc1f0-a9e4-56cf-afc7-70e8ea75ffed.html",
+   "price_at_build": 352.0,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "56d009c1-34d1-5ca5-9388-a66efbe3ac7b",
+   "rank": 23,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "CARTRADE",
+   "legacy_ticker": "CARTRADE.NS",
+   "exchange": "NSE",
+   "name": "Cartrade Tech Ltd.",
+   "sector": "Consumer Cyclical",
+   "industry": "Consumer Services",
+   "multibagger_score": 66.7,
+   "investment_score": 64.2,
+   "confidence": 0.983,
+   "risk_score": 24,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 18,
+   "red_flag_count": 4,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "up",
+   "group_rank": 23,
+   "main_positive_signal": "Top-line growth is the rawest demand signal",
+   "main_risk": "code='VALUATION_HOT' severity=2 detail='Market pricing 35% growth \u2014 little room for error'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 54.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 94.25,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 92.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 45.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 69.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 40.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 15.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "CarTrade Tech Q1 EBITDA Rises 46%, OLX Segment Leads Growth",
+     "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPcGR5SFp2RGpWQy1wbVd0M1puMmJVdjdpSDJfWC1sZGRwSXJXX3g3bm8xOGJpWC0tcGx6dFo5TjRyRWxNeWhDM1lPZjNIMUFlQkRFQjJOUGlERU90N2ZEMC1LQ1hXSlNXaUEwQXdHbVowUlJNNmM0MkEwb1NIbV9MWElldzM4cGdfLXZOR1NfQVFGVm4ySm1PbktjbDRGTTE4a0tiYVd4SWtTN1dfbUNQWmxkQU9oWE9WdzJYUElvVDJGWnRDWW42QzV5SWpMVmUzdW45ekhHYw?oc=5",
+     "published": "2026-07-30T07:00:22Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "CarTrade Tech \u0936\u0947\u0905\u0930\u092e\u0927\u094d\u092f\u0947 \u0924\u0947\u091c\u0940! Q1 \u092e\u0927\u094d\u092f\u0947 EBITDA \u092e\u0927\u094d\u092f\u0947 **46%** \u0935\u093e\u0922, OLX \u0938\u0947\u0917\u092e\u0947\u0902\u091f\u091a\u0940 \u0915\u092e\u093e\u0932",
+     "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOREpVUmpsWmFwLXFtRk15ejJlM2NjVVF5bkpDRlYtRzNuUE10QnRMTjNYUXY2YTZrdVpHemplSFItQmFNRjRUTVo1d1FVRExIUUd4MVZKY3lKWjNPWWlkcmsyQkYwWkZjWkJVQUJNRFhQSDhmV21nYTBOaXEtalAxVmRxdnR4TEM1NWducEFfR3JaMDkxVzUzVWZhVWFUREVKTm1QZldmc3BQLUQ2cllyVXFJTHN5akE5VzFjVTBYd3d1aUdDY3NhalJPeW94WEx4U1VlaUkxYw?oc=5",
+     "published": "2026-07-30T07:00:22Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 2
+    },
+    {
+     "title": "CarTrade Tech Q1 EBITDA beats estimates; Nomura retains Buy, raises target price to Rs 3,340",
+     "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPMEZMUWhpUC00M2dnLUpXMmVHak0yaDZCbEVWY2NiX2E2RU9Ta203UVh2Rl9KblBrVmI1WWtHUHMtR1E4VlhhMkJ3eVd4dlZzVGhfQVo5cC05OEJDT1U5VnpvQXBoRFhtcmtXS2N2WktURzZBYU55b21KQzBHWElVSURyMHg4NEJ2M0cyekh1bENtajNoM2E1cGlKYjFmVEpaZnlLVVFka2w2Rnh5dHZaRVFXOXdDY25hTDFYUHI4c0xEQWozOERKM280b2s0LURUSnhUaEUwVmpROHR4RjczdjBnM0Z6bkVSTEtwMXMyNNIB7wFBVV95cUxPMEZMUWhpUC00M2dnLUpXMmVHak0yaDZCbEVWY2NiX2E2RU9Ta203UVh2Rl9KblBrVmI1WWtHUHMtR1E4VlhhMkJ3eVd4dlZzVGhfQVo5cC05OEJDT1U5VnpvQXBoRFhtcmtXS2N2WktURzZBYU55b21KQzBHWElVSURyMHg4NEJ2M0cyekh1bENtajNoM2E1cGlKYjFmVEpaZnlLVVFka2w2Rnh5dHZaRVFXOXdDY25hTDFYUHI4c0xEQWozOERKM280b2s0LURUSnhUaEUwVmpROHR4RjczdjBnM0Z6bkVSTEtwMXMyNA?oc=5",
+     "published": "2026-07-30T06:40:06Z",
+     "source": "Moneycontrol.com",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.9,
+     "age_days": 2
+    },
+    {
+     "title": "CarTrade Tech posts record Q1 income as profit jumps 21 per cent",
+     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNX1FBQ1ZaYkJqUHZjcXRwdUdXdWFwMGt3bEZ3Z0NMcnhFWG1pR1Q4X01la3BlUjN2TXdQWFFrRGp4MVFCQl9VNmVfSl9mM1dpM1d2Z3JEdjQ0aDVBYU42SVc2UVB4MGhrYVdTVFkwRXItMGJtMEp1MmlUZkZTV05Udml3THZyOGEwaGxXVHk5cm9ULUtLcWJzNFBRUGxFcms?oc=5",
+     "published": "2026-07-29T21:42:33Z",
+     "source": "Indian Television Dot Com",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    },
+    {
+     "title": "CarTrade Tech Number of Employees 2026 | Employee Count & Headcount Data",
+     "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5qUVhrQ1dKM2dkQ2VuQ1NkS2ZGbHFIM2RTNmQ0Ujd2M0hPRnd2eEtzeXJObTR5QldvWVE3dWlJNy1hOXZUWXNQVHdsbWJ6VXRWWUdqdGVKcTU3Ny1oZ2RYblZRQkZFa1RfUmh0TjR3?oc=5",
+     "published": "2026-07-29T12:52:22Z",
+     "source": "Revelio Labs",
+     "sectors": [],
+     "relevance_score": 100.0,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "distinctive ticker appears in title",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 3
+    }
+   ],
+   "report_url": "/company/56d009c1-34d1-5ca5-9388-a66efbe3ac7b.html",
+   "price_at_build": 2747.10009765625,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "92f953ac-65e0-5f6d-ac14-44420f59656d",
+   "rank": 24,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "LTFOODS",
+   "legacy_ticker": "LTFOODS.NS",
+   "exchange": "NSE",
+   "name": "LT Foods Ltd.",
+   "sector": "Consumer Defensive",
+   "industry": "Fast Moving Consumer Goods",
+   "multibagger_score": 66.2,
+   "investment_score": 59.3,
+   "confidence": 0.983,
+   "risk_score": 0,
+   "investability": "Watchlist \u2014 needs a catalyst or better price",
+   "positive_signal_count": 13,
+   "red_flag_count": 1,
+   "coverage_quality": 0.983,
+   "has_missing_data": true,
+   "technical_trend": "sideways",
+   "group_rank": 11,
+   "main_positive_signal": "Growing free cash funds growth without dilution",
+   "main_risk": "code='FORECAST_INCOHERENT' severity=2 detail=\"Bull case assumes 17% growth but the market already prices 22% \u2014 the model's most optimistic case is below consensus, so treat the forecast as understated\"",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 68.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Financial Strength",
+     "score": 67.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 37.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Momentum",
+     "score": 46.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 85.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 68.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [
+    {
+     "title": "Mukul Agrawal-portfolio multibagger stock LT Foods jumps 5% after Q1 results; details here",
+     "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQYU5RanlreVFEM3p5Y3BwWUZ2LU14TGJWU28wTDZOVGgyTUllZWtOMVcxdkVEZGtrS0tuYVk3d044MWdLUnVRN2FEZkhtNXFSeXViVjA4WERrZVdUbDNoLTBVUWtwR2p1R2Z1alJXcl9JcEQxdmZoNWNSbWU0bVBNTHQ1RXYySHJZZlhkMTlXeFVWOUVQOFlGZDMtOVl4eEl4aGdHaldVd1plTmdYeGdwUDdvOFA5cTV0WFRVZTBrQzZ5TFNMREE5bzVyVmdSSXFaLUlVMHFvOEJROFJmNlRheS01MjFZNjFEZVprd1JDY9IB9AFBVV95cUxOOG1TcmNwckpTSUJsbGc1eGRDN3RpckRGbHhsQU05X0I4bE1IVzJ5aXdWQjBRUmtwVnpTY1VWZFd4NGJoak1oVk5hUDh1SUt5VXVrTjBaMnJIenR5YTNVaG55OXJzWUtqWHZDNWQyVm9Yamd2RE4zUTEtUHZmUGVMeWc3RjB0b25DT1BtY1JWQ3VKNTE3a0hfd1E5TnltY0RrcUlaRThwVzNtUENtemxoNDRraloyTUpRWVVhNTdUU205MmZoVFZIbGxsdW15bVFJZUQ4ZWtxZWFUS0gyVGdjYU04VGxJS3NRUXNFeUMwczlZaTlz?oc=5",
+     "published": "2026-07-31T07:50:28Z",
+     "source": "livemint.com",
+     "sectors": [],
+     "relevance_score": 87.2,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.9,
+     "age_days": 1
+    },
+    {
+     "title": "LT Foods Q1 Revenue Jumps 26% To \u20b93,161 Crore",
+     "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPQ21YYlYwVk1tU1h5ZUJlQ1daejgzWXdCd1REN09DenByUGJtQ3AxSnR3aF9ES00xQ0NHNVNPbS1PLXpMS3FGS2syOGNGQzlrRGp4TVRaeEszdXFodFJIR09xWFJJeGlxdUk3Zy1RMjVvRjBBTE9iWFl0cVFJWURTQko2bFBMajc5QjZxMWNSYV9POXdNY2FUZHZsTUJRTkFleWZIWEVJOGF0NnNnWWtiU3VRc2lZMWxpY21vUF9uTTg1MFFJSWY2b1FMeDZ1ODRfTDh4NWhsbkhIdDdn?oc=5",
+     "published": "2026-07-31T13:51:39Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 84.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "LT Foods \u0a26\u0a47 \u0a38\u0a3c\u0a47\u0a05\u0a30\u0a3e\u0a02 '\u0a1a \u0a24\u0a47\u0a1c\u0a3c\u0a40! Q1 '\u0a1a \u0a06\u0a2e\u0a26\u0a28 '\u0a1a **26%** \u0a26\u0a3e \u0a35\u0a71\u0a21\u0a3e \u0a35\u0a3e\u0a27\u0a3e",
+     "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOYmVPSEZEWkdNM3NucEsyY2F5eFVoOVA0WndKcmZnNUtDQWxXM3dLRnU3OEZJdUg5UFg1S2tkMDlxSDlEY1F4TkVKaEhhMllnU0FwTk5IYldMV0U2V0NGRkNVeEJXXzBmbDhJQkRlWGZoeWs0M254aEpRQ1R5OW5fNVIwOEFieTdKZEp0MnllWEhBc0NrM1FfekNJajlHQzBxNGYyYVVBa3JCQkc5MEV2VExTcVB2b0ZCT2NWYlg5aWxJbWZEbWZoOHRIOVhXSGM1OGM2V090NlBYdzE0?oc=5",
+     "published": "2026-07-31T13:51:39Z",
+     "source": "whalesbook.com",
+     "sectors": [],
+     "relevance_score": 84.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "LT Foods shares rise 4% on strong Q1 results",
+     "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxORThvNS1OcTA3Z040WHFQaXNhLU1wM0lVMnRtSFlPRkswTDlWRGFmdXhadE1pYXd6U0M2LUVQaUh1bXd3Y0N5WEk2aC1PTGVrS0lWWDJ4SEU3SVk5MXpuMDBZRTdFUWRMdF9CT2NlcWhVOGVKZDNPQlpHOFF5V3c5a1Y4XzdpZDNKVDFXZFg5Zm9BbExGVC1vOUkzeFQzZVVKX29UZ0RsZmdMbWdWWUZHa0ZFd1hHRF82eS1aZTZqeGx3RlVsU09scE9nUFE0ZFJ3eTBobTY5Q2NRUmQ2QS1BZtIB5wFBVV95cUxNZ1VyekxUQXRZX2t4M0hQNkc5ODVhM3AzTkhialNGZG80SGY3c1FrX0JNc3BXMDRIbVVFT0ZsU2t5bkgtdjMyclM0YTZWdVQ4Z2p0WEFEdUMtaWs4QXFGWjNyNXBpdVFXVTdvZ0JYVnVUczFTUW9lTE8yeDJDQjBzWldoUDg4cVVJSVl5T3pIVlMxOWp1ZmNPRHJaMENqX2xod2xtV1VMZlZWX1VqbmRGbHFNYXNUejVwWkVDeGxCMkFzQmVZTndEUjVVNjV5YndsSjRjMTh4WnBBd0xzTE9Kd3NOemdsaE0?oc=5",
+     "published": "2026-07-31T13:35:42Z",
+     "source": "BusinessLine",
+     "sectors": [],
+     "relevance_score": 84.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    },
+    {
+     "title": "LT Foods Q1 FY27 slides: revenue jumps 26%, brand momentum builds",
+     "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOWkZYbUVjM2s4X0ExdWtOeDBPbGhQbDBNa0hqQVpid1VweGU5dXJHTE5fZmJJQXV0SUxvWnFNNU9wUF9xTERUQl9PMlB1ZFZCNUloMnBuTVZEWEJ1NFF5cy0xQzMyVjVKYVR3YlFyV0E3eWNyS0lfYm1mdDhiTGdfMjlrTWpPeHdhQUppM0ZYdHc3OUIzOGdEMTJWeFNrZGpuWklQdDN1VXZOQ0tfTkgxX0NJbmJ0MExrM2xj?oc=5",
+     "published": "2026-07-31T13:01:05Z",
+     "source": "Investing.com",
+     "sectors": [],
+     "relevance_score": 84.4,
+     "match_confidence": "high",
+     "match_reasons": [
+      "company name appears in title",
+      "industry context agrees",
+      "source quality considered"
+     ],
+     "source_quality": 0.55,
+     "age_days": 1
+    }
+   ],
+   "report_url": "/company/92f953ac-65e0-5f6d-ac14-44420f59656d.html",
+   "price_at_build": 410.1499938964844,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  },
+  {
+   "instrument_id": "e5836c6e-e04a-53f0-a090-40c085ebda63",
+   "rank": 25,
+   "previous_rank": null,
+   "rank_change": null,
+   "symbol": "BBTC",
+   "legacy_ticker": "BBTC.NS",
+   "exchange": "NSE",
+   "name": "Bombay Burmah Trading Corporation Ltd.",
+   "sector": "Consumer Defensive",
+   "industry": "Fast Moving Consumer Goods",
+   "multibagger_score": 66.1,
+   "investment_score": 71.6,
+   "confidence": 0.958,
+   "risk_score": 0,
+   "investability": "Promising \u2014 verify the flagged data gaps before acting",
+   "positive_signal_count": 16,
+   "red_flag_count": 1,
+   "coverage_quality": 0.958,
+   "has_missing_data": true,
+   "technical_trend": "strong_down",
+   "group_rank": 11,
+   "main_positive_signal": "Price below conservatively-estimated intrinsic value",
+   "main_risk": "code='MULTIPLE_AT_LOW' severity=1 detail='Trades at the 0% percentile of its own multiple history (median 15.4x) \u2014 cheap relative to its own past, not just to peers'",
+   "components": [
+    {
+     "name": "Quality",
+     "score": 83.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 43.46153846153846,
+     "confidence": 0.65,
+     "evidence_count": 3
+    },
+    {
+     "name": "Financial Strength",
+     "score": 85.5,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Valuation",
+     "score": 92.5,
+     "confidence": 0.8,
+     "evidence_count": 3
+    },
+    {
+     "name": "Momentum",
+     "score": 34.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Size Runway",
+     "score": 75.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Reinvestment",
+     "score": 65.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 65.5,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ],
+   "recent_news": [],
+   "report_url": "/company/e5836c6e-e04a-53f0-a090-40c085ebda63.html",
+   "price_at_build": 1500.0,
+   "freshness": {
+    "state": "unknown",
+    "source": "weekly-static-build",
+    "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+    "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+    "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+    "delay_minutes": null,
+    "reason": "Underlying statement dates vary by provider.",
+    "quality_status": "warning"
+   }
+  }
+ ],
+ "meta": {
+  "page": 1,
+  "page_size": 25,
+  "total": 25,
+  "total_pages": 1,
+  "sort": "rank",
+  "build": {
+   "build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+   "model_version": "multibagger-score-v1",
+   "factor_config_version": "factor-config-v1",
+   "factor_config_hash": "c952c0365bc64f377902d4e97097793d3b08778bc63fc120303889036efb6650",
+   "universe_name": "nifty-smallcap250",
+   "universe_version": "sha256:94c317be611993fe:ec984ce453fa",
+   "data_cutoff": "2026-08-01T11:10:03.765519Z",
+   "built_at": "2026-08-01T11:10:03.765519Z",
+   "provider_versions": {
+    "mbe": "0.1.0",
+    "yfinance": "runtime"
+   },
+   "validation_status": "modest positive 2-year Indian small-cap IC; survivorship-biased; sector momentum descriptive only",
+   "status": "complete",
+   "duration_seconds": 2.355499458994018,
+   "attempted_count": 250,
+   "scored_count": 250,
+   "failed_count": 0,
+   "source_data_version": "sha256:94c317be611993fe",
+   "notes": null,
+   "error_summary": null
+  }
+ },
+ "errors": [],
+ "warnings": [],
+ "freshness": {
+  "state": "unknown",
+  "source": "weekly-static-build",
+  "source_timestamp": "2026-08-01T11:10:03.765519+00:00",
+  "retrieved_at": "2026-08-01T11:10:03.765519+00:00",
+  "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+  "delay_minutes": null,
+  "reason": "Underlying statement dates vary by provider.",
+  "quality_status": "warning"
+ },
+ "request_id": "static-build"
+}

@@ -47,15 +47,15 @@ def test_render_analysis_success_renders_report():
 def test_render_analysis_escapes_ticker_in_bad_format_error():
     # the 400 branch fires exactly when the ticker did NOT pass validation,
     # so the raw rejected string must never be echoed back unescaped.
-    # (Themed pages legitimately carry ONE script of their own — the theme
-    # boot — so the assertion targets the attacker payload specifically
-    # rather than banning <script> outright.)
+    # The theme boot is external under the release CSP, so no inline executable
+    # script should remain in this error document.
     payload = "<script>alert(1)</script>"
     status, html_out = analyze_fn.render_analysis(payload, provider=StubProvider())
     assert status == 400
     assert payload not in html_out  # raw attacker string never reflected
     assert "&lt;script&gt;alert(1)&lt;/script&gt;" in html_out  # escaped form shown
-    assert html_out.count("<script>") == 1  # only our theme-boot script exists
+    assert "<script>" not in html_out
+    assert '<script src="/assets/theme.js"></script>' in html_out
 
 
 def test_render_analysis_500_never_reflects_exception_repr():

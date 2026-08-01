@@ -11,13 +11,14 @@ context."""
 
 from __future__ import annotations
 
+import re
 import urllib.parse
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
 from defusedxml import ElementTree
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from mbe.data.cache import DiskCache
 
@@ -27,6 +28,7 @@ GOOGLE_NEWS_URL = (
 _UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
 
 POLICY_TERMS_AS_OF = date(2026, 7, 31)
+NEWS_MATCH_VERSION = "v5"
 
 # Yahoo industry/sector label -> the words Indian policy journalism actually
 # uses for it. Measured, not guessed: querying the taxonomy label itself
@@ -72,6 +74,243 @@ class NewsItem(BaseModel):
     published: datetime | None = None
     source: str | None = None
     sectors: list[str] = []  # policy items: matched sector keys
+    relevance_score: float | None = Field(default=None, ge=0, le=100)
+    match_confidence: str = "unscored"
+    match_reasons: list[str] = []
+    source_quality: float | None = Field(default=None, ge=0, le=1)
+
+
+# A symbol is only useful identity evidence when a title also carries company
+# or Indian-market context. Short symbols are especially collision-prone: BLS
+# can mean basic life support, ACE is a generic word and CAMS is an acronym in
+# several unrelated fields. The rule intentionally applies to every short
+# symbol rather than trying to maintain an inevitably incomplete blacklist.
+_LEGAL_SUFFIXES = {
+    "inc", "incorporated", "ltd", "limited", "plc", "pvt", "private",
+}
+_NAME_STOPWORDS = {"and", "of", "the", "india", "indian"}
+_TITLE_STOPWORDS = _NAME_STOPWORDS | {
+    "a", "an", "for", "from", "in", "on", "to", "with", "says", "new",
+}
+_MARKET_CONTEXT = {
+    "bse", "earnings", "exchange", "investor", "nse", "results", "share",
+    "shares", "stock", "stocks", "quarter", "quarterly",
+}
+_GENERIC_ENTITY_TOKENS = {
+    "business", "enterprises", "group", "holdings", "industry", "industries",
+    "services", "solutions", "technology", "technologies",
+}
+_ABBREVIATIONS = {
+    "intl": "international",
+    "serv": "services",
+    "servs": "services",
+    "engg": "engineering",
+    "engrg": "engineering",
+    "fin": "financial",
+    "tech": "technology",
+}
+_HIGH_QUALITY_SOURCES = {
+    "bse india", "business standard", "cnbc tv18", "economic times",
+    "livemint", "moneycontrol com", "nse india", "press trust of india",
+    "reuters", "sebi",
+}
+
+
+def _tokens(text: str) -> list[str]:
+    raw = re.findall(r"[a-z0-9]+", text.casefold())
+    return [_ABBREVIATIONS.get(token, token) for token in raw]
+
+
+def _phrase(tokens: list[str]) -> str:
+    return " ".join(tokens)
+
+
+def _source_quality(source: str | None) -> float:
+    if not source:
+        return 0.35
+    normalized = _phrase(_tokens(source))
+    if any(known in normalized for known in _HIGH_QUALITY_SOURCES):
+        return 0.9
+    if normalized.endswith(" gov") or "government" in normalized:
+        return 0.85
+    return 0.55
+
+
+def _company_name_tokens(name: str) -> list[str]:
+    tokens = _tokens(name)
+    while len(tokens) > 1 and tokens[-1] in _LEGAL_SUFFIXES:
+        tokens.pop()
+    return [token for token in tokens if token not in _NAME_STOPWORDS]
+
+
+def _industry_tokens(industry: str | None) -> set[str]:
+    if not industry:
+        return set()
+    return {
+        token for token in _tokens(industry)
+        if token not in _TITLE_STOPWORDS and len(token) >= 4
+    }
+
+
+def score_company_news(
+    item: NewsItem,
+    *,
+    name: str,
+    ticker: str,
+    exchange: str | None = "NSE",
+    country: str = "India",
+    industry: str | None = None,
+    aliases: list[str] | None = None,
+) -> NewsItem:
+    """Attach conservative title-level entity-match evidence to a headline.
+
+    Google News RSS does not provide article bodies, ISINs or exchange entity
+    identifiers. That limitation is explicit: this scorer requires either a
+    recognisable company-name match or a ticker accompanied by market context.
+    A bare ticker never passes, which removes the BLS/ACE/CAMS/IEX class of
+    false positives without pretending title matching is full NER.
+    """
+    title_tokens = _tokens(item.title)
+    title_set = set(title_tokens)
+    title_text = _phrase(title_tokens)
+    symbol = ticker.split(".")[0].casefold()
+    declared_symbols = {
+        match.casefold()
+        for match in re.findall(
+            r"\b(?:NSE|BSE)\s*[:\-]\s*([A-Z0-9&-]+)\b",
+            item.title.upper(),
+        )
+    }
+    contradictory_symbol = bool(declared_symbols and symbol not in declared_symbols)
+    reasons: list[str] = []
+    score = 0.0
+
+    names = [name, *(aliases or [])]
+    name_variants = []
+    for candidate in names:
+        tokens = _company_name_tokens(candidate)
+        if tokens and tokens not in name_variants:
+            name_variants.append(tokens)
+
+    exact_match_tokens = 0
+    best_coverage = 0.0
+    best_matches: set[str] = set()
+    for variant in name_variants:
+        phrase = _phrase(variant)
+        matched = set(variant) & title_set
+        coverage = len(matched) / len(set(variant))
+        if phrase and phrase in title_text:
+            exact_match_tokens = max(exact_match_tokens, len(set(variant)))
+        if coverage > best_coverage:
+            best_coverage, best_matches = coverage, matched
+
+    industry_terms = _industry_tokens(industry)
+    long_name_matches = {
+        token for token in best_matches
+        if (
+            len(token) >= 5
+            and token != symbol
+            and token not in _GENERIC_ENTITY_TOKENS
+            and token not in industry_terms
+        )
+    }
+    # A one-token core such as "Welspun" is not a legal-entity match: it can
+    # identify a sibling group company. One-word companies instead qualify via
+    # the guarded ticker + market-context branch below.
+    discriminating_matches = (
+        best_matches - {symbol} - _GENERIC_ENTITY_TOKENS - industry_terms
+    )
+    if contradictory_symbol:
+        reasons.append("headline declares a different exchange symbol")
+    elif exact_match_tokens >= 2:
+        score += 72
+        reasons.append("company name appears in title")
+    elif len(best_matches) >= 2 and discriminating_matches and best_coverage >= 0.75:
+        score += 65
+        reasons.append("most company-name tokens appear in title")
+    elif len(best_matches) >= 2 and discriminating_matches and best_coverage >= 0.5:
+        score += 55
+        reasons.append("multiple company-name tokens appear in title")
+    elif long_name_matches:
+        score += 42
+        reasons.append("distinctive company-name token appears in title")
+
+    symbol_present = symbol in title_set
+    explicit_market_context = bool(title_set & _MARKET_CONTEXT)
+    country_context = country.casefold() in title_set
+    exchange_context = bool(exchange and exchange.casefold() in title_set)
+    if (
+        not contradictory_symbol
+        and symbol_present
+        and (explicit_market_context or exchange_context)
+    ):
+        # Long exchange symbols are useful corroboration. Short symbols remain
+        # weak evidence even with a word like "results" because collisions are
+        # common; the source and industry checks below can lift a real item.
+        score += 44 if len(symbol) <= 5 else 52
+        reasons.append("ticker appears with market context")
+    elif not contradictory_symbol and symbol_present and len(symbol) > 5:
+        score += 25
+        reasons.append("distinctive ticker appears in title")
+
+    industry_overlap = title_set & industry_terms
+    if industry_overlap:
+        score += 8
+        reasons.append("industry context agrees")
+    if country_context or exchange_context:
+        score += 6
+        reasons.append("India/exchange context agrees")
+
+    quality = _source_quality(item.source)
+    if score >= 35:
+        score += quality * 8
+        reasons.append("source quality considered")
+    score = min(round(score, 1), 100.0)
+    confidence = "high" if score >= 75 else "medium" if score >= 55 else "low"
+    return item.model_copy(update={
+        "relevance_score": score,
+        "match_confidence": confidence,
+        "match_reasons": reasons,
+        "source_quality": quality,
+    })
+
+
+def filter_company_news(
+    items: list[NewsItem],
+    *,
+    name: str,
+    ticker: str,
+    exchange: str | None = "NSE",
+    country: str = "India",
+    industry: str | None = None,
+    aliases: list[str] | None = None,
+    minimum_score: float = 55,
+    limit: int = 5,
+) -> list[NewsItem]:
+    scored = [
+        score_company_news(
+            item,
+            name=name,
+            ticker=ticker,
+            exchange=exchange,
+            country=country,
+            industry=industry,
+            aliases=aliases,
+        )
+        for item in items
+    ]
+    accepted = [
+        item for item in scored
+        if item.relevance_score is not None and item.relevance_score >= minimum_score
+    ]
+    accepted.sort(
+        key=lambda item: (
+            item.relevance_score or 0,
+            item.published or datetime.min.replace(tzinfo=timezone.utc),
+        ),
+        reverse=True,
+    )
+    return accepted[:limit]
 
 
 def default_http(url: str) -> str:
@@ -131,15 +370,26 @@ def dedupe_recent(
     kept (missing data is surfaced, not silently dropped) but sort last."""
     now = now or datetime.now(timezone.utc)
     cutoff = now - timedelta(days=days)
-    seen: set[str] = set()
+    seen: list[set[str]] = []
     kept: list[NewsItem] = []
     for item in items:
-        key = item.title.lower()
-        if key in seen:
+        signature = {
+            token for token in _tokens(item.title)
+            if token not in _TITLE_STOPWORDS
+        }
+        # News syndication commonly changes one or two words while retaining
+        # the same story. Cluster near-identical token sets, not just byte-for-
+        # byte titles, so duplicate wire stories do not crowd out other news.
+        duplicate = any(
+            signature and prior
+            and len(signature & prior) / len(signature | prior) >= 0.82
+            for prior in seen
+        )
+        if duplicate:
             continue
         if item.published is not None and item.published < cutoff:
             continue
-        seen.add(key)
+        seen.append(signature)
         kept.append(item)
     kept.sort(
         key=lambda i: i.published or datetime.min.replace(tzinfo=timezone.utc),
@@ -153,15 +403,57 @@ def company_news(
     ticker: str,
     cache: DiskCache | None = None,
     fetcher=default_http,
+    *,
+    exchange: str | None = "NSE",
+    country: str = "India",
+    industry: str | None = None,
+    aliases: list[str] | None = None,
 ) -> list[NewsItem]:
-    """Top recent headlines for one company (Google News RSS)."""
+    """Entity-matched recent headlines for one company (Google News RSS).
+
+    Query construction reduces noise, but it is not trusted as the final
+    match. Every returned title is independently scored and low-confidence
+    results are removed before caching or publication.
+    """
     base = ticker.split(".")[0]
-    query = urllib.parse.quote(f'"{name}" OR "{base}"')
-    key = f"news_{base}"
+    expanded_name = _phrase(_company_name_tokens(name))
+    # The symbol is useful for common market shorthand (CAMS/IEX), but only
+    # inside the India/exchange-anchored query and still has to pass the
+    # independent title scorer below. It is never accepted merely because the
+    # feed echoed the symbol.
+    quoted_names = [f'"{name}"', f'"{base}"']
+    if expanded_name and expanded_name.casefold() != name.casefold():
+        quoted_names.append(f'"{expanded_name}"')
+    for alias in aliases or []:
+        if alias.strip():
+            quoted_names.append(f'"{alias.strip()}"')
+    identity_context = " OR ".join(
+        term for term in (country, exchange, "BSE") if term
+    )
+    query = urllib.parse.quote(
+        f"({' OR '.join(dict.fromkeys(quoted_names))}) "
+        f"({identity_context}) when:7d"
+    )
+    # The version is an intentional cache break: old matcher outputs can be
+    # cached for up to six days in CI, so a code fix alone would not clean the
+    # published site.
+    key = f"news_entity_{NEWS_MATCH_VERSION}_{_policy_slug(base)}"
     if cache and (hit := cache.get_json(key)):
         return [NewsItem(**i) for i in hit["items"]]
     try:
-        items = dedupe_recent(parse_rss(fetcher(GOOGLE_NEWS_URL.format(query=query))))
+        recent = dedupe_recent(
+            parse_rss(fetcher(GOOGLE_NEWS_URL.format(query=query))),
+            limit=20,
+        )
+        items = filter_company_news(
+            recent,
+            name=name,
+            ticker=ticker,
+            exchange=exchange,
+            country=country,
+            industry=industry,
+            aliases=aliases,
+        )
     except Exception:
         return []  # context must never fail a build; builder prints counts
     if cache:

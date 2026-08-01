@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /reports/
+Sitemap: https://multibagger-engine.vercel.app/sitemap.xml

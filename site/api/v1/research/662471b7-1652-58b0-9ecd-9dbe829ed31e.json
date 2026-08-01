@@ -1,0 +1,771 @@
+{
+ "data": {
+  "schema_version": "1.0",
+  "identity": {
+   "instrument_id": "662471b7-1652-58b0-9ecd-9dbe829ed31e",
+   "company_id": "632c64ab-cfc1-5d95-8e58-76817932b71f",
+   "display_name": "Kaynes Technology India Ltd.",
+   "legal_name": "Kaynes Technology India Ltd.",
+   "symbol": "KAYNES",
+   "exchange": "NSE",
+   "bse_code": null,
+   "isin": "INE918Z01012",
+   "sector": "Technology",
+   "industry": "Capital Goods",
+   "market_cap_category": null,
+   "index_membership": "Nifty Smallcap 250",
+   "is_sme": null,
+   "listing_status": "active",
+   "canonical_url": "/company/662471b7-1652-58b0-9ecd-9dbe829ed31e.html",
+   "legacy_url": "/reports/KAYNES_NS.html"
+  },
+  "quote": {
+   "price": 3824.199951171875,
+   "absolute_change": null,
+   "percentage_change": null,
+   "currency": "INR",
+   "market_status": "unavailable",
+   "timestamp": "2026-08-01T11:10:03.765519+00:00",
+   "delay_minutes": null,
+   "stale": true,
+   "state": "build_close",
+   "message": "Build-close price context; request a current quote before relying on it."
+  },
+  "ranking": {
+   "rank": 208,
+   "previous_rank": 208,
+   "rank_change": 0,
+   "multibagger_score": 35.0,
+   "previous_score": 35.0,
+   "score_change": 0.0,
+   "investment_score": 31.1,
+   "confidence": 0.97,
+   "risk_score": 100.0,
+   "investability": "Unavailable",
+   "technical_trend": "down",
+   "momentum_rank": null,
+   "coverage_quality": 0.97,
+   "has_missing_data": true,
+   "positive_signal_count": 6,
+   "red_flag_count": 9,
+   "model_version": "multibagger-score-v1",
+   "model_build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+   "build_timestamp": "2026-08-01T11:10:03.765519Z",
+   "data_cutoff": "2026-08-01T11:10:03.765519Z",
+   "validation_status": "modest positive 2-year Indian small-cap IC; survivorship-biased; sector momentum descriptive only",
+   "components": [
+    {
+     "name": "Financial Strength",
+     "score": 58.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Growth",
+     "score": 87.94117647058823,
+     "confidence": 0.85,
+     "evidence_count": 3
+    },
+    {
+     "name": "Momentum",
+     "score": 32.0,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Quality",
+     "score": 13.25,
+     "confidence": 1.0,
+     "evidence_count": 5
+    },
+    {
+     "name": "Reinvestment",
+     "score": 0.0,
+     "confidence": 0.0,
+     "evidence_count": 0
+    },
+    {
+     "name": "Sector Momentum",
+     "score": 15.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    },
+    {
+     "name": "Size Runway",
+     "score": 50.0,
+     "confidence": 1.0,
+     "evidence_count": 1
+    },
+    {
+     "name": "Valuation",
+     "score": 32.0,
+     "confidence": 1.0,
+     "evidence_count": 4
+    }
+   ]
+  },
+  "research_summary": [
+   "Kaynes Technology India Ltd. ranks 208 in the latest Nifty Smallcap 250 model build.",
+   "Its Multibagger Score is 35.0, with 97% model confidence and a risk score of 100.",
+   "Three-year revenue CAGR is 47.7%.",
+   "Three-year average ROCE is 8.8%.",
+   "Financial metrics use yahoo compatibility fallback; accepted Tier-A official NSE coverage is unavailable for this instrument."
+  ],
+  "explanations": [
+   {
+    "code": "score_vs_universe_median",
+    "label": "Multibagger Score",
+    "text": "Multibagger Score is 35.0, below the compatible covered-universe median of 50.6.",
+    "classification": "warning",
+    "source_field_ids": [
+     "ranking.multibagger_score"
+    ],
+    "current_value": 35.0,
+    "comparison_value": 50.6,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "revenue_cagr_vs_median",
+    "label": "Revenue CAGR",
+    "text": "Revenue CAGR over three years is 47.7%, above the compatible covered-universe median of 14.3%.",
+    "classification": "positive",
+    "source_field_ids": [
+     "financials.revenue_cagr_3y"
+    ],
+    "current_value": 0.4767124842631232,
+    "comparison_value": 0.14288424445127257,
+    "period": "3 years",
+    "source": "Yahoo compatibility fallback",
+    "freshness": "unknown",
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "roce_vs_median",
+    "label": "ROCE",
+    "text": "ROCE over three years is 8.8%, below the compatible covered-universe median of 13.4%.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.roce_3y"
+    ],
+    "current_value": 0.08756790891225484,
+    "comparison_value": 0.1341835134502367,
+    "period": "3 years",
+    "source": "Yahoo compatibility fallback",
+    "freshness": "unknown",
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "technical_trend",
+    "label": "Technical trend",
+    "text": "The validated technical trend state is down.",
+    "classification": "risk",
+    "source_field_ids": [
+     "technical.trend"
+    ],
+    "current_value": "down",
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "model_confidence",
+    "label": "Model confidence",
+    "text": "Model confidence is 97%; this is a coverage indicator, not a probability of investment success.",
+    "classification": "positive",
+    "source_field_ids": [
+     "ranking.confidence"
+    ],
+    "current_value": 0.97,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "model_risk",
+    "label": "Model risk",
+    "text": "Model risk score is 100 on a 0\u2013100 scale where higher means more model flags.",
+    "classification": "risk",
+    "source_field_ids": [
+     "ranking.risk_score"
+    ],
+    "current_value": 100.0,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "financial_fallback",
+    "label": "Financial source",
+    "text": "Public financial metrics use the approved Yahoo compatibility fallback; they are not accepted Tier-A official NSE metrics.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.selected_source",
+     "financials.official_tier_a_status"
+    ],
+    "current_value": "Yahoo compatibility fallback",
+    "comparison_value": null,
+    "period": null,
+    "source": "Yahoo compatibility fallback",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "partial_model_inputs",
+    "label": "Coverage quality",
+    "text": "Some model inputs are missing; missing values were not replaced with zero.",
+    "classification": "warning",
+    "source_field_ids": [
+     "ranking.has_missing_data",
+     "ranking.coverage_quality"
+    ],
+    "current_value": 0.97,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   }
+  ],
+  "strengths": [
+   {
+    "code": "revenue_cagr_vs_median",
+    "label": "Revenue CAGR",
+    "text": "Revenue CAGR over three years is 47.7%, above the compatible covered-universe median of 14.3%.",
+    "classification": "positive",
+    "source_field_ids": [
+     "financials.revenue_cagr_3y"
+    ],
+    "current_value": 0.4767124842631232,
+    "comparison_value": 0.14288424445127257,
+    "period": "3 years",
+    "source": "Yahoo compatibility fallback",
+    "freshness": "unknown",
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "model_confidence",
+    "label": "Model confidence",
+    "text": "Model confidence is 97%; this is a coverage indicator, not a probability of investment success.",
+    "classification": "positive",
+    "source_field_ids": [
+     "ranking.confidence"
+    ],
+    "current_value": 0.97,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   }
+  ],
+  "risks": [
+   {
+    "code": "score_vs_universe_median",
+    "label": "Multibagger Score",
+    "text": "Multibagger Score is 35.0, below the compatible covered-universe median of 50.6.",
+    "classification": "warning",
+    "source_field_ids": [
+     "ranking.multibagger_score"
+    ],
+    "current_value": 35.0,
+    "comparison_value": 50.6,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "roce_vs_median",
+    "label": "ROCE",
+    "text": "ROCE over three years is 8.8%, below the compatible covered-universe median of 13.4%.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.roce_3y"
+    ],
+    "current_value": 0.08756790891225484,
+    "comparison_value": 0.1341835134502367,
+    "period": "3 years",
+    "source": "Yahoo compatibility fallback",
+    "freshness": "unknown",
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "technical_trend",
+    "label": "Technical trend",
+    "text": "The validated technical trend state is down.",
+    "classification": "risk",
+    "source_field_ids": [
+     "technical.trend"
+    ],
+    "current_value": "down",
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "model_risk",
+    "label": "Model risk",
+    "text": "Model risk score is 100 on a 0\u2013100 scale where higher means more model flags.",
+    "classification": "risk",
+    "source_field_ids": [
+     "ranking.risk_score"
+    ],
+    "current_value": 100.0,
+    "comparison_value": null,
+    "period": null,
+    "source": "current model build",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   },
+   {
+    "code": "financial_fallback",
+    "label": "Financial source",
+    "text": "Public financial metrics use the approved Yahoo compatibility fallback; they are not accepted Tier-A official NSE metrics.",
+    "classification": "warning",
+    "source_field_ids": [
+     "financials.selected_source",
+     "financials.official_tier_a_status"
+    ],
+    "current_value": "Yahoo compatibility fallback",
+    "comparison_value": null,
+    "period": null,
+    "source": "Yahoo compatibility fallback",
+    "freshness": null,
+    "methodology_href": "/methodology.html",
+    "version": "2026-08-01.1"
+   }
+  ],
+  "history": {
+   "points": [
+    {
+     "build_id": "577191f1-a9c2-4202-8ed2-85e13090e095",
+     "built_at": "2026-08-01T09:34:57.391942Z",
+     "rank": 208,
+     "multibagger_score": 35.0,
+     "confidence": null,
+     "risk_score": null,
+     "investment_score": null,
+     "components": []
+    },
+    {
+     "build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+     "built_at": "2026-08-01T11:10:03.765519Z",
+     "rank": 208,
+     "multibagger_score": 35.0,
+     "confidence": 0.97,
+     "risk_score": 100.0,
+     "investment_score": 31.1,
+     "components": [
+      {
+       "name": "Financial Strength",
+       "score": 58.0,
+       "confidence": 1.0,
+       "evidence_count": 5
+      },
+      {
+       "name": "Growth",
+       "score": 87.94117647058823,
+       "confidence": 0.85,
+       "evidence_count": 3
+      },
+      {
+       "name": "Momentum",
+       "score": 32.0,
+       "confidence": 1.0,
+       "evidence_count": 5
+      },
+      {
+       "name": "Quality",
+       "score": 13.25,
+       "confidence": 1.0,
+       "evidence_count": 5
+      },
+      {
+       "name": "Reinvestment",
+       "score": 0.0,
+       "confidence": 0.0,
+       "evidence_count": 0
+      },
+      {
+       "name": "Sector Momentum",
+       "score": 15.0,
+       "confidence": 1.0,
+       "evidence_count": 4
+      },
+      {
+       "name": "Size Runway",
+       "score": 50.0,
+       "confidence": 1.0,
+       "evidence_count": 1
+      },
+      {
+       "name": "Valuation",
+       "score": 32.0,
+       "confidence": 1.0,
+       "evidence_count": 4
+      }
+     ]
+    }
+   ],
+   "summary": "Across 2 compatible builds, score changed by +0.0 and rank changed from 208 to 208.",
+   "is_continuous": false,
+   "max_points": 26
+  },
+  "financials": {
+   "revenue_cagr_3y": 0.4767124842631232,
+   "roce_3y": 0.08756790891225484,
+   "recent_facts": [
+    {
+     "metric_id": "revenue",
+     "label": "Revenue",
+     "value": 36263540000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "operating_income",
+     "label": "Operating profit",
+     "value": 4669870000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "net_income",
+     "label": "PAT",
+     "value": 3638900000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "cfo",
+     "label": "Cash flow from operations",
+     "value": -6004040000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "fcf",
+     "label": "Free cash flow",
+     "value": -18407050000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "total_debt",
+     "label": "Debt",
+     "value": 9128730000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    },
+    {
+     "metric_id": "total_equity",
+     "label": "Net worth",
+     "value": 47483530000.0,
+     "fiscal_year": 2026,
+     "unit": "INR"
+    }
+   ],
+   "selected_source": "yahoo_compatibility",
+   "source_label": "Yahoo compatibility fallback",
+   "source_quality_tier": "B",
+   "fallback": true,
+   "basis": "unknown",
+   "basis_warning": "Yahoo compatibility statements do not identify consolidated versus standalone basis.",
+   "latest_period": "FY2026",
+   "data_cutoff": "2026-08-01T11:10:03.765519+00:00",
+   "source_date": null,
+   "freshness": "unknown",
+   "quality_status": "valid_with_warning",
+   "quality_warnings": [
+    "Statement basis and filing publication date are unavailable from the compatibility source.",
+    "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing."
+   ],
+   "official_tier_a_status": "unavailable",
+   "reconciliation_status": "not_reconciled",
+   "financial_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+   "metric_definition_version": "2026-08-01.1",
+   "source_selection_policy_version": "2026-08-01.2",
+   "source_selection_reason": "No fixture-qualified official multi-year series is present in the static dataset; the approved compatibility fallback remains selected for Revenue CAGR and ROCE only."
+  },
+  "technical": {
+   "trend": "down",
+   "momentum_rank": null,
+   "momentum_group": null,
+   "momentum_score": null,
+   "return_3m": null,
+   "return_6m": null,
+   "return_12m": null,
+   "relative_strength_3m": null,
+   "message": "Technical fields are descriptive current-build context and are not a trading signal."
+  },
+  "peers": [
+   {
+    "instrument_id": "98a086a1-b28c-56a9-bd3d-e0fdcc2c10a4",
+    "canonical_url": "/company/98a086a1-b28c-56a9-bd3d-e0fdcc2c10a4.html",
+    "display_name": "Transformers And Rectifiers (India) Ltd.",
+    "symbol": "TARIL",
+    "rank": 231,
+    "multibagger_score": 35.0,
+    "confidence": 0.977,
+    "risk_score": 84.0,
+    "revenue_cagr_3y": 0.22257313230497577,
+    "roce_3y": 0.17537494202701712,
+    "technical_trend": "strong_down",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 136.5805,
+    "selection_reasons": [
+     "Same industry",
+     "Similar Multibagger Score",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "aa8f80f8-2d95-5ebc-a4ab-e4ea1ee142c3",
+    "canonical_url": "/company/aa8f80f8-2d95-5ebc-a4ab-e4ea1ee142c3.html",
+    "display_name": "RHI MAGNESITA INDIA LTD.",
+    "symbol": "RHIM",
+    "rank": 221,
+    "multibagger_score": 35.0,
+    "confidence": 0.914,
+    "risk_score": 24.0,
+    "revenue_cagr_3y": 0.1433220949521239,
+    "roce_3y": 0.07210096564381761,
+    "technical_trend": "strong_down",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 136.5114,
+    "selection_reasons": [
+     "Same industry",
+     "Similar Multibagger Score",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "d8e3f553-30cf-5ccd-92fc-b1d141449512",
+    "canonical_url": "/company/d8e3f553-30cf-5ccd-92fc-b1d141449512.html",
+    "display_name": "Inox Wind Ltd.",
+    "symbol": "INOXWIND",
+    "rank": 204,
+    "multibagger_score": 35.0,
+    "confidence": 0.945,
+    "risk_score": 100.0,
+    "revenue_cagr_3y": 0.8188362906463913,
+    "roce_3y": 0.06833402906554926,
+    "technical_trend": "strong_down",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 136.3864,
+    "selection_reasons": [
+     "Same industry",
+     "Similar Multibagger Score",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "6198959e-a3c1-546c-ba55-1d7dfcc6e7c9",
+    "canonical_url": "/company/6198959e-a3c1-546c-ba55-1d7dfcc6e7c9.html",
+    "display_name": "BEML Ltd.",
+    "symbol": "BEML",
+    "rank": 235,
+    "multibagger_score": 34.7,
+    "confidence": 0.958,
+    "risk_score": 72.0,
+    "revenue_cagr_3y": 0.04615607295016644,
+    "roce_3y": 0.11458101344160747,
+    "technical_trend": "down",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 135.1243,
+    "selection_reasons": [
+     "Same industry",
+     "Similar Multibagger Score",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "f9e00186-7ade-5f0f-a84e-cbb96ad1cb7f",
+    "canonical_url": "/company/f9e00186-7ade-5f0f-a84e-cbb96ad1cb7f.html",
+    "display_name": "H.E.G. Ltd.",
+    "symbol": "HEG",
+    "rank": 180,
+    "multibagger_score": 35.8,
+    "confidence": 0.958,
+    "risk_score": 24.0,
+    "revenue_cagr_3y": 0.01569268398176238,
+    "roce_3y": 0.049214974617852604,
+    "technical_trend": "up",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 134.2063,
+    "selection_reasons": [
+     "Same industry",
+     "Similar Multibagger Score",
+     "Similar accepted ROCE"
+    ]
+   },
+   {
+    "instrument_id": "fb3fbffa-b070-5d0f-b222-71beea8d2651",
+    "canonical_url": "/company/fb3fbffa-b070-5d0f-b222-71beea8d2651.html",
+    "display_name": "Graphite India Ltd.",
+    "symbol": "GRAPHITE",
+    "rank": 236,
+    "multibagger_score": 34.3,
+    "confidence": 0.958,
+    "risk_score": 24.0,
+    "revenue_cagr_3y": -0.031328626686158545,
+    "roce_3y": 0.0016359738441120292,
+    "technical_trend": "up",
+    "market_cap_category": null,
+    "source_quality_tier": "B",
+    "selection_score": 133.3603,
+    "selection_reasons": [
+     "Same industry",
+     "Similar Multibagger Score",
+     "Similar accepted ROCE"
+    ]
+   }
+  ],
+  "peer_policy_version": "2026-08-01.1",
+  "filings": [],
+  "filings_state": "unavailable \u2014 no public-safe filing metadata in this build",
+  "news": [],
+  "news_state": "unavailable at the current entity-match threshold",
+  "checklist": [
+   {
+    "code": "financials",
+    "label": "Review the latest company financial summary"
+   },
+   {
+    "code": "quarterly_filing",
+    "label": "Read the latest quarterly result filing when available"
+   },
+   {
+    "code": "annual_filing",
+    "label": "Read the latest annual result filing when available"
+   },
+   {
+    "code": "score_history",
+    "label": "Check score and rank changes"
+   },
+   {
+    "code": "model_risks",
+    "label": "Review the main model risks"
+   },
+   {
+    "code": "peers",
+    "label": "Compare with industry peers"
+   },
+   {
+    "code": "news",
+    "label": "Review recent high-confidence news"
+   },
+   {
+    "code": "lineage",
+    "label": "Check data sources and freshness"
+   },
+   {
+    "code": "methodology",
+    "label": "Read the methodology and verify primary sources"
+   }
+  ],
+  "lineage": {
+   "model_build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+   "financial_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+   "model_version": "multibagger-score-v1",
+   "financial_metric_definition_version": "2026-08-01.1",
+   "explanation_policy_version": "2026-08-01.1",
+   "peer_policy_version": "2026-08-01.1",
+   "compatibility_policy_version": "2026-08-01.1",
+   "source_selection_policy_version": "2026-08-01.2",
+   "data_cutoff": "2026-08-01T11:10:03.765519Z",
+   "quote_timestamp": "2026-08-01T11:10:03.765519+00:00",
+   "news_cutoff": null,
+   "generated_at": "2026-08-01T11:10:03.765519+00:00",
+   "data_mode": "static",
+   "financial_source": "Yahoo compatibility fallback",
+   "financial_source_quality_tier": "B",
+   "official_tier_a_status": "unavailable",
+   "known_limitations": [
+    "Statement basis and filing publication date are unavailable from the compatibility source.",
+    "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing.",
+    "No public-safe official filing metadata is present in this static build.",
+    "No accepted entity-matched company news is present at this build cutoff.",
+    "The quote is unavailable or stale."
+   ]
+  },
+  "warnings": [
+   "Statement basis and filing publication date are unavailable from the compatibility source.",
+   "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing.",
+   "No public-safe official filing metadata is present in this static build.",
+   "No accepted entity-matched company news is present at this build cutoff.",
+   "The quote is unavailable or stale."
+  ],
+  "feature_flags": {
+   "quote_enhancement": true,
+   "history_chart": true,
+   "filings": false,
+   "news": false,
+   "checklist": true
+  },
+  "methodology_links": {
+   "model": "/methodology.html",
+   "financials": "/methodology.html#financial-methodology",
+   "validation": "/methodology.html#validation"
+  },
+  "compatibility": {
+   "model_financial_builds_aligned": true,
+   "financial_age_days_at_model_cutoff": 0,
+   "news_age_days_at_model_cutoff": null,
+   "peer_model_build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+   "allowed_runtime_differences": [
+    "live quote values",
+    "runtime market status",
+    "news after static cutoff"
+   ]
+  }
+ },
+ "meta": {},
+ "errors": [],
+ "warnings": [
+  "Statement basis and filing publication date are unavailable from the compatibility source.",
+  "No accepted official filing series is present in this static dataset; verify against the issuer or exchange filing.",
+  "No public-safe official filing metadata is present in this static build.",
+  "No accepted entity-matched company news is present at this build cutoff.",
+  "The quote is unavailable or stale."
+ ],
+ "freshness": {
+  "state": "unknown",
+  "source": "company-research-static-build",
+  "source_timestamp": "2026-08-01T11:10:03.765519Z",
+  "normalized_at": "2026-08-01T11:10:03.765519+00:00",
+  "quality_status": "warning",
+  "reason": "Quote and news may change after the static build cutoff."
+ },
+ "request_id": "static-build"
+}

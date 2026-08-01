@@ -3,6 +3,10 @@ __pycache__/
 *.pyc
 *.egg-info/
 .pytest_cache/
+node_modules/
+.playwright-artifacts/
+playwright-report/
+test-results/
 /data/
 /reports/
 .DS_Store

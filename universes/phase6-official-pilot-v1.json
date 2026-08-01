@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.0",
+  "pilot_id": "nse-official-pilot-2026-08-v1",
+  "manifest_version": "2026-08-01.1",
+  "selection_date": "2026-08-01",
+  "date_from": "2022-04-01",
+  "date_to": "2026-03-31",
+  "filing_categories": [
+    "annual_results"
+  ],
+  "selection_method": "Deterministic judgment sample from the 25 published reports: maximize industry, operating-model and statement-presentation diversity; include consolidated groups, compatibility-covered metrics, the captured KFINTECH case, and segregated financial-services difficulty cases. Membership is fixed in manifest version 2026-08-01.1 and is not optimized for parser success.",
+  "manual_review_budget": 144,
+  "operator_review_status": "not_reviewed",
+  "limits": {
+    "max_companies": 12,
+    "max_discovery_pages": 12,
+    "max_filings_per_company": 4,
+    "max_attachments_per_filing": 2,
+    "max_documents": 48,
+    "max_document_bytes": 12000000,
+    "max_total_bytes": 120000000,
+    "max_requests": 60,
+    "per_host_concurrency": 1,
+    "minimum_request_interval_seconds": "0.75",
+    "max_retries": 2,
+    "max_runtime_seconds": 1800,
+    "quarantine_stop_rate": "0.25",
+    "identity_anomaly_stop_count": 5
+  },
+  "members": [
+    {
+      "instrument_id": "aa5d17e7-8fe4-5305-960d-ec7b21aa0211",
+      "company_name": "BLS International Services Ltd.",
+      "nse_symbol": "BLS",
+      "isin": "INE153T01027",
+      "sector": null,
+      "industry": "Consumer Services",
+      "selection_reason": "Asset-light international services and subsidiary exposure diversify revenue presentation and consolidated contexts.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"]
+    },
+    {
+      "instrument_id": "65a35257-0172-5c13-a348-6d28ffef8a0b",
+      "company_name": "HBL Engineering Ltd.",
+      "nse_symbol": "HBLENGINE",
+      "isin": "INE292B01021",
+      "sector": null,
+      "industry": "Capital Goods",
+      "selection_reason": "Manufacturing and capital-goods presentation exercises inventory, finance-cost and group-context diversity.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"]
+    },
+    {
+      "instrument_id": "c6091115-5a88-563c-8879-309a188b265e",
+      "company_name": "NATCO Pharma Ltd.",
+      "nse_symbol": "NATCOPHARM",
+      "isin": "INE987B01026",
+      "sector": null,
+      "industry": "Healthcare",
+      "selection_reason": "Pharmaceutical exports, subsidiaries and non-operating income create a useful revenue-concept challenge.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"]
+    },
+    {
+      "instrument_id": "dcf80a1a-8c11-5e91-a1e7-95e648419952",
+      "company_name": "Sarda Energy and Minerals Ltd.",
+      "nse_symbol": "SARDAEN",
+      "isin": "INE385C01021",
+      "sector": null,
+      "industry": "Metals & Mining",
+      "selection_reason": "Commodity operations and capital intensity test sign, debt, depreciation and consolidated-basis handling.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"]
+    },
+    {
+      "instrument_id": "6595a638-fa9a-5845-b4c1-945dff6bd114",
+      "company_name": "Force Motors Ltd.",
+      "nse_symbol": "FORCEMOT",
+      "isin": "INE451A01017",
+      "sector": null,
+      "industry": "Automobile and Auto Components",
+      "selection_reason": "Automotive manufacturing adds high working-capital and fixed-asset statement structure to the sample.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"]
+    },
+    {
+      "instrument_id": "ab20bbf4-8692-5426-a5ef-8e0746e0bfed",
+      "company_name": "Welspun Corp Ltd.",
+      "nse_symbol": "WELCORP",
+      "isin": "INE191B01025",
+      "sector": null,
+      "industry": "Capital Goods",
+      "selection_reason": "Export-oriented industrial group provides subsidiary, debt and multi-business dimension pressure.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"]
+    },
+    {
+      "instrument_id": "915935fa-a4f2-50d1-b7c6-4fd92eda9a52",
+      "company_name": "Computer Age Management Services Ltd.",
+      "nse_symbol": "CAMS",
+      "isin": "INE596I01020",
+      "sector": null,
+      "industry": "Financial Services",
+      "selection_reason": "Fee-based financial infrastructure is retained as a separately reported financial-services validation case.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"],
+      "segregated_accounting_case": true
+    },
+    {
+      "instrument_id": "cba5e174-9a5c-596c-b117-fb7820eb1c78",
+      "company_name": "Kfin Technologies Ltd.",
+      "nse_symbol": "KFINTECH",
+      "isin": "INE138Y01010",
+      "sector": null,
+      "industry": "Financial Services",
+      "selection_reason": "Anchors the pilot to the one captured and transport-verified Phase 5 XBRL case without generalizing it.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml"],
+      "segregated_accounting_case": true
+    },
+    {
+      "instrument_id": "eb2293f5-edc9-55ad-abf0-f7fafad1d396",
+      "company_name": "Netweb Technologies India Ltd.",
+      "nse_symbol": "NETWEB",
+      "isin": "INE0NT901020",
+      "sector": null,
+      "industry": "Information Technology",
+      "selection_reason": "Recent technology issuer adds shorter history and potentially incomplete comparative availability.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"]
+    },
+    {
+      "instrument_id": "92f953ac-65e0-5f6d-ac14-44420f59656d",
+      "company_name": "LT Foods Ltd.",
+      "nse_symbol": "LTFOODS",
+      "isin": "INE818H01020",
+      "sector": null,
+      "industry": "Fast Moving Consumer Goods",
+      "selection_reason": "Export-oriented consumer staples adds foreign operations and consolidated food-business reporting.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"]
+    },
+    {
+      "instrument_id": "4bade4e0-f7f8-5bc4-9c40-95b0d4de860c",
+      "company_name": "Cemindia Projects Ltd.",
+      "nse_symbol": "CEMPRO",
+      "isin": "INE686A01026",
+      "sector": null,
+      "industry": "Construction",
+      "selection_reason": "Project accounting and corporate-name transition make this a deliberately non-easy identity and period case.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"]
+    },
+    {
+      "instrument_id": "f8992bf9-91f8-5df1-915a-9457ee6bd882",
+      "company_name": "Niva Bupa Health Insurance Company Ltd.",
+      "nse_symbol": "NIVABUPA",
+      "isin": "INE995S01015",
+      "sector": null,
+      "industry": "Financial Services",
+      "selection_reason": "Insurance is the known difficult segregated case; its sector-specific taxonomy must not dilute general-company acceptance rates.",
+      "expected_filing_categories": ["annual_results"],
+      "expected_document_formats": ["xbrl_xml", "other"],
+      "segregated_accounting_case": true
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-heading screener-heading" aria-labelledby="page-title">
+  <div>
+    <p class="eyebrow">India-first research · Nifty Smallcap 250</p>
+    <h1 id="page-title">Advanced Stock Screener</h1>
+    <p class="lede">Build transparent, reproducible screens from canonical classification, model scores, risk, coverage and technical trend. Every active condition remains visible and editable.</p>
+    <p class="build-line">
+      Model <strong>{{ build.model_version if build else 'unavailable' }}</strong>
+      · Build <span class="mono">{{ build.build_id[:8] if build else 'unavailable' }}</span>
+      · Cutoff <time datetime="{{ build.data_cutoff if build else '' }}">{{ display_built_at }}</time>
+    </p>
+  </div>
+  <div class="context-actions">
+    <span class="badge badge-warning" data-screener-mode>Static snapshot</span>
+    <a class="button button-quiet" href="{{ methodology_href }}">Methodology</a>
+    <button class="button button-quiet" type="button" data-share-screen>Copy screen link</button>
+  </div>
+</section>
+
+<div class="notice notice-info" data-screener-scope>
+  <span aria-hidden="true">i</span><div><strong>Bounded weekly universe.</strong> Static mode screens all {{ total }} successfully scored Nifty Smallcap 250 companies in this build. It is not an all-market NSE/BSE screen.</div>
+</div>
+
+<section class="screener-layout" data-screener-app data-build-id="{{ build.build_id if build else '' }}">
+  <details class="panel screener-builder" data-filter-panel open>
+    <summary><span><span class="eyebrow">AND-first filter builder</span><strong>Screen conditions</strong></span><span class="badge badge-info" data-condition-count>0 active</span></summary>
+    <div class="builder-body">
+      <div class="preset-strip" aria-labelledby="preset-title">
+        <strong id="preset-title">Transparent presets</strong>
+        <div data-preset-list class="preset-list"><span class="cell-note">Loading available presets…</span></div>
+      </div>
+
+      <form class="condition-editor" data-condition-form novalidate>
+        <input type="hidden" data-condition-id>
+        <div class="field field-grow">
+          <label for="field-search">Find a field</label>
+          <input class="input" id="field-search" data-field-search type="search" maxlength="80" placeholder="Score, sector, risk, trend…" aria-describedby="field-help">
+          <span class="cell-note" id="field-help">Only reliable fields in the selected data mode are shown.</span>
+        </div>
+        <div class="field field-grow">
+          <label for="screener-field">Field</label>
+          <select class="select" id="screener-field" data-field-select required><option value="">Choose a field</option></select>
+        </div>
+        <div class="field">
+          <label for="screener-operator">Operator</label>
+          <select class="select" id="screener-operator" data-operator-select required disabled><option value="">Choose an operator</option></select>
+        </div>
+        <div class="field field-grow" data-value-host></div>
+        <div class="field editor-action"><span class="control-label">Condition</span><button class="button button-primary" type="submit" data-add-condition>Add condition</button></div>
+        <div class="form-error" data-condition-error role="alert" hidden></div>
+      </form>
+
+      <div class="active-conditions" aria-labelledby="conditions-title">
+        <div class="section-line"><strong id="conditions-title">Active conditions</strong><button class="button button-small button-quiet" type="button" data-clear-conditions>Clear conditions</button></div>
+        <ol class="condition-list" data-condition-list><li class="empty-condition">No conditions yet. The default screen shows the complete scored universe.</li></ol>
+      </div>
+    </div>
+  </details>
+
+  <section class="panel screener-results" aria-labelledby="results-title">
+    <div class="table-meta screener-toolbar">
+      <div><h2 id="results-title" class="compact-title">Results</h2><strong data-screener-count>{{ total }} companies</strong> <span class="cell-note" data-screener-status>from the versioned static build</span></div>
+      <div class="table-actions">
+        <label class="sr-only" for="screener-sort">Sort results</label><select class="select" id="screener-sort" data-screener-sort style="width:auto"></select>
+        <label class="sr-only" for="screener-direction">Sort direction</label><select class="select" id="screener-direction" data-screener-direction style="width:auto"><option value="asc">Ascending</option><option value="desc">Descending</option></select>
+        <label class="sr-only" for="screener-page-size">Rows per page</label><select class="select" id="screener-page-size" data-screener-page-size style="width:auto"><option value="10">10 rows</option><option value="25" selected>25 rows</option><option value="50">50 rows</option><option value="100">100 rows</option></select>
+        <label class="sr-only" for="screener-density">Table density</label><select class="select" id="screener-density" data-screener-density style="width:auto"><option value="compact">Compact</option><option value="standard" selected>Standard</option><option value="comfortable">Comfortable</option></select>
+        <button class="button button-small" type="button" data-screener-columns aria-expanded="false">Columns</button>
+        <div class="popover screener-column-popover" data-screener-column-popover hidden><strong>Visible columns</strong><div class="column-list" data-screener-column-list></div><button class="button button-small button-quiet" type="button" data-screener-column-reset>Restore defaults</button></div>
+        <button class="button button-small button-quiet" type="button" data-screener-export>Export CSV</button>
+        <button class="button button-small button-quiet" type="button" data-reset-screen>Reset screen</button>
+      </div>
+    </div>
+    <div class="notice notice-warning" data-screener-warning hidden><span aria-hidden="true">△</span><div data-screener-warning-copy></div></div>
+    <div class="table-scroll" tabindex="0" aria-label="Scrollable screener results table">
+      <table class="rankings-table screener-table" data-screener-table data-density="standard">
+        <caption class="sr-only">Companies matching every active screener condition.</caption>
+        <thead data-screener-head><tr><th scope="col" class="company-col">Company</th><th scope="col">NSE symbol</th><th scope="col">Sector</th><th scope="col" class="number">Rank</th><th scope="col" class="number">MB score</th><th scope="col" class="number">Confidence</th><th scope="col" class="number">Risk</th><th scope="col">Trend</th><th scope="col">Positive signal</th><th scope="col">Main risk</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
+        <tbody data-screener-rows>
+          {% for row in rows %}<tr data-instrument-id="{{ row.instrument_id }}">
+            <td class="company-col"><strong>{{ row['values']['company'] }}</strong></td><td>{{ row['values']['nse_symbol'] }}</td><td>{{ row['values']['sector'] or 'Unavailable' }}</td><td class="number">{{ row['values']['rank'] }}</td><td class="number"><span class="score">{{ '%.1f' | format(row['values']['multibagger_score']) }}</span></td><td class="number">{{ '%.0f%%' | format(row['values']['confidence'] * 100) }}</td><td class="number">{{ '%.0f' | format(row['values']['risk_score']) }}</td><td>{{ row['values']['technical_trend'] | replace('_', ' ') }}</td><td>{{ row['values']['main_positive_signal'] or 'Unavailable' }}</td><td>{{ row['values']['main_risk'] or 'No model flag' }}</td><td>{% if row.report_url %}<a class="button button-small" href="{{ row.report_url }}">Report</a>{% else %}<a class="button button-small" href="/api/analyze?ticker={{ row['values']['nse_symbol'] }}.NS">Analyze</a>{% endif %}</td>
+          </tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="state-panel" data-screener-empty hidden><div><h2 data-screener-state-title>No companies match</h2><p data-screener-state-copy>Change or remove a condition to widen this research screen.</p></div></div>
+    <nav class="pagination" aria-label="Screener result pages"><span data-screener-page>Page 1</span><div class="pagination-controls"><button class="button button-small" type="button" data-screener-prev disabled>Previous</button><button class="button button-small" type="button" data-screener-next>Next</button></div></nav>
+  </section>
+</section>
+
+<noscript><div class="notice notice-warning"><strong>Interactive filters require JavaScript.</strong> The table above is the first page of the complete static build; use a modern browser to create and share screens.</div></noscript>
+{% endblock %}
+{% block scripts %}<script defer src="{{ asset_prefix }}/screener.js"></script>{% endblock %}

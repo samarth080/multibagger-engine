@@ -1,15 +1,16 @@
 # Multibagger Engine living handover
 
-Last updated: 2026-08-01 (after authenticated Phase 9B RC3 validation)
+Last updated: 2026-08-01 (after Phase 9 production release)
 
-Status: Phases 0 through 8 are committed and the release branch now resolves to
-`v1.0.0-rc3` after two separately tested Vercel packaging fixes. Authenticated
-Safari validation reached the real preview and passed representative static
-routes, live quotes, typed health/unavailable contracts, the analysis error
-contract and runtime-log checks. Mandatory hosted Chromium/Firefox/WebKit,
-VoiceOver, actual application-header/compression/cache, preview performance,
-axe/visual and exhaustive hosted-integrity gates remain unresolved. Production
-is blocked and unchanged. Phase 6's official-ingestion no-go is unchanged.
+Status: Production is live at `https://multibagger-engine.vercel.app/` from
+source commit `6fb5a7e` / final tag `v1.0.0`, deployment
+`EvCEEd2g9fkRVShmvAdwQeCdoZja`. Public route/function smoke, actual security and
+cache headers, gzip, representative source/production hashes, Safari rendering
+and production runtime logs passed. The user explicitly authorized promotion
+after accepting the disclosed hosted cross-browser, real VoiceOver, hosted
+axe/Lighthouse and exhaustive hosted-hash conditions for post-release closure.
+Rollback deployment `rBeoLhBW8hNZv5fX3iT64nwrvCsc` remains Ready. Phase 6's
+official-ingestion no-go is unchanged.
 
 ## How to use this document
 
@@ -163,7 +164,7 @@ quote enhancement. A typed bounded screener now exists in dynamic and full
 | Phase 6 — controlled official-corpus pilot | Complete — no-go | 12-company versioned pilot, explicit private operator-review gate, request/byte/runtime/denial stops, immutable captured-corpus manifest, versioned concept registry, fact evidence, private review workflow, independent ground truth, Tier-A/publication gate and evidence-based readiness reports | 449 Python tests and 21 frontend tests passed; ESLint/type-check/compileall/diff/JSON/HTML/migrations/offline corpus/build/HTTP passed; 8/8 captured ground-truth facts exact; 0 live requests, 0 Tier-A facts/metrics, 13 unresolved review items; public values unchanged; real browser unavailable | Working tree only; not committed/pushed/deployed; no new migration/dependency; PostgreSQL not provisioned; no operator acknowledgement or live pilot acquisition |
 | Phase 7 — canonical company research | Complete | Immutable instrument-ID route for 250 companies, 25 legacy compatibility pages, typed research schema, deterministic explanations/strengths/risks/summary/peers, bounded history, approved financials, technical/filing/news states, local checklist, trust panel, static/dynamic APIs and parity | 456 Python and 24 frontend tests passed; lint/type-check/compileall/migrations/build/JSON/HTML/CSP/routes/leaks/HTTP/diff passed; public values unchanged; real browser unavailable | Working tree only; not committed/pushed/deployed; no migration/dependency/environment variable; PostgreSQL not provisioned; NSE gate untouched |
 | Phase 8 — release-readiness hardening | Complete — preview conditions remain | Real Chrome journeys, 320–1440 responsive/zoom/reduced-motion coverage, axe WCAG-oriented audit, 11-state visual baselines, performance/Lighthouse evidence, generated 404/robots/favicon, noindex correction, external theme bootstrap, stricter CSP/security/cache policy, deterministic release/public-value verifier, dependency audit and deployment/rollback runbooks | 457 Python, 24 frontend and 65 real-Chrome browser tests passed; static release verifier, Lighthouse, npm/pip audits, compileall/migrations/build/JSON/HTML/SEO/CSP/public-value/diff passed | Working tree only; not committed/pushed/deployed; no migration/runtime environment variable/provider/scoring change; test-only Node dependencies; Firefox/WebKit/VoiceOver/Vercel preview gates remain; NSE no-go untouched |
-| Phase 9 — controlled preview release | Blocked — production not authorized | RC1 release/push/preview plus authenticated Phase 9B validation; fixed missing `src` bootstrap and missing FastAPI packaging in separate RC2/RC3 commits; Safari exercised rankings, screener, methodology, complete/missing company, legacy/404/static JSON and functions | Local after fixes: 461 Python and 24 frontend passed; ESLint/type-check/compileall/diff passed; original 65 Chrome and 11 visual remained green. RC3 build Ready in 1m28s; runtime logs showed expected quote 200, health 200, status 503 and analysis 400 with zero warning/error/fatal events | HEAD `9de4642`, tag `v1.0.0-rc3`, branch/tag pushed; validated deployment `7iyyZhWCQDYg4XepdSx8W1ywedum`; production untouched; cross-browser/VoiceOver/actual headers/compression/cache/performance/hosted hashes unresolved; docs uncommitted |
+| Phase 9 — controlled release | Complete — live with accepted conditions | RC1/RC2/RC3 fixed Vercel source bootstrap and FastAPI packaging; RC4 recorded validation; user explicitly authorized production; Vercel created and assigned a Production-environment deployment | 461 Python and 24 frontend passed; original 65 Chrome/11 visual remained green; RC4 preview Ready; production route/function smoke, actual headers/gzip/cache, representative hashes, Safari and runtime logs passed | Source `6fb5a7e`, tags `v1.0.0-rc4`/`v1.0.0`; production `EvCEEd2g9fkRVShmvAdwQeCdoZja` live; rollback `rBeoLhBW8hNZv5fX3iT64nwrvCsc` Ready; hosted cross-browser/VoiceOver/axe/Lighthouse/exhaustive hashes accepted for Phase 10 closure |
 
 ## Phase 0 implementation details
 
@@ -1452,12 +1453,35 @@ official coverage remains 0/250, fallback coverage remains 246/250 Revenue CAGR
 and 232/250 ROCE, Phase 6 remains `live_enabled: false`, and Phase 9/9B made zero
 live NSE requests.
 
-Decision: preview failed — production blocked. Authenticated Chromium, Firefox
-and WebKit/mobile automation, real VoiceOver, actual application headers,
-compression/cache, preview axe/visual/performance and exhaustive hosted
-hash/private-leak checks remain unresolved. Deployment
-`rBeoLhBW8hNZv5fX3iT64nwrvCsc` remains the unchanged last-known-good production
-rollback target. Full evidence is in `phase9-preview-release-report.md`.
+The documentation-only RC4 commit
+`6fb5a7ea26c2ce996e17e298aae4c41c0965605d` and annotated tag `v1.0.0-rc4`
+were pushed. RC4 preview `1nxtgBJQxq5Ty5VBbBH6MJMU7pxp` reached Ready in
+1m 27s, rendered model build `1bd53d15`, returned the expected degraded health
+200 contract and had clean runtime logs.
+
+After the unresolved hosted cross-browser, real VoiceOver, axe/Lighthouse and
+exhaustive hosted-integrity conditions were disclosed, the user explicitly
+authorized production. Vercel's promotion flow stated that it would build a new
+deployment with the Production environment; it therefore produced deployment
+`EvCEEd2g9fkRVShmvAdwQeCdoZja` in 1m 26s rather than assigning the RC4 preview
+artifact directly. The production domain is
+`https://multibagger-engine.vercel.app/`.
+
+Production Safari and HTTP smoke passed root/rankings, screener, methodology,
+canonical and legacy company routes, static JSON, live quotes, health 200,
+intended database-unavailable status 503 and product 404. Actual application
+CSP/HSTS/referrer/permissions/frame/nosniff headers, gzip and HTML/CSS/static
+JSON/dynamic cache policies passed. Representative SHA-256 parity was exact for
+root HTML, CSS, instruments JSON, KFINTECH research JSON and canonical/legacy
+company HTML. Production runtime logs showed the expected quote 200, health
+200 and status 503 traffic with zero warning/error/fatal events. The prior
+deployment `rBeoLhBW8hNZv5fX3iT64nwrvCsc` was separately rechecked and remains
+Ready for rollback.
+
+Decision: production live by explicit risk acceptance. Hosted Chromium,
+Firefox and WebKit/mobile automation, real VoiceOver, hosted axe/Lighthouse and
+exhaustive hosted hashing remain post-release closure conditions and are not
+claimed as passes. Full evidence is in `phase9-preview-release-report.md`.
 
 ## Current working-tree state
 
@@ -1466,19 +1490,18 @@ Branch: `release/v1.0.0-rc1`, tracking `origin/release/v1.0.0-rc1`.
 Phase 0 through Phase 8 source, generated output and verification assets are in
 commit `6797a2e` and annotated tag `v1.0.0-rc1`. Preview fixes are in pushed
 commits `786e61d`/`9de4642` and annotated tags `v1.0.0-rc2`/`v1.0.0-rc3`.
-Current HEAD, the remote release branch and the peeled RC3 tag resolve to
-`9de46429119ae918b5b221fa4787fe400ed1446f`. The Phase 9 report,
-runbook/checklist status and living-handover update remain intentionally
-uncommitted so validated RC3 is not silently replaced by a documentation-only
-deployment. Preserve these documentation changes.
+Production source is pushed commit
+`6fb5a7ea26c2ce996e17e298aae4c41c0965605d` and annotated tags `v1.0.0-rc4`
+and `v1.0.0`. Release-evidence documentation follows that source commit on the
+release branch without changing the production identity.
 
 Repository-local `.git/info/exclude` was narrowed from the overly broad `data`
 pattern to `/data/`; this keeps root runtime data ignored while ensuring new
 tracked-source candidates under `src/mbe/data/` appear in `git status` and
 cannot be omitted accidentally.
 
-Production remains on the prior deployment. Protected RC3 passed the exercised
-Safari/function paths but has not completed every required production gate.
+Production deployment `EvCEEd2g9fkRVShmvAdwQeCdoZja` is live. Retain
+`rBeoLhBW8hNZv5fX3iT64nwrvCsc` until the Phase 10 closure window completes.
 
 ## Known limitations and open risks
 
@@ -1530,11 +1553,9 @@ Safari/function paths but has not completed every required production gate.
 
 ### Product and frontend
 
-- The new application experience is committed and present in a protected
-  preview, but production remains on the previous static UI. Deployment
-  Protection currently prevents automated and manual unauthenticated preview
-  validation; an authenticated operator session or approved secure bypass is
-  required before any promotion decision.
+- The new application experience is live in production. Hosted Chromium,
+  Firefox/WebKit mobile/fallback, real VoiceOver, hosted axe/Lighthouse and
+  exhaustive hosted-integrity evidence remain explicit post-release risks.
 - Static ranking scope remains the published top 25. The full 250-name snapshot
   is for canonical search, not a fabricated ranking of unpublished results.
 - Static screener scope is the 250 successfully scored companies in the weekly
@@ -1690,36 +1711,41 @@ Safari/function paths but has not completed every required production gate.
 45. Authenticated Safari accessibility-tree evidence is useful semantic QA but
     is neither cross-browser automation nor a VoiceOver pass. Protection-layer
     headers are never application-header evidence.
+46. When Vercel promotion creates a fresh Production-environment build instead
+    of aliasing the verified preview, record the rebuild explicitly and require
+    independent production smoke plus representative source/production hashes.
+47. Explicit user risk acceptance can authorize production with bounded gates
+    unresolved, but it does not convert those gates into passes. Carry each one
+    into a named post-release closure phase and keep rollback Ready.
 
 ## Next phase
 
-### Phase 9C — authenticated cross-browser and response-evidence closure
+### Phase 10 — post-release monitoring and accepted-condition closure
 
-Objective: close the remaining production gates against the existing RC3
-deployment `7iyyZhWCQDYg4XepdSx8W1ywedum` without changing product scope or
-rebuilding merely to work around Deployment Protection.
+Objective: monitor production deployment `EvCEEd2g9fkRVShmvAdwQeCdoZja`, close
+the explicitly accepted release conditions, and retain deployment
+`rBeoLhBW8hNZv5fX3iT64nwrvCsc` as the immediate rollback target.
 
-1. Obtain authenticated access in callable Chromium, Firefox and WebKit engines
-   or an operator-approved temporary bypass delivered through a secure channel.
-   Never commit, print or place a bypass value in public documentation.
-2. Run desktop/mobile, JavaScript-disabled and static/API-fallback journeys for
-   navigation, search, rankings, screener, complete/missing company, legacy and
-   404 states. Re-run hosted axe and visual checks.
+1. Run a bounded post-release observation window over production route status,
+   function request IDs, 5xx/error rate, cache behavior and unexpected provider
+   activity. Record timestamps and results; do not enable live NSE ingestion.
+2. Run hosted Chromium, Firefox and WebKit desktop/mobile, JavaScript-disabled
+   and static/API-fallback journeys for navigation, search, rankings, screener,
+   complete/missing company, legacy and 404 states.
 3. Perform and record a real VoiceOver + Safari journey covering landmarks,
    dialogs, tables/scrollers, charts/SVG descriptions, live feedback,
    disclosures, checklist state and focus order.
-4. Capture actual authenticated application status/MIME/CSP/HSTS/referrer/
-   permissions/frame/nosniff headers, compression and static/dynamic cache
-   behavior. Do not count Deployment Protection headers.
-5. Run preview Lighthouse/transfer/request measurements plus exhaustive hosted
-   public-value hashes, private-data/leak/security checks and route-count probes;
-   inspect RC3 runtime logs afterward.
-6. If a release-blocking defect appears, add a regression test, make a separate
-   fix commit/tag/preview and revalidate the affected gates. Otherwise update
-   the release report with the final gate outcome.
-7. Obtain new explicit production-promotion authorization only after every
-   required gate passes or the user explicitly accepts a bounded unresolved
-   condition. Keep the Phase 6 NSE no-go intact.
+4. Run hosted axe/visual checks and Lighthouse/transfer/request measurements.
+   Perform exhaustive hosted public-value hashes, private-data/leak/security
+   checks and route-count probes.
+5. Treat any widespread 5xx, invalid public value, missing security policy,
+   critical accessibility defect or unexpected provider activity as a rollback
+   trigger. Promote the retained deployment and execute the runbook if needed.
+6. If a defect is non-emergency, add a regression test and use a separate
+   fix commit/tag/preview/production cycle. Never mutate the live artifact.
+7. When the observation window and accepted conditions close, update this
+   handover and release report, record whether rollback can be retired, and
+   leave the working tree clean.
 
 Out of scope: new metrics/model weights, live NSE corpus work without its exact
 private gate, authentication/watchlists/alerts, full comparison workspace,

@@ -35,30 +35,38 @@ an unrelated working directory without ambient `PYTHONPATH`, and every runtime
 import must be present in root `requirements.txt`. A successful static build
 does not prove that an individual function can import.
 
-## Current RC3 evidence — 2026-08-01
+## Current production evidence — 2026-08-01
 
-- Release HEAD/tag: `9de46429119ae918b5b221fa4787fe400ed1446f` /
-  `v1.0.0-rc3`.
-- Validated preview deployment: `7iyyZhWCQDYg4XepdSx8W1ywedum`, Ready in
-  1m 28s. The protected URL remains outside public documentation.
-- Authenticated build log: 39 lines; Python 3.12, uv 0.10.11, dependency
-  installation, bytecode compilation and `/vercel/output` completion in 29s.
-- Authenticated runtime logs: zero warning/error/fatal console events during the
-  validation window; quotes 200, health 200, intended database-unavailable 503
-  and missing/invalid ticker 400.
-- Safari passed representative rankings, screener, methodology,
-  complete/missing company, legacy, product-404 and static JSON journeys.
-- Production remains blocked pending authenticated Chromium/Firefox/WebKit,
-  VoiceOver, actual application headers/compression/cache, hosted accessibility/
-  visual/performance and exhaustive hosted-integrity checks.
-- Last-known-good production/rollback deployment remains
-  `rBeoLhBW8hNZv5fX3iT64nwrvCsc`; no production alias changed.
+- Production source commit/tags: `6fb5a7ea26c2ce996e17e298aae4c41c0965605d` /
+  `v1.0.0-rc4` and `v1.0.0`.
+- Validated RC4 preview: `1nxtgBJQxq5Ty5VBbBH6MJMU7pxp`, Ready in 1m 27s.
+- Production deployment: `EvCEEd2g9fkRVShmvAdwQeCdoZja`, Ready in 1m 26s.
+- Live domain: `https://multibagger-engine.vercel.app/`.
+- Safari loaded the real production rankings, model build `1bd53d15`, and live
+  quote cells.
+- Production HTTP checks passed the root, screener, methodology, canonical and
+  legacy company routes, static JSON, quote and health contracts, intended
+  status 503, and product 404.
+- Actual application CSP/HSTS/referrer/permissions/frame/nosniff headers, gzip,
+  MIME and HTML/CSS/static-JSON/dynamic cache policies passed.
+- Representative local/production SHA-256 parity passed for root, CSS,
+  instruments, KFINTECH research and canonical/legacy company HTML.
+- Production runtime logs showed expected quote 200, health 200 and intended
+  status 503 with zero warning/error/fatal events.
+- Authenticated hosted Chromium/Firefox/WebKit, real VoiceOver, hosted axe/
+  Lighthouse and exhaustive hosted hashing remain explicitly accepted
+  post-release conditions.
+- Last-known-good rollback deployment `rBeoLhBW8hNZv5fX3iT64nwrvCsc` was
+  separately rechecked and remains Ready.
 
 ## Production promotion
 
-Promote the already-verified preview artifact; do not rebuild between preview
-and production. Record commit, deployment URL/ID, generated model/financial
-build IDs, operator, timestamp and verification result in the handover.
+Prefer promoting the already-verified preview artifact without rebuilding. If
+the platform explicitly rebuilds with the Production environment, record that
+behavior, verify the new immutable production deployment independently, and
+compare representative production assets with the verified source artifact.
+Record commit/tag, deployment URL/ID, generated model/financial build IDs,
+operator authorization, timestamp and verification result in the handover.
 
 ## Rollback
 

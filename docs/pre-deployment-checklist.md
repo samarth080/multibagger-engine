@@ -17,7 +17,7 @@
 - [ ] Rollback deployment ID and operator are recorded.
 - [ ] Explicit user authorization exists for deployment/promotion.
 
-## Phase 9 RC3 status — 2026-08-01
+## Phase 9 production status — 2026-08-01
 
 - [x] RC1, RC2 and RC3 commits/tags were pushed without rewriting history.
 - [x] RC3 preview deployment `7iyyZhWCQDYg4XepdSx8W1ywedum` is Ready; build
@@ -30,13 +30,25 @@
 - [x] Representative rankings, screener, methodology, complete/missing company,
   legacy, product-404, static JSON, quotes, health/status and analysis contracts
   were exercised; runtime statuses were 200, intended 503 and intended 400.
-- [x] Rollback deployment `rBeoLhBW8hNZv5fX3iT64nwrvCsc` is recorded and
-  production remains unchanged.
-- [ ] Actual authenticated application headers, MIME, compression and static/
-  dynamic cache behavior are captured and pass.
+- [x] RC4 documentation commit/tag was pushed; preview deployment
+  `1nxtgBJQxq5Ty5VBbBH6MJMU7pxp` reached Ready and passed root/health smoke.
+- [x] Final annotated tag `v1.0.0` was pushed and peels to production source
+  commit `6fb5a7ea26c2ce996e17e298aae4c41c0965605d`.
+- [x] Actual production application headers, MIME, compression and static/
+  dynamic cache behavior were captured and passed.
+- [x] Representative local-to-production public asset hashes matched exactly.
+- [x] Separate explicit production-promotion authorization was received with
+  the unresolved hosted browser/VoiceOver/performance conditions disclosed.
+- [x] Production deployment `EvCEEd2g9fkRVShmvAdwQeCdoZja` is Ready and live
+  at `https://multibagger-engine.vercel.app/`; route/function/runtime-log smoke
+  passed.
+- [x] Rollback deployment `rBeoLhBW8hNZv5fX3iT64nwrvCsc` was rechecked and is
+  Ready.
 - [ ] Authenticated Chromium, Firefox and WebKit desktop/mobile/fallback
-  journeys pass against RC3.
+  journeys pass against the hosted release.
 - [ ] Real VoiceOver + Safari, hosted axe/visual and focus journeys pass.
-- [ ] Preview Lighthouse/transfer/request metrics and exhaustive hosted
+- [ ] Hosted Lighthouse/transfer/request metrics and exhaustive hosted
   security/private-leak/public-hash checks pass.
-- [ ] Separate explicit production-promotion authorization is received.
+
+The remaining unchecked items were explicitly accepted by the user as bounded
+post-release conditions; they must not be rewritten as passes.

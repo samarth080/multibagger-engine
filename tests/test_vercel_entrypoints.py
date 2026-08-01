@@ -23,7 +23,7 @@ def test_vercel_requirements_include_versioned_api_framework() -> None:
     assert "fastapi" in requirements
 
 
-@pytest.mark.parametrize("entrypoint", ["api/quotes.py", "api/analyze.py", "api/v1.py"])
+@pytest.mark.parametrize("entrypoint", ["api/quotes.py", "api/analyze.py", "api/company.py", "api/v1.py"])
 def test_vercel_entrypoint_imports_without_repo_pythonpath(
     entrypoint: str, tmp_path: Path
 ) -> None:

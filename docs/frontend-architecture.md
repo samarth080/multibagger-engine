@@ -33,9 +33,9 @@ scripts or dynamic APIs are unavailable.
 | `/` and `/index.html` | New application shell and interactive Multibagger rankings | Auto-selected v1 API or static snapshots |
 | `/methodology.html` | New shell with statically rendered methodology and limitations | Build/model constants |
 | `/screener.html` | Typed AND-first advanced screener, transparent presets, share state, columns, pagination and safe CSV | Auto-selected screener API or full 250-row weekly snapshot |
-| `/company/<instrument_id>.html` | Canonical company research page for every scored instrument | Shared research schema; static/API compatible |
+| `/company/<instrument_id>.html` | Canonical company page for every instrument the search universe can identify — a real static file for the 250 scored instruments, or (Phase 10A) an on-demand lightweight identity+quote page via `/api/company` for everything else | Shared research schema (static file) or `mbe.research.lightweight` (serverless fallback); see `search-architecture.md` |
 | `/reports/<ticker>.html` | Full legacy compatibility rendering with canonical metadata | Same research payload as canonical route |
-| `/api/analyze?ticker=…` | Existing on-demand analysis destination for search results without a published report | Existing Vercel function |
+| `/api/analyze?ticker=…` | On-demand analysis for a raw typed ticker that matches nothing in the search index (rare since Phase 10A — most queries now resolve to a canonical `/company/` page) | Existing Vercel function |
 | `/api/v1/*` | Existing typed dynamic read API | Canonical relational database when configured |
 | `/api/v1/*.json` | Versioned static compatibility snapshots | Weekly static build |
 
@@ -65,9 +65,21 @@ different build IDs is never merged. Search uses the same selection, while
 quotes are fetched separately in bounded visible-row batches and cannot block
 rankings.
 
-The static instrument snapshot contains the full pinned 250-instrument master
-so canonical symbol/name/ISIN search continues to work without PostgreSQL. The
-ranking snapshot remains the bounded published top 25.
+The static instrument snapshot (`instruments.json`) contains the pinned
+250-instrument research/ranking master and is unchanged. Since Phase 10A,
+global search reads a separate, deliberately wider snapshot,
+`search-index.json` — every NSE-listed security the platform can identify,
+plus (Phase 10B) a curated BSE cross-listing starter set, each honestly
+tagged with whether it is in the research/ranking universe, its BSE code
+and every exchange listing. See `search-architecture.md` for why these are
+different files and for the BSE sourcing disclosure. The ranking snapshot
+remains the bounded published top 25.
+
+Search also recognizes an allowlisted exchange hint (Phase 10B):
+`NSE:TCS`/`BSE:500325` (prefix) or `TCS NSE`/`Reliance BSE` (trailing
+suffix) — `app.js`'s `parseExchangeHint()`. An unrecognized `word:word`
+shape, including anything colon-prefixed that isn't `NSE`/`BSE`, is treated
+as a literal query, never as routing syntax.
 
 Phase 3 adds `screener-fields.json` and `screener.json`. The latter contains all
 250 successfully scored weekly companies, not merely the published top 25.

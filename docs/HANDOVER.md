@@ -137,9 +137,14 @@ generated public site, not yet a conventional full-stack application.
 - Local-only application: FastAPI terminal in `src/mbe/web/app.py`.
 - Schedule: GitHub Actions Monday 02:30 UTC / 08:00 IST; commits `site/`, which
   triggers the existing Vercel Git deployment.
-- Production universe: live Nifty Smallcap 250; all 250 scored instruments have
-  canonical research pages, 25 ticker report routes remain compatible, and all
-  250 scored rows are available to the bounded screener snapshot.
+- Research/ranking universe: live Nifty Smallcap 250; all 250 scored
+  instruments have canonical research pages, 25 ticker report routes remain
+  compatible, and all 250 scored rows are available to the bounded screener
+  snapshot. The search universe is deliberately wider (Phase 10A/10B): every
+  NSE main-board/SME security plus a curated BSE cross-listing starter set
+  (2,947 canonical companies) is discoverable, honestly labeled as
+  research-available or not — see "Search, research and ranking universes"
+  below and `search-architecture.md`.
 
 Production remains operationally coupled to Yahoo and Google News. Official NSE
 ingestion is an explicit disabled-by-default operator command, requires the
@@ -150,6 +155,36 @@ application surface now exist in code. PostgreSQL is not provisioned, so the
 current deployable mode remains versioned static snapshots with failure-tolerant
 quote enhancement. A typed bounded screener now exists in dynamic and full
 250-row static modes. Authentication and job-status orchestration do not exist.
+
+### Search, research and ranking universes
+
+Three intentionally different concepts, introduced explicitly in Phase 10A
+after search had quietly narrowed to match the ranking universe:
+
+- **Search universe** — everything the platform can identify. Currently
+  every NSE main-board and SME listed security (2,927) from the official
+  `EQUITY_L.csv`/`SME_EQUITY_L.csv` archives (`mbe.data.nse_search_master`),
+  plus (Phase 10B) a small curated 20-company BSE cross-listing starter
+  fixture (`mbe.data.bse_search_master`) — BSE's official endpoints were not
+  reachable from this environment; see `search-architecture.md` "BSE
+  coverage and honesty about sourcing". Future: full BSE main-board/SME
+  breadth once a live feed is reachable.
+- **Research universe** — companies with a deterministic research page.
+  Currently the same 250 Nifty Smallcap companies as before. Future: the
+  entire market, as coverage grows independent of what is currently scored.
+- **Ranking universe** — companies currently included in the scoring model.
+  Currently Nifty Smallcap 250 (identical to the research universe today,
+  but conceptually separate). Future: configurable.
+
+They are separate on purpose: **search must discover everything; ranking
+must only rank what is currently modeled; research depth depends on
+available data.** A company can be searchable without being ranked (Reliance
+today), and could in principle have a research page without a current score
+(a build failure), or be ranked without deep research history (a brand-new
+addition to the model). Collapsing any two of these back into one — the
+Phase 2–8 regression this phase fixes — silently limits what users can find
+to whatever the scoring model currently covers. Full design in
+`search-architecture.md`.
 
 ## Phase ledger
 
@@ -165,6 +200,8 @@ quote enhancement. A typed bounded screener now exists in dynamic and full
 | Phase 7 — canonical company research | Complete | Immutable instrument-ID route for 250 companies, 25 legacy compatibility pages, typed research schema, deterministic explanations/strengths/risks/summary/peers, bounded history, approved financials, technical/filing/news states, local checklist, trust panel, static/dynamic APIs and parity | 456 Python and 24 frontend tests passed; lint/type-check/compileall/migrations/build/JSON/HTML/CSP/routes/leaks/HTTP/diff passed; public values unchanged; real browser unavailable | Working tree only; not committed/pushed/deployed; no migration/dependency/environment variable; PostgreSQL not provisioned; NSE gate untouched |
 | Phase 8 — release-readiness hardening | Complete — preview conditions remain | Real Chrome journeys, 320–1440 responsive/zoom/reduced-motion coverage, axe WCAG-oriented audit, 11-state visual baselines, performance/Lighthouse evidence, generated 404/robots/favicon, noindex correction, external theme bootstrap, stricter CSP/security/cache policy, deterministic release/public-value verifier, dependency audit and deployment/rollback runbooks | 457 Python, 24 frontend and 65 real-Chrome browser tests passed; static release verifier, Lighthouse, npm/pip audits, compileall/migrations/build/JSON/HTML/SEO/CSP/public-value/diff passed | Working tree only; not committed/pushed/deployed; no migration/runtime environment variable/provider/scoring change; test-only Node dependencies; Firefox/WebKit/VoiceOver/Vercel preview gates remain; NSE no-go untouched |
 | Phase 9 — controlled release | Complete — live with accepted conditions | RC1/RC2/RC3 fixed Vercel source bootstrap and FastAPI packaging; RC4 recorded validation; user explicitly authorized production; Vercel created and assigned a Production-environment deployment | 461 Python and 24 frontend passed; original 65 Chrome/11 visual remained green; RC4 preview Ready; production route/function smoke, actual headers/gzip/cache, representative hashes, Safari and runtime logs passed | Source `6fb5a7e`, tags `v1.0.0-rc4`/`v1.0.0`; production `EvCEEd2g9fkRVShmvAdwQeCdoZja` live; rollback `rBeoLhBW8hNZv5fX3iT64nwrvCsc` Ready; hosted cross-browser/VoiceOver/axe/Lighthouse/exhaustive hashes accepted for Phase 10 closure |
+| Phase 10A — restore full Indian market discovery (regression fix) | Complete | Separated search/research/ranking universes; additive official NSE main-board/SME search-universe source and pinned snapshot (~2,950 securities); `mbe.search` catalog/ranking package; additive `search-index.json` static artifact; lightweight (lightweight-page-badged) company page for non-research companies; `/company/{id}.html` serverless fallback (`api/company.py`) for every non-research instrument; broadened quote whitelist and 52-week range; additive `GET /api/v1/search` and `GET /api/v1/company/{id}/summary`; additive `search-universe-import` CLI; frontend search UX/badges and truthful homepage/search copy | 545 Python tests (+84) and 25 frontend tests (+1) passed; ESLint/type-check/compileall/`git diff --check` passed; static release verifier passed (279 HTML, 508 JSON — one additive file, 250 company, 25 legacy, 253 indexable/sitemap — both public score/financial hashes unchanged); `instruments.json` contract byte-identical; no migration/canonical-ID/scoring/ranking/financial-value/provider-selection change; real browser unavailable | Working tree only; not committed/pushed/deployed; PostgreSQL still not provisioned, so production search is served by the static path (`search-index.json` + `api/company.py`); the dynamic `/api/v1/search` route and `search-universe-import` CLI are additive/ready but unused until a database exists |
+| Phase 10B — search-quality upgrade: BSE coverage, cross-listing, ranking v2 | Complete | Additive BSE search-universe provider + honestly-labeled 20-company curated starter fixture (ISIN-cross-checked; live BSE fetch verified unreachable from this environment); NSE/BSE cross-listing bridge (`import_instruments` new-exchange-listing branch, no migration — reused existing `InstrumentListingRow` columns); multi-listing `SearchIndexRecord`/`ExchangeListing`; versioned search-ranking policy 2 (`SEARCH_RANKING_POLICY_VERSION`) with a full-phrase tier, exchange-aware `NSE:`/`BSE:` query parsing, and documented bounded tie-breakers; classification backfill-without-overwrite (`sector_source`/`industry_source`); listing-status awareness end to end; additive `GET /api/v1/search/meta` and extended `/api/v1/search`, `/api/v1/company/{id}/summary`; enriched lightweight company page (BSE code, all listings, inactive-listing banner); frontend BSE/status badges and exchange-hint search; length-ratio fuzzy-matching performance guard; deterministic search-quality evaluation harness and CLI (`search-quality-evaluate`, `search-inspect`, `bse-search-universe-import`) | 615 Python tests (+70) and 28 frontend tests (+3) passed; ESLint/type-check/compileall/`git diff --check` passed; static release verifier passed (279 HTML, 508 JSON, 250 company, 25 legacy, 253 indexable/sitemap — both public score/financial hashes unchanged, byte-identical to Phase 10A); `instruments.json` contract untouched; search-quality evaluation 100% top-1 accuracy / 100% top-3 recall / 0 false positives on the real 2,947-record merged index; client-side search latency improved ~24.5ms→~16.1ms mean, server-side ~66ms→~35ms mean; no migration/canonical-ID/scoring/ranking/financial-value/provider-selection change; real browser unavailable | Working tree only; not committed/pushed/deployed; PostgreSQL still not provisioned; BSE coverage remains a 20-company curated fixture pending a reachable official feed; dynamic BSE-aware routes are additive/ready but unused until a database exists |
 
 ## Phase 0 implementation details
 
@@ -1483,6 +1520,328 @@ Firefox and WebKit/mobile automation, real VoiceOver, hosted axe/Lighthouse and
 exhaustive hosted hashing remain post-release closure conditions and are not
 claimed as passes. Full evidence is in `phase9-preview-release-report.md`.
 
+## Phase 10A implementation details
+
+### Root cause
+
+Search had quietly narrowed to the 250-company Nifty Smallcap research/
+ranking universe. `staticSearch()`/the dialog read `instruments.json`, and
+that snapshot's own contract warning said so explicitly: "Static instrument
+master is limited to the pinned Nifty Smallcap 250 universe." No canonical
+instrument outside that pinned master had ever been imported anywhere in the
+system, so a user could not find Reliance, TCS, Infosys, HDFC Bank, Dixon,
+Polycab, HAL, BEL, Zomato, Trent or any other major Indian company that
+happened not to be a current Smallcap-250 constituent. The resolver logic
+itself (`InstrumentResolver`, `staticSearch()`) was never the problem — both
+already scan whatever identity data they are given; the ranking universe had
+simply become the only identity data that existed.
+
+### The three-universe separation
+
+Introduced as three explicitly separate concepts (previously conflated —
+see "Search, research and ranking universes" in the architecture snapshot
+above for the full definitions): search universe (everything identifiable —
+now ~2,950 NSE main-board/SME securities), research universe (companies with
+a deterministic page — 250, unchanged) and ranking universe (companies
+currently scored — 250, unchanged, conceptually independent of the research
+universe even though identical today). Full design, the merge/ranking
+algorithm, the static/dynamic/serverless data flow and known limitations are
+in [`search-architecture.md`](search-architecture.md).
+
+### Files changed
+
+New: `src/mbe/data/nse_search_master.py` (official NSE main-board/SME CSV
+provider), `src/mbe/search/{domain,catalog,ranking}.py`, `src/mbe/research/
+lightweight.py`, `src/mbe/frontend/templates/company_lightweight.html`,
+`api/company.py` (serverless canonical-page fallback), `scripts/
+refresh_search_universe.py`, `universes/nse-search-universe.json` (pinned
+snapshot).
+
+Changed (all additive): `src/mbe/publish.py` (emits `search-index.json`;
+adds `render_lightweight_company_page`), `src/mbe/api/app.py` and `src/mbe/
+api/schemas.py` (`GET /api/v1/search`, `GET /api/v1/company/{id}/summary`),
+`src/mbe/cli.py` (`search-universe-import`), `src/mbe/data/market.py`
+(`week52_high`/`week52_low` on `NormalizedQuote`), `api/quotes.py`
+(whitelist unions the search universe; 52-week range passthrough),
+`src/mbe/frontend/assets/app.js` (search reads `search-index.json`/
+`/api/v1/search`; honest research/ranking badges; truthful copy),
+`src/mbe/frontend/templates/{base,index}.html` (truthful search/homepage
+copy), `vercel.json` (new `api/company.py` function and one rewrite),
+`scripts/verify_release.py` (expected JSON count 507 → 508).
+
+Untouched: canonical ID derivation, the scoring/ranking engine, financial
+lineage, provider selection/registry, every existing migration, every
+existing route's contract (`instruments.json`, `/api/v1/instruments/lookup`,
+`/api/v1/instruments/{id}/research`, all 250 static company pages and 25
+legacy report pages).
+
+### New APIs
+
+- `GET /api/v1/search?q=&limit=` — search-universe results with honest
+  `result_type`/`research_available`/rank/score; preserves
+  `InstrumentResolver`'s entity-disambiguation tiering exactly.
+- `GET /api/v1/company/{instrument_id}/summary` — always 200 for any known
+  instrument; never fabricates rank/score for a non-research company.
+- Static: `GET /api/v1/search-index.json`.
+- Serverless: `GET /company/{instrument_id}.html` now resolves for every
+  search-universe company (previously 404/only 250+25), via `api/company.py`
+  when no static file exists.
+
+### Performance
+
+No provider lookups happen on search keystrokes: both the static path
+(`search-index.json`, fetched once and searched in memory, mirroring the
+existing `instruments.json` pattern) and the dynamic path (`InstrumentResolver`
+SQL scan, existing debounce) are unchanged in kind, just over a larger fixed
+snapshot (~2,950 rows vs. 250) — well within the "5,000+" design target in the
+product spec. `api/company.py` fetches a quote only on an actual page load of
+a non-research company, never per keystroke. The release verifier's
+`largest_company_html_bytes`/`app_js_bytes`/`app_css_bytes` budgets are
+unchanged.
+
+### Test results
+
+545 Python tests (461 → 545, +84) and 25 frontend tests (24 → 25, +1) passed.
+ESLint, TypeScript type-check, `python -m compileall`, `git diff --check` and
+the offline static release verifier (`scripts/verify_release.py`) passed —
+279 HTML, 508 JSON (the one new additive `search-index.json`), 250 company,
+25 legacy, 253 indexable/sitemap, and both public value hashes
+(`12a5ef89c55847e010a33a0b9cada7280033219cc285d1d16164a43103a2cb19` scores,
+`3e99218116374dcf3968a08dda0bb187926178f357b07ce7cedb1a3ac7955638`
+financials) byte-identical to the Phase 9 release — confirming no scoring or
+financial-value change. New regression coverage: `tests/
+test_phase10a_regression.py` (the full Definition-of-Done company list —
+Reliance, TCS, Infosys, HDFC Bank, HAL, BEL, Dixon, Polycab, BLS/ACE/VIJAYA
+collisions, unknown company, research/non-research company, quote-
+unavailable, research-unavailable — against the real pinned search-universe
+snapshot), plus `test_search_universe.py`, `test_search_catalog.py`,
+`test_search_ranking.py`, `test_search_static_build.py`,
+`test_publish_lightweight.py`, `test_research_lightweight.py`,
+`test_company_fn.py`, `test_api_v1_search.py` and
+`test_search_universe_cli.py`. No real browser available in this
+environment; hosted cross-browser verification remains a Phase 10 (post-
+release monitoring) condition as before.
+
+### Remaining limitations
+
+See "Known limitations" in `search-architecture.md`: group-company name
+collisions (e.g. the Reliance family) are resolved deterministically rather
+than by market cap/volume (unavailable for unmodeled companies); no sector/
+industry/business-description exists for search-universe-only companies
+(no scraping was introduced); `api/company.py` resolves identity from the
+static snapshot, so a company newly listed since the last weekly build will
+not resolve until the next scheduled build; BSE-only listings are not yet
+covered (NSE main board + SME only, matching the spec's "at minimum" scope).
+
+### Recommended Phase 10B work
+
+1. Provision PostgreSQL and run `search-universe-import` so the dynamic
+   `/api/v1/search`/`/api/v1/company/{id}/summary` routes serve the full
+   universe in database-backed mode, not only the static path.
+2. Add a BSE listed-security source alongside NSE, following the same
+   fail-closed provider pattern.
+3. Weekly-build-time freshness metadata for `search-index.json` (a
+   `retrieved_at`/staleness banner on lightweight pages, similar to the
+   research-page freshness disclosures).
+4. A prominence signal (e.g. index membership breadth, once a wider index
+   universe than Smallcap 250 is imported) to resolve group-company search
+   ties by more than lexical remainder length.
+5. Complete the deferred Phase 10 (pre-existing) post-release monitoring and
+   accepted-condition closure work below — hosted cross-browser/VoiceOver/
+   axe/Lighthouse verification now additionally needs to cover the new
+   search dialog badges and at least one lightweight company page journey.
+
+## Phase 10B implementation details
+
+### Root architectural decisions
+
+1. **BSE cross-listing needed no migration.** `InstrumentListingRow` already
+   had `exchange_code`/`bse_code`/`isin`/`is_primary`/`status` columns
+   (Phase 0), and `stable_instrument_id()` already keys on ISIN alone when
+   present, so a BSE row sharing an NSE instrument's ISIN was already
+   guaranteed to compute the same canonical ID. The only real gap —
+   `import_instruments()` had no branch for "instrument exists, no listing
+   on this exchange yet" — was closed additively (`ImportSummary.
+   cross_listings_added`), reusing the existing schema exactly as
+   instructed.
+2. **BSE source honesty over fabricated coverage.** Every official BSE
+   endpoint reachable from this environment (`api.bseindia.com`,
+   `www.bseindia.com` downloads) returned a bot-protection error page or
+   the site's client-side app shell instead of data — verified during this
+   phase, not assumed. Rather than fabricate thousands of BSE records or
+   scrape a third-party aggregator (explicitly prohibited), the pinned
+   `universes/bse-search-universe.json` is a small, explicitly-labeled
+   curated starter fixture (`coverage_status:
+   "curated_starter_fixture_pending_live_verification"`) of 20 long-stable
+   large-cap scrip codes, each cross-checked against the real, live-fetched
+   NSE ISINs from Phase 10A. `BseListedSecurityProvider` is fully
+   fetch-capable and will use a live official feed automatically the moment
+   one is reachable (`scripts/refresh_bse_search_universe.py` tries live
+   first, falls back to curated only on `ProviderError`).
+3. **Ranking v2 stays a pure function over the same merged index**, not a
+   new service or database dependency — versioned via a single
+   `SEARCH_RANKING_POLICY_VERSION` constant surfaced in both
+   `search-index.json`'s meta and the new `/api/v1/search/meta` route.
+4. **No corporate-group/parent-subsidiary field was added.** The phase spec
+   explicitly prohibits inferring one from company names alone, and no
+   authoritative ownership source exists in this repository. Group-query
+   relevance (multiple results, correct exact-match ordering) is achieved
+   through ranking tiers/tie-breakers instead, matching the required
+   behavior without the prohibited inference.
+
+See `docs/search-architecture.md` for the full design (BSE source honesty,
+cross-listing bridge, ranking policy v2 tier table, listing-status handling,
+classification reconciliation, performance measurements, evaluation harness
+and known limitations) — not duplicated here.
+
+### Phase 10B files changed
+
+New: `src/mbe/data/bse_search_master.py`, `scripts/
+refresh_bse_search_universe.py`, `universes/bse-search-universe.json`
+(pinned curated fixture), `src/mbe/search/evaluation.py`.
+
+Changed (all additive): `src/mbe/instruments/importer.py`
+(`cross_listings_added` branch), `src/mbe/instruments/resolution.py`
+(`ListingMatch`/`MatchCandidate.listings`), `src/mbe/search/domain.py`
+(`ExchangeListing`, `SearchIndexRecord.listings`/`primary_exchange`/
+`sector_source`/`industry_source`), `src/mbe/search/catalog.py`
+(`bse_rows` parameter, classification backfill-without-overwrite),
+`src/mbe/search/ranking.py` (versioned policy, full-phrase tier,
+`parse_exchange_hint`, exchange filtering, length-ratio fuzzy guard,
+active/primary/SME/research tie-breakers), `src/mbe/publish.py`
+(`bse_rows` threaded through `render_site`/`_render_static_v1`, new
+`search-index.json` meta fields), `src/mbe/api/app.py` and `src/mbe/api/
+schemas.py` (`ListingData`, `SearchMetaData`, extended `SearchResultData`/
+`CompanySummaryData`, new `/api/v1/search/meta`, extended `/api/v1/search`
+params), `src/mbe/cli.py` (`bse-search-universe-import`,
+`search-quality-evaluate`, `search-inspect`), `src/mbe/research/
+lightweight.py` (BSE/listings/inactive-banner fields), `src/mbe/frontend/
+templates/company_lightweight.html` (BSE code, listings table, inactive
+banner), `src/mbe/frontend/assets/app.js` (`parseExchangeHint`, exchange
+filtering, BSE/status badges, fuzzy-guard performance fix),
+`scripts/verify_release.py` unchanged this phase (JSON count already 508
+from Phase 10A).
+
+Untouched: canonical ID derivation, the scoring/ranking engine, financial
+lineage, provider selection/registry, every existing migration, every
+existing route's contract, all 250 static company pages, all 25 legacy
+report pages, `instruments.json`'s contract and warning.
+
+### New/extended APIs
+
+- `GET /api/v1/search/meta` (new, additive) — NSE/BSE/cross-listed/active/
+  SME/research/ranked counts and `search_ranking_policy_version`.
+- `GET /api/v1/search` — adds `exchange`, `active_only`, `include_sme`,
+  `include_inactive` query params (all optional, default preserves Phase
+  10A behavior) and `bse_code`/`primary_exchange`/`listings`/
+  `sector_source`/`industry_source` response fields.
+- `GET /api/v1/company/{id}/summary` — same new response fields as above.
+- CLI: `bse-search-universe-import`, `search-quality-evaluate`,
+  `search-inspect` — all offline, all exit nonzero on material failure.
+
+### Phase 10B performance
+
+Length-ratio pre-filter added to both `mbe.search.ranking._best_match` and
+`app.js`'s `staticSearch()`: skip the fuzzy comparison entirely when two
+strings' lengths differ by more than half the longer one (a standard
+fast-reject for edit-distance-like measures). Measured on the real
+2,947-record merged index: server-side `rank_search_candidates()` mean
+latency 66ms → 35ms; client-side `staticSearch()` mean latency (Node/V8
+benchmark) 24.5ms → 16.1ms. `search-index.json` is 2.9 MB raw / ~245 KB
+gzipped. No index caching, prefix trees or WASM were introduced — the
+measured numbers comfortably support the "5,000+" design target with the
+existing debounce (180ms) and this simple guard, so a heavier rework was
+not justified this phase.
+
+### Search-quality evaluation result
+
+`uv run mbe search-quality-evaluate` against the real 2,947-record merged
+index (16-query evaluation set: exact symbol, BSE code, ISIN, company name,
+group queries, short-alias collisions, unknown-company negative case):
+**100% top-1 accuracy, 100% top-3 recall, 0 false positives.**
+
+### Phase 10B test results
+
+615 Python tests (545 → 615, +70) and 28 frontend tests (25 → 28, +3)
+passed. ESLint, TypeScript type-check, `python -m compileall`, `git diff
+--check` and the offline static release verifier passed — 279 HTML, 508
+JSON, 250 company, 25 legacy, 253 indexable/sitemap, and both public value
+hashes (`12a5ef89c55847e010a33a0b9cada7280033219cc285d1d16164a43103a2cb19`
+scores, `3e99218116374dcf3968a08dda0bb187926178f357b07ce7cedb1a3ac7955638`
+financials) byte-identical to Phase 9/10A — confirming no scoring or
+financial-value change. New regression coverage: `tests/
+test_bse_search_universe.py`, `tests/test_search_catalog_bse.py`, `tests/
+test_search_ranking_v2.py`, `tests/test_search_static_build_bse.py`, `tests/
+test_api_v1_search_bse.py`, `tests/test_search_cli_phase10b.py`, `tests/
+test_search_evaluation.py`, `tests/test_phase10b_regression.py`, plus
+cross-listing cases added to `tests/test_instrument_import.py` and `tests/
+test_instruments.py`. No real browser available in this environment;
+hosted cross-browser verification remains a Phase 10 (post-release
+monitoring) condition as before.
+
+### Verified counts
+
+Computed and printed from the real pinned snapshots during this phase, not
+asserted from memory:
+
+- Search-universe total: 2,947 canonical companies (2,927 NSE-only + 20
+  BSE-cross-linked + 0 BSE-only).
+- BSE records read: 20; all valid/active; 0 SME; 0 invalid; 0 missing ISIN;
+  0 duplicate BSE codes/ISINs; 0 ambiguous records; 0 inactive listings.
+- NSE/BSE cross-listing count: 20. BSE-only company count: 0 (none of the
+  20 curated large caps are BSE-only; the code path is exercised via
+  synthetic test fixtures).
+- Canonical-ID change count: 0 (verified — the cross-listing bridge always
+  resolves to the pre-existing NSE-created instrument ID).
+- Research-universe count: 250 (unchanged). Ranking-universe count: 250
+  (unchanged).
+- Aliases added by BSE import: 0 (the cross-listing branch adds a listing,
+  not an alias — matches the existing former-symbol/former-name alias
+  semantics, which only fire on a symbol/name *change*, not a new
+  exchange).
+- Industry coverage: 270/2,947 (250 research-universe + 20
+  BSE-cross-linked). Sector coverage: 0/2,947 (neither source populates a
+  real sector value — a pre-existing Phase 0/1 characteristic).
+- Public score hash: unchanged
+  (`12a5ef89c55847e010a33a0b9cada7280033219cc285d1d16164a43103a2cb19`).
+  Public financial hash: unchanged
+  (`3e99218116374dcf3968a08dda0bb187926178f357b07ce7cedb1a3ac7955638`).
+
+### Phase 10B remaining limitations
+
+See "Known limitations" in `search-architecture.md` (fully rewritten this
+phase): BSE coverage is a 20-company curated fixture, not full breadth;
+group-company ties still lack a market-cap/volume/prominence signal; no
+sector data anywhere; no corporate-group field (by design, per the
+phase's own constraints); no business description anywhere outside the
+research universe; static/dynamic parity is structural, not continuously
+verified against a live database (none is provisioned).
+
+### Recommended Phase 10C scope
+
+1. Provision PostgreSQL, run `search-universe-import` and
+   `bse-search-universe-import` so the dynamic `/api/v1/search`,
+   `/api/v1/search/meta` and `/api/v1/company/{id}/summary` routes serve
+   the full universe in database-backed mode, not only the static path —
+   and continuously verify static/dynamic parity against a live database.
+2. Obtain reachable live BSE connectivity (a different network path, an
+   authorized mirror, or a documented alternate official endpoint) and
+   re-run `scripts/refresh_bse_search_universe.py` to replace the curated
+   20-company fixture with full BSE main-board/SME breadth.
+3. A prominence signal (e.g. index membership breadth across NSE/BSE index
+   families, once imported) to resolve group-company search ties by more
+   than lexical remainder length — still without fabricated market-cap
+   data.
+4. Weekly-build-time freshness metadata for `search-index.json` (a
+   `retrieved_at`/staleness banner on lightweight pages, similar to the
+   research-page freshness disclosures) — carried over from Phase 10A,
+   still open.
+5. Complete the deferred Phase 10 (pre-existing) post-release monitoring
+   and accepted-condition closure work below — hosted cross-browser/
+   VoiceOver/axe/Lighthouse verification now additionally needs to cover
+   BSE code/exchange-hint search, the inactive-listing banner and the
+   enriched lightweight-page cross-listing table.
+
 ## Current working-tree state
 
 Branch: `release/v1.0.0-rc1`, tracking `origin/release/v1.0.0-rc1`.
@@ -1556,8 +1915,11 @@ Production deployment `EvCEEd2g9fkRVShmvAdwQeCdoZja` is live. Retain
 - The new application experience is live in production. Hosted Chromium,
   Firefox/WebKit mobile/fallback, real VoiceOver, hosted axe/Lighthouse and
   exhaustive hosted-integrity evidence remain explicit post-release risks.
-- Static ranking scope remains the published top 25. The full 250-name snapshot
-  is for canonical search, not a fabricated ranking of unpublished results.
+- Static ranking scope remains the published top 25. The full 250-name
+  `instruments.json` snapshot is the research/ranking master, not a
+  fabricated ranking of unpublished results. Since Phase 10A, canonical
+  search itself uses a separate, deliberately wider `search-index.json`
+  snapshot (~2,950 NSE securities) — see `search-architecture.md`.
 - Static screener scope is the 250 successfully scored companies in the weekly
   Nifty Smallcap 250 build. It is not a complete NSE/BSE market screen and must
   move to mandatory server mode before scaling to several thousand securities.
@@ -1567,9 +1929,15 @@ Production deployment `EvCEEd2g9fkRVShmvAdwQeCdoZja` is live. Retain
   more weekly builds accrue. Sector explorer, news dashboard, calendar, full
   comparison workspace, watchlists, authentication and alerts remain future.
 - The static site and local FastAPI terminal duplicate UI/routing concepts.
-- The static master lacks many aliases/former names and all BSE codes because
-  its official source does not supply them; dynamic search can expose richer
-  imported metadata when a future source and PostgreSQL are configured.
+- The static research/ranking master (`instruments.json`, 250 companies)
+  still lacks most aliases/former names and BSE codes because its official
+  source does not supply them. The wider search universe (`search-index.
+  json`) now carries a BSE code for 20 large-cap companies via the Phase 10B
+  curated cross-listing fixture, but not for the 250 research-universe
+  companies specifically (none of the 20 curated large caps happen to
+  overlap with the smallcap research universe) or for BSE-only/SME
+  companies. Dynamic search can expose richer imported metadata when a
+  future source and PostgreSQL are configured.
 - Real system-Chrome responsive screenshots, contrast/axe, keyboard journeys,
   zoom/reflow and reduced motion now pass. Firefox/WebKit and VoiceOver + Safari
   remain unverified because those automation paths were unavailable; they are

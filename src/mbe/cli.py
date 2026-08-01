@@ -466,6 +466,144 @@ def instruments_import(
         raise typer.Exit(1)
 
 
+@app.command("search-universe-import")
+def search_universe_import(
+    source: Path | None = typer.Option(
+        None, help="Pinned/official NSE search-universe snapshot JSON; defaults to universes/nse-search-universe.json"
+    ),
+    source_version: str | None = typer.Option(None, help="Source date/version"),
+    dry_run: bool = typer.Option(False, help="Validate and summarize, then roll back"),
+):
+    """Idempotently synchronize the wider search universe (every NSE main-
+    board and SME security), independent of the ranking universe.
+
+    Never passes --index-code: this command must not create or change any
+    index/ranking membership. Use instruments-import for the ranking
+    universe. See docs/HANDOVER.md "Search, research and ranking universes"."""
+    from sqlalchemy.orm import Session
+
+    from mbe.db.base import create_database_engine
+    from mbe.instruments.importer import import_instruments
+
+    path = source or Path("universes/nse-search-universe.json")
+    payload = json.loads(path.read_text())
+    rows = payload["records"]
+    source_version = source_version or payload.get("source_version")
+    source_timestamp = (
+        datetime.fromisoformat(payload["retrieved_at"]) if payload.get("retrieved_at") else None
+    )
+    with Session(create_database_engine()) as session:
+        summary = import_instruments(
+            session, rows, source_code="nse_search_master", source_version=source_version,
+            source_timestamp=source_timestamp, dry_run=dry_run,
+        )
+    console.print_json(data=summary.model_dump(mode="json"))
+    if summary.invalid_records or summary.ambiguous_records:
+        raise typer.Exit(1)
+
+
+@app.command("bse-search-universe-import")
+def bse_search_universe_import(
+    source: Path | None = typer.Option(
+        None, help="Pinned/curated BSE search-universe snapshot JSON; defaults to universes/bse-search-universe.json"
+    ),
+    source_version: str | None = typer.Option(None, help="Source date/version"),
+    dry_run: bool = typer.Option(False, help="Validate and summarize, then roll back"),
+):
+    """Idempotently synchronize BSE cross-listings onto the existing
+    canonical instrument master via ISIN (Phase 10B).
+
+    Never passes --index-code — this command must not create or change any
+    index/ranking membership; a matching ISIN attaches a second
+    InstrumentListingRow to the existing NSE-created instrument rather than
+    creating a new one (see import_instruments' cross-listing branch). The
+    committed pinned snapshot is a small curated starter fixture, not full
+    BSE breadth — see docs/search-architecture.md "BSE coverage and honesty
+    about sourcing"."""
+    from sqlalchemy.orm import Session
+
+    from mbe.db.base import create_database_engine
+    from mbe.instruments.importer import import_instruments
+
+    path = source or Path("universes/bse-search-universe.json")
+    payload = json.loads(path.read_text())
+    rows = payload["records"]
+    source_version = source_version or payload.get("source_version")
+    source_timestamp = (
+        datetime.fromisoformat(payload["retrieved_at"]) if payload.get("retrieved_at") else None
+    )
+    with Session(create_database_engine()) as session:
+        summary = import_instruments(
+            session, rows, source_code="bse_search_master", source_version=source_version,
+            source_timestamp=source_timestamp, dry_run=dry_run,
+        )
+    console.print_json(data={
+        **summary.model_dump(mode="json"),
+        "coverage_status": payload.get("coverage_status", "unknown"),
+    })
+    if summary.invalid_records or summary.ambiguous_records:
+        raise typer.Exit(1)
+
+
+@app.command("search-quality-evaluate")
+def search_quality_evaluate(
+    search_universe: Path = typer.Option(Path("universes/nse-search-universe.json")),
+    bse_universe: Path = typer.Option(Path("universes/bse-search-universe.json")),
+    instruments: Path = typer.Option(
+        Path("site/api/v1/instruments.json"), help="Static research-universe snapshot, if built"
+    ),
+    screener: Path = typer.Option(
+        Path("site/api/v1/screener.json"), help="Static ranking snapshot, if built"
+    ),
+):
+    """Run the deterministic search-quality evaluation set (Phase 10B
+    section 20/21) against the merged search index and print top-1/top-3
+    metrics. Fully offline; exits nonzero if any query fails outright."""
+    from mbe.search.catalog import build_search_index
+    from mbe.search.evaluation import evaluate_search_quality
+    from mbe.search.ranking import rank_search_candidates
+
+    search_rows = json.loads(search_universe.read_text())["records"]
+    bse_rows = json.loads(bse_universe.read_text())["records"] if bse_universe.exists() else []
+    research = json.loads(instruments.read_text())["data"] if instruments.exists() else []
+    screener_rows = json.loads(screener.read_text())["data"]["rows"] if screener.exists() else []
+    index = build_search_index(search_rows, research, screener_rows, bse_rows=bse_rows)
+    report = evaluate_search_quality(index, ranker=rank_search_candidates)
+    console.print_json(data=report)
+    if report["top1_accuracy"] < 1.0 or report["false_positive_count"] > 0:
+        raise typer.Exit(1)
+
+
+@app.command("search-inspect")
+def search_inspect(
+    query: str,
+    limit: int = typer.Option(10, min=1, max=20),
+    exchange: str | None = typer.Option(None, help="NSE or BSE"),
+    search_universe: Path = typer.Option(Path("universes/nse-search-universe.json")),
+    bse_universe: Path = typer.Option(Path("universes/bse-search-universe.json")),
+    instruments: Path = typer.Option(Path("site/api/v1/instruments.json")),
+    screener: Path = typer.Option(Path("site/api/v1/screener.json")),
+):
+    """Inspect one query's ranked results with full match evidence — a
+    debugging aid for collision/disambiguation review. Fully offline."""
+    from mbe.search.catalog import build_search_index
+    from mbe.search.ranking import rank_search_candidates
+
+    search_rows = json.loads(search_universe.read_text())["records"]
+    bse_rows = json.loads(bse_universe.read_text())["records"] if bse_universe.exists() else []
+    research = json.loads(instruments.read_text())["data"] if instruments.exists() else []
+    screener_rows = json.loads(screener.read_text())["data"]["rows"] if screener.exists() else []
+    index = build_search_index(search_rows, research, screener_rows, bse_rows=bse_rows)
+    results = rank_search_candidates(query, index, limit=limit, exchange=exchange)
+    console.print_json(data=[{
+        "instrument_id": r.record.instrument_id, "display_name": r.record.display_name,
+        "symbol": r.record.symbol, "primary_exchange": r.record.primary_exchange,
+        "bse_code": r.record.bse_code, "listing_status": r.record.listing_status,
+        "result_type": r.record.result_type, "research_available": r.record.research_available,
+        "score": r.score, "matched_by": r.matched_by, "matched_value": r.matched_value,
+    } for r in results])
+
+
 @app.command("instruments-validate")
 def instruments_validate():
     """Verify every pinned production symbol resolves to exactly one instrument."""

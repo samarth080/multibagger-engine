@@ -74,13 +74,13 @@
     <h2 class="sr-only" id="search-title">Search instruments</h2>
     <div class="dialog-header">
       <span aria-hidden="true">⌕</span>
-      <input class="dialog-search" data-search-input type="search" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Symbol, company name or ISIN" aria-controls="search-results" aria-describedby="search-help search-status">
+      <input class="dialog-search" data-search-input type="search" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Symbol, BSE code, ISIN or company name (try NSE:TCS or BSE:500325)" aria-controls="search-results" aria-describedby="search-help search-status">
       <kbd>Esc</kbd>
       <button class="icon-button" type="button" data-close-search aria-label="Close search">×</button>
     </div>
     <p class="sr-only" id="search-help">Type at least two characters. Use up and down arrow keys to choose a result, then Enter to open it.</p>
     <div class="dialog-body">
-      <div class="dialog-status" id="search-status" data-search-status role="status" aria-live="polite">Search the canonical Nifty Smallcap 250 instrument master.</div>
+      <div class="dialog-status" id="search-status" data-search-status role="status" aria-live="polite">Search any listed Indian company on NSE or BSE. Full research, score and rank are available for the modeled research universe.</div>
       <div data-recent-searches></div>
       <ul class="search-results" id="search-results" data-search-results role="listbox" aria-label="Instrument matches"></ul>
     </div>

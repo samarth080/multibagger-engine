@@ -36,6 +36,8 @@ class NormalizedQuote(BaseModel):
     open: float | None = None
     day_high: float | None = None
     day_low: float | None = None
+    week52_high: float | None = None
+    week52_low: float | None = None
     volume: int | None = Field(default=None, ge=0)
     market_status: str = "unknown"
     provider_timestamp: datetime | None = None
@@ -128,6 +130,8 @@ def normalize_yahoo_chart(
         open=_number(meta.get("regularMarketOpen")),
         day_high=_number(meta.get("regularMarketDayHigh")),
         day_low=_number(meta.get("regularMarketDayLow")),
+        week52_high=_number(meta.get("fiftyTwoWeekHigh")),
+        week52_low=_number(meta.get("fiftyTwoWeekLow")),
         volume=(int(v) if (v := _number(meta.get("regularMarketVolume"))) is not None and v >= 0 else None),
         market_status=market_status,
         provider_timestamp=(

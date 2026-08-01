@@ -39,6 +39,78 @@ test("safe fuzzy matching is gated by length and quality", () => {
   assert.deepEqual(app.staticSearch(instruments, "x"), []);
 });
 
+const searchIndex = [
+  {
+    instrument_id: "id-modeled", display_name: "Modeled Motors Limited", symbol: "MODELED",
+    exchange: "NSE", isin: "INE000C01019", listing_status: "active", aliases: [],
+    result_type: "modeled", research_available: true, rank: 4, multibagger_score: 71.2,
+    confidence: 0.8, risk_score: 20, report_url: "/company/id-modeled.html",
+  },
+  {
+    instrument_id: "id-unmodeled", display_name: "Unmodeled Industries Limited", symbol: "UNMODELED",
+    exchange: "NSE", isin: "INE000D01010", listing_status: "active", aliases: [],
+    result_type: "known", research_available: false, rank: null, multibagger_score: null,
+    confidence: null, risk_score: null, report_url: "/company/id-unmodeled.html",
+  },
+];
+
+const crossListedIndex = [
+  {
+    instrument_id: "id-reliance", display_name: "Reliance Industries Limited", symbol: "RELIANCE",
+    exchange: "NSE", primary_exchange: "NSE", isin: "INE002A01018", bse_code: "500325",
+    listing_status: "active", aliases: [],
+    listings: [
+      { exchange: "NSE", symbol: "RELIANCE", bse_code: null, isin: "INE002A01018", listing_status: "active", is_primary: true },
+      { exchange: "BSE", symbol: "RELIANCE", bse_code: "500325", isin: "INE002A01018", listing_status: "active", is_primary: false },
+    ],
+  },
+  {
+    instrument_id: "id-bseonly", display_name: "BSE Only Company Ltd.", symbol: "BSEONLY",
+    exchange: "BSE", primary_exchange: "BSE", isin: "INE999X01011", bse_code: "500999",
+    listing_status: "active", aliases: [],
+    listings: [{ exchange: "BSE", symbol: "BSEONLY", bse_code: "500999", isin: "INE999X01011", listing_status: "active", is_primary: true }],
+  },
+];
+
+test("static search matches an exact BSE code across a company's listings", () => {
+  const results = app.staticSearch(crossListedIndex, "500325");
+  assert.equal(results[0].instrument_id, "id-reliance");
+  assert.equal(results[0].matched_by, "exact BSE code");
+});
+
+test("parseExchangeHint supports NSE:/BSE: prefix and trailing suffix syntax", () => {
+  assert.deepEqual(app.parseExchangeHint("NSE:TCS"), { query: "TCS", exchange: "NSE" });
+  assert.deepEqual(app.parseExchangeHint("BSE:500325"), { query: "500325", exchange: "BSE" });
+  assert.deepEqual(app.parseExchangeHint("Reliance BSE"), { query: "Reliance", exchange: "BSE" });
+  assert.deepEqual(app.parseExchangeHint("TCS"), { query: "TCS", exchange: null });
+  assert.deepEqual(app.parseExchangeHint("javascript:alert(1)"), { query: "javascript:alert(1)", exchange: null });
+});
+
+test("static search exchange filter excludes companies without a listing on that exchange", () => {
+  const bseResults = app.staticSearch(crossListedIndex, "RELIANCE", 10, "BSE");
+  assert.equal(bseResults.length, 1);
+  assert.equal(bseResults[0].instrument_id, "id-reliance");
+
+  const nseResults = app.staticSearch(crossListedIndex, "BSE Only Company", 10, "NSE");
+  assert.deepEqual(nseResults, []);
+});
+
+test("static search carries research/ranking status through so the UI can badge results honestly", () => {
+  const modeled = app.staticSearch(searchIndex, "Modeled Motors")[0];
+  assert.equal(modeled.result_type, "modeled");
+  assert.equal(modeled.research_available, true);
+  assert.equal(modeled.rank, 4);
+  assert.equal(modeled.multibagger_score, 71.2);
+  assert.equal(modeled.report_url, "/company/id-modeled.html");
+
+  const unmodeled = app.staticSearch(searchIndex, "Unmodeled Industries")[0];
+  assert.equal(unmodeled.result_type, "known");
+  assert.equal(unmodeled.research_available, false);
+  assert.equal(unmodeled.rank, null);
+  assert.equal(unmodeled.multibagger_score, null);
+  assert.equal(unmodeled.report_url, "/company/id-unmodeled.html");
+});
+
 test("ranking URL state validates values and round-trips shareable filters", () => {
   const state = app.parseRankingState("?q=good&minScore=70&minConfidence=90&maxRisk=25&rankMin=2&rankMax=9&sort=confidence&dir=desc&page=2&pageSize=10");
   assert.equal(state.minScore, 70);

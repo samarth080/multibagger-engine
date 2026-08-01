@@ -102,6 +102,13 @@ def test_bse_code_inactive_and_sme_are_representable(session):
     ))
     assert row.status == "inactive" and row.is_sme is True
 
+    # Phase 10B: the full cross-listing detail is exposed, not just primary.
+    by_exchange = {listing.exchange: listing for listing in match.listings}
+    assert set(by_exchange) == {"NSE", "BSE"}
+    assert by_exchange["BSE"].bse_code == "500001"
+    assert by_exchange["BSE"].is_primary is False
+    assert by_exchange["NSE"].is_primary is True
+
 
 def test_short_alias_never_outranks_exact_company_name(session):
     session.add(CompanyRow(

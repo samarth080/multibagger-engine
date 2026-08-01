@@ -343,6 +343,42 @@ See [`company-research-architecture.md`](company-research-architecture.md) for
 the schema, rules, parity contract, route strategy, operations, security and
 measured footprint.
 
+## Phase 10A search-universe regression fix (2026-08-01)
+
+The audit above already identified that a full application shell and global
+entity search were missing (Phase 0 baseline) and later delivered them in
+Phase 2 — but Phase 2's search snapshot was built from the same pinned
+250-instrument master used for ranking, so search quietly narrowed to the
+ranking universe as the platform migrated off the old open-ended search. That
+regression is now fixed by separating three previously conflated concepts —
+search universe, research universe, ranking universe — and adding one new,
+additive data source (`mbe.data.nse_search_master`, the official NSE
+main-board/SME listed-security CSVs) merged with the unchanged research/
+ranking master. No canonical ID, scoring, ranking, financial value, provider
+selection or existing route changed. See
+[`search-architecture.md`](search-architecture.md) for the full design,
+[`company-research-architecture.md`](company-research-architecture.md) for
+how the (unchanged) full research page and the new lightweight page relate,
+and `docs/HANDOVER.md` Phase 10A for the verification record.
+
+## Phase 10B search-quality upgrade (2026-08-01)
+
+Phase 10A's search universe covered NSE only. Phase 10B adds BSE
+cross-listing (an honestly-labeled 20-company curated starter fixture — BSE's
+official endpoints were verified unreachable from this environment, not
+scraped or fabricated), a versioned search-ranking policy 2 with
+exchange-aware `NSE:`/`BSE:` query parsing, listing-status awareness,
+classification (sector/industry) reconciliation that backfills without ever
+overwriting, and a deterministic search-quality evaluation harness
+(100% top-1 accuracy / 100% top-3 recall / 0 false positives on the real
+merged index). No migration was needed: the canonical schema already had
+`InstrumentListingRow.exchange_code`/`bse_code`, so cross-listing is just a
+new code path attaching a second listing to an existing instrument via
+matching ISIN. No canonical ID, scoring, ranking, financial value, provider
+selection or existing route changed. See
+[`search-architecture.md`](search-architecture.md) for the full design and
+`docs/HANDOVER.md` Phase 10B for the verification record and Phase 10C scope.
+
 ## Implementation roadmap
 
 1. **Stabilize the current deployment.** Complete entity-aware news filtering,

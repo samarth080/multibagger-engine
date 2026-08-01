@@ -78,6 +78,7 @@ class ImportSummary(BaseModel):
     duplicate_candidates: int = 0
     ambiguous_records: int = 0
     invalid_records: int = 0
+    cross_listings_added: int = 0
     active_listings: int = 0
     inactive_listings: int = 0
     index_memberships_added: int = 0
@@ -391,6 +392,23 @@ def import_instruments(
                     if value is not None and getattr(current_listing, field) != value:
                         setattr(current_listing, field, value)
                         changed = True
+            else:
+                # Instrument already exists (matched via ISIN, provider symbol
+                # or same-exchange symbol) but has no listing yet on THIS
+                # row's exchange: a new exchange listing (e.g. a BSE row
+                # cross-linking to an NSE-created instrument by ISIN), not a
+                # symbol change. Never primary — the exchange that first
+                # created the instrument keeps that status.
+                session.add(InstrumentListingRow(
+                    instrument_id=instrument.instrument_id, exchange_code=row.exchange.upper(),
+                    symbol=row.symbol, bse_code=row.bse_code, isin=row.isin,
+                    exchange_segment=row.exchange_segment, exchange_series=row.series,
+                    status=row.listing_status, listing_date=row.listing_date,
+                    delisting_date=row.delisting_date, is_primary=False, is_sme=row.is_sme,
+                    valid_from=row.listing_date,
+                ))
+                summary.cross_listings_added += 1
+                changed = True
         for provider, provider_symbol in row.provider_symbols.items():
             provider = provider.casefold()
             exists = session.scalar(select(ProviderSymbolRow).where(

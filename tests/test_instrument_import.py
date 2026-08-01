@@ -90,6 +90,54 @@ def test_symbol_and_name_change_preserve_identity_and_aliases():
         assert current.symbol == "ALPHAENG"
 
 
+def test_second_exchange_listing_for_a_known_isin_adds_a_cross_listing_not_a_duplicate():
+    """Phase 10B: a BSE row sharing an NSE instrument's ISIN must attach a
+    second InstrumentListingRow to the SAME canonical instrument (the
+    NSE/BSE cross-listing bridge), never create a second company/instrument
+    and never silently drop the new exchange context."""
+    with _session() as session:
+        first = import_instruments(session, [_record()], source_code="nse_official")
+        instrument_id = session.scalar(select(InstrumentRow.instrument_id))
+        bse_row = _record(
+            symbol="ALPHA", exchange="BSE", bse_code="500999",
+            provider_symbols={},
+        )
+        second = import_instruments(session, [bse_row], source_code="bse_official")
+
+        assert first.instruments_created == 1
+        assert second.instruments_created == 0
+        assert second.cross_listings_added == 1
+        assert session.scalar(select(func.count()).select_from(InstrumentRow)) == 1
+        assert session.scalar(select(InstrumentRow.instrument_id)) == instrument_id
+
+        listings = session.scalars(select(InstrumentListingRow).where(
+            InstrumentListingRow.instrument_id == instrument_id,
+            InstrumentListingRow.valid_to.is_(None),
+        )).all()
+        by_exchange = {listing.exchange_code: listing for listing in listings}
+        assert set(by_exchange) == {"NSE", "BSE"}
+        assert by_exchange["BSE"].bse_code == "500999"
+        assert by_exchange["BSE"].is_primary is False
+        assert by_exchange["NSE"].is_primary is True
+
+
+def test_reimporting_the_same_cross_listing_is_idempotent():
+    with _session() as session:
+        import_instruments(session, [_record()], source_code="nse_official")
+        bse_row = _record(symbol="ALPHA", exchange="BSE", bse_code="500999", provider_symbols={})
+        import_instruments(session, [bse_row], source_code="bse_official")
+        again = import_instruments(session, [bse_row], source_code="bse_official")
+
+        assert again.cross_listings_added == 0
+        instrument_id = session.scalar(select(InstrumentRow.instrument_id))
+        listings = session.scalars(select(InstrumentListingRow).where(
+            InstrumentListingRow.instrument_id == instrument_id,
+            InstrumentListingRow.exchange_code == "BSE",
+            InstrumentListingRow.valid_to.is_(None),
+        )).all()
+        assert len(listings) == 1
+
+
 def test_invalid_and_ambiguous_records_are_not_silently_discarded():
     with _session() as session:
         import_instruments(session, [_record()], source_code="nse_official")

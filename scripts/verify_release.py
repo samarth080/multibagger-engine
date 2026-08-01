@@ -17,7 +17,10 @@ from urllib.parse import urlparse
 from lxml import html
 
 
-EXPECTED = {"html": 279, "json": 507, "company": 250, "legacy": 25, "sitemap": 253}
+# json is 508 as of Phase 10A: adds one additive site/api/v1/search-index.json
+# (the wider search-universe snapshot; see docs/HANDOVER.md "Search, research
+# and ranking universes"). Everything else is unchanged.
+EXPECTED = {"html": 279, "json": 508, "company": 250, "legacy": 25, "sitemap": 253}
 REQUIRED_HEADERS = {
     "Content-Security-Policy",
     "Cross-Origin-Opener-Policy",

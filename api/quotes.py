@@ -1,10 +1,14 @@
-"""Vercel serverless function: freshness-aware quotes for published tickers.
+"""Vercel serverless function: freshness-aware quotes for known tickers.
 
-Whitelist = tickers in site/data.json (bundled via vercel.json includeFiles)
-— this is not an open proxy: .NS symbols only, whitelist-filtered, capped at
-30. If data.json is unavailable the endpoint fails closed instead of becoming
-an unrestricted Yahoo proxy. Quote parsing is delegated to the same normalized
-provider adapter used by the versioned API.
+Whitelist = published tickers in site/data.json UNION every symbol in the
+pinned NSE search-universe master (both bundled via vercel.json
+includeFiles) — this is not an open proxy: .NS symbols only,
+whitelist-filtered, capped at 30. The search-universe half of the whitelist
+is what lets lightweight (non-research) company pages show a live quote; see
+mbe.data.nse_search_master. If both sources are unavailable the endpoint
+fails closed instead of becoming an unrestricted Yahoo proxy. Quote parsing
+is delegated to the same normalized provider adapter used by the versioned
+API.
 
 Yahoo's exchange-specific delay metadata is returned verbatim. The UI must not
 claim a universal 15-minute delay when the provider says otherwise."""
@@ -38,10 +42,12 @@ def _log(event: str, **fields) -> None:
     }, default=str))
 
 
-def load_whitelist() -> set[str]:
+_ROOT = Path(__file__).resolve().parent.parent
+
+
+def _published_tickers(data_path: Path | None) -> set[str]:
     for candidate in (
-        Path(__file__).resolve().parent.parent / "site" / "data.json",
-        Path("site/data.json"),
+        (data_path,) if data_path else (_ROOT / "site" / "data.json", Path("site/data.json"))
     ):
         try:
             data = json.loads(candidate.read_text())
@@ -49,6 +55,32 @@ def load_whitelist() -> set[str]:
         except (OSError, json.JSONDecodeError, KeyError, TypeError):
             continue
     return set()
+
+
+def _search_universe_tickers(search_universe_path: Path | None) -> set[str]:
+    """Every NSE main-board/SME symbol the platform can identify — not just
+    the 25 published research picks. Lightweight (non-research) company
+    pages need live quotes too; see mbe.data.nse_search_master."""
+    for candidate in (
+        (search_universe_path,) if search_universe_path
+        else (_ROOT / "universes" / "nse-search-universe.json", Path("universes/nse-search-universe.json"))
+    ):
+        try:
+            data = json.loads(candidate.read_text())
+            return {
+                row["provider_symbols"]["yahoo"]
+                for row in data.get("records", [])
+                if row.get("provider_symbols", {}).get("yahoo")
+            }
+        except (OSError, json.JSONDecodeError, KeyError, TypeError):
+            continue
+    return set()
+
+
+def load_whitelist(
+    *, data_path: Path | None = None, search_universe_path: Path | None = None,
+) -> set[str]:
+    return _published_tickers(data_path) | _search_universe_tickers(search_universe_path)
 
 
 def parse_chart(payload: dict, now_ts: int | None = None) -> dict | None:
@@ -72,6 +104,8 @@ def parse_chart(payload: dict, now_ts: int | None = None) -> dict | None:
         ),
         "is_stale": normalized.freshness_state == "stale",
         "stale_reason": normalized.staleness_reason,
+        "week52_high": normalized.week52_high,
+        "week52_low": normalized.week52_low,
         "provider": "Yahoo Finance",
     }
     if normalized.previous_close is not None:

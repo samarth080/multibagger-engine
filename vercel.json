@@ -3,8 +3,9 @@
   "buildCommand": "",
   "outputDirectory": "site",
   "functions": {
-    "api/quotes.py": { "includeFiles": "{site/data.json,src/mbe/**}" },
+    "api/quotes.py": { "includeFiles": "{site/data.json,universes/nse-search-universe.json,src/mbe/**}" },
     "api/analyze.py": { "includeFiles": "src/mbe/**", "maxDuration": 60 },
+    "api/company.py": { "includeFiles": "{site/api/v1/search-index.json,src/mbe/**}" },
     "api/v1.py": { "includeFiles": "{site/data.json,src/mbe/**,migrations/**,alembic.ini}" }
   },
   "headers": [
@@ -31,6 +32,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/v1/:path*", "destination": "/api/v1" }
+    { "source": "/api/v1/:path*", "destination": "/api/v1" },
+    { "source": "/company/:instrumentId.html", "destination": "/api/company?id=:instrumentId" }
   ]
 }

@@ -4,6 +4,14 @@
 > scrollers, mobile/desktop WCAG-oriented audits, real-Chrome company journeys,
 > complete/missing-state visual baselines, generated 404 handling, and static
 > release-contract checks. Research values and provider selection are unchanged.
+>
+> Phase 10A adds a *lightweight* company page for the wider search universe —
+> see `docs/search-architecture.md`. This document covers the full research
+> page below, which this phase does not change: every existing 250 pages,
+> the `CompanyResearch` schema, explanation/peer/history logic and both APIs
+> are byte-for-byte unaffected. A company only ever gets the full page
+> described here when it is in the research universe; otherwise it gets the
+> honestly-labeled lightweight page served by `api/company.py`.
 
 Implemented: 2026-08-01 (Phase 7)
 
@@ -12,7 +20,11 @@ Implemented: 2026-08-01 (Phase 7)
 The permanent public route is `/company/{instrument_id}.html`. The path is
 anchored to the immutable canonical instrument UUID, not the mutable NSE symbol
 or company name. All 250 instruments in the scored weekly build receive this
-page. Global search, rankings, screener rows and peer links now use it.
+page as a real static file. Global search, rankings, screener rows and peer
+links now use it. Since Phase 10A the same URL pattern is canonical for every
+company the search universe can identify: Vercel serves the static file when
+one exists (all 250 research pages, unaffected); every other instrument ID
+falls through to the serverless lightweight-page fallback instead of 404ing.
 
 The 25 published `/reports/{ticker}.html` routes remain complete compatibility
 pages. They render the same normalized research payload and declare the

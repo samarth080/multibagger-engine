@@ -15,6 +15,19 @@ from mbe.db.models import (
 from mbe.models.instrument import normalize_name, normalize_symbol
 
 
+class ListingMatch(BaseModel):
+    """One exchange's current listing of a matched instrument (Phase 10B
+    NSE/BSE cross-listing exposure)."""
+
+    exchange: str
+    symbol: str
+    bse_code: str | None = None
+    isin: str | None = None
+    listing_status: str | None = None
+    is_primary: bool = True
+    is_sme: bool | None = None
+
+
 class MatchCandidate(BaseModel):
     instrument_id: str
     display_name: str | None = None
@@ -30,6 +43,7 @@ class MatchCandidate(BaseModel):
     market_cap_category: str | None = None
     listing_status: str | None = None
     is_sme: bool | None = None
+    listings: list[ListingMatch] = []
 
 
 class InstrumentResolver:
@@ -104,6 +118,7 @@ class InstrumentResolver:
                     best = max(best or (0, "", ""), (alias_score, f"exact_{alias.alias_type}", alias.value))
             if best:
                 primary = next((x for x in by_listing.get(instrument.instrument_id, []) if x.is_primary), None)
+                current_listings = by_listing.get(instrument.instrument_id, [])
                 candidates.append(MatchCandidate(
                     instrument_id=instrument.instrument_id,
                     display_name=company.display_name if company else None,
@@ -117,6 +132,12 @@ class InstrumentResolver:
                     market_cap_category=instrument.market_cap_category,
                     listing_status=primary.status if primary else None,
                     is_sme=primary.is_sme if primary else None,
+                    listings=[ListingMatch(
+                        exchange=listing.exchange_code, symbol=listing.symbol,
+                        bse_code=listing.bse_code, isin=listing.isin,
+                        listing_status=listing.status, is_primary=listing.is_primary,
+                        is_sme=listing.is_sme,
+                    ) for listing in current_listings],
                 ))
         candidates.sort(key=lambda item: (-item.score, item.display_name or "", item.instrument_id))
         return candidates[:limit]

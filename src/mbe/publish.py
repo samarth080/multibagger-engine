@@ -27,13 +27,24 @@ from mbe.scoring.sector_themes import CURATED_AS_OF, themes_for
 from mbe.screener.registry import FIELD_REGISTRY_VERSION, SCREENER_FIELDS, field_manifest
 from mbe.financials.projection import financial_build, project_history
 from mbe.research.builder import canonical_company_url
+from mbe.research.lightweight import build_lightweight_research
 from mbe.research.static import build_static_research
+from mbe.search.catalog import build_search_index
+from mbe.search.ranking import SEARCH_RANKING_POLICY_VERSION
 from mbe.versioning import MODEL_VERSION, VALIDATION_STATUS
 
 TOP_N = 25
 FRONTEND_DIR = Path(__file__).resolve().parent / "frontend"
 ASSET_DIR = FRONTEND_DIR / "assets"
 TEMPLATE_DIR = FRONTEND_DIR / "templates"
+# Search universe: every NSE-listed security, independent of the pinned
+# research/ranking master above. See docs/HANDOVER.md "Search, research and
+# ranking universes" — search must never be limited to what is scored.
+SEARCH_UNIVERSE_PATH = Path("universes/nse-search-universe.json")
+# BSE cross-listing source (Phase 10B): additive, never authoritative for
+# ranking. See docs/search-architecture.md "BSE coverage and honesty about
+# sourcing" for why this is a small curated fixture, not full BSE breadth.
+BSE_SEARCH_UNIVERSE_PATH = Path("universes/bse-search-universe.json")
 PUBLIC_SITE_URL = os.environ.get(
     "MBE_PUBLIC_SITE_URL", "https://multibagger-engine.vercel.app"
 ).rstrip("/")
@@ -449,6 +460,26 @@ def render_error_page(ticker: str, reason: str) -> str:
     )
 
 
+def render_lightweight_company_page(record: dict, quote: dict | None) -> str:
+    """Canonical page for a search-universe company outside the research
+    universe — identity and a live quote only, rendered on demand by the
+    api/company.py serverless fallback (never part of the weekly static
+    build: see docs/HANDOVER.md "Search, research and ranking universes")."""
+    payload = build_lightweight_research(record, quote)
+    identity = payload["identity"]
+    canonical_path = payload["canonical_url"]
+    context = _base_context(
+        title=f"{identity['display_name']} ({identity['symbol']}) | Multibagger Engine",
+        description=(
+            f"Company identity and live quote for {identity['display_name']}. "
+            f"{payload['ranking_universe_badge']}"
+        ),
+        path=canonical_path, active_route="rankings", asset_prefix="/assets", root_href="/",
+    )
+    context["canonical_url"] = f"{PUBLIC_SITE_URL}{canonical_path}"
+    return _ENV.get_template("company_lightweight.html").render(**context, company=payload)
+
+
 def _render_company_page(research: dict, *, canonical: bool = True) -> str:
     identity = research["identity"]
     canonical_path = identity["canonical_url"]
@@ -582,7 +613,10 @@ def _copy_assets(out: Path) -> None:
             shutil.copyfile(source, target / source.name)
 
 
-def render_site(data: dict, changes: dict, result: ScreenResult, out_dir) -> None:
+def render_site(
+    data: dict, changes: dict, result: ScreenResult, out_dir,
+    *, search_universe_rows: list[dict] | None = None, bse_rows: list[dict] | None = None,
+) -> None:
     out = Path(out_dir)
     reports = out / "reports"
     reports.mkdir(parents=True, exist_ok=True)
@@ -594,7 +628,14 @@ def render_site(data: dict, changes: dict, result: ScreenResult, out_dir) -> Non
         if key not in {"_screener_rows", "_financial_summaries", "_previous_model_build"}
     }
     (out / "data.json").write_text(json.dumps(public_complete, indent=1))
-    _render_static_v1(complete, out, research_pages=research_pages)
+    if search_universe_rows is None:
+        search_universe_rows = json.loads(SEARCH_UNIVERSE_PATH.read_text())["records"]
+    if bse_rows is None:
+        bse_rows = json.loads(BSE_SEARCH_UNIVERSE_PATH.read_text())["records"]
+    _render_static_v1(
+        complete, out, research_pages=research_pages,
+        search_universe_rows=search_universe_rows, bse_rows=bse_rows,
+    )
     company_dir = out / "company"
     company_dir.mkdir(parents=True, exist_ok=True)
     expected_company = {f"{instrument_id}.html" for instrument_id in research_pages}
@@ -628,7 +669,10 @@ def _static_envelope(data, *, meta=None, warnings=None, freshness=None) -> dict:
     }
 
 
-def _render_static_v1(data: dict, out: Path, *, research_pages: dict[str, dict] | None = None) -> None:
+def _render_static_v1(
+    data: dict, out: Path, *, research_pages: dict[str, dict] | None = None,
+    search_universe_rows: list[dict] | None = None, bse_rows: list[dict] | None = None,
+) -> None:
     """Emit normalized v1 contracts for database-free browser clients."""
     api_dir = out / "api" / "v1"
     api_dir.mkdir(parents=True, exist_ok=True)
@@ -678,7 +722,45 @@ def _render_static_v1(data: dict, out: Path, *, research_pages: dict[str, dict] 
         "price_at_build": row.get("price_at_build"),
         "freshness": freshness,
     } for row in top]
+    search_index = build_search_index(
+        search_universe_rows or [], instruments, screener_rows, bse_rows=bse_rows or [],
+    )
+    search_index_rows = sorted(
+        (record.model_dump(mode="json") for record in search_index),
+        key=lambda row: (row["display_name"] or "", row["instrument_id"]),
+    )
+    bse_count = sum(
+        1 for row in search_index_rows
+        if any(listing["exchange"] == "BSE" for listing in row["listings"])
+    )
+    cross_listed_count = sum(
+        1 for row in search_index_rows if len({listing["exchange"] for listing in row["listings"]}) > 1
+    )
     files = {
+        "search-index.json": _static_envelope(
+            search_index_rows,
+            meta={
+                "total": len(search_index_rows),
+                "research_universe_count": len(instruments),
+                "ranking_universe_count": len(screener_rows),
+                "nse_count": sum(
+                    1 for row in search_index_rows
+                    if any(listing["exchange"] == "NSE" for listing in row["listings"])
+                ),
+                "bse_count": bse_count,
+                "cross_listed_count": cross_listed_count,
+                "search_universe_source": "nse_listed_securities,bse_listed_securities",
+                "search_ranking_policy_version": SEARCH_RANKING_POLICY_VERSION,
+            },
+            warnings=[
+                "Search covers every identified NSE/BSE-listed security. Only "
+                "research_available companies have a full research page, "
+                "score and rank; others show identity and a live quote only. "
+                "BSE coverage is a curated starter set, not full BSE breadth "
+                "— see docs/search-architecture.md.",
+            ],
+            freshness=freshness,
+        ),
         "instruments.json": _static_envelope(
             instruments,
             meta={"page": 1, "page_size": len(instruments), "total": len(instruments),

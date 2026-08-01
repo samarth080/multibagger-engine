@@ -84,6 +84,99 @@ class InstrumentData(BaseModel):
     provider_mappings: list[dict[str, str]] = Field(default_factory=list)
 
 
+class ListingData(BaseModel):
+    """One exchange's listing of a canonical instrument (Phase 10B
+    NSE/BSE cross-listing bridge)."""
+
+    exchange: str
+    symbol: str
+    bse_code: str | None = None
+    isin: str | None = None
+    listing_status: str = "active"
+    is_primary: bool = True
+    is_sme: bool | None = None
+
+
+class SearchResultData(BaseModel):
+    """A search-universe result: identity plus honest research/ranking
+    status. Unlike LookupCandidate (research-universe only, kept for
+    backward compatibility), this covers every NSE/BSE-listed instrument the
+    platform can identify. See docs/HANDOVER.md "Search, research and
+    ranking universes"."""
+
+    instrument_id: str
+    display_name: str | None = None
+    legal_name: str | None = None
+    symbol: str | None = None
+    exchange: str | None = None
+    primary_exchange: str | None = None
+    isin: str | None = None
+    bse_code: str | None = None
+    sector: str | None = None
+    sector_source: str | None = None
+    industry: str | None = None
+    industry_source: str | None = None
+    listing_status: str | None = None
+    is_sme: bool | None = None
+    listings: list[ListingData] = Field(default_factory=list)
+    result_type: str
+    research_available: bool
+    rank: int | None = None
+    multibagger_score: float | None = None
+    confidence: float | None = None
+    risk_score: float | None = None
+    report_url: str
+    score: float
+    matched_by: str
+    matched_value: str
+
+
+class CompanySummaryData(BaseModel):
+    """Always-available summary for any known instrument — modeled or not.
+    Never fabricates rank/score/badges for the other case."""
+
+    instrument_id: str
+    display_name: str | None = None
+    legal_name: str | None = None
+    symbol: str | None = None
+    exchange: str | None = None
+    primary_exchange: str | None = None
+    isin: str | None = None
+    bse_code: str | None = None
+    sector: str | None = None
+    sector_source: str | None = None
+    industry: str | None = None
+    industry_source: str | None = None
+    listing_status: str | None = None
+    is_sme: bool | None = None
+    listings: list[ListingData] = Field(default_factory=list)
+    result_type: str
+    research_available: bool
+    rank: int | None = None
+    multibagger_score: float | None = None
+    confidence: float | None = None
+    risk_score: float | None = None
+    report_url: str
+    quote: NormalizedQuote | None = None
+    ranking_universe_badge: str | None = None
+    scoring_disclosure: str | None = None
+
+
+class SearchMetaData(BaseModel):
+    """Search-universe statistics (Phase 10B)."""
+
+    search_schema_version: str
+    search_ranking_policy_version: str
+    nse_count: int
+    bse_count: int
+    cross_listed_count: int
+    research_count: int
+    ranked_count: int
+    active_count: int
+    sme_count: int
+    generated_at: str
+
+
 class LookupCandidate(BaseModel):
     instrument_id: str
     display_name: str | None = None

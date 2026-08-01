@@ -32,6 +32,19 @@ def test_parse_chart_extracts_price_and_change():
     assert q["delay_minutes"] == 15
     assert q["is_delayed"] is True
     assert q["is_stale"] is False
+
+
+def test_parse_chart_carries_52_week_range_for_lightweight_pages():
+    payload = {"chart": {"result": [{"meta": {
+        "regularMarketPrice": 105.0,
+        "regularMarketTime": 1_700_000_000,
+        "marketState": "CLOSED",
+        "fiftyTwoWeekHigh": 130.0,
+        "fiftyTwoWeekLow": 70.0,
+    }}]}}
+    q = quotes_fn.parse_chart(payload, now_ts=1_700_000_100)
+    assert q["week52_high"] == 130.0
+    assert q["week52_low"] == 70.0
     assert q["as_of"].startswith("2023-11-14T")
 
 
@@ -79,6 +92,33 @@ def test_build_response_fails_closed_when_whitelist_is_missing():
     assert out["quotes"] == {}
     assert out["status"] == "unavailable"
     assert "whitelist" in out["errors"]["service"]
+
+
+def test_load_whitelist_merges_published_tickers_and_the_wider_search_universe(tmp_path):
+    """Lightweight (non-research) company pages need live quotes too — the
+    whitelist must not stay scoped to the 25 published research picks."""
+    import json
+
+    data_json = tmp_path / "data.json"
+    data_json.write_text(json.dumps({"top": [{"ticker": "PUBLISHED.NS"}]}))
+    search_universe = tmp_path / "nse-search-universe.json"
+    search_universe.write_text(json.dumps({"records": [
+        {"symbol": "RELIANCE", "provider_symbols": {"yahoo": "RELIANCE.NS"}},
+        {"symbol": "TCS", "provider_symbols": {"yahoo": "TCS.NS"}},
+    ]}))
+
+    whitelist = quotes_fn.load_whitelist(
+        data_path=data_json, search_universe_path=search_universe,
+    )
+    assert whitelist == {"PUBLISHED.NS", "RELIANCE.NS", "TCS.NS"}
+
+
+def test_load_whitelist_still_fails_closed_when_both_sources_are_missing(tmp_path):
+    whitelist = quotes_fn.load_whitelist(
+        data_path=tmp_path / "missing.json",
+        search_universe_path=tmp_path / "also-missing.json",
+    )
+    assert whitelist == set()
 
 
 def test_build_response_deduplicates_and_caps_symbols():

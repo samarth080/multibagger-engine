@@ -18,21 +18,21 @@ from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from sqlalchemy import select, text
+from sqlalchemy import func, select, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 
 from mbe import __version__
 from mbe.api.schemas import (
-    ApiError, Envelope, HealthData, InstrumentData, LookupCandidate,
-    MethodologyData, PageMeta, QuoteBatchData, RankingData, RankingDetailData,
-    ScreenerResultData, StatusData,
+    ApiError, CompanySummaryData, Envelope, HealthData, InstrumentData, ListingData,
+    LookupCandidate, MethodologyData, PageMeta, QuoteBatchData, RankingData, RankingDetailData,
+    ScreenerResultData, SearchMetaData, SearchResultData, StatusData,
 )
 from mbe.data.market import QuoteRequest
 from mbe.data.registry import ProviderRegistry, default_registry
 from mbe.db.base import create_database_engine, database_url, session_factory
 from mbe.db.models import ProviderSymbolRow
-from mbe.db.models import InstrumentRow
+from mbe.db.models import InstrumentListingRow, InstrumentRow, ModelBuildRow, ScoreSnapshotRow
 from mbe.financials.metrics import FINANCIAL_METRICS, METRIC_DEFINITION_VERSION
 from mbe.financials.repository import coverage as financial_coverage_data, instrument_summary as financial_instrument_summary
 from mbe.financials.official_repository import (
@@ -43,7 +43,10 @@ from mbe.financials.official_repository import (
 from mbe.db.repository import PlatformRepository
 from mbe.instruments.resolution import InstrumentResolver
 from mbe.models.instrument import Freshness, FreshnessState, QualityStatus
+from mbe.research.builder import canonical_company_url
+from mbe.research.lightweight import RANKING_UNIVERSE_BADGE, SCORING_DISCLOSURE
 from mbe.scoring.engine import INVESTMENT_WEIGHTS, MULTIBAGGER_WEIGHTS
+from mbe.search.ranking import SEARCH_RANKING_POLICY_VERSION
 from mbe.screener.domain import ScreenerQuery, ScreenerValidationError
 from mbe.screener.engine import ScreenerEngine
 from mbe.screener.registry import FIELD_REGISTRY_VERSION, field_manifest
@@ -282,6 +285,174 @@ def create_app(
         if not row:
             raise HTTPException(404, {"code": "instrument_not_found", "message": "Instrument was not found."})
         return _envelope(request, InstrumentData(**row))
+
+    def _current_scores(session: Session, instrument_ids: list[str]) -> dict[str, ScoreSnapshotRow]:
+        if not instrument_ids:
+            return {}
+        build = PlatformRepository(session).latest_build()
+        if not build:
+            return {}
+        rows = session.scalars(select(ScoreSnapshotRow).where(
+            ScoreSnapshotRow.build_id == build.build_id,
+            ScoreSnapshotRow.instrument_id.in_(instrument_ids),
+        )).all()
+        return {row.instrument_id: row for row in rows}
+
+    def _listing_data(candidate) -> list[ListingData]:
+        return [ListingData(
+            exchange=listing.exchange, symbol=listing.symbol, bse_code=listing.bse_code,
+            isin=listing.isin, listing_status=listing.listing_status or "active",
+            is_primary=listing.is_primary, is_sme=listing.is_sme,
+        ) for listing in candidate.listings]
+
+    def _fallback_bse_code(candidate) -> str | None:
+        if candidate.bse_code:
+            return candidate.bse_code
+        return next((l.bse_code for l in candidate.listings if l.bse_code), None)
+
+    @app.get("/api/v1/search", response_model=Envelope[list[SearchResultData]])
+    def search(
+        request: Request, session: Session = Depends(get_session),
+        q: str = Query(min_length=1, max_length=160),
+        limit: int = Query(10, ge=1, le=20),
+        exchange: str | None = Query(None, max_length=8),
+        active_only: bool = False,
+        include_sme: bool = True,
+        include_inactive: bool = True,
+    ):
+        """Search-universe results: identity for every instrument the
+        platform can identify, honestly tagged with research/ranking status.
+        Unlike /api/v1/instruments/lookup (kept unchanged for backward
+        compatibility), this never omits a company for lacking a score.
+        ``exchange`` (NSE/BSE only) scopes to instruments with a listing on
+        that exchange. See docs/HANDOVER.md "Search, research and ranking
+        universes" and docs/search-architecture.md "Search ranking policy
+        version 2"."""
+        exchange_filter = exchange.upper() if exchange and exchange.upper() in {"NSE", "BSE"} else None
+        candidates = InstrumentResolver(session).resolve(q, limit=limit * 3 if exchange_filter else limit)
+        show_only_active = active_only or not include_inactive
+        filtered = []
+        for candidate in candidates:
+            if exchange_filter and not any(l.exchange == exchange_filter for l in candidate.listings):
+                continue
+            if show_only_active and candidate.listing_status != "active":
+                continue
+            if not include_sme and candidate.is_sme:
+                continue
+            filtered.append(candidate)
+        filtered = filtered[:limit]
+        scores = _current_scores(session, [c.instrument_id for c in filtered])
+        results = []
+        for candidate in filtered:
+            score = scores.get(candidate.instrument_id)
+            results.append(SearchResultData(
+                instrument_id=candidate.instrument_id, display_name=candidate.display_name,
+                symbol=candidate.symbol, exchange=candidate.exchange,
+                primary_exchange=candidate.exchange, isin=candidate.isin,
+                bse_code=_fallback_bse_code(candidate), sector=candidate.sector,
+                sector_source="canonical_platform" if candidate.sector else None,
+                industry=candidate.industry,
+                industry_source="canonical_platform" if candidate.industry else None,
+                listing_status=candidate.listing_status, is_sme=candidate.is_sme,
+                listings=_listing_data(candidate),
+                result_type="modeled" if score else "known",
+                research_available=score is not None,
+                rank=score.rank if score else None,
+                multibagger_score=float(score.multibagger_score) if score else None,
+                confidence=float(score.confidence) if score else None,
+                risk_score=float(score.risk_score) if score else None,
+                report_url=canonical_company_url(candidate.instrument_id),
+                score=candidate.score, matched_by=candidate.matched_by,
+                matched_value=candidate.matched_value,
+            ))
+        return _envelope(request, results)
+
+    @app.get("/api/v1/search/meta", response_model=Envelope[SearchMetaData])
+    def search_meta(request: Request, session: Session = Depends(get_session)):
+        """Search-universe statistics (Phase 10B)."""
+        listings = session.scalars(select(InstrumentListingRow).where(
+            InstrumentListingRow.valid_to.is_(None),
+        )).all()
+        instrument_ids = {listing.instrument_id for listing in listings}
+        by_instrument: dict[str, list] = {}
+        for listing in listings:
+            by_instrument.setdefault(listing.instrument_id, []).append(listing)
+        nse_count = sum(1 for ls in by_instrument.values() if any(l.exchange_code == "NSE" for l in ls))
+        bse_count = sum(1 for ls in by_instrument.values() if any(l.exchange_code == "BSE" for l in ls))
+        cross_listed_count = sum(
+            1 for ls in by_instrument.values() if len({l.exchange_code for l in ls}) > 1
+        )
+        active_count = sum(1 for ls in by_instrument.values() if any(l.status == "active" for l in ls))
+        sme_count = sum(1 for ls in by_instrument.values() if any(l.is_sme for l in ls))
+        build = PlatformRepository(session).latest_build()
+        ranked_count = session.scalar(select(func.count()).select_from(ScoreSnapshotRow).where(
+            ScoreSnapshotRow.build_id == build.build_id
+        )) if build else 0
+        research_count = session.scalar(select(func.count(func.distinct(InstrumentRow.instrument_id))))
+        return _envelope(request, SearchMetaData(
+            search_schema_version="1.0",
+            search_ranking_policy_version=SEARCH_RANKING_POLICY_VERSION,
+            nse_count=nse_count, bse_count=bse_count, cross_listed_count=cross_listed_count,
+            research_count=int(research_count or 0), ranked_count=int(ranked_count or 0),
+            active_count=active_count, sme_count=sme_count,
+            generated_at=datetime.now(timezone.utc).isoformat(),
+        ))
+
+    @app.get("/api/v1/company/{instrument_id}/summary", response_model=Envelope[CompanySummaryData])
+    def company_summary_route(
+        request: Request, instrument_id: str, session: Session = Depends(get_session),
+    ):
+        """Always-available company summary — modeled or not. Never
+        fabricates rank/score/badges for a company outside the research
+        universe; see mbe.research.lightweight."""
+        row = PlatformRepository(session).instrument(instrument_id)
+        if not row:
+            raise HTTPException(404, {"code": "company_not_found", "message": "No matching listed company."})
+        score = _current_scores(session, [instrument_id]).get(instrument_id)
+        research_available = score is not None
+        all_listings = session.scalars(select(InstrumentListingRow).where(
+            InstrumentListingRow.instrument_id == instrument_id,
+            InstrumentListingRow.valid_to.is_(None),
+        )).all()
+        listings = [ListingData(
+            exchange=listing.exchange_code, symbol=listing.symbol, bse_code=listing.bse_code,
+            isin=listing.isin, listing_status=listing.status or "active",
+            is_primary=listing.is_primary, is_sme=listing.is_sme,
+        ) for listing in all_listings]
+        bse_code = row.get("bse_code") or next((l.bse_code for l in listings if l.bse_code), None)
+        quote = None
+        try:
+            provider_symbol = next(
+                (m["provider_symbol"] for m in row.get("provider_mappings", []) if m["provider"] == "yahoo"),
+                None,
+            )
+            if provider_symbol:
+                quote = app.state.registry.get("quotes").get_quotes([
+                    QuoteRequest(instrument_id=instrument_id, provider_symbol=provider_symbol, exchange=row.get("exchange")),
+                ])[0]
+        except Exception:
+            quote = None
+        return _envelope(request, CompanySummaryData(
+            instrument_id=instrument_id, display_name=row.get("display_name"),
+            legal_name=row.get("legal_name"), symbol=row.get("symbol"), exchange=row.get("exchange"),
+            primary_exchange=row.get("exchange"), isin=row.get("isin"), bse_code=bse_code,
+            sector=row.get("sector"),
+            sector_source="canonical_platform" if row.get("sector") else None,
+            industry=row.get("industry"),
+            industry_source="canonical_platform" if row.get("industry") else None,
+            listing_status=row.get("listing_status"), is_sme=row.get("is_sme"),
+            listings=listings,
+            result_type="modeled" if research_available else "known",
+            research_available=research_available,
+            rank=score.rank if score else None,
+            multibagger_score=float(score.multibagger_score) if score else None,
+            confidence=float(score.confidence) if score else None,
+            risk_score=float(score.risk_score) if score else None,
+            report_url=canonical_company_url(instrument_id),
+            quote=quote,
+            ranking_universe_badge=None if research_available else RANKING_UNIVERSE_BADGE,
+            scoring_disclosure=None if research_available else SCORING_DISCLOSURE,
+        ))
 
     @app.get("/api/v1/rankings", response_model=Envelope[list[RankingData]])
     def rankings(

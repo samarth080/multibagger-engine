@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Rankings</a></li><li aria-current="page">{{ company.identity.display_name }}</li></ol></nav>
+<article class="research-page" data-research-page data-lightweight-company data-instrument-id="{{ company.identity.instrument_id }}" data-symbol="{{ company.identity.symbol }}" data-exchange="{{ company.identity.exchange }}">
+  <header class="company-hero panel" aria-labelledby="company-title">
+    <div class="company-identity">
+      <p class="eyebrow">{{ company.identity.exchange }} · {{ company.identity.symbol }}</p>
+      <h1 id="company-title">{{ company.identity.display_name }}</h1>
+      {% if company.identity.legal_name and company.identity.legal_name != company.identity.display_name %}<p>{{ company.identity.legal_name }}</p>{% endif %}
+      <p class="company-meta">{{ company.identity.symbol }}{% if company.identity.bse_code %} · BSE {{ company.identity.bse_code }}{% endif %}{% if company.identity.isin %} · {{ company.identity.isin }}{% endif %} · {{ company.identity.sector or 'Sector unavailable' }}{% if company.identity.sector_source %} ({{ company.identity.sector_source|replace('_',' ') }}){% endif %} · {{ company.identity.industry or 'Industry unavailable' }}</p>
+      {% if company.identity.listings|length > 1 %}<p class="company-meta">Listed on {{ company.identity.listings|map(attribute='exchange')|join(' and ') }}</p>{% endif %}
+      <span class="badge badge-warning" role="status">{{ company.ranking_universe_badge }}</span>
+      {% if company.is_inactive %}<span class="badge badge-negative" role="status">{{ company.identity.listing_status|title }}</span>{% endif %}
+      <div class="hero-actions">
+        <button class="button button-quiet" type="button" data-copy-link>Copy link</button>
+        <a class="button button-quiet" href="/#rankings">Rankings</a>
+        <a class="button button-quiet" href="/screener.html">Screener</a>
+      </div>
+    </div>
+    <dl class="hero-metrics">
+      <div><dt>Current price</dt><dd>{% if company.quote and company.quote.price is not none %}₹{{ '{:,.2f}'.format(company.quote.price) }}{% else %}Unavailable{% endif %}</dd></div>
+      <div><dt>Day change</dt><dd>{% if company.quote and company.quote.day_change_pct is not none %}{{ '%+.2f%%'|format(company.quote.day_change_pct) }}{% else %}Unavailable{% endif %}</dd></div>
+      <div><dt>52-week high</dt><dd>{% if company.quote and company.quote.week52_high is not none %}₹{{ '{:,.2f}'.format(company.quote.week52_high) }}{% else %}Unavailable{% endif %}</dd></div>
+      <div><dt>52-week low</dt><dd>{% if company.quote and company.quote.week52_low is not none %}₹{{ '{:,.2f}'.format(company.quote.week52_low) }}{% else %}Unavailable{% endif %}</dd></div>
+      <div><dt>Market cap</dt><dd>Unavailable</dd></div>
+      <div><dt>Market status</dt><dd>{% if company.quote and company.quote.market_status %}{{ company.quote.market_status|title }}{% else %}Unavailable{% endif %}</dd></div>
+    </dl>
+  </header>
+
+  <div class="research-layout">
+    <div class="research-main">
+      {% if company.is_inactive %}
+      <section class="panel research-section" aria-labelledby="listing-status-notice">
+        <div class="section-heading"><div><p class="eyebrow">Listing status</p><h2 id="listing-status-notice">Not currently active</h2></div></div>
+        <div class="notice notice-error"><span aria-hidden="true">⛔</span><div><strong>{{ company.listing_status_disclosure }}</strong> This company is not currently tradable in this state; identity information above remains accurate for reference.</div></div>
+      </section>
+      {% endif %}
+      <section class="panel research-section" aria-labelledby="scoring-status">
+        <div class="section-heading"><div><p class="eyebrow">Research status</p><h2 id="scoring-status">Not yet evaluated</h2></div></div>
+        <div class="notice notice-warning"><span aria-hidden="true">△</span><div><strong>{{ company.scoring_disclosure }}</strong> No score, rank, strengths, risks, checklist or score history exist for this company. Multibagger Engine currently models the Nifty Smallcap 250 research universe; this company is outside it.</div></div>
+        <p class="cell-note">Search finds every NSE/BSE-listed company. Only the modeled research universe receives a full report — see <a href="/methodology.html">methodology</a> for how the search, research and ranking universes differ.</p>
+      </section>
+
+      <section class="panel research-section" aria-labelledby="business-description">
+        <div class="section-heading"><div><p class="eyebrow">Identity</p><h2 id="business-description">Business description</h2></div></div>
+        <p class="empty-state">Business description unavailable — no approved public data source is currently connected for unmodeled companies.</p>
+      </section>
+
+      <section class="panel research-section" aria-labelledby="quote-detail">
+        <div class="section-heading"><div><p class="eyebrow">Live market data</p><h2 id="quote-detail">Quote</h2></div></div>
+        {% if company.quote_state == 'available' %}
+        <dl class="metric-strip">
+          <div><dt>Price</dt><dd>₹{{ '{:,.2f}'.format(company.quote.price) if company.quote.price is not none else 'Unavailable' }}</dd></div>
+          <div><dt>52-week range</dt><dd>{% if company.quote.week52_low is not none and company.quote.week52_high is not none %}₹{{ '{:,.2f}'.format(company.quote.week52_low) }} – ₹{{ '{:,.2f}'.format(company.quote.week52_high) }}{% else %}Unavailable{% endif %}</dd></div>
+          <div><dt>Currency</dt><dd>{{ company.quote.currency or 'Unavailable' }}</dd></div>
+        </dl>
+        {% else %}
+        <p class="empty-state">Limited research available — a live quote could not be retrieved for this company right now. Identity information above remains accurate.</p>
+        {% endif %}
+      </section>
+    </div>
+
+    <aside class="research-sidebar" aria-label="Research workflow and trust">
+      <section class="panel research-section trust-panel" aria-labelledby="trust-panel">
+        <div class="section-heading"><div><p class="eyebrow">Data lineage</p><h2 id="trust-panel">Trust panel</h2></div></div>
+        <dl>
+          <div><dt>Instrument ID</dt><dd class="mono">{{ company.identity.instrument_id }}</dd></div>
+          <div><dt>Primary exchange</dt><dd>{{ company.identity.primary_exchange }}</dd></div>
+          <div><dt>Listing status</dt><dd>{{ company.identity.listing_status|title }}</dd></div>
+          <div><dt>SME</dt><dd>{{ 'Yes' if company.identity.is_sme else ('No' if company.identity.is_sme is not none else 'Unavailable') }}</dd></div>
+          <div><dt>Search source</dt><dd>Official NSE listed-security master{% if company.identity.bse_code %} + curated BSE cross-listing{% endif %}</dd></div>
+          <div><dt>Generated</dt><dd>{{ company.generated_at }}</dd></div>
+        </dl>
+        {% if company.identity.listings|length > 1 %}
+        <details><summary>All exchange listings</summary><table class="research-table"><caption class="sr-only">Exchange listings</caption><thead><tr><th scope="col">Exchange</th><th scope="col">Symbol / code</th><th scope="col">Status</th></tr></thead><tbody>{% for listing in company.identity.listings %}<tr><td>{{ listing.exchange }}{% if listing.is_primary %} (primary){% endif %}</td><td>{{ listing.bse_code or listing.symbol }}</td><td>{{ listing.listing_status|title }}</td></tr>{% endfor %}</tbody></table></details>
+        {% endif %}
+      </section>
+    </aside>
+  </div>
+  <section class="panel research-section methodology-note"><h2>Methodology &amp; disclaimer</h2><p>This page shows identity and a live quote only. It is not a research report, investment recommendation, buy or sell instruction, price target or forecast. Verify company disclosures and exchange filings independently before making any investment decision.</p><a href="/methodology.html">Read methodology and validation limits</a></section>
+</article>
+{% endblock %}
+{% block scripts %}<script defer src="{{ asset_prefix }}/research.js"></script>{% endblock %}

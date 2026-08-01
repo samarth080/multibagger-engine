@@ -7,11 +7,17 @@
   const STATIC = Object.freeze({
     rankings: "/api/v1/rankings.json",
     instruments: "/api/v1/instruments.json",
+    // Search universe: every NSE-listed company the platform can identify —
+    // deliberately wider than instruments.json (the research/ranking master
+    // of 250 modeled companies). See docs/HANDOVER.md "Search, research and
+    // ranking universes".
+    searchIndex: "/api/v1/search-index.json",
     status: "/api/v1/status.json",
   });
   const API = Object.freeze({
     rankings: "/api/v1/rankings",
     lookup: "/api/v1/instruments/lookup",
+    search: "/api/v1/search",
     status: "/api/v1/status",
     quotes: "/api/v1/quotes",
   });
@@ -80,13 +86,35 @@
     return `/api/analyze?ticker=${encodeURIComponent(symbol + suffix)}`;
   }
 
-  function staticSearch(instruments, query, limit = 10) {
+  const _ALLOWED_EXCHANGES = new Set(["NSE", "BSE"]);
+  /** Split an optional allowlisted exchange hint off a raw query — mirrors
+   * mbe.search.ranking.parse_exchange_hint. Supports "NSE:TCS"/"BSE:500325"
+   * (prefix) and "TCS NSE"/"Reliance BSE" (trailing whole-word suffix).
+   * Anything else, including an unrecognized "word:word" shape, passes
+   * through unchanged — this is a bounded allowlist match, not a URI parser. */
+  function parseExchangeHint(query) {
+    const raw = String(query || "").trim();
+    const prefixMatch = /^(NSE|BSE):\s*(.+)$/i.exec(raw);
+    if (prefixMatch) return { query: prefixMatch[2].trim(), exchange: prefixMatch[1].toUpperCase() };
+    const suffixMatch = /^(.+?)\s+(NSE|BSE)$/i.exec(raw);
+    if (suffixMatch && _ALLOWED_EXCHANGES.has(suffixMatch[2].toUpperCase())) {
+      return { query: suffixMatch[1].trim(), exchange: suffixMatch[2].toUpperCase() };
+    }
+    return { query: raw, exchange: null };
+  }
+
+  function staticSearch(instruments, query, limit = 10, exchange = null) {
     const raw = String(query || "").trim();
     const nameQuery = normalizeText(raw);
     const symbolQuery = symbolText(raw);
     if (nameQuery.length < 2 && !/^\d{6}$/.test(raw) && !/^IN[A-Z0-9]{10}$/i.test(raw)) return [];
     const matches = [];
     for (const item of instruments || []) {
+      if (exchange) {
+        const listings = Array.isArray(item.listings) ? item.listings : [];
+        const onExchange = listings.some(l => l.exchange === exchange) || item.exchange === exchange;
+        if (!onExchange) continue;
+      }
       let best = null;
       const consider = (score, matchedBy, matchedValue) => {
         if (!best || score > best.score) best = { score, matched_by: matchedBy, matched_value: matchedValue };
@@ -103,7 +131,7 @@
         const normalized = normalizeText(name);
         if (nameQuery === normalized || suffixlessName(raw) === suffixlessName(name)) consider(95, "exact company name", name);
         else if (nameQuery.length >= 3 && normalized.startsWith(nameQuery)) consider(82, "company-name prefix", name);
-        else if (nameQuery.length >= 5) {
+        else if (nameQuery.length >= 5 && Math.abs(nameQuery.length - normalized.length) <= Math.max(nameQuery.length, normalized.length) * .5) {
           const quality = similarity(nameQuery, normalized);
           if (quality >= .78) consider(60 + quality * 20, "fuzzy company name", name);
         }
@@ -118,15 +146,21 @@
         instrument_id: String(item.instrument_id),
         display_name: item.display_name || item.legal_name || symbol,
         symbol,
-        bse_code: item.bse_code || null,
+        bse_code: item.bse_code || (Array.isArray(item.listings) ? (item.listings.find(l => l.bse_code)?.bse_code || null) : null),
         isin: item.isin || null,
         exchange: item.exchange || "NSE",
+        primary_exchange: item.primary_exchange || item.exchange || "NSE",
+        listings: Array.isArray(item.listings) ? item.listings : [],
         industry: item.industry || null,
         sector: item.sector || null,
         market_cap_category: item.market_cap_category || null,
         listing_status: item.listing_status || "unknown",
         is_sme: item.is_sme == null ? null : Boolean(item.is_sme),
         report_url: item.report_url || null,
+        result_type: item.result_type || (item.research_available ? "modeled" : "known"),
+        research_available: Boolean(item.research_available),
+        rank: item.rank == null ? null : Number(item.rank),
+        multibagger_score: item.multibagger_score == null ? null : Number(item.multibagger_score),
           score: match.score,
           matched_by: match.matched_by,
           matched_value: match.matched_value,
@@ -323,7 +357,7 @@
     return normalized;
   }
 
-  const pure = { normalizeText, similarity, staticSearch, parseRankingState, stateToSearch, rankingRow, normalizeRankingEnvelope, stableFilterSort, summaryFor, csvFor, buildCompatible, apiQuery, reportDestination };
+  const pure = { normalizeText, similarity, staticSearch, parseExchangeHint, parseRankingState, stateToSearch, rankingRow, normalizeRankingEnvelope, stableFilterSort, summaryFor, csvFor, buildCompatible, apiQuery, reportDestination };
   global["MBEApp"] = pure;
   if (typeof module !== "undefined" && module.exports) module.exports = pure;
   if (!global.document) return;
@@ -391,8 +425,15 @@
     const dialog = qs("#instrument-search"); const input = qs("[data-search-input]"); const results = qs("[data-search-results]");
     const status = qs("[data-search-status]"); const recentBox = qs("[data-recent-searches]"); const close = qs("[data-close-search]");
     if (!dialog || !input || !results || !status || !recentBox || !close) return;
-    let items = []; let selected = -1; let timer = 0; let searchController = null; let returnFocus = null; let staticInstruments = null;
+    let items = []; let selected = -1; let timer = 0; let searchController = null; let returnFocus = null; let staticSearchIndex = null;
     const preference = document.body.dataset.dataMode || "auto";
+    const researchBadge = item => {
+      if (item.result_type === "modeled" || item.research_available) {
+        const bits = [Number.isFinite(item.rank) && `Rank #${item.rank}`, Number.isFinite(item.multibagger_score) && `Score ${Math.round(item.multibagger_score)}`].filter(Boolean);
+        return create("span", "badge badge-positive", bits.length ? bits.join(" · ") : "Modeled");
+      }
+      return create("span", "badge badge-info", "Available");
+    };
     const renderItems = (nextItems, query) => {
       items = nextItems; results.replaceChildren();
       const topTied = query.length <= 3 && items.length > 1 && items[0].score === items[1].score;
@@ -402,14 +443,17 @@
       items.forEach((item, index) => {
         const li = create("li"); li.setAttribute("role", "option"); li.id = `search-option-${index}`; li.setAttribute("aria-selected", String(index === selected));
         const button = create("button", "search-result"); button.type = "button"; button.tabIndex = -1;
-        const main = create("span"); main.append(create("span", "search-name", item.display_name || item.symbol));
-        const bits = [item.symbol && `${item.exchange || "NSE"}: ${item.symbol}`, item.bse_code && `BSE ${item.bse_code}`, item.industry, item.market_cap_category, item.listing_status, item.is_sme ? "SME" : null].filter(Boolean);
+        const main = create("span"); main.append(create("span", "search-name", item.display_name || item.symbol), researchBadge(item));
+        if (item.listing_status && !["active", "unknown"].includes(item.listing_status)) {
+          main.append(create("span", "badge badge-negative", item.listing_status));
+        }
+        const bits = [item.symbol && `${item.exchange || "NSE"}: ${item.symbol}`, item.bse_code && `BSE ${item.bse_code}`, item.sector, item.industry, item.market_cap_category, item.is_sme ? "SME" : null].filter(Boolean);
         main.append(create("span", "search-meta", bits.join(" · ")));
         const match = create("span", "search-match", `${item.matched_by || "match"}\n${Math.round(item.score)} / 100`);
         button.append(main, match); button.addEventListener("click", () => openItem(item)); li.append(button); results.append(li);
       });
       if (selected >= 0) input.setAttribute("aria-activedescendant", `search-option-${selected}`);
-      if (!items.length) status.textContent = `No canonical instruments matched “${query}”. Check the name or symbol.`;
+      if (!items.length) status.textContent = `No matching listed company for “${query}”. Check the name or symbol.`;
       else if (topTied) status.textContent = `${items.length} matches. This short query is ambiguous; choose a result explicitly.`;
       else if (fuzzyFirst) status.textContent = `${items.length} approximate match${items.length === 1 ? "" : "es"}. Choose a result explicitly.`;
       else status.textContent = `${items.length} match${items.length === 1 ? "" : "es"}. Use arrow keys and Enter to open.`;
@@ -422,26 +466,29 @@
       const list = create("ul", "search-results");
       recent.forEach(item => { const li = create("li"); const button = create("button", "search-result"); button.type = "button"; button.append(create("span", "search-name", item.display_name), create("span", "search-match", `${item.exchange}: ${item.symbol}`)); button.addEventListener("click", () => openItem(item)); li.append(button); list.append(li); }); recentBox.append(list);
     };
-    const staticLookup = async query => { if (!staticInstruments) { const payload = await fetchJson(STATIC.instruments, { timeout: 7000 }); if (!Array.isArray(payload.data)) throw new Error("snapshot_unavailable"); staticInstruments = payload.data; } return staticSearch(staticInstruments, query); };
-    const lookup = async query => {
+    const staticLookup = async (query, exchange) => { if (!staticSearchIndex) { const payload = await fetchJson(STATIC.searchIndex, { timeout: 7000 }); if (!Array.isArray(payload.data)) throw new Error("snapshot_unavailable"); staticSearchIndex = payload.data; } return staticSearch(staticSearchIndex, query, 10, exchange); };
+    const lookup = async (query, exchange) => {
       if (preference !== "static" && safeStorage("sessionStorage")?.getItem(STORAGE.failedApi) !== "1") {
         try {
-          const payload = await fetchJson(`${API.lookup}?q=${encodeURIComponent(query)}&limit=10`, { signal: searchController?.signal });
-          if (!Array.isArray(payload.data)) throw new Error("invalid_lookup");
+          const exchangeParam = exchange ? `&exchange=${encodeURIComponent(exchange)}` : "";
+          const payload = await fetchJson(`${API.search}?q=${encodeURIComponent(query)}&limit=10${exchangeParam}`, { signal: searchController?.signal });
+          if (!Array.isArray(payload.data)) throw new Error("invalid_search");
           return payload.data.map(item => ({ ...item, matched_by: String(item.matched_by || "match").replaceAll("_", " "), report_url: item.report_url || null }));
         } catch (error) { if (preference === "api") throw error; safeStorage("sessionStorage")?.setItem(STORAGE.failedApi, "1"); }
       }
-      return staticLookup(query);
+      return staticLookup(query, exchange);
     };
+    const searchHelpText = "Search any listed Indian company on NSE or BSE. Full research, score and rank are available for the modeled research universe.";
     const run = async () => {
-      const query = input.value.trim(); recentBox.hidden = Boolean(query); results.replaceChildren();
-      if (query.length < 2 && !/^\d{6}$/.test(query)) { items = []; selected = -1; status.textContent = query ? "Type at least two characters to search safely." : "Search the canonical Nifty Smallcap 250 instrument master."; return; }
-      status.textContent = "Searching canonical instruments…"; results.replaceChildren();
+      const raw = input.value.trim(); recentBox.hidden = Boolean(raw); results.replaceChildren();
+      const { query, exchange } = parseExchangeHint(raw);
+      if (query.length < 2 && !/^\d{6}$/.test(query)) { items = []; selected = -1; status.textContent = raw ? "Type at least two characters to search safely." : searchHelpText; return; }
+      status.textContent = "Searching listed companies…"; results.replaceChildren();
       for (let index = 0; index < 3; index += 1) { const item = create("li", "search-result"); item.setAttribute("aria-hidden", "true"); const bar = create("span", "skeleton"); bar.style.height = "2rem"; item.append(bar); results.append(item); }
       searchController?.abort(); searchController = new AbortController();
-      try { renderItems(await lookup(query), query); } catch (_) { status.textContent = "Instrument search is unavailable in the selected data mode. Try again later."; }
+      try { renderItems(await lookup(query, exchange), query); } catch (_) { status.textContent = "Search is unavailable in the selected data mode. Try again later."; }
     };
-    const openDialog = () => { returnFocus = document.activeElement; dialog.showModal(); document.body.classList.add("is-locked"); input.value = ""; results.replaceChildren(); recentBox.hidden = false; renderRecent(); status.textContent = "Search the canonical Nifty Smallcap 250 instrument master."; input.focus(); };
+    const openDialog = () => { returnFocus = document.activeElement; dialog.showModal(); document.body.classList.add("is-locked"); input.value = ""; results.replaceChildren(); recentBox.hidden = false; renderRecent(); status.textContent = searchHelpText; input.focus(); };
     const closeDialog = () => { if (!dialog.open) return; searchController?.abort(); dialog.close(); document.body.classList.remove("is-locked"); returnFocus?.focus(); };
     qsa("[data-open-search]").forEach(button => button.addEventListener("click", openDialog)); close.addEventListener("click", closeDialog);
     dialog.addEventListener("cancel", event => { event.preventDefault(); closeDialog(); });

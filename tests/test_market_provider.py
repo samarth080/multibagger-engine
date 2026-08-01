@@ -62,6 +62,25 @@ def test_malformed_and_timeout_become_safe_partial_failures():
     assert "secret" not in (result.error_message or "")
 
 
+def test_yahoo_quote_normalization_carries_52_week_range_for_lightweight_company_pages():
+    """Lightweight (non-research) company pages show 52-week high/low; the
+    normalized quote contract must carry it through additively — existing
+    consumers that ignore the field are unaffected."""
+    request = QuoteRequest(instrument_id="instrument-a", provider_symbol="ALPHA.NS")
+    quote = normalize_yahoo_chart(
+        _payload(fiftyTwoWeekHigh=150, fiftyTwoWeekLow=80), request, now_ts=1_700_000_600,
+    )
+    assert quote.week52_high == 150
+    assert quote.week52_low == 80
+
+
+def test_yahoo_quote_normalization_tolerates_missing_52_week_range():
+    request = QuoteRequest(instrument_id="instrument-a", provider_symbol="ALPHA.NS")
+    quote = normalize_yahoo_chart(_payload(), request, now_ts=1_700_000_600)
+    assert quote.week52_high is None
+    assert quote.week52_low is None
+
+
 def test_registry_supports_mock_substitution_and_unsupported_operations():
     class Mock:
         def health(self):

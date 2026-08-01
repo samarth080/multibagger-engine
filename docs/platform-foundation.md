@@ -233,6 +233,14 @@ OpenAPI documentation is at `/docs`. Public routes:
 - `GET /api/v1/instruments`
 - `GET /api/v1/instruments/lookup?q=...`
 - `GET /api/v1/instruments/{instrument_id}`
+- `GET /api/v1/search?q=...&exchange=&active_only=&include_sme=
+  &include_inactive=` (Phase 10A/10B — the wider NSE/BSE search universe,
+  exchange/status filters; see `docs/search-architecture.md`)
+- `GET /api/v1/search/meta` (Phase 10B — NSE/BSE/cross-listed/active/SME/
+  research/ranked counts and the search-ranking policy version)
+- `GET /api/v1/company/{instrument_id}/summary` (Phase 10A/10B — always 200
+  for any known instrument, modeled or not; never fabricates rank/score;
+  carries BSE code/all exchange listings/classification source)
 - `GET /api/v1/rankings`
 - `GET /api/v1/rankings/{instrument_id}`
 - `GET /api/v1/quotes?instrument_ids=id1,id2`
@@ -287,9 +295,16 @@ pages and matching `/api/v1/research/{instrument_id}.json` contracts. The 25
 symbol report URLs render the same payload with canonical metadata.
 The payload now has `schema_version: 1.1`, a build manifest and canonical IDs.
 It also writes `site/api/v1/instruments.json`, `rankings.json`, `status.json`,
-`screener-fields.json` and `screener.json`. Rankings remain top-25 scope; the
-screener snapshot contains the full 250 scored weekly universe. The dynamic API
-is authoritative for larger, historical and database-selected builds.
+`screener-fields.json`, `screener.json` and, since Phase 10A,
+`search-index.json`. Rankings remain top-25 scope; the screener snapshot
+contains the full 250 scored weekly universe; `instruments.json` remains the
+pinned research/ranking master (250, unchanged). `search-index.json` is the
+new, deliberately wider artifact: every NSE-listed security the platform can
+identify plus (Phase 10B) a curated BSE cross-listing starter set, each
+tagged with whether it is in the research/ranking universe — see
+`docs/search-architecture.md` for why these are separate and for the BSE
+sourcing disclosure. The dynamic API is authoritative for larger, historical
+and database-selected builds.
 
 ## Vercel/PostgreSQL considerations
 

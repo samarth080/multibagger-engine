@@ -327,9 +327,14 @@ def create_app(
         ``exchange`` (NSE/BSE only) scopes to instruments with a listing on
         that exchange. See docs/HANDOVER.md "Search, research and ranking
         universes" and docs/search-architecture.md "Search ranking policy
-        version 2"."""
+        version 3"."""
         exchange_filter = exchange.upper() if exchange and exchange.upper() in {"NSE", "BSE"} else None
-        candidates = InstrumentResolver(session).resolve(q, limit=limit * 3 if exchange_filter else limit)
+        # Fetch a wider candidate pool than requested so research/ranking
+        # availability (attached below, before truncation) can still act as
+        # a late tie-break among the true top candidates rather than only
+        # among whatever the DB-only pre-score order already truncated to.
+        fetch_limit = max(limit * 3, 15)
+        candidates = InstrumentResolver(session).resolve(q, limit=fetch_limit)
         show_only_active = active_only or not include_inactive
         filtered = []
         for candidate in candidates:
@@ -340,8 +345,14 @@ def create_app(
             if not include_sme and candidate.is_sme:
                 continue
             filtered.append(candidate)
-        filtered = filtered[:limit]
         scores = _current_scores(session, [c.instrument_id for c in filtered])
+
+        def _final_tiebreak(candidate) -> tuple:
+            score = scores.get(candidate.instrument_id)
+            return (-candidate.score, 0 if score is not None else 1)
+
+        filtered.sort(key=_final_tiebreak)
+        filtered = filtered[:limit]
         results = []
         for candidate in filtered:
             score = scores.get(candidate.instrument_id)
@@ -364,6 +375,10 @@ def create_app(
                 report_url=canonical_company_url(candidate.instrument_id),
                 score=candidate.score, matched_by=candidate.matched_by,
                 matched_value=candidate.matched_value,
+                match_reason=candidate.match_reason, matched_field=candidate.matched_field,
+                ranking_policy_version=candidate.ranking_policy_version,
+                active_listing=candidate.active_listing, primary_listing=candidate.primary_listing,
+                ranking_available=score is not None,
             ))
         return _envelope(request, results)
 

@@ -85,3 +85,14 @@ source's classified companies happen to be SME-listed).
   `InstrumentRow`/a new table is deferred to the static/dynamic-parity
   milestone, where the real need can be assessed against actual
   dynamic-mode requirements.
+
+## Use in search ranking (Phase 10C Milestone 2)
+
+`review_status`, `classification_conflict`, and `industry` presence are
+consumed as a very late search-ranking tie-break — see
+`docs/search-architecture.md` "Search ranking policy version 3",
+`classification_quality_rank`. A conflict never suppresses an otherwise-
+correct exact identity match, and missing `sector` is never used as a
+ranking signal given 0% coverage. The dynamic (DB-backed) `/api/v1/search`
+path does not have this provenance available at all (see the limitation
+above) and always treats classification as conflict-free there.

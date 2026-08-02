@@ -101,6 +101,18 @@ class SearchIndexRecord(BaseModel):
     report_url: str
     financial_available: bool = False
 
+    # Phase 11 Milestone 2A — coverage level, additive. See
+    # mbe.coverage.policy.assess_coverage, the single source of this data.
+    research_coverage_level: int = 0
+    coverage_label: str = ""
+    coverage_level_version: str = "1.0"
+    research_coverage_status: str = "active"
+    research_eligible: bool = False
+    research_eligibility_reasons: list[str] = []
+    research_sections_available: list[str] = []
+    research_sections_missing: list[str] = []
+    coverage_policy_version: str = ""
+
 
 class SearchCandidate(BaseModel):
     """A ranked search result: the matched record plus why it matched, and

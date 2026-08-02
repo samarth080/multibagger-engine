@@ -119,3 +119,29 @@ def test_research_instrument_missing_from_search_universe_is_still_included():
     assert len(index) == 2
     symbols = {record.symbol for record in index}
     assert "SUNPHARMA" in symbols
+
+
+def test_modeled_instrument_gets_level_3_coverage():
+    index = build_search_index(SEARCH_UNIVERSE_ROWS, RESEARCH_INSTRUMENTS, SCREENER_ROWS)
+    sunpharma = next(r for r in index if r.instrument_id == SUNPHARMA_ID)
+    assert sunpharma.research_coverage_level == 3
+    assert sunpharma.coverage_label == "Level 3 — Full Research"
+    assert sunpharma.research_eligible is True
+    assert sunpharma.coverage_policy_version == "2026-08-03.11.2a.1"
+
+
+def test_unmodeled_instrument_with_provider_symbol_gets_level_1_coverage():
+    index = build_search_index(SEARCH_UNIVERSE_ROWS, RESEARCH_INSTRUMENTS, SCREENER_ROWS)
+    reliance = next(r for r in index if r.symbol == "RELIANCE")
+    assert reliance.research_coverage_level == 1
+    assert reliance.coverage_label == "Level 1 — Market Coverage"
+    assert reliance.research_eligible is False
+    assert "not_in_model_universe" in reliance.research_eligibility_reasons
+
+
+def test_coverage_fields_are_never_missing_on_any_record():
+    index = build_search_index(SEARCH_UNIVERSE_ROWS, RESEARCH_INSTRUMENTS, SCREENER_ROWS)
+    for record in index:
+        assert record.research_coverage_level in (0, 1, 2, 3)
+        assert record.coverage_label
+        assert record.research_sections_available

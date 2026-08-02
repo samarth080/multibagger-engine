@@ -164,6 +164,15 @@ def build_search_index(
             has_full_research_payload=record.research_available,
         )
         record.financial_available = assessment.financial_available
+        record.research_coverage_level = assessment.research_coverage_level
+        record.coverage_label = assessment.coverage_label
+        record.coverage_level_version = assessment.coverage_level_version
+        record.research_coverage_status = assessment.research_coverage_status
+        record.research_eligible = assessment.research_eligible
+        record.research_eligibility_reasons = assessment.research_eligibility_reasons
+        record.research_sections_available = assessment.research_sections_available
+        record.research_sections_missing = assessment.research_sections_missing
+        record.coverage_policy_version = assessment.coverage_policy_version
 
     return list(records.values())
 

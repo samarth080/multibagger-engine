@@ -12,6 +12,7 @@ from mbe.db.models import (
 )
 from mbe.instruments.resolution import InstrumentResolver
 from mbe.models.instrument import normalize_name, normalize_symbol, stable_instrument_id
+from mbe.search.ranking import SEARCH_RANKING_POLICY_VERSION
 
 
 @pytest.fixture()
@@ -127,6 +128,49 @@ def test_short_alias_never_outranks_exact_company_name(session):
     matches = InstrumentResolver(session).resolve("AIL")
     assert matches[0].instrument_id == "instrument-ail"
     assert matches[0].matched_by == "exact_company_name"
+
+
+def test_resolver_exposes_v3_evidence_fields(session):
+    matches = InstrumentResolver(session).resolve("alpha")
+    assert matches
+    assert matches[0].ranking_policy_version == SEARCH_RANKING_POLICY_VERSION
+    assert matches[0].match_reason == "Exact company symbol"
+    assert matches[0].matched_field == "symbol"
+    assert matches[0].active_listing is True
+    assert matches[0].primary_listing is True
+
+
+def test_resolver_active_listing_beats_inactive_at_equal_score(session):
+    session.add(CompanyRow(
+        company_id="company-tie", legal_name="Similar Prefix Company One Ltd.",
+        current_legal_name="Similar Prefix Company One Ltd.",
+        display_name="Similar Prefix Company One Ltd.", country="IN",
+    ))
+    session.add(InstrumentRow(
+        instrument_id="instrument-tie", company_id="company-tie", security_type="equity",
+        country="IN", currency="INR", timezone="Asia/Kolkata", quality_status="valid",
+    ))
+    session.add(InstrumentListingRow(
+        instrument_id="instrument-tie", exchange_code="NSE", symbol="SPCTIE",
+        status="delisted", is_primary=True, is_sme=False,
+    ))
+    session.add(CompanyRow(
+        company_id="company-active", legal_name="Similar Prefix Company Two Ltd.",
+        current_legal_name="Similar Prefix Company Two Ltd.",
+        display_name="Similar Prefix Company Two Ltd.", country="IN",
+    ))
+    session.add(InstrumentRow(
+        instrument_id="instrument-active", company_id="company-active", security_type="equity",
+        country="IN", currency="INR", timezone="Asia/Kolkata", quality_status="valid",
+    ))
+    session.add(InstrumentListingRow(
+        instrument_id="instrument-active", exchange_code="NSE", symbol="SPCACT",
+        status="active", is_primary=True, is_sme=False,
+    ))
+    session.commit()
+    matches = InstrumentResolver(session).resolve("Similar Prefix Company")
+    ids_in_order = [m.instrument_id for m in matches if m.instrument_id in {"instrument-tie", "instrument-active"}]
+    assert ids_in_order[0] == "instrument-active"
 
 
 def test_duplicate_current_provider_symbol_is_constrained(session):

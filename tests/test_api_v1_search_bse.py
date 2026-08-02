@@ -129,6 +129,18 @@ def test_company_summary_exposes_all_listings(api):
     assert exchanges == {"NSE", "BSE"}
 
 
+def test_search_response_includes_v3_evidence_fields(api):
+    client, ids, _ = api
+    data = client.get("/api/v1/search?q=RELIANCE").json()["data"]
+    reliance = next(r for r in data if r["instrument_id"] == ids["RELIANCE.NS"])
+    assert reliance["ranking_policy_version"]
+    assert reliance["match_reason"] == "Exact company symbol"
+    assert reliance["matched_field"] == "symbol"
+    assert reliance["active_listing"] is True
+    assert reliance["primary_listing"] is True
+    assert reliance["ranking_available"] is True  # RELIANCE.NS was screened in the api fixture
+
+
 def test_search_meta_reports_universe_statistics(api):
     client, _, manifest = api
     data = client.get("/api/v1/search/meta").json()["data"]

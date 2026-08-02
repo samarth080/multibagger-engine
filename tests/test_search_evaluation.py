@@ -22,8 +22,12 @@ TINY_INDEX = [
 
 def test_evaluation_set_is_a_nonempty_representative_list():
     assert len(EVALUATION_SET) >= 10
-    queries = {case["query"] for case in EVALUATION_SET}
-    assert len(queries) == len(EVALUATION_SET)  # no duplicate queries
+    # A query may legitimately appear twice — once as a scored exact-identity
+    # case and once as an unscored broad group-recall case (e.g. "HDFC" is
+    # both "expect HDFCBANK first" and "recall the whole HDFC family") — so
+    # uniqueness is checked per case kind, not across the whole set.
+    keys = {(case["query"], bool(case.get("group"))) for case in EVALUATION_SET}
+    assert len(keys) == len(EVALUATION_SET)
 
 
 def test_evaluate_search_quality_reports_top1_and_top3_metrics():
@@ -51,3 +55,37 @@ def test_evaluate_search_quality_detects_a_missed_expectation():
     report = evaluate_search_quality(TINY_INDEX, cases, ranker=rank_search_candidates)
     assert report["top1_accuracy"] == 0.0
     assert report["per_query"][0]["passed"] is False
+
+
+def test_evaluation_set_includes_group_and_exchange_cases():
+    assert any(case.get("group") for case in EVALUATION_SET)
+    assert any(case.get("exchange") for case in EVALUATION_SET)
+
+
+def test_evaluate_search_quality_reports_new_metrics():
+    from mbe.search.catalog import build_search_index
+
+    def _row(symbol, name, isin, bse_code=None):
+        return {
+            "source_record_id": isin, "company_name": name, "symbol": symbol,
+            "exchange": "NSE", "exchange_segment": None, "series": "EQ", "isin": isin,
+            "bse_code": bse_code, "industry": None, "sector": None, "listing_status": "active",
+            "listing_date": None, "delisting_date": None, "is_sme": False,
+            "security_type": "equity", "provider_symbols": {"yahoo": f"{symbol}.NS"},
+            "aliases": [],
+        }
+
+    universe = [_row("RELIANCE", "Reliance Industries Limited", "INE002A01018", "500325")]
+    index = build_search_index(universe, [], [])
+    report = evaluate_search_quality(
+        index, [{"query": "500325", "expected_first": "RELIANCE", "forbidden": [], "tier": "exact_bse_code"}],
+        ranker=rank_search_candidates,
+    )
+    assert report["exact_bse_code_accuracy"] == 1.0
+    assert report["mean_reciprocal_rank"] == 1.0
+
+
+def test_evaluate_search_quality_reports_group_query_recall():
+    cases = [{"query": "Reliance", "group_members": ["RELIANCE"], "forbidden": [], "group": True}]
+    report = evaluate_search_quality(TINY_INDEX, cases, ranker=rank_search_candidates)
+    assert report["group_query_recall"] == 1.0

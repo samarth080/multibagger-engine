@@ -72,12 +72,25 @@ class SearchIndexRecord(BaseModel):
     sector_source: str | None = None
     industry: str | None = None
     industry_source: str | None = None
+    sub_industry: str | None = None
+    sub_industry_source: str | None = None
+    classification_version: str | None = None
+    classification_confidence: float | None = None
+    classification_review_status: str | None = None
+    classification_selection_reason: str | None = None
+    classification_conflict: bool = False
     listing_status: str = "active"
     is_sme: bool | None = None
     market_cap_category: str | None = None
     aliases: list[dict] = []
     provider_symbol: str | None = None
     listings: list[ExchangeListing] = []
+    # Verified broad-index memberships only (e.g. "Nifty 50"). Empty on every
+    # record today — no broad-index source beyond Nifty Smallcap 250 (already
+    # reflected via research_available) is imported yet. See
+    # mbe.search.ranking module docstring and docs/search-architecture.md
+    # "Search ranking policy version 3".
+    index_memberships: list[str] = []
 
     result_type: SearchResultType
     research_available: bool = False
@@ -89,9 +102,27 @@ class SearchIndexRecord(BaseModel):
 
 
 class SearchCandidate(BaseModel):
-    """A ranked search result: the matched record plus why it matched."""
+    """A ranked search result: the matched record plus why it matched, and
+    the Phase 10C Milestone 2 (search ranking policy version 3) evidence
+    fields that explain its position — see mbe.search.ranking module
+    docstring for the full tier/tie-break policy."""
 
     record: SearchIndexRecord
     score: float
     matched_by: str
     matched_value: str
+    match_tier: str
+    matched_field: str
+    match_reason: str
+    match_confidence: float
+    ranking_policy_version: str
+    active_listing: bool
+    primary_listing: bool
+    requested_exchange_matched: bool | None = None
+    index_memberships: list[str] = []
+    research_available: bool
+    ranking_available: bool
+    classification_review_status: str | None = None
+    classification_conflict: bool = False
+    prominence_signals: list[str] = []
+    ambiguity_warning: str | None = None

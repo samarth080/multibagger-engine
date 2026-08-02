@@ -129,6 +129,18 @@ class SearchResultData(BaseModel):
     score: float
     matched_by: str
     matched_value: str
+    match_reason: str = ""
+    matched_field: str = ""
+    ranking_policy_version: str = ""
+    active_listing: bool = True
+    primary_listing: bool = True
+    ranking_available: bool = False
+    sub_industry: str | None = None
+    sub_industry_source: str | None = None
+    classification_version: str | None = None
+    classification_confidence: float | None = None
+    classification_review_status: str | None = None
+    classification_conflict: bool = False
 
 
 class CompanySummaryData(BaseModel):

@@ -3,6 +3,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const app = require("../../src/mbe/frontend/assets/app.js");
+const searchRankingParity = require("../fixtures/search-ranking-parity.json");
 
 const instruments = [
   {
@@ -109,6 +110,62 @@ test("static search carries research/ranking status through so the UI can badge 
   assert.equal(unmodeled.rank, null);
   assert.equal(unmodeled.multibagger_score, null);
   assert.equal(unmodeled.report_url, "/company/id-unmodeled.html");
+});
+
+test("staticSearch finds a full-phrase match not covered by prefix or word match", () => {
+  const universe = [
+    { instrument_id: "id-tcs", display_name: "Tata Consultancy Services Limited", symbol: "TCS", listing_status: "active" },
+    { instrument_id: "id-reliance", display_name: "Reliance Industries Limited", symbol: "RELIANCE", listing_status: "active" },
+  ];
+  const results = app.staticSearch(universe, "Consultancy Services");
+  assert.equal(results[0].instrument_id, "id-tcs");
+  assert.equal(results[0].matched_by, "full phrase match");
+});
+
+test("staticSearch finds an all-token match regardless of order", () => {
+  const universe = [
+    { instrument_id: "id-hal", display_name: "Hindustan Aeronautics Limited", symbol: "HAL", listing_status: "active" },
+  ];
+  const results = app.staticSearch(universe, "Aeronautics Hindustan");
+  assert.equal(results[0].instrument_id, "id-hal");
+  assert.equal(results[0].matched_by, "word match");
+});
+
+test("staticSearch prefers active listing over inactive at equal score", () => {
+  const universe = [
+    { instrument_id: "id-inactive", display_name: "Similar Prefix Company Two Ltd.", symbol: "INAC", listing_status: "delisted" },
+    { instrument_id: "id-active", display_name: "Similar Prefix Company One Ltd.", symbol: "ACTV", listing_status: "active" },
+  ];
+  const results = app.staticSearch(universe, "Similar Prefix Company");
+  assert.equal(results[0].instrument_id, "id-active");
+});
+
+test("staticSearch prefers verified broad-index membership at equal score", () => {
+  const universe = [
+    { instrument_id: "id-plain", display_name: "Tie Break Nu Ltd.", symbol: "TBN", listing_status: "active" },
+    { instrument_id: "id-member", display_name: "Tie Break Xi Ltd.", symbol: "TBX", listing_status: "active", index_memberships: ["Nifty 50"] },
+  ];
+  const results = app.staticSearch(universe, "Tie Break");
+  assert.equal(results[0].instrument_id, "id-member");
+});
+
+test("staticSearch exposes v3 evidence fields on every result", () => {
+  const universe = [{ instrument_id: "id-evid", display_name: "Evidence Fields Ltd.", symbol: "EVID", listing_status: "active", research_available: true, rank: 1 }];
+  const results = app.staticSearch(universe, "EVID");
+  assert.equal(results[0].ranking_policy_version, "2026-08-02.10c.2");
+  assert.equal(results[0].match_reason, "Exact company symbol");
+  assert.equal(results[0].active_listing, true);
+  assert.equal(results[0].ranking_available, true);
+});
+
+test("browser static search matches the shared Python ranking parity fixture", () => {
+  for (const testCase of searchRankingParity.cases) {
+    const results = app.staticSearch(searchRankingParity.universe, testCase.query, 10, testCase.exchange);
+    const actualOrder = results
+      .map(r => r.instrument_id)
+      .filter(id => testCase.expected_order.includes(id));
+    assert.deepEqual(actualOrder, testCase.expected_order, testCase.query);
+  }
 });
 
 test("ranking URL state validates values and round-trips shareable filters", () => {

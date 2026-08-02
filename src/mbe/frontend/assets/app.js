@@ -103,6 +103,38 @@
     return { query: raw, exchange: null };
   }
 
+  const RANKING_POLICY_VERSION = "2026-08-02.10c.2";
+  const INDEX_PRECEDENCE = ["Nifty 50", "Nifty Next 50", "Nifty 100", "Nifty 200", "Nifty 500"];
+
+  function indexMembershipRank(memberships) {
+    const list = Array.isArray(memberships) ? memberships : [];
+    const ranks = list.map(m => INDEX_PRECEDENCE.indexOf(m)).filter(r => r >= 0);
+    return ranks.length ? Math.min(...ranks) : INDEX_PRECEDENCE.length;
+  }
+
+  function classificationQualityRank(industry, reviewStatus, conflict) {
+    if (conflict) return 2;
+    const clean = reviewStatus == null || reviewStatus === "accepted";
+    if (industry && clean) return 0;
+    return 1;
+  }
+
+  const MATCH_REASONS = {
+    "exact NSE symbol": "Exact company symbol", "exact BSE code": "Exact BSE code",
+    "exact ISIN": "Exact ISIN", "exact company name": "Exact company name",
+    "company-name prefix": "Company name prefix match", "full phrase match": "Exact phrase match",
+    "word match": "All search terms matched", "fuzzy company name": "Approximate name match",
+  };
+
+  function matchReasonFor(matchedBy) {
+    if (MATCH_REASONS[matchedBy]) return MATCH_REASONS[matchedBy];
+    if (matchedBy.startsWith("exact ")) {
+      const aliasType = matchedBy.slice(6);
+      return aliasType === "former name" ? "Matched former company name" : `Matched ${aliasType}`;
+    }
+    return "Match";
+  }
+
   function staticSearch(instruments, query, limit = 10, exchange = null) {
     const raw = String(query || "").trim();
     const nameQuery = normalizeText(raw);
@@ -110,10 +142,12 @@
     if (nameQuery.length < 2 && !/^\d{6}$/.test(raw) && !/^IN[A-Z0-9]{10}$/i.test(raw)) return [];
     const matches = [];
     for (const item of instruments || []) {
+      let requestedExchangeMatched = null;
       if (exchange) {
         const listings = Array.isArray(item.listings) ? item.listings : [];
         const onExchange = listings.some(l => l.exchange === exchange) || item.exchange === exchange;
         if (!onExchange) continue;
+        requestedExchangeMatched = true;
       }
       let best = null;
       const consider = (score, matchedBy, matchedValue) => {
@@ -129,9 +163,17 @@
       if (raw.toUpperCase() === isin && isin) consider(97, "exact ISIN", isin);
       for (const name of names) {
         const normalized = normalizeText(name);
-        if (nameQuery === normalized || suffixlessName(raw) === suffixlessName(name)) consider(95, "exact company name", name);
-        else if (nameQuery.length >= 3 && normalized.startsWith(nameQuery)) consider(82, "company-name prefix", name);
-        else if (nameQuery.length >= 5 && Math.abs(nameQuery.length - normalized.length) <= Math.max(nameQuery.length, normalized.length) * .5) {
+        if (nameQuery === normalized || suffixlessName(raw) === suffixlessName(name)) { consider(95, "exact company name", name); continue; }
+        if (nameQuery.length >= 3 && normalized.startsWith(nameQuery)) { consider(82, "company-name prefix", name); continue; }
+        if (nameQuery.length >= 5 && normalized !== nameQuery && !normalized.startsWith(nameQuery) && ` ${normalized} `.includes(` ${nameQuery} `)) { consider(84, "full phrase match", name); continue; }
+        const queryTokens = new Set(nameQuery.split(" ").filter(Boolean));
+        const nameTokens = new Set(normalized.split(" ").filter(Boolean));
+        if (nameQuery.length >= 3 && queryTokens.size && [...queryTokens].every(t => nameTokens.has(t))) {
+          const extra = nameTokens.size - queryTokens.size;
+          consider(Math.max(55, 68 - extra), "word match", name);
+          continue;
+        }
+        if (nameQuery.length >= 5 && Math.abs(nameQuery.length - normalized.length) <= Math.max(nameQuery.length, normalized.length) * .5) {
           const quality = similarity(nameQuery, normalized);
           if (quality >= .78) consider(60 + quality * 20, "fuzzy company name", name);
         }
@@ -142,6 +184,12 @@
       }
       if (best) {
         const match = /** @type {{score: number, matched_by: string, matched_value: string}} */ (best);
+        const active = (item.listing_status || "unknown") === "active";
+        const listings = Array.isArray(item.listings) ? item.listings : [];
+        const primaryListing = listings.find(l => l.is_primary);
+        const isPrimary = primaryListing ? Boolean(primaryListing.is_primary) : true;
+        const indexMemberships = Array.isArray(item.index_memberships) ? item.index_memberships : [];
+        const rankingAvailable = item.rank != null;
         matches.push({
         instrument_id: String(item.instrument_id),
         display_name: item.display_name || item.legal_name || symbol,
@@ -150,7 +198,7 @@
         isin: item.isin || null,
         exchange: item.exchange || "NSE",
         primary_exchange: item.primary_exchange || item.exchange || "NSE",
-        listings: Array.isArray(item.listings) ? item.listings : [],
+        listings,
         industry: item.industry || null,
         sector: item.sector || null,
         market_cap_category: item.market_cap_category || null,
@@ -159,15 +207,42 @@
         report_url: item.report_url || null,
         result_type: item.result_type || (item.research_available ? "modeled" : "known"),
         research_available: Boolean(item.research_available),
+        ranking_available: rankingAvailable,
         rank: item.rank == null ? null : Number(item.rank),
         multibagger_score: item.multibagger_score == null ? null : Number(item.multibagger_score),
           score: match.score,
           matched_by: match.matched_by,
           matched_value: match.matched_value,
+          match_reason: matchReasonFor(match.matched_by),
+          ranking_policy_version: RANKING_POLICY_VERSION,
+          active_listing: active, primary_listing: isPrimary,
+          requested_exchange_matched: requestedExchangeMatched,
+          index_memberships: indexMemberships,
+          classification_review_status: item.classification_review_status || null,
+          classification_conflict: Boolean(item.classification_conflict),
+          _sortAux: {
+            active, isPrimary, indexRank: indexMembershipRank(indexMemberships),
+            mainBoard: !item.is_sme, research: Boolean(item.research_available), ranking: rankingAvailable,
+            classRank: classificationQualityRank(item.industry, item.classification_review_status, Boolean(item.classification_conflict)),
+          },
         });
       }
     }
-    return matches.sort((a, b) => b.score - a.score || String(a.display_name).localeCompare(String(b.display_name)) || a.instrument_id.localeCompare(b.instrument_id)).slice(0, limit);
+    matches.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      const x = a._sortAux, y = b._sortAux;
+      if (x.active !== y.active) return x.active ? -1 : 1;
+      if (x.isPrimary !== y.isPrimary) return x.isPrimary ? -1 : 1;
+      if (x.indexRank !== y.indexRank) return x.indexRank - y.indexRank;
+      if (x.mainBoard !== y.mainBoard) return x.mainBoard ? -1 : 1;
+      if (x.research !== y.research) return x.research ? -1 : 1;
+      if (x.ranking !== y.ranking) return x.ranking ? -1 : 1;
+      if (x.classRank !== y.classRank) return x.classRank - y.classRank;
+      const nameCompare = String(a.display_name).localeCompare(String(b.display_name));
+      if (nameCompare) return nameCompare;
+      return a.instrument_id.localeCompare(b.instrument_id);
+    });
+    return matches.slice(0, limit).map(({ _sortAux, ...rest }) => rest);
   }
 
   function parseRankingState(search) {
@@ -449,7 +524,14 @@
         }
         const bits = [item.symbol && `${item.exchange || "NSE"}: ${item.symbol}`, item.bse_code && `BSE ${item.bse_code}`, item.sector, item.industry, item.market_cap_category, item.is_sme ? "SME" : null].filter(Boolean);
         main.append(create("span", "search-meta", bits.join(" · ")));
-        const match = create("span", "search-match", `${item.matched_by || "match"}\n${Math.round(item.score)} / 100`);
+        const evidenceBits = [
+          item.match_reason || item.matched_by,
+          item.requested_exchange_matched ? `${item.exchange || "NSE"} match` : null,
+          Array.isArray(item.index_memberships) && item.index_memberships[0] || null,
+          item.research_available ? "Full research" : (item.ranking_available ? "Ranked" : null),
+        ].filter(Boolean);
+        main.append(create("span", "search-evidence", evidenceBits.join(" · ")));
+        const match = create("span", "search-match", `${Math.round(item.score)} / 100`);
         button.append(main, match); button.addEventListener("click", () => openItem(item)); li.append(button); results.append(li);
       });
       if (selected >= 0) input.setAttribute("aria-activedescendant", `search-option-${selected}`);

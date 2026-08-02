@@ -574,6 +574,29 @@ def search_quality_evaluate(
         raise typer.Exit(1)
 
 
+@app.command("classification-coverage-report")
+def classification_coverage_report(
+    search_universe: Path = typer.Option(Path("universes/nse-search-universe.json")),
+    bse_universe: Path = typer.Option(Path("universes/bse-search-universe.json")),
+    instruments: Path = typer.Option(
+        Path("site/api/v1/instruments.json"), help="Static research-universe snapshot, if built"
+    ),
+):
+    """Report measured sector/industry/sub-industry coverage, by exchange
+    and main-board/SME, plus source distribution and conflict/missing/stale
+    counts (Phase 10C section 3). Fully offline; never claims coverage
+    beyond what the merged search index actually has."""
+    from mbe.search.catalog import build_search_index
+    from mbe.search.classification import build_classification_coverage_report
+
+    search_rows = json.loads(search_universe.read_text())["records"]
+    bse_rows = json.loads(bse_universe.read_text())["records"] if bse_universe.exists() else []
+    research = json.loads(instruments.read_text())["data"] if instruments.exists() else []
+    index = build_search_index(search_rows, research, [], bse_rows=bse_rows)
+    report = build_classification_coverage_report(index)
+    console.print_json(data=report.model_dump(mode="json"))
+
+
 @app.command("search-inspect")
 def search_inspect(
     query: str,

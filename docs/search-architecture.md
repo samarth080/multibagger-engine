@@ -184,6 +184,126 @@ not to do; a `corporate_group` field would need an authoritative ownership
 source this phase does not have. See "Known limitations" and "Recommended
 Phase 10C scope".
 
+## Search ranking policy version 3 (Phase 10C Milestone 2)
+
+`SEARCH_RANKING_POLICY_VERSION` is now `"2026-08-02.10c.2"`. Version 3
+preserves every version-2 primary match tier byte-for-byte — no score or
+ordering among the identity tiers changed — and adds a documented, evidence-
+carrying late tie-break stage. Mapping from the 13 conceptual tiers named in
+the Milestone 2 spec to the 11 concrete scoring tiers `mbe.search.ranking`
+actually implements:
+
+1. Exact NSE symbol (100)
+2. Exact BSE code (98, checked across every listing, not just primary)
+3. Exact ISIN (97, likewise)
+4. Exact company name (95) — covers both "exact legal name" and "exact
+   display name" from the spec's 13-tier list: legal name and display name
+   are checked identically, both are exact identity, so there is no ranking
+   reason to prefer one over the other
+5. Exact former name (88)
+6. Exact alias / safe abbreviation (90, or 78 for ≤3-character abbreviations
+   — the Phase 0 disambiguation rule)
+7. Full contiguous-phrase match (84) — "exact full-token sequence", e.g.
+   "Consultancy Services" inside "Tata Consultancy Services Ltd"
+8. Company-name prefix (75–82, reduced for a longer unmatched remainder)
+9. All-token/word match (55–68, any order, whole tokens)
+10. Guarded fuzzy match (60–80, `SequenceMatcher` ratio ≥ 0.78, length-ratio
+    pre-filtered) — covers both "guarded fuzzy match" and "partial word
+    match" from the spec's 13-tier list. A separate token-overlap partial-
+    match tier was considered for v3 and rejected: there is no evaluation
+    evidence it improves ranking beyond the existing guarded fuzzy tier, and
+    introducing one would need new score-band calibration against the
+    evaluation set without a demonstrated quality gain — a defensibility bar
+    this milestone does not clear.
+
+**Late tie-breakers** — applied only when match score is already tied; none
+of these can ever promote a worse-tier match above a better one:
+
+1. Active listing beats inactive/delisted/suspended (`"unknown"` is never
+   treated as active)
+2. Requested exchange match — a no-op today, because
+   `rank_search_candidates` already hard-filters out any candidate with no
+   listing on the requested exchange *before* scoring, so every candidate
+   reaching the tie-break already matches (or no exchange was requested).
+   Kept as an explicit dimension and evidence field (`requested_exchange_matched`)
+   for documentation fidelity and to guard against a future filtering change
+   silently losing this guarantee.
+3. Primary listing beats secondary
+4. Broad-index membership (`Nifty 50 > Next 50 > 100 > 200 > 500`, see
+   `index_membership_rank`) — **no company in canonical data carries a
+   verified broad-index membership today.** Only Nifty Smallcap 250 is
+   imported (a small-cap index, not a "broad" prominence index, and already
+   reflected via `research_available`), so `SearchIndexRecord.index_memberships`
+   is `[]` on every record and this dimension never differentiates real data
+   yet. It is structurally present, not fabricated — see "Recommended
+   Milestone 3 scope" below.
+5. Main-board beats SME (SME is never hidden or treated as poor quality —
+   this is ordering only, never suppression)
+6. Full research availability (`research_available`)
+7. Ranking availability (`rank is not None` — currently scored by the model;
+   conceptually separate from research availability even though today's
+   ranking universe equals the research universe)
+8. Classification quality (Milestone 1 fields, see
+   `classification_quality_rank`): a clean, industry-tagged classification
+   outranks a conflicting or unresolved one. Conflict is the least-favored
+   value but never suppresses an otherwise-correct exact match, since this
+   is strictly the second-to-last tie-break. Missing *sector* is never used
+   here — sector coverage is 0/2,947 today and must not materially penalize
+   results; only industry presence and conflict/review status count.
+9. Stable alphabetical order (`display_name`)
+10. Canonical instrument ID (final deterministic tie-break)
+
+**Signals intentionally excluded** from every tie-break dimension: hidden
+popularity scores, market-cap estimates, internet popularity, corporate-
+group inference, manual "flagship company" labels, and any numeric weight
+not already derivable from a documented, verifiable field.
+
+**Ranking evidence**: every `SearchCandidate` (and its API/JS counterparts)
+now carries `match_tier`, `matched_field`, `match_reason`, `match_confidence`,
+`ranking_policy_version`, `active_listing`, `primary_listing`,
+`requested_exchange_matched`, `index_memberships`, `research_available`,
+`ranking_available`, `classification_review_status`, `classification_conflict`,
+`prominence_signals` (a human-readable list, e.g. `["Active listing",
+"Primary NSE listing", "Full research available"]`) and `ambiguity_warning`
+(set on the top result only, when the top 1–2 candidates are tied for a
+short query or the best match is a low-confidence fuzzy match — mirrors the
+frontend's pre-existing `topTied`/`fuzzyFirst` heuristic in `mbe.search.ranking`
+for the CLI/evaluation path).
+
+**Static/server parity**: `mbe.search.ranking` is canonical. `app.js`'s
+`staticSearch` is a hand-maintained mirror (same tier scores, same tie-break
+order — see `tests/frontend/app.test.js` and the shared
+`tests/fixtures/search-ranking-parity.json` fixture, asserted identically by
+both a Python and a JS test), not a generated artifact.
+`mbe.instruments.resolution.InstrumentResolver` (the DB-backed path behind
+`/api/v1/search`) imports the same `match_reason`/`matched_field_for`/
+`classification_quality_rank` helpers from `mbe.search.ranking` and applies
+the same active/primary/main-board/classification-quality tie-break order.
+Research/ranking availability are applied one layer up, in
+`mbe.api.app.search`, because current model scores are only available after
+a second DB query the resolver itself does not run: the route now fetches a
+wider candidate pool, attaches scores to every filtered candidate, applies a
+final `(-score, has_current_score)` stable sort (which preserves the
+resolver's already-tie-broken order within ties), and only then truncates to
+the requested `limit`. Classification `sector`/conflict data does not exist
+in the DB schema (Milestone 1 scoped it to the static JSON catalog only, "no
+migration"), so `classification_conflict` is always `False` on the dynamic
+API path today — a documented, not silent, limitation.
+
+**Group-query behavior**: broad queries like "Reliance", "Tata", "HDFC",
+"ICICI", "Bajaj", "Mahindra" and "Adani" return every prefix/token-matching
+company, ordered deterministically by remainder length and (now) the late
+tie-breakers above — never a single inferred "flagship". A real quality gap
+this broader evaluation coverage surfaced: for "Mahindra", `full_phrase_match`
+(84, fixed) outranks M&M's own `company_name_prefix` match (78, degraded by
+a 3-word remainder: "& Mahindra Limited"), so unrelated companies whose
+compound name happens to contain "Mahindra" (e.g. "Kotak Mahindra Bank
+Limited") rank ahead of Mahindra & Mahindra itself. This is a pre-existing
+version-2 primary-tier interaction, not something Milestone 2 introduced or
+is authorized to fix (primary-tier scores are frozen this milestone) — M&M
+remains discoverable (present in the returned result set), just not
+first. See "Recommended Milestone 3 scope".
+
 ## Listing-status awareness
 
 `SearchIndexRecord.listing_status` (mirroring the primary listing) and each
@@ -344,19 +464,23 @@ never queried on every keystroke; it runs once per debounce pause.
 
 ## Sector/industry and business-description policy
 
-Neither the NSE nor the curated BSE source currently supplies a real
-`sector` value (`sector_coverage: 0` outside the research universe, which
-itself has none either — a pre-existing Phase 0/1 characteristic, not new
-in this phase). `industry` is populated for the 250 research-universe
-companies (source `"research_universe"`) plus the 20 BSE-cross-linked
-companies whose curated fixture carries a real, well-known industry label
-(source `"exchange_master"`) — 270 total. Sector/industry are never
-inferred from a company name; when absent, the UI shows "Sector
-unavailable" / "Industry unavailable" rather than guessing. No business
-description exists anywhere outside the research universe — no LLM
-generation, no company-website scraping, no competitor-description copying
-was introduced; the lightweight page states this plainly rather than
-inventing prose.
+As of Phase 10C Milestone 1, every classification is tracked with full
+source provenance, versioned, and reconciled through a documented priority
+rule rather than an inline backfill — see `docs/classification-policy.md`
+for the full policy, the no-overwrite-research rule, and measured coverage
+numbers (`uv run mbe classification-coverage-report`). In short: neither
+the NSE nor the curated BSE source currently supplies a real `sector` value
+(`sector_coverage: 0` outside the research universe, which itself has none
+either — a pre-existing Phase 0/1 characteristic, not new in this phase).
+`industry` is populated for the 250 research-universe companies (source
+`"research_universe"`) plus the 20 BSE-cross-linked companies whose curated
+fixture carries a real, well-known industry label (source
+`"exchange_master"`) — 270 total. Sector/industry are never inferred from a
+company name; when absent, the UI shows "Sector unavailable" / "Industry
+unavailable" rather than guessing. No business description exists anywhere
+outside the research universe — no LLM generation, no company-website
+scraping, no competitor-description copying was introduced; the lightweight
+page states this plainly rather than inventing prose.
 
 ## Testing
 
@@ -446,6 +570,8 @@ not passed.
 - Neither NSE nor the curated BSE source supplies real `sector` values;
   `industry` coverage is 270/2,947 (250 research-universe + 20 BSE
   cross-linked). No sector/industry is ever inferred from a company name.
+  Classification is now source-versioned and conflict-tracked — see
+  `docs/classification-policy.md` (Phase 10C Milestone 1).
 - No corporate-group/parent-subsidiary metadata field exists — the phase
   spec explicitly excludes inferring one from company names alone, and no
   authoritative ownership source was introduced. Group queries return

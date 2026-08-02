@@ -344,19 +344,23 @@ never queried on every keystroke; it runs once per debounce pause.
 
 ## Sector/industry and business-description policy
 
-Neither the NSE nor the curated BSE source currently supplies a real
-`sector` value (`sector_coverage: 0` outside the research universe, which
-itself has none either — a pre-existing Phase 0/1 characteristic, not new
-in this phase). `industry` is populated for the 250 research-universe
-companies (source `"research_universe"`) plus the 20 BSE-cross-linked
-companies whose curated fixture carries a real, well-known industry label
-(source `"exchange_master"`) — 270 total. Sector/industry are never
-inferred from a company name; when absent, the UI shows "Sector
-unavailable" / "Industry unavailable" rather than guessing. No business
-description exists anywhere outside the research universe — no LLM
-generation, no company-website scraping, no competitor-description copying
-was introduced; the lightweight page states this plainly rather than
-inventing prose.
+As of Phase 10C Milestone 1, every classification is tracked with full
+source provenance, versioned, and reconciled through a documented priority
+rule rather than an inline backfill — see `docs/classification-policy.md`
+for the full policy, the no-overwrite-research rule, and measured coverage
+numbers (`uv run mbe classification-coverage-report`). In short: neither
+the NSE nor the curated BSE source currently supplies a real `sector` value
+(`sector_coverage: 0` outside the research universe, which itself has none
+either — a pre-existing Phase 0/1 characteristic, not new in this phase).
+`industry` is populated for the 250 research-universe companies (source
+`"research_universe"`) plus the 20 BSE-cross-linked companies whose curated
+fixture carries a real, well-known industry label (source
+`"exchange_master"`) — 270 total. Sector/industry are never inferred from a
+company name; when absent, the UI shows "Sector unavailable" / "Industry
+unavailable" rather than guessing. No business description exists anywhere
+outside the research universe — no LLM generation, no company-website
+scraping, no competitor-description copying was introduced; the lightweight
+page states this plainly rather than inventing prose.
 
 ## Testing
 
@@ -446,6 +450,8 @@ not passed.
 - Neither NSE nor the curated BSE source supplies real `sector` values;
   `industry` coverage is 270/2,947 (250 research-universe + 20 BSE
   cross-linked). No sector/industry is ever inferred from a company name.
+  Classification is now source-versioned and conflict-tracked — see
+  `docs/classification-policy.md` (Phase 10C Milestone 1).
 - No corporate-group/parent-subsidiary metadata field exists — the phase
   spec explicitly excludes inferring one from company names alone, and no
   authoritative ownership source was introduced. Group queries return

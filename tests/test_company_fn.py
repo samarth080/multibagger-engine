@@ -81,3 +81,22 @@ def test_index_defaults_to_the_bundled_search_index_file(tmp_path, monkeypatch):
     status, html = company_fn.render_company("reliance-id", quote_fetcher=lambda s: {})
     assert status == 200
     assert "Reliance Industries Limited" in html
+
+
+def test_level_1_instrument_renders_market_coverage_label():
+    status, html = company_fn.render_company(
+        "reliance-id", index=INDEX, quote_fetcher=lambda s: _chart_payload(),
+    )
+    assert status == 200
+    assert "Level 1 — Market Coverage" in html
+
+
+def test_level_0_instrument_renders_identity_only_label_without_fetching_a_quote():
+    calls = []
+    no_symbol_index = [{**RELIANCE, "provider_symbol": None}, MODELED]
+    status, html = company_fn.render_company(
+        "reliance-id", index=no_symbol_index, quote_fetcher=lambda s: calls.append(s),
+    )
+    assert status == 200
+    assert "Level 0 — Identity Coverage" in html
+    assert calls == []

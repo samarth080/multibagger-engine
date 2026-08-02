@@ -12,6 +12,7 @@ from typing import Any
 
 from datetime import datetime, timezone
 
+from mbe.coverage.policy import assess_coverage
 from mbe.data.provider import ProviderError
 from mbe.models.instrument import stable_instrument_id
 from mbe.research.builder import canonical_company_url
@@ -155,6 +156,14 @@ def build_search_index(
         record.classification_conflict = any(
             r.review_status.value == "conflict" for r in reconciled
         )
+
+        assessment = assess_coverage(
+            record.model_dump(mode="json"),
+            has_financial_data=record.research_available,
+            has_model_score=record.rank is not None and record.multibagger_score is not None,
+            has_full_research_payload=record.research_available,
+        )
+        record.financial_available = assessment.financial_available
 
     return list(records.values())
 

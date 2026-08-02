@@ -21,8 +21,9 @@ from urllib.parse import parse_qs, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
+from mbe.coverage.policy import assess_coverage  # noqa: E402
 from mbe.data.market import QuoteRequest, YahooChartQuoteProvider, normalize_yahoo_chart  # noqa: E402
-from mbe.publish import render_lightweight_company_page  # noqa: E402
+from mbe.publish import render_coverage_company_page  # noqa: E402
 
 _ID_RE = re.compile(r"^[A-Za-z0-9-]{1,80}\Z")
 _ROOT = Path(__file__).resolve().parent.parent
@@ -92,9 +93,18 @@ def render_company(
         # rather than silently downgrading a modeled company's page.
         _log("company_fallback_hit_modeled_instrument", instrument_id=instrument_id)
         return 404, "<h1>This company's research page is temporarily unavailable. Please retry.</h1>"
-    fetcher = quote_fetcher or YahooChartQuoteProvider()._fetch
-    quote = _fetch_quote(record.get("provider_symbol"), fetcher)
-    html = render_lightweight_company_page(record, quote)
+    # research_available is already False here, so this instrument is by
+    # construction never Level 3 — has_model_score/has_full_research_payload
+    # are always False for anything this function renders.
+    coverage = assess_coverage(
+        record, has_financial_data=bool(record.get("financial_available")),
+        has_model_score=False, has_full_research_payload=False,
+    )
+    quote = None
+    if coverage.quote_available:
+        fetcher = quote_fetcher or YahooChartQuoteProvider()._fetch
+        quote = _fetch_quote(record.get("provider_symbol"), fetcher)
+    html = render_coverage_company_page(record, quote, coverage)
     return 200, html
 
 

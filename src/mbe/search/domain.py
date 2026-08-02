@@ -99,6 +99,7 @@ class SearchIndexRecord(BaseModel):
     confidence: float | None = None
     risk_score: float | None = None
     report_url: str
+    financial_available: bool = False
 
 
 class SearchCandidate(BaseModel):

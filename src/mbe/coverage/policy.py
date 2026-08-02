@@ -37,7 +37,7 @@ def assess_coverage(
     now = now or datetime.now(timezone.utc)
     has_provider_symbol = bool(record.get("provider_symbol"))
 
-    if has_model_score and has_full_research_payload:
+    if has_model_score and has_full_research_payload and has_financial_data and has_provider_symbol:
         level = CoverageLevel.FULL_RESEARCH
     elif has_financial_data and has_provider_symbol:
         level = CoverageLevel.FUNDAMENTALS

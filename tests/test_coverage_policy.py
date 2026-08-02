@@ -119,6 +119,23 @@ def test_level_3_requires_both_model_score_and_full_research_payload():
     assert result.research_sections_missing == []
 
 
+def test_level_3_still_requires_financial_data_and_quote_mapping():
+    """A model score and full research payload alone aren't enough — Level 3
+    must not claim financial_summary/quote sections are available if the
+    underlying capability flags say otherwise."""
+    no_financial = assess_coverage(
+        {**BASE_RECORD, "provider_symbol": "RELIANCE.NS"}, has_financial_data=False,
+        has_model_score=True, has_full_research_payload=True, now=NOW,
+    )
+    assert no_financial.research_coverage_level < 3
+
+    no_quote_mapping = assess_coverage(
+        BASE_RECORD, has_financial_data=True,
+        has_model_score=True, has_full_research_payload=True, now=NOW,
+    )
+    assert no_quote_mapping.research_coverage_level < 3
+
+
 def test_model_score_without_full_payload_does_not_promote_to_level_3():
     record = {**BASE_RECORD, "provider_symbol": "RELIANCE.NS"}
     result = assess_coverage(
@@ -147,6 +164,21 @@ def test_identity_completeness_reflects_isin_and_legal_name():
         has_model_score=False, has_full_research_payload=False, now=NOW,
     )
     assert partial.identity_completeness == "partial"
+
+
+def test_identity_completeness_edge_cases():
+    """Test the and semantics: both isin and legal_name must be present for complete."""
+    missing_isin = assess_coverage(
+        {**BASE_RECORD, "isin": None}, has_financial_data=False,
+        has_model_score=False, has_full_research_payload=False, now=NOW,
+    )
+    assert missing_isin.identity_completeness == "partial"
+
+    missing_legal_name = assess_coverage(
+        {**BASE_RECORD, "legal_name": None}, has_financial_data=False,
+        has_model_score=False, has_full_research_payload=False, now=NOW,
+    )
+    assert missing_legal_name.identity_completeness == "partial"
 
 
 def test_inactive_listing_status_is_reflected_in_coverage_status():

@@ -523,7 +523,7 @@ def _summary(top: list[dict]) -> dict:
     }
 
 
-def _render_index(data: dict) -> str:
+def _render_index(data: dict, *, rendered_at: datetime | None = None) -> str:
     built_at = datetime.fromisoformat(data["built_at"].replace("Z", "+00:00"))
     filters = {
         "sectors": sorted({row["sector"] for row in data["top"] if row.get("sector")}),
@@ -541,7 +541,7 @@ def _render_index(data: dict) -> str:
         summary=_summary(data["top"]),
         filters=filters,
         display_built_at=built_at.astimezone().strftime("%d %b %Y, %H:%M %Z"),
-        snapshot_stale=(datetime.now(timezone.utc) - built_at).days > 10,
+        snapshot_stale=((rendered_at or datetime.now(timezone.utc)) - built_at).days > 10,
     )
 
 
@@ -669,6 +669,61 @@ def _static_envelope(data, *, meta=None, warnings=None, freshness=None) -> dict:
     }
 
 
+def build_search_asset_payload(
+    *, data: dict, search_universe_rows: list[dict], bse_rows: list[dict],
+) -> dict:
+    """Build only the public search artifact from frozen, non-model inputs."""
+    instruments = data.get("instruments", [])
+    screener_rows = data.get("_screener_rows", [])
+    search_index = build_search_index(
+        search_universe_rows, instruments, screener_rows, bse_rows=bse_rows,
+    )
+    rows = sorted(
+        (record.model_dump(mode="json") for record in search_index),
+        key=lambda row: (row["display_name"] or "", row["instrument_id"]),
+    )
+    bse_count = sum(
+        1 for row in rows
+        if any(listing["exchange"] == "BSE" for listing in row["listings"])
+    )
+    cross_listed_count = sum(
+        1 for row in rows
+        if len({listing["exchange"] for listing in row["listings"]}) > 1
+    )
+    built_at = data.get("built_at")
+    freshness = {
+        "state": "unknown", "source": "weekly-static-build",
+        "source_timestamp": built_at, "retrieved_at": built_at,
+        "normalized_at": built_at, "delay_minutes": None,
+        "reason": "Underlying statement dates vary by provider.",
+        "quality_status": "warning",
+    }
+    return _static_envelope(
+        rows,
+        meta={
+            "total": len(rows),
+            "research_universe_count": len(instruments),
+            "ranking_universe_count": len(screener_rows),
+            "nse_count": sum(
+                1 for row in rows
+                if any(listing["exchange"] == "NSE" for listing in row["listings"])
+            ),
+            "bse_count": bse_count,
+            "cross_listed_count": cross_listed_count,
+            "search_universe_source": "nse_listed_securities,bse_listed_securities",
+            "search_ranking_policy_version": SEARCH_RANKING_POLICY_VERSION,
+        },
+        warnings=[
+            "Search covers every identified NSE/BSE-listed security. Only "
+            "research_available companies have a full research page, "
+            "score and rank; others show identity and a live quote only. "
+            "BSE coverage is a curated starter set, not full BSE breadth "
+            "— see docs/search-architecture.md.",
+        ],
+        freshness=freshness,
+    )
+
+
 def _render_static_v1(
     data: dict, out: Path, *, research_pages: dict[str, dict] | None = None,
     search_universe_rows: list[dict] | None = None, bse_rows: list[dict] | None = None,
@@ -722,45 +777,12 @@ def _render_static_v1(
         "price_at_build": row.get("price_at_build"),
         "freshness": freshness,
     } for row in top]
-    search_index = build_search_index(
-        search_universe_rows or [], instruments, screener_rows, bse_rows=bse_rows or [],
-    )
-    search_index_rows = sorted(
-        (record.model_dump(mode="json") for record in search_index),
-        key=lambda row: (row["display_name"] or "", row["instrument_id"]),
-    )
-    bse_count = sum(
-        1 for row in search_index_rows
-        if any(listing["exchange"] == "BSE" for listing in row["listings"])
-    )
-    cross_listed_count = sum(
-        1 for row in search_index_rows if len({listing["exchange"] for listing in row["listings"]}) > 1
+    search_payload = build_search_asset_payload(
+        data=data, search_universe_rows=search_universe_rows or [],
+        bse_rows=bse_rows or [],
     )
     files = {
-        "search-index.json": _static_envelope(
-            search_index_rows,
-            meta={
-                "total": len(search_index_rows),
-                "research_universe_count": len(instruments),
-                "ranking_universe_count": len(screener_rows),
-                "nse_count": sum(
-                    1 for row in search_index_rows
-                    if any(listing["exchange"] == "NSE" for listing in row["listings"])
-                ),
-                "bse_count": bse_count,
-                "cross_listed_count": cross_listed_count,
-                "search_universe_source": "nse_listed_securities,bse_listed_securities",
-                "search_ranking_policy_version": SEARCH_RANKING_POLICY_VERSION,
-            },
-            warnings=[
-                "Search covers every identified NSE/BSE-listed security. Only "
-                "research_available companies have a full research page, "
-                "score and rank; others show identity and a live quote only. "
-                "BSE coverage is a curated starter set, not full BSE breadth "
-                "— see docs/search-architecture.md.",
-            ],
-            freshness=freshness,
-        ),
+        "search-index.json": search_payload,
         "instruments.json": _static_envelope(
             instruments,
             meta={"page": 1, "page_size": len(instruments), "total": len(instruments),

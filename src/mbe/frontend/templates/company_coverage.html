@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Rankings</a></li><li aria-current="page">{{ company.identity.display_name }}</li></ol></nav>
-<article class="research-page" data-research-page data-lightweight-company data-instrument-id="{{ company.identity.instrument_id }}" data-symbol="{{ company.identity.symbol }}" data-exchange="{{ company.identity.exchange }}">
+<article class="research-page" data-research-page data-coverage-company data-instrument-id="{{ company.identity.instrument_id }}" data-symbol="{{ company.identity.symbol }}" data-exchange="{{ company.identity.exchange }}">
   <header class="company-hero panel" aria-labelledby="company-title">
     <div class="company-identity">
       <p class="eyebrow">{{ company.identity.exchange }} · {{ company.identity.symbol }}</p>

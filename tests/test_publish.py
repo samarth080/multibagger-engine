@@ -126,6 +126,9 @@ def test_render_site_writes_index_reports_and_data(tmp_path):
     assert "components" in rankings_v1["data"][0]
     canonical_path = tmp_path / "company" / f"{data['top'][0]['instrument_id']}.html"
     assert canonical_path.exists()
+    canonical_html = canonical_path.read_text()
+    assert "Level 3 — Full Research" in canonical_html
+    assert "Included in the Small-Cap research model." in canonical_html
     research_json = tmp_path / "api" / "v1" / "research" / f"{data['top'][0]['instrument_id']}.json"
     assert research_json.exists()
     assert json.loads(research_json.read_text())["data"]["schema_version"] == "1.0"

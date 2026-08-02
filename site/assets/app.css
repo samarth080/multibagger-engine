@@ -349,7 +349,8 @@ h2 { font-size: var(--text-lg); }
 .search-result { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-3); width: 100%; padding: .7rem .8rem; border: 1px solid transparent; border-radius: var(--radius-md); background: transparent; color: var(--text-1); text-align: left; cursor: pointer; }
 .search-result:hover, .search-result[aria-selected="true"] { border-color: var(--accent); background: var(--accent-soft); }
 .search-name { display: block; font-weight: 700; }
-.search-meta, .search-match { color: var(--text-3); font-size: var(--text-xs); }
+.search-meta, .search-match, .search-evidence { color: var(--text-3); font-size: var(--text-xs); }
+.search-evidence { display: block; }
 .search-match { text-align: right; }
 .recent-header { display: flex; justify-content: space-between; align-items: center; padding: var(--space-2) var(--space-3); color: var(--text-3); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .06em; }
 

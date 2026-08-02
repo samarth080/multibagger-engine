@@ -408,3 +408,21 @@ selection or existing route changed. See
 
 US support should remain behind market/currency/calendar/provider identifiers;
 no US product work is required in the current phases.
+
+## Phase 11 M1 addendum — build coupling closed (2026-08-02)
+
+The original audit's weekly path combined live membership, Yahoo market and
+financial retrieval, scoring, DuckDB persistence, Google News retrieval,
+financial projection, research generation, search generation and rendering.
+That path is no longer the normal build. It survives only as an explicitly
+named compatibility function for forensic rollback.
+
+The release path is now manifest-driven and offline. Source acquisition,
+model computation/persistence, financial computation, research-payload
+generation, search-only generation and frontend-only generation have distinct
+commands and artifact boundaries. A fail-closed network guard protects render
+jobs; the checked manifest anticipates nullable large/mid-cap builds while
+pinning the existing Smallcap build and financial build. No database migration,
+canonical identity change, score change, financial change or universe change
+was required. See
+[`phase11-m1-deterministic-build.md`](phase11-m1-deterministic-build.md).

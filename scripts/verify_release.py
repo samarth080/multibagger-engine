@@ -17,10 +17,8 @@ from urllib.parse import urlparse
 from lxml import html
 
 
-# json is 508 as of Phase 10A: adds one additive site/api/v1/search-index.json
-# (the wider search-universe snapshot; see docs/HANDOVER.md "Search, research
-# and ranking universes"). Everything else is unchanged.
-EXPECTED = {"html": 279, "json": 508, "company": 250, "legacy": 25, "sitemap": 253}
+# Phase 11 M1 adds one root site-build manifest to the 508 Phase 10C JSON files.
+EXPECTED = {"html": 279, "json": 509, "company": 250, "legacy": 25, "sitemap": 253}
 REQUIRED_HEADERS = {
     "Content-Security-Policy",
     "Cross-Origin-Opener-Policy",
@@ -78,6 +76,49 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
             json.loads(path.read_text())
         except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
             errors.append(f"invalid JSON {path.relative_to(site)}: {exc}")
+
+    build_manifest_path = site / "build-manifest.json"
+    if not build_manifest_path.exists():
+        errors.append("missing deterministic site/build-manifest.json")
+    else:
+        from mbe.builds.domain import FrozenInputManifest, SiteBuildManifest, sha256_file, sha256_tree
+        try:
+            site_manifest = SiteBuildManifest.model_validate_json(
+                build_manifest_path.read_text()
+            )
+        except Exception as exc:
+            errors.append(f"invalid site build manifest: {exc}")
+        else:
+            if site_manifest.network_used:
+                errors.append("offline site build manifest reports network_used=true")
+            if site_manifest.build_mode != "offline" or site_manifest.status != "complete":
+                errors.append("site build manifest must describe a complete offline build")
+            output_paths = {
+                "data": site / "data.json",
+                "rankings": site / "api/v1/rankings.json",
+                "screener": site / "api/v1/screener.json",
+                "search": site / "api/v1/search-index.json",
+                "financials": site / "api/v1/financials",
+                "research": site / "api/v1/research",
+                "company_pages": site / "company",
+                "legacy_pages": site / "reports",
+                "frontend_assets": site / "assets",
+                "index_html": site / "index.html",
+                "screener_html": site / "screener.html",
+                "methodology_html": site / "methodology.html",
+            }
+            actual = {
+                key: sha256_tree(path) if path.is_dir() else sha256_file(path)
+                for key, path in output_paths.items()
+            }
+            if actual != site_manifest.output_artifact_hashes:
+                errors.append("site output hashes do not match the site build manifest")
+        frozen_path = root / "builds/manifests/phase11-m1-frozen-inputs.json"
+        try:
+            frozen = FrozenInputManifest.model_validate_json(frozen_path.read_text())
+            frozen.validate_artifacts(root)
+        except Exception as exc:
+            errors.append(f"invalid frozen input manifest: {exc}")
 
     indexable_canonicals: set[str] = set()
     titles: dict[str, str] = {}

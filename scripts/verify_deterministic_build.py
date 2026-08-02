@@ -8,7 +8,10 @@ import time
 from pathlib import Path
 
 from mbe.builds.offline import render_site_from_manifest, tree_digest
-from scripts.verify_release import public_value_hashes
+try:
+    from scripts.verify_release import public_value_hashes
+except ModuleNotFoundError:  # direct ``python scripts/...`` execution
+    from verify_release import public_value_hashes
 
 
 def main() -> int:

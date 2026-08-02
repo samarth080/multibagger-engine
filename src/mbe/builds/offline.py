@@ -8,6 +8,7 @@ import os
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 from mbe.builds.domain import (
     FrozenInputManifest, SiteBuildManifest, sha256_file, sha256_tree,
@@ -85,9 +86,13 @@ def render_frontend_only(
     manifest, root = load_manifest(manifest_path)
     controlled_time = _controlled_time(manifest)
     data = _json(root, manifest, "site-data")
+    screener = _json(root, manifest, "site-screener")
+    data["_screener_rows"] = screener["data"]["rows"]
     research = _load_research(root, manifest)
     out.mkdir(parents=True, exist_ok=True)
-    with deny_network() as audit:
+    with deny_network() as audit, patch.dict(
+        os.environ, {"MBE_FRONTEND_DATA_MODE": "static"}, clear=False,
+    ):
         _copy_assets(out)
         company_dir = out / "company"
         reports_dir = out / "reports"

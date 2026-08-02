@@ -16,7 +16,8 @@ uv run mbe history MCX.NS               # score time series from the store
 uv run mbe backtest nifty-midcap150 --limit 60   # does the score predict returns?
 uv run mbe universes                    # curated + NSE index universes
 uv run mbe sectors nifty-midcap150     # industry momentum ranking + themes
-uv run python scripts/build_site.py     # build the weekly picks site -> site/
+uv run python scripts/build_site.py     # offline render from frozen manifests -> site/
+uv run python scripts/verify_deterministic_build.py
 uv run mbe db-migrate                   # apply canonical relational migrations
 uv run mbe instruments-import --download-official --dry-run
 uv run mbe instruments-validate        # require all 250 mappings to be unique
@@ -136,7 +137,7 @@ source precedence and operator/legal gates are documented in
   shows sector context on every card and report but does not score it; the
   multibagger score is unaffected.
 
-## Hosted weekly picks (v0.10)
+## Hosted weekly picks (v0.10, deterministic build since Phase 11 M1)
 
 Every Monday, GitHub Actions builds a public read-only page of the NIFTY
 Smallcap 250 multibagger ranking — the lab (`mbe serve`, CLI, backtests)
@@ -164,15 +165,14 @@ system colour preference until a persistent light/dark override is chosen.
   reconciliation. The current static dataset truthfully remains 0/250 official
   multi-year coverage; no browser automation, OCR, paid feed or bulk scrape is
   hidden inside the build.
-- **Architecture** — a GitHub Actions job runs the weekly build every
-  Monday pre-open IST and commits the rebuilt `site/` back to the repo;
-  Vercel's git integration auto-deploys on that push (no CLI, no token).
+- **Architecture** — a GitHub Actions job verifies and renders the checked
+  frozen build every Monday; it cannot fetch Yahoo/NSE/BSE/RSS data, recompute
+  scores or write DuckDB. Provider acquisition, model, financial, research,
+  search-only and frontend-only operations are explicit separate commands.
+  Vercel serves the committed `site/` artifact (no implicit data refresh).
   Delayed quotes are served by a single stdlib-only Vercel serverless
-  function scoped to the published tickers. If Yahoo ever rate-limits
-  GitHub's runners outright (the degraded-build guard will fail the job
-  loudly), the fallback is a scheduled local run of the identical
-  `scripts/build_site.py` followed by `git push` — same output, different
-  trigger.
+  function scoped to the published tickers. See
+  `docs/phase11-m1-deterministic-build.md` for refresh/promotion and rollback.
 - **Honesty carried over from the reports** — descriptive layers (sector
   momentum, theme tags, news, policy) are shown, never scored; a build
   that can't analyze at least 100 of the 250 names refuses to publish

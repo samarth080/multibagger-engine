@@ -1,6 +1,6 @@
 # Multibagger Engine living handover
 
-Last updated: 2026-08-01 (after Phase 9 production release)
+Last updated: 2026-08-02 (after Phase 11 Milestone 1 local completion)
 
 Status: Production is live at `https://multibagger-engine.vercel.app/` from
 source commit `6fb5a7e` / final tag `v1.0.0`, deployment
@@ -2157,6 +2157,68 @@ Out of scope: new metrics/model weights, live NSE corpus work without its exact
 private gate, authentication/watchlists/alerts, full comparison workspace,
 portfolio/trading, AI summaries, paid data, PostgreSQL provisioning and US
 expansion.
+
+## Phase 11 Milestone 1 — deterministic offline build architecture (2026-08-02)
+
+- Status: Complete locally; not pushed or deployed.
+- Objective achieved: the normal static render is offline, deterministic and
+  unable to recompute model membership, scores, financials or DuckDB state.
+- Previous coupling: `scripts/build_site.py` selected live NSE membership,
+  fetched Yahoo info/statements/prices and benchmark data, ran `screen()`,
+  appended DuckDB, fetched Google News, projected financials, built research
+  and search payloads, copied frontend assets and rendered/pruned the entire
+  site in one command. Wall-clock model/financial timestamps added churn.
+- New commands: `refresh_market_data.py`, `build_model.py`,
+  `build_financials.py`, `build_research_payloads.py`, offline `build_site.py`,
+  `build_search_assets.py`, `build_frontend_assets.py`, and
+  `verify_deterministic_build.py`.
+- Frozen inputs: checked manifest
+  `builds/manifests/phase11-m1-frozen-inputs.json`; Smallcap model build
+  `1bd53d15-67c6-4b02-b830-0eb0bb1d582b`; financial build
+  `34baaa1c-e2f6-508b-b2f0-389669739b2a`; pinned membership/canonical/search
+  sources; 250 financial and 250 company-research payloads. The manifest is
+  marked `legacy_baseline` because the pre-M1 raw Yahoo cache was not a
+  committed immutable acquisition artifact. Future refreshes produce a real
+  normalized source artifact first.
+- Network behavior: only explicit acquisition is networked. Model, financial,
+  research, render, search and frontend stages consume frozen inputs. Offline
+  stages deny socket/URL calls and fail immediately on an attempt. The checked
+  site manifest reports `network_used: false`.
+- Site manifest: `site/build-manifest.json`, schema
+  `2026-08-02.11.1`, deterministic UUIDv5 site build ID, controlled generated
+  time, search/classification policy versions, nullable large/mid build IDs,
+  Smallcap and financial build IDs, universe versions, input/output/config
+  hashes, news cutoff, quote mode, build mode, status and warnings.
+- Determinism: two clean builds completed in 1.568 seconds and produced the
+  identical complete-output digest
+  `11f061c7bcfc26d6a916161790e90be765022242e3c9f81d4076b17d56713976`.
+- Preservation: score hash remains
+  `12a5ef89c55847e010a33a0b9cada7280033219cc285d1d16164a43103a2cb19`;
+  financial hash remains
+  `3e99218116374dcf3968a08dda0bb187926178f357b07ce7cedb1a3ac7955638`;
+  rankings, screener, 250-company research JSON tree, financial JSON tree,
+  canonical master and 250-member universe are byte-identical. Company HTML
+  research content is unchanged; the frontend-only build intentionally updates
+  shared Phase 10 search scope/copy on all pages. Search JSON intentionally
+  advances from the stale static 10B policy artifact to verified policy
+  `2026-08-02.10c.2` without touching model/financial artifacts.
+- Release shape: 279 HTML, 509 JSON (one new build manifest), 250 canonical
+  company pages, 25 legacy pages and 253 sitemap/indexable routes.
+- Migration: none; existing Alembic history is unchanged.
+- Verification: 659 Python tests and 35 frontend tests passed; ESLint,
+  TypeScript, Python compilation, `git diff --check`, release verification,
+  deterministic double-build and a fresh SQLite `alembic upgrade head` plus
+  `alembic check` passed. A measured in-place offline render completed in
+  3.47 seconds. The release verifier reconfirmed both preservation hashes and
+  every declared site-manifest output hash.
+- Detailed audit, commands, manifest contract, rollback and Milestone 2 gate:
+  [`phase11-m1-deterministic-build.md`](phase11-m1-deterministic-build.md).
+- Exact Milestone 2 recommendation: import pinned official Nifty 100 and Nifty
+  Midcap 150 memberships into additive versioned universe manifests, map every
+  member to existing canonical IDs, reconcile overlap/primary membership,
+  persist membership history, and publish coverage/eligibility reports. Do not
+  calculate or expose large/mid-cap rankings until universe-specific model
+  configurations are reviewed and validated in Milestone 3.
 
 ## End-of-phase update template
 

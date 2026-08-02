@@ -123,6 +123,12 @@ The verifier also retains the 250 canonical company pages, 25 legacy routes,
 253 indexable/sitemap URLs and all HTML/security/performance checks. The only
 new static JSON is the site-build manifest.
 
+Final local verification: 659 Python tests, 35 frontend tests, ESLint,
+TypeScript, Python compilation, a fresh SQLite upgrade plus `alembic check`,
+release verification and `git diff --check` passed. The final double-build
+took 2.778 seconds; a separately measured in-place offline production render
+took 3.47 seconds.
+
 ## Operational policy and rollback
 
 - Never run provider acquisition from a render or asset job.

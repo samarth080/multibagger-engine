@@ -154,3 +154,40 @@ def test_company_summary_unknown_instrument_is_404(api):
     response = client.get("/api/v1/company/not-a-real-id/summary")
     assert response.status_code == 404
     assert response.json()["errors"][0]["code"] == "company_not_found"
+
+
+def test_coverage_route_returns_level_3_for_a_modeled_instrument(api):
+    client, ids, _ = api
+    response = client.get(f"/api/v1/company/{ids['GOOD.NS']}/coverage")
+    assert response.status_code == 200
+    data = response.json()["data"]
+    assert data["research_coverage_level"] == 3
+    assert data["research_eligible"] is True
+    assert "score" not in data
+
+
+def test_coverage_route_returns_level_1_for_an_unmodeled_instrument(api):
+    client, ids, _ = api
+    response = client.get(f"/api/v1/company/{ids['RELIANCE.NS']}/coverage")
+    assert response.status_code == 200
+    data = response.json()["data"]
+    assert data["research_coverage_level"] == 1
+    assert data["research_eligible"] is False
+    assert "not_in_model_universe" in data["research_eligibility_reasons"]
+
+
+def test_coverage_route_unknown_instrument_is_404(api):
+    client, _, _ = api
+    response = client.get("/api/v1/company/not-a-real-id/coverage")
+    assert response.status_code == 404
+    assert response.json()["errors"][0]["code"] == "company_not_found"
+
+
+def test_summary_route_gains_additive_coverage_fields(api):
+    client, ids, _ = api
+    response = client.get(f"/api/v1/company/{ids['RELIANCE.NS']}/summary")
+    assert response.status_code == 200
+    data = response.json()["data"]
+    assert data["research_coverage_level"] == 1
+    assert data["coverage_label"] == "Level 1 — Market Coverage"
+    assert data["research_eligible"] is False

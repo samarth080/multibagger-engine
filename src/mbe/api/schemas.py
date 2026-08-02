@@ -172,6 +172,34 @@ class CompanySummaryData(BaseModel):
     quote: NormalizedQuote | None = None
     ranking_universe_badge: str | None = None
     scoring_disclosure: str | None = None
+    research_coverage_level: int = 0
+    coverage_label: str = ""
+    research_eligible: bool = False
+    research_sections_available: list[str] = Field(default_factory=list)
+    research_sections_missing: list[str] = Field(default_factory=list)
+    coverage_policy_version: str = ""
+
+
+class CoverageData(BaseModel):
+    instrument_id: str
+    company_id: str | None = None
+    research_coverage_level: int
+    coverage_label: str
+    coverage_level_version: str
+    research_coverage_status: str
+    research_eligible: bool
+    research_eligibility_reasons: list[str] = Field(default_factory=list)
+    research_sections_available: list[str] = Field(default_factory=list)
+    research_sections_missing: list[str] = Field(default_factory=list)
+    research_universe: str | None = None
+    ranking_available: bool
+    model_available: bool
+    financial_available: bool
+    quote_available: bool
+    identity_completeness: str
+    source_quality_summary: str
+    evaluated_at: str
+    coverage_policy_version: str
 
 
 class SearchMetaData(BaseModel):

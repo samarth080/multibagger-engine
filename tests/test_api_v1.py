@@ -170,6 +170,13 @@ def test_methodology_is_machine_readable_and_database_absence_is_safe():
     assert "multibagger" in methodology.json()["data"]["components"]
 
 
+def test_coverage_route_returns_bounded_503_without_configured_database():
+    client = TestClient(create_app())
+    response = client.get("/api/v1/company/some-id/coverage")
+    assert response.status_code == 503
+    assert response.json()["errors"][0]["code"] == "database_not_configured"
+
+
 def test_screener_metadata_query_and_safe_errors(api):
     client, _, manifest = api
     metadata = client.get("/api/v1/screener/fields")

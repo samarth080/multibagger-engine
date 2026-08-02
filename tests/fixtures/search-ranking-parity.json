@@ -1,0 +1,56 @@
+{
+  "universe": [
+    {
+      "instrument_id": "id-reliance", "display_name": "Reliance Industries Limited",
+      "symbol": "RELIANCE", "exchange": "NSE", "primary_exchange": "NSE",
+      "isin": "INE002A01018", "bse_code": "500325", "listing_status": "active",
+      "listings": [
+        {"exchange": "NSE", "symbol": "RELIANCE", "bse_code": null, "isin": "INE002A01018", "listing_status": "active", "is_primary": true},
+        {"exchange": "BSE", "symbol": "RELIANCE", "bse_code": "500325", "isin": "INE002A01018", "listing_status": "active", "is_primary": false}
+      ],
+      "aliases": [], "index_memberships": [], "research_available": false, "rank": null
+    },
+    {
+      "instrument_id": "id-tcs", "display_name": "Tata Consultancy Services Limited",
+      "symbol": "TCS", "exchange": "NSE", "primary_exchange": "NSE",
+      "isin": "INE467B01029", "bse_code": "532540", "listing_status": "active",
+      "listings": [{"exchange": "NSE", "symbol": "TCS", "bse_code": "532540", "isin": "INE467B01029", "listing_status": "active", "is_primary": true}],
+      "aliases": [], "index_memberships": [], "research_available": false, "rank": null
+    },
+    {
+      "instrument_id": "id-active-tie", "display_name": "Similar Prefix Company One Ltd.",
+      "symbol": "ACTV", "exchange": "NSE", "primary_exchange": "NSE",
+      "listing_status": "active",
+      "listings": [{"exchange": "NSE", "symbol": "ACTV", "listing_status": "active", "is_primary": true}],
+      "aliases": [], "index_memberships": [], "research_available": false, "rank": null
+    },
+    {
+      "instrument_id": "id-inactive-tie", "display_name": "Similar Prefix Company Two Ltd.",
+      "symbol": "INAC", "exchange": "NSE", "primary_exchange": "NSE",
+      "listing_status": "delisted",
+      "listings": [{"exchange": "NSE", "symbol": "INAC", "listing_status": "delisted", "is_primary": true}],
+      "aliases": [], "index_memberships": [], "research_available": false, "rank": null
+    },
+    {
+      "instrument_id": "id-index-member", "display_name": "Index Tie Break Alpha Ltd.",
+      "symbol": "ITBA", "exchange": "NSE", "primary_exchange": "NSE",
+      "listing_status": "active",
+      "listings": [{"exchange": "NSE", "symbol": "ITBA", "listing_status": "active", "is_primary": true}],
+      "aliases": [], "index_memberships": ["Nifty 50"], "research_available": false, "rank": null
+    },
+    {
+      "instrument_id": "id-index-nonmember", "display_name": "Index Tie Break Beta Ltd.",
+      "symbol": "ITBB", "exchange": "NSE", "primary_exchange": "NSE",
+      "listing_status": "active",
+      "listings": [{"exchange": "NSE", "symbol": "ITBB", "listing_status": "active", "is_primary": true}],
+      "aliases": [], "index_memberships": [], "research_available": false, "rank": null
+    }
+  ],
+  "cases": [
+    {"query": "RELIANCE", "exchange": null, "expected_order": ["id-reliance"]},
+    {"query": "Consultancy Services", "exchange": null, "expected_order": ["id-tcs"]},
+    {"query": "Similar Prefix Company", "exchange": null, "expected_order": ["id-active-tie", "id-inactive-tie"]},
+    {"query": "Index Tie Break", "exchange": null, "expected_order": ["id-index-member", "id-index-nonmember"]},
+    {"query": "RELIANCE", "exchange": "BSE", "expected_order": ["id-reliance"]}
+  ]
+}

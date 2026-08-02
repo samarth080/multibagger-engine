@@ -72,7 +72,9 @@ def project_history(fin: FinancialHistory, *, instrument_id: str, cutoff: dateti
     }
 
 
-def financial_build(projections: list[dict], *, cutoff: datetime) -> dict:
+def financial_build(
+    projections: list[dict], *, cutoff: datetime, built_at: datetime | None = None,
+) -> dict:
     canonical = json.dumps([{"id": p["instrument_id"], "fingerprint": p["fingerprint"]}
                             for p in sorted(projections, key=lambda x: x["instrument_id"])],
                            sort_keys=True)
@@ -87,7 +89,8 @@ def financial_build(projections: list[dict], *, cutoff: datetime) -> dict:
     } for field, count in coverage.items()}
     return {"financial_dataset_build_id": build_id, "schema_version": "1.1",
             "metric_definition_version": METRIC_DEFINITION_VERSION,
-            "source_cutoff": cutoff.isoformat(), "built_at": datetime.now(timezone.utc).isoformat(),
+            "source_cutoff": cutoff.isoformat(),
+            "built_at": (built_at or datetime.now(timezone.utc)).isoformat(),
             "companies_attempted": total, "companies_completed": total, "companies_failed": 0,
             "status": "complete", "source_versions": {"yahoo_compatibility": "runtime-cache", "nse_financial_results": "not imported into static build"},
             "official_discovery_cutoff": None,

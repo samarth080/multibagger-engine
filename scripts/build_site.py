@@ -1,12 +1,12 @@
-"""Weekly site build: screen nifty-smallcap250, pull news/policy, write site/.
+"""Deterministic offline site build from a frozen input manifest.
 
-Run locally or from GitHub Actions (.github/workflows/weekly.yml).
-Env: MBE_CACHE_TTL_HOURS (default 24; CI sets 144 so the restored Actions
-cache is actually reused), MBE_THROTTLE_SECS (default 0; CI sets ~0.8 to be
-polite to Yahoo from datacenter IPs). Refuses to publish a degraded ranking
-(<100 names analyzed) — a rate-limited half-universe must fail loudly, not
-ship as if it were the real ranking."""
+The historical live refresh implementation remains available only as the
+explicit ``refresh_live_and_build`` compatibility function. Normal execution
+never contacts providers, recomputes scores, changes membership, or writes
+DuckDB.
+"""
 
+import argparse
 import json
 import os
 import random
@@ -66,7 +66,8 @@ class ThrottledProvider:
         return self.inner.benchmark_ticker(ticker)
 
 
-def main() -> None:
+def refresh_live_and_build() -> None:
+    """Legacy coupled refresh retained for rollback, never called implicitly."""
     build_started = time.monotonic()
     ttl = float(os.environ.get("MBE_CACHE_TTL_HOURS", "24"))
     throttle = float(os.environ.get("MBE_THROTTLE_SECS", "0"))
@@ -183,6 +184,24 @@ def main() -> None:
     print(
         f"site built: {SITE}/index.html | entered {changes['entered']} | "
         f"exited {changes['exited']}",
+        flush=True,
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--manifest", type=Path,
+        default=Path("builds/manifests/phase11-m1-frozen-inputs.json"),
+    )
+    parser.add_argument("--out", type=Path, default=SITE)
+    args = parser.parse_args()
+    from mbe.builds.offline import render_site_from_manifest
+
+    manifest = render_site_from_manifest(args.manifest, args.out)
+    print(
+        f"offline site built: {args.out} | site_build_id={manifest.site_build_id} "
+        f"network_used={str(manifest.network_used).lower()}",
         flush=True,
     )
 

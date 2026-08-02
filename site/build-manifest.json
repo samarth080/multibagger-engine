@@ -1,0 +1,55 @@
+{
+  "build_configuration_hash": "4c8960fd4e7e0664d4ee9c8d05964a8ff1c832b56336cb35427a761f57a48604",
+  "build_mode": "offline",
+  "classification_policy_version": "2026-08-02.10c.1",
+  "financial_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+  "generated_at": "2026-08-01T11:10:03.765519Z",
+  "input_artifact_hashes": {
+    "bse-search-universe": "98dd8cbdb6973ca48f495a0022b3c0c54ca90b5342b674466043734b21b762be",
+    "canonical-master": "d48868b7e2b82d1a31daa78cd81cd2a1aa019440b2001799e48b2d54f8f3d07f",
+    "nse-search-universe": "316f03c6260e3d24a17440e034036155a81e080e6884472f5eff87f4880e3366",
+    "site-data": "b4183810494419c60049727f9cfe242808554917b0ab588bf53026399f643a64",
+    "site-financials": "52ed95a8e71e3095fb0a46581443a77bf4b502e64a0cc8caec02aac00ab85936",
+    "site-instruments": "ba19c293d1953f80ee11922f21ca6ddb03d3dc152ad5f418db6958c2b7ea4d7c",
+    "site-rankings": "524d569897a38b5490f8d747dade54324b463829081aa6f062f84d5fd77ccffa",
+    "site-research": "11ca5d31b76a324849dc4e56a9dbf736f5334ffacf9a57df09ff901bc2a5a1fd",
+    "site-screener": "510c3d4fc7c2d78204114aad782ed64c3a33885bcb429831bb21916dff85a8e8",
+    "site-screener-fields": "df3e22539f46288314d651a4ced6c2eb8cc8ad37518806ad46903387a34e583c",
+    "site-search": "c3b06118e6326fee71ca54ff7bb63b0ff31cce96f8d9fa6bf1cc5d813701333f",
+    "site-status": "fb50453375ec8a52bfb4d23cfe68bc58e22cd53fece6d4e727b5fe5da5f08b24",
+    "smallcap-universe": "531631685ed9785daf390f3799144277ef3e31287cd6e6f20d1d9ad706752af5"
+  },
+  "large_cap_model_build_id": null,
+  "mid_cap_model_build_id": null,
+  "network_used": false,
+  "news_cutoff": "2026-07-31T19:32:15Z",
+  "output_artifact_hashes": {
+    "company_pages": "6c217158d3eaea1496fd5608e8d1d9445ae26c627459a6916d1038093a840014",
+    "data": "b4183810494419c60049727f9cfe242808554917b0ab588bf53026399f643a64",
+    "financials": "52ed95a8e71e3095fb0a46581443a77bf4b502e64a0cc8caec02aac00ab85936",
+    "frontend_assets": "b7654addc170152c12a110705875ec5a767219f5cbebbd16d06af343c662afcb",
+    "index_html": "27e39726e0961eed57b685cbf6aa1cbff4dce7b22826d6f7e02a7bd71c359c2a",
+    "legacy_pages": "855db7e0efd96c09328ee8444341c91580ac29e88c6c58def58fb6a5a98e2c57",
+    "methodology_html": "06a1a8f14332d2722b7aaadd40e4676bf0769f848d01f6119ab196d479576e44",
+    "rankings": "524d569897a38b5490f8d747dade54324b463829081aa6f062f84d5fd77ccffa",
+    "research": "11ca5d31b76a324849dc4e56a9dbf736f5334ffacf9a57df09ff901bc2a5a1fd",
+    "screener": "510c3d4fc7c2d78204114aad782ed64c3a33885bcb429831bb21916dff85a8e8",
+    "screener_html": "c31be1ffc8653453d0bb51b686c8d79934f5679027924cd0dd40ed8f575ea3ae",
+    "search": "c3b06118e6326fee71ca54ff7bb63b0ff31cce96f8d9fa6bf1cc5d813701333f"
+  },
+  "quote_mode": "frozen-build-close",
+  "schema_version": "2026-08-02.11.1",
+  "search_build_id": "c3b06118e6326fee71ca54ff7bb63b0ff31cce96f8d9fa6bf1cc5d813701333f",
+  "search_ranking_policy_version": "2026-08-02.10c.2",
+  "site_build_id": "8ee89332-a7c1-527b-b6a9-886ebeef2b16",
+  "small_cap_model_build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
+  "status": "complete",
+  "universe_versions": {
+    "india-large-cap-v1": "absent",
+    "india-mid-cap-v1": "absent",
+    "india-small-cap-v1": "sha256:94c317be611993fe:ec984ce453fa"
+  },
+  "warnings": [
+    "The pre-Phase-11 provider cache was not a committed immutable source artifact; this manifest freezes the verified model, financial, research, universe, and search outputs. Future refreshes must use refresh_market_data.py before model computation."
+  ]
+}

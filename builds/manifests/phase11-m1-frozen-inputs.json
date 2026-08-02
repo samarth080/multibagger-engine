@@ -1,0 +1,37 @@
+{
+  "schema_version": "2026-08-02.11.1",
+  "manifest_id": "phase11-m1-smallcap-baseline-2026-08-01",
+  "created_at": "2026-08-01T11:10:03.765519Z",
+  "data_cutoff": "2026-08-01T11:10:03.765519Z",
+  "universe_versions": {
+    "india-large-cap-v1": "absent",
+    "india-mid-cap-v1": "absent",
+    "india-small-cap-v1": "sha256:94c317be611993fe:ec984ce453fa"
+  },
+  "model_build_ids": {
+    "india-large-cap-v1": null,
+    "india-mid-cap-v1": null,
+    "india-small-cap-v1": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b"
+  },
+  "financial_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+  "search_build_id": "c3b06118e6326fee71ca54ff7bb63b0ff31cce96f8d9fa6bf1cc5d813701333f",
+  "artifacts": [
+    {"path": "site/data.json", "sha256": "b4183810494419c60049727f9cfe242808554917b0ab588bf53026399f643a64", "kind": "file", "role": "site-data"},
+    {"path": "site/api/v1/instruments.json", "sha256": "ba19c293d1953f80ee11922f21ca6ddb03d3dc152ad5f418db6958c2b7ea4d7c", "kind": "file", "role": "site-instruments"},
+    {"path": "site/api/v1/rankings.json", "sha256": "524d569897a38b5490f8d747dade54324b463829081aa6f062f84d5fd77ccffa", "kind": "file", "role": "site-rankings"},
+    {"path": "site/api/v1/screener.json", "sha256": "510c3d4fc7c2d78204114aad782ed64c3a33885bcb429831bb21916dff85a8e8", "kind": "file", "role": "site-screener"},
+    {"path": "site/api/v1/status.json", "sha256": "fb50453375ec8a52bfb4d23cfe68bc58e22cd53fece6d4e727b5fe5da5f08b24", "kind": "file", "role": "site-status"},
+    {"path": "site/api/v1/screener-fields.json", "sha256": "df3e22539f46288314d651a4ced6c2eb8cc8ad37518806ad46903387a34e583c", "kind": "file", "role": "site-screener-fields"},
+    {"path": "site/api/v1/search-index.json", "sha256": "c3b06118e6326fee71ca54ff7bb63b0ff31cce96f8d9fa6bf1cc5d813701333f", "kind": "file", "role": "site-search"},
+    {"path": "site/api/v1/financials", "sha256": "52ed95a8e71e3095fb0a46581443a77bf4b502e64a0cc8caec02aac00ab85936", "kind": "tree", "role": "site-financials"},
+    {"path": "site/api/v1/research", "sha256": "11ca5d31b76a324849dc4e56a9dbf736f5334ffacf9a57df09ff901bc2a5a1fd", "kind": "tree", "role": "site-research"},
+    {"path": "universes/nifty-smallcap250.json", "sha256": "531631685ed9785daf390f3799144277ef3e31287cd6e6f20d1d9ad706752af5", "kind": "file", "role": "smallcap-universe"},
+    {"path": "universes/nifty-smallcap250-instruments.json", "sha256": "d48868b7e2b82d1a31daa78cd81cd2a1aa019440b2001799e48b2d54f8f3d07f", "kind": "file", "role": "canonical-master"},
+    {"path": "universes/nse-search-universe.json", "sha256": "316f03c6260e3d24a17440e034036155a81e080e6884472f5eff87f4880e3366", "kind": "file", "role": "nse-search-universe"},
+    {"path": "universes/bse-search-universe.json", "sha256": "98dd8cbdb6973ca48f495a0022b3c0c54ca90b5342b674466043734b21b762be", "kind": "file", "role": "bse-search-universe"}
+  ],
+  "status": "legacy_baseline",
+  "warnings": [
+    "The pre-Phase-11 provider cache was not a committed immutable source artifact; this manifest freezes the verified model, financial, research, universe, and search outputs. Future refreshes must use refresh_market_data.py before model computation."
+  ]
+}

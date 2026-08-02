@@ -333,3 +333,21 @@ No PostgreSQL service or paid provider was provisioned in this phase.
   return 503 until configured, while static v1 snapshots remain available.
 - Shared distributed rate limiting, circuit breakers, and job orchestration
   remain operational-hardening work.
+
+## Phase 11 M1 deterministic build boundary
+
+The static compatibility contract is now an immutable build consumer. Normal
+`scripts/build_site.py` execution validates
+`builds/manifests/phase11-m1-frozen-inputs.json`, denies sockets/URLs in
+process, copies frozen JSON contracts, renders HTML from frozen company
+research, and writes `site/build-manifest.json`. It never selects live index
+membership, constructs a Yahoo provider, calls `screen()`, projects financials,
+or opens DuckDB.
+
+Acquisition, scoring, financial projection and research-payload construction
+exchange separately hashed artifacts through `mbe.builds`. Search-only and
+frontend-only commands have deliberately narrow output sets. A double-build
+verifier compares every output byte except the self-describing manifest and
+then independently compares the public score/financial fixtures. The full
+contract and rollback procedure are documented in
+[`phase11-m1-deterministic-build.md`](phase11-m1-deterministic-build.md).

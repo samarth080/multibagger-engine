@@ -62,7 +62,9 @@ class ScreenResult(BaseModel):
     sector_scores: list[SectorScore] = []  # best group first; empty pre-P2.4 runs
 
 
-def analyze_ticker(ticker: str, provider: DataProvider) -> AnalysisBundle:
+def analyze_ticker(
+    ticker: str, provider: DataProvider, *, as_of: date | None = None,
+) -> AnalysisBundle:
     info = provider.get_info(ticker)
     fin = provider.get_financials(ticker)
     prices = provider.get_prices(ticker)
@@ -87,7 +89,7 @@ def analyze_ticker(ticker: str, provider: DataProvider) -> AnalysisBundle:
 
     bundle = AnalysisBundle(
         info=info, fin=fin, fund=fund, tech=tech, val=val, risk=risk, prices=prices,
-        card=card, as_of=date.today(),
+        card=card, as_of=as_of or date.today(),
         business=business, stewardship=stewardship, thesis=thesis, critique=critique,
     )
     # no universe on this path: the peer term is absent and completeness says so
@@ -96,12 +98,14 @@ def analyze_ticker(ticker: str, provider: DataProvider) -> AnalysisBundle:
     return bundle
 
 
-def screen(tickers: list[str], provider: DataProvider) -> ScreenResult:
+def screen(
+    tickers: list[str], provider: DataProvider, *, as_of: date | None = None,
+) -> ScreenResult:
     bundles: list[AnalysisBundle] = []
     failures: dict[str, str] = {}
     for ticker in tickers:
         try:
-            bundles.append(analyze_ticker(ticker, provider))
+            bundles.append(analyze_ticker(ticker, provider, as_of=as_of))
         except ProviderError as exc:
             failures[ticker] = str(exc)
         except Exception as exc:  # engine bug on odd data: record, keep batch alive

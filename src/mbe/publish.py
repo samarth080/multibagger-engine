@@ -17,6 +17,7 @@ from pathlib import Path
 import markdown as md
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from mbe.coverage.domain import CoverageAssessment
 from mbe.data.news_rss import NewsItem
 from mbe.models.instrument import BuildManifest, stable_company_id, stable_instrument_id
 from mbe.pipeline import AnalysisBundle, ScreenResult
@@ -27,7 +28,7 @@ from mbe.scoring.sector_themes import CURATED_AS_OF, themes_for
 from mbe.screener.registry import FIELD_REGISTRY_VERSION, SCREENER_FIELDS, field_manifest
 from mbe.financials.projection import financial_build, project_history
 from mbe.research.builder import canonical_company_url
-from mbe.research.lightweight import build_lightweight_research
+from mbe.research.coverage import build_coverage_research
 from mbe.research.static import build_static_research
 from mbe.search.catalog import build_search_index
 from mbe.search.ranking import SEARCH_RANKING_POLICY_VERSION
@@ -460,24 +461,27 @@ def render_error_page(ticker: str, reason: str) -> str:
     )
 
 
-def render_lightweight_company_page(record: dict, quote: dict | None) -> str:
-    """Canonical page for a search-universe company outside the research
-    universe — identity and a live quote only, rendered on demand by the
-    api/company.py serverless fallback (never part of the weekly static
-    build: see docs/HANDOVER.md "Search, research and ranking universes")."""
-    payload = build_lightweight_research(record, quote)
+def render_coverage_company_page(
+    record: dict, quote: dict | None, coverage: CoverageAssessment,
+    financial_summary: dict | None = None,
+) -> str:
+    """Canonical page for a search-universe company at coverage Level 0, 1
+    or 2 — rendered on demand by the api/company.py serverless fallback
+    (never part of the weekly static build: see docs/HANDOVER.md "Search,
+    research and ranking universes" and docs/coverage-architecture.md)."""
+    payload = build_coverage_research(record, quote, coverage, financial_summary)
     identity = payload["identity"]
     canonical_path = payload["canonical_url"]
     context = _base_context(
         title=f"{identity['display_name']} ({identity['symbol']}) | Multibagger Engine",
         description=(
             f"Company identity and live quote for {identity['display_name']}. "
-            f"{payload['ranking_universe_badge']}"
+            f"{coverage.source_quality_summary}"
         ),
         path=canonical_path, active_route="rankings", asset_prefix="/assets", root_href="/",
     )
     context["canonical_url"] = f"{PUBLIC_SITE_URL}{canonical_path}"
-    return _ENV.get_template("company_lightweight.html").render(**context, company=payload)
+    return _ENV.get_template("company_coverage.html").render(**context, company=payload)
 
 
 def _render_company_page(research: dict, *, canonical: bool = True) -> str:

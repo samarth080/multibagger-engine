@@ -10,6 +10,7 @@
       <p class="company-meta">{{ company.identity.symbol }}{% if company.identity.bse_code %} · BSE {{ company.identity.bse_code }}{% endif %}{% if company.identity.isin %} · {{ company.identity.isin }}{% endif %} · {{ company.identity.sector or 'Sector unavailable' }}{% if company.identity.sector_source %} ({{ company.identity.sector_source|replace('_',' ') }}){% endif %} · {{ company.identity.industry or 'Industry unavailable' }}</p>
       {% if company.identity.listings|length > 1 %}<p class="company-meta">Listed on {{ company.identity.listings|map(attribute='exchange')|join(' and ') }}</p>{% endif %}
       <span class="badge badge-warning" role="status">{{ company.ranking_universe_badge }}</span>
+      <span class="badge badge-info" role="status">{{ company.coverage.coverage_label }}</span>
       {% if company.is_inactive %}<span class="badge badge-negative" role="status">{{ company.identity.listing_status|title }}</span>{% endif %}
       <div class="hero-actions">
         <button class="button button-quiet" type="button" data-copy-link>Copy link</button>
@@ -58,6 +59,17 @@
         <p class="empty-state">Limited research available — a live quote could not be retrieved for this company right now. Identity information above remains accurate.</p>
         {% endif %}
       </section>
+
+      {% if company.financial_summary %}
+      <section class="panel research-section" aria-labelledby="financial-summary">
+        <div class="section-heading"><div><p class="eyebrow">Accepted public fields only</p><h2 id="financial-summary">Financial summary</h2></div></div>
+        <dl class="metric-strip">
+          <div><dt>Revenue CAGR (3y)</dt><dd>{{ '%.1f%%'|format(company.financial_summary.revenue_cagr_3y * 100) if company.financial_summary.revenue_cagr_3y is not none else 'Unavailable' }}</dd></div>
+          <div><dt>ROCE (3y average)</dt><dd>{{ '%.1f%%'|format(company.financial_summary.roce_3y * 100) if company.financial_summary.roce_3y is not none else 'Unavailable' }}</dd></div>
+          <div><dt>Public source</dt><dd>{{ company.financial_summary.source_label or 'Unavailable' }}</dd></div>
+        </dl>
+      </section>
+      {% endif %}
     </div>
 
     <aside class="research-sidebar" aria-label="Research workflow and trust">

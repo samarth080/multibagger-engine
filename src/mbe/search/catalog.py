@@ -10,17 +10,13 @@ from __future__ import annotations
 
 from typing import Any
 
+from datetime import datetime, timezone
+
 from mbe.data.provider import ProviderError
 from mbe.models.instrument import stable_instrument_id
 from mbe.research.builder import canonical_company_url
+from mbe.search.classification import ClassificationRecord, ClassificationSource, select_canonical
 from mbe.search.domain import ExchangeListing, SearchIndexRecord, SearchResultType
-
-# Classification-source priority (Phase 10B section 10): exchange-provided
-# industry classification is preferred over the existing canonical research
-# classification, which is preferred over "unavailable". Neither source is
-# ever inferred from a company name.
-_CLASSIFICATION_SOURCE_EXCHANGE = "exchange_master"
-_CLASSIFICATION_SOURCE_RESEARCH = "research_universe"
 
 
 def _canonical_id(*, symbol: str, isin: str | None, exchange: str = "NSE") -> str:
@@ -33,6 +29,18 @@ def _listing_from_row(row: dict[str, Any], *, is_primary: bool) -> ExchangeListi
         bse_code=row.get("bse_code"), isin=row.get("isin"),
         listing_status=row.get("listing_status") or "active",
         is_primary=is_primary, is_sme=row.get("is_sme"),
+    )
+
+
+def _classification_record(
+    instrument_id: str, data: dict[str, Any], *, source: ClassificationSource,
+) -> ClassificationRecord:
+    return ClassificationRecord(
+        instrument_id=instrument_id, source=source,
+        sector=data.get("sector"), industry=data.get("industry"),
+        sub_industry=data.get("sub_industry"),
+        source_record_id=data.get("source_record_id") or data.get("isin") or data.get("symbol"),
+        retrieved_at=datetime.now(timezone.utc),
     )
 
 
@@ -79,40 +87,74 @@ def build_search_index(
     screener_by_id = {row["instrument_id"]: row["values"] for row in (screener_rows or [])}
 
     records: dict[str, SearchIndexRecord] = {}
+    classification_inputs: dict[str, list[ClassificationRecord]] = {}
 
     for row in search_universe_rows:
         instrument_id = _canonical_id(symbol=row["symbol"], isin=row.get("isin"), exchange=row.get("exchange", "NSE"))
         research = research_by_id.get(instrument_id)
         values = screener_by_id.get(instrument_id)
+        classification_inputs.setdefault(instrument_id, []).append(
+            _classification_record(instrument_id, row, source=ClassificationSource.EXCHANGE_MASTER)
+        )
+        if research:
+            classification_inputs[instrument_id].append(
+                _classification_record(instrument_id, research, source=ClassificationSource.RESEARCH_UNIVERSE)
+            )
         records[instrument_id] = _merge_record(instrument_id, row, research, values)
 
     for instrument_id, research in research_by_id.items():
         if instrument_id in records:
             continue
+        classification_inputs.setdefault(instrument_id, []).append(
+            _classification_record(instrument_id, research, source=ClassificationSource.RESEARCH_UNIVERSE)
+        )
         values = screener_by_id.get(instrument_id)
         records[instrument_id] = _merge_record(instrument_id, None, research, values)
 
     for row in (bse_rows or []):
         instrument_id = _canonical_id(symbol=row["symbol"], isin=row.get("isin"), exchange="BSE")
+        classification_inputs.setdefault(instrument_id, []).append(
+            _classification_record(instrument_id, row, source=ClassificationSource.EXCHANGE_MASTER)
+        )
         existing = records.get(instrument_id)
         if existing:
             listing = _listing_from_row(row, is_primary=False)
             existing.listings = [*existing.listings, listing]
             if not existing.bse_code:
                 existing.bse_code = row.get("bse_code")
-            # Classification reconciliation (Phase 10B section 10): backfill
-            # only when missing — never silently overwrite an existing
-            # (e.g. NSE-sourced) classification with the BSE one.
-            if not existing.sector and row.get("sector"):
-                existing.sector = row["sector"]
-                existing.sector_source = _CLASSIFICATION_SOURCE_EXCHANGE
-            if not existing.industry and row.get("industry"):
-                existing.industry = row["industry"]
-                existing.industry_source = _CLASSIFICATION_SOURCE_EXCHANGE
             continue
         research = research_by_id.get(instrument_id)
         values = screener_by_id.get(instrument_id)
+        if research:
+            classification_inputs[instrument_id].append(
+                _classification_record(instrument_id, research, source=ClassificationSource.RESEARCH_UNIVERSE)
+            )
         records[instrument_id] = _merge_record(instrument_id, row, research, values)
+
+    for instrument_id, record in records.items():
+        candidates = classification_inputs.get(instrument_id, [])
+        reconciled = select_canonical(candidates) if candidates else []
+        selected = next((r for r in reconciled if r.is_selected_canonical), None)
+        record.sector = selected.sector if selected else None
+        record.industry = selected.industry if selected else None
+        record.sub_industry = selected.sub_industry if selected else None
+        record.sector_source = selected.source.value if selected and selected.sector else None
+        record.industry_source = selected.source.value if selected and selected.industry else None
+        record.sub_industry_source = selected.source.value if selected and selected.sub_industry else None
+        record.classification_version = selected.classification_version if selected else (
+            reconciled[0].classification_version if reconciled else None
+        )
+        record.classification_confidence = selected.confidence if selected else None
+        record.classification_review_status = (
+            selected.review_status.value if selected
+            else (reconciled[0].review_status.value if reconciled else None)
+        )
+        record.classification_selection_reason = selected.selection_reason if selected else (
+            reconciled[0].selection_reason if reconciled else None
+        )
+        record.classification_conflict = any(
+            r.review_status.value == "conflict" for r in reconciled
+        )
 
     return list(records.values())
 
@@ -148,10 +190,7 @@ def _merge_record(
             primary_exchange=primary_exchange,
             isin=research.get("isin") or (source_row or {}).get("isin"),
             bse_code=research.get("bse_code") or (source_row or {}).get("bse_code"),
-            sector=research.get("sector"),
-            sector_source=_CLASSIFICATION_SOURCE_RESEARCH if research.get("sector") else None,
-            industry=research.get("industry"),
-            industry_source=_CLASSIFICATION_SOURCE_RESEARCH if research.get("industry") else None,
+            sector=None, sector_source=None, industry=None, industry_source=None,
             listing_status=research.get("listing_status") or "active",
             is_sme=research.get("is_sme"),
             market_cap_category=research.get("market_cap_category"),
@@ -178,10 +217,7 @@ def _merge_record(
         primary_exchange=primary_exchange,
         isin=row.get("isin"),
         bse_code=row.get("bse_code"),
-        sector=row.get("sector"),
-        sector_source=_CLASSIFICATION_SOURCE_EXCHANGE if row.get("sector") else None,
-        industry=row.get("industry"),
-        industry_source=_CLASSIFICATION_SOURCE_EXCHANGE if row.get("industry") else None,
+        sector=None, sector_source=None, industry=None, industry_source=None,
         listing_status=row.get("listing_status") or "active",
         is_sme=row.get("is_sme"),
         market_cap_category=None,

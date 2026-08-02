@@ -72,6 +72,13 @@ class SearchIndexRecord(BaseModel):
     sector_source: str | None = None
     industry: str | None = None
     industry_source: str | None = None
+    sub_industry: str | None = None
+    sub_industry_source: str | None = None
+    classification_version: str | None = None
+    classification_confidence: float | None = None
+    classification_review_status: str | None = None
+    classification_selection_reason: str | None = None
+    classification_conflict: bool = False
     listing_status: str = "active"
     is_sme: bool | None = None
     market_cap_category: str | None = None

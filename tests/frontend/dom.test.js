@@ -104,6 +104,21 @@ test("search, theme and mobile navigation remain keyboard-operable", async () =>
   dom.window.close();
 });
 
+test("search results render a compact match-evidence line", async () => {
+  const { dom, window, errors } = await application();
+  const document = window.document;
+  document.dispatchEvent(new window.KeyboardEvent("keydown", { key: "k", ctrlKey: true, bubbles: true }));
+  const input = document.querySelector("[data-search-input]");
+  input.value = "BLS";
+  input.dispatchEvent(new window.Event("input", { bubbles: true }));
+  await wait(240);
+  const evidenceLines = document.querySelectorAll("[data-search-results] .search-evidence");
+  assert.ok(evidenceLines.length >= 1);
+  assert.match(evidenceLines[0].textContent, /symbol|name|match/i);
+  assert.deepEqual(errors, []);
+  dom.window.close();
+});
+
 test("published legacy route exposes an accessible canonical financial summary", () => {
   const html = fs.readFileSync(path.join(root, "site/reports/KFINTECH_NS.html"), "utf8");
   const dom = new JSDOM(html);

@@ -524,7 +524,14 @@
         }
         const bits = [item.symbol && `${item.exchange || "NSE"}: ${item.symbol}`, item.bse_code && `BSE ${item.bse_code}`, item.sector, item.industry, item.market_cap_category, item.is_sme ? "SME" : null].filter(Boolean);
         main.append(create("span", "search-meta", bits.join(" · ")));
-        const match = create("span", "search-match", `${item.matched_by || "match"}\n${Math.round(item.score)} / 100`);
+        const evidenceBits = [
+          item.match_reason || item.matched_by,
+          item.requested_exchange_matched ? `${item.exchange || "NSE"} match` : null,
+          Array.isArray(item.index_memberships) && item.index_memberships[0] || null,
+          item.research_available ? "Full research" : (item.ranking_available ? "Ranked" : null),
+        ].filter(Boolean);
+        main.append(create("span", "search-evidence", evidenceBits.join(" · ")));
+        const match = create("span", "search-match", `${Math.round(item.score)} / 100`);
         button.append(main, match); button.addEventListener("click", () => openItem(item)); li.append(button); results.append(li);
       });
       if (selected >= 0) input.setAttribute("aria-activedescendant", `search-option-${selected}`);

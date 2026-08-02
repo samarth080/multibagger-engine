@@ -13,6 +13,12 @@ from mbe.db.models import (
     InstrumentRow, ProviderSymbolRow, SectorRow,
 )
 from mbe.models.instrument import normalize_name, normalize_symbol
+from mbe.search.ranking import (
+    SEARCH_RANKING_POLICY_VERSION,
+    classification_quality_rank,
+    matched_field_for,
+    match_reason,
+)
 
 
 class ListingMatch(BaseModel):
@@ -36,6 +42,11 @@ class MatchCandidate(BaseModel):
     score: float
     matched_by: str
     matched_value: str
+    match_reason: str = ""
+    matched_field: str = ""
+    ranking_policy_version: str = SEARCH_RANKING_POLICY_VERSION
+    active_listing: bool = True
+    primary_listing: bool = True
     bse_code: str | None = None
     isin: str | None = None
     sector: str | None = None
@@ -119,12 +130,16 @@ class InstrumentResolver:
             if best:
                 primary = next((x for x in by_listing.get(instrument.instrument_id, []) if x.is_primary), None)
                 current_listings = by_listing.get(instrument.instrument_id, [])
+                is_primary = primary.is_primary if primary else True
+                active = (primary.status if primary else None) == "active"
                 candidates.append(MatchCandidate(
                     instrument_id=instrument.instrument_id,
                     display_name=company.display_name if company else None,
                     symbol=primary.symbol if primary else None,
                     exchange=primary.exchange_code if primary else None,
                     score=round(best[0], 2), matched_by=best[1], matched_value=best[2],
+                    match_reason=match_reason(best[1]), matched_field=matched_field_for(best[1]),
+                    active_listing=active, primary_listing=is_primary,
                     bse_code=primary.bse_code if primary else None,
                     isin=primary.isin if primary else None,
                     sector=sector.name if sector else None,
@@ -139,5 +154,26 @@ class InstrumentResolver:
                         is_sme=listing.is_sme,
                     ) for listing in current_listings],
                 ))
-        candidates.sort(key=lambda item: (-item.score, item.display_name or "", item.instrument_id))
+
+        def _tiebreak(item: MatchCandidate) -> tuple:
+            main_board = not bool(item.is_sme)
+            # Research/ranking availability and classification conflict are
+            # not available inside this DB-only resolver (see
+            # docs/search-architecture.md "Search ranking policy version
+            # 3" / "Static and server parity") — mbe.api.app.search applies
+            # those two dimensions one layer up, after attaching current
+            # model scores, using this same classification_quality_rank
+            # helper with conflict always False (no conflict-tracking exists
+            # in the DB schema today).
+            return (
+                -item.score,
+                0 if item.active_listing else 1,
+                0 if item.primary_listing else 1,
+                0 if main_board else 1,
+                classification_quality_rank(industry=item.industry, review_status=None, conflict=False),
+                item.display_name or "",
+                item.instrument_id,
+            )
+
+        candidates.sort(key=_tiebreak)
         return candidates[:limit]

@@ -207,6 +207,8 @@
         report_url: item.report_url || null,
         result_type: item.result_type || (item.research_available ? "modeled" : "known"),
         research_available: Boolean(item.research_available),
+        research_coverage_level: item.research_coverage_level == null ? 0 : Number(item.research_coverage_level),
+        coverage_label: item.coverage_label || null,
         ranking_available: rankingAvailable,
         rank: item.rank == null ? null : Number(item.rank),
         multibagger_score: item.multibagger_score == null ? null : Number(item.multibagger_score),
@@ -432,7 +434,18 @@
     return normalized;
   }
 
-  const pure = { normalizeText, similarity, staticSearch, parseExchangeHint, parseRankingState, stateToSearch, rankingRow, normalizeRankingEnvelope, stableFilterSort, summaryFor, csvFor, buildCompatible, apiQuery, reportDestination };
+  function researchBadgeText(level) {
+    // Keep in sync with CoverageLevel/COVERAGE_LEVEL_LABELS in src/mbe/coverage/domain.py.
+    const labels = { 3: "Full Research", 2: "Financial Coverage", 1: "Market Coverage", 0: "Identity Only" };
+    const key = Number.isInteger(level) ? level : 0;
+    if (!(key in labels)) {
+      global.console.warn(`researchBadgeText: unmapped coverage level ${key}, falling back to "Identity Only"`);
+      return "Identity Only";
+    }
+    return labels[key];
+  }
+
+  const pure = { normalizeText, similarity, staticSearch, parseExchangeHint, parseRankingState, stateToSearch, rankingRow, normalizeRankingEnvelope, stableFilterSort, summaryFor, csvFor, buildCompatible, apiQuery, reportDestination, researchBadgeText };
   global["MBEApp"] = pure;
   if (typeof module !== "undefined" && module.exports) module.exports = pure;
   if (!global.document) return;
@@ -503,11 +516,12 @@
     let items = []; let selected = -1; let timer = 0; let searchController = null; let returnFocus = null; let staticSearchIndex = null;
     const preference = document.body.dataset.dataMode || "auto";
     const researchBadge = item => {
-      if (item.result_type === "modeled" || item.research_available) {
+      const level = item.research_coverage_level == null ? 0 : Number(item.research_coverage_level);
+      if (level === 3) {
         const bits = [Number.isFinite(item.rank) && `Rank #${item.rank}`, Number.isFinite(item.multibagger_score) && `Score ${Math.round(item.multibagger_score)}`].filter(Boolean);
-        return create("span", "badge badge-positive", bits.length ? bits.join(" · ") : "Modeled");
+        return create("span", "badge badge-positive", bits.length ? bits.join(" · ") : researchBadgeText(level));
       }
-      return create("span", "badge badge-info", "Available");
+      return create("span", "badge badge-info", researchBadgeText(level));
     };
     const renderItems = (nextItems, query) => {
       items = nextItems; results.replaceChildren();

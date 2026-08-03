@@ -57,10 +57,12 @@
 
   <main id="main-content" class="page-shell" tabindex="-1">
 <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Rankings</a></li><li aria-current="page">Shipping Corporation of India Ltd.</li></ol></nav>
-<article class="research-page" data-research-page data-instrument-id="78ae464e-5e32-59c1-ae81-c0a68137ef68" data-symbol="SCI" data-exchange="NSE">
+<article class="research-page" data-research-page data-instrument-id="78ae464e-5e32-59c1-ae81-c0a68137ef68" data-symbol="SCI" data-exchange="NSE" data-listing-status="active">
   <header class="company-hero panel" aria-labelledby="company-title">
     <div class="company-identity">
       <p class="eyebrow">Nifty Smallcap 250 · NSE</p>
+      <span class="badge badge-positive" role="status">Level 3 — Full Research</span>
+      <p class="cell-note">Included in the Small-Cap research model.</p>
       <h1 id="company-title">Shipping Corporation of India Ltd.</h1>
       <p class="company-meta">SCI · INE109A01011 · Industrials · Services</p>
       <div class="hero-actions">
@@ -78,7 +80,14 @@
       <div><dt>Confidence</dt><dd>98%</dd></div>
       <div><dt>Risk</dt><dd>0 / 100</dd></div>
       <div><dt>Trend</dt><dd>Up</dd></div>
-      <div><dt>Quote</dt><dd data-company-quote>₹283.95<small>Build-close price context; request a current quote before relying on it.</small></dd></div>
+      <div><dt>Market Price</dt><dd data-company-quote>
+        <span data-quote-price>₹283.95</span>
+        <span data-quote-change class="quote-change"></span>
+        <span class="badge badge-warning" data-quote-status-badge hidden></span>
+        <small data-quote-market-status>Build-close price context; request a current quote before relying on it.</small>
+        <small data-quote-updated></small>
+        <button type="button" class="button button-quiet button-small" data-quote-retry hidden>Retry quote</button>
+      </dd></div>
       <div><dt>Main positive</dt><dd>The validated technical trend state is up.</dd></div>
       <div><dt>Main risk</dt><dd>Multibagger Score is 50.0, below the compatible covered-universe median of 50.6.</dd></div>
     </dl>
@@ -166,6 +175,7 @@
   </dialog>
 
   <div class="sr-only" data-announcer role="status" aria-live="polite" aria-atomic="true"></div>
+  <script defer src="/assets/quote-controller.js"></script>
   <script defer src="/assets/app.js"></script>
 <script defer src="/assets/research.js"></script></body>
 </html>

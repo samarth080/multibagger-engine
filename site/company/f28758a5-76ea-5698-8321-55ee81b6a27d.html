@@ -57,10 +57,12 @@
 
   <main id="main-content" class="page-shell" tabindex="-1">
 <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Rankings</a></li><li aria-current="page">Latent View Analytics Ltd.</li></ol></nav>
-<article class="research-page" data-research-page data-instrument-id="f28758a5-76ea-5698-8321-55ee81b6a27d" data-symbol="LATENTVIEW" data-exchange="NSE">
+<article class="research-page" data-research-page data-instrument-id="f28758a5-76ea-5698-8321-55ee81b6a27d" data-symbol="LATENTVIEW" data-exchange="NSE" data-listing-status="active">
   <header class="company-hero panel" aria-labelledby="company-title">
     <div class="company-identity">
       <p class="eyebrow">Nifty Smallcap 250 · NSE</p>
+      <span class="badge badge-positive" role="status">Level 3 — Full Research</span>
+      <p class="cell-note">Included in the Small-Cap research model.</p>
       <h1 id="company-title">Latent View Analytics Ltd.</h1>
       <p class="company-meta">LATENTVIEW · INE0I7C01011 · Industrials · Information Technology</p>
       <div class="hero-actions">
@@ -78,7 +80,14 @@
       <div><dt>Confidence</dt><dd>98%</dd></div>
       <div><dt>Risk</dt><dd>24 / 100</dd></div>
       <div><dt>Trend</dt><dd>Down</dd></div>
-      <div><dt>Quote</dt><dd data-company-quote>₹314.60<small>Build-close price context; request a current quote before relying on it.</small></dd></div>
+      <div><dt>Market Price</dt><dd data-company-quote>
+        <span data-quote-price>₹314.60</span>
+        <span data-quote-change class="quote-change"></span>
+        <span class="badge badge-warning" data-quote-status-badge hidden></span>
+        <small data-quote-market-status>Build-close price context; request a current quote before relying on it.</small>
+        <small data-quote-updated></small>
+        <button type="button" class="button button-quiet button-small" data-quote-retry hidden>Retry quote</button>
+      </dd></div>
       <div><dt>Main positive</dt><dd>Multibagger Score is 51.0, above the compatible covered-universe median of 50.6.</dd></div>
       <div><dt>Main risk</dt><dd>ROCE over three years is 10.3%, below the compatible covered-universe median of 13.4%.</dd></div>
     </dl>
@@ -166,6 +175,7 @@
   </dialog>
 
   <div class="sr-only" data-announcer role="status" aria-live="polite" aria-atomic="true"></div>
+  <script defer src="/assets/quote-controller.js"></script>
   <script defer src="/assets/app.js"></script>
 <script defer src="/assets/research.js"></script></body>
 </html>

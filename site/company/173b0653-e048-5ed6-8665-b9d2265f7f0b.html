@@ -57,10 +57,12 @@
 
   <main id="main-content" class="page-shell" tabindex="-1">
 <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Rankings</a></li><li aria-current="page">Timken India Ltd.</li></ol></nav>
-<article class="research-page" data-research-page data-instrument-id="173b0653-e048-5ed6-8665-b9d2265f7f0b" data-symbol="TIMKEN" data-exchange="NSE">
+<article class="research-page" data-research-page data-instrument-id="173b0653-e048-5ed6-8665-b9d2265f7f0b" data-symbol="TIMKEN" data-exchange="NSE" data-listing-status="active">
   <header class="company-hero panel" aria-labelledby="company-title">
     <div class="company-identity">
       <p class="eyebrow">Nifty Smallcap 250 · NSE</p>
+      <span class="badge badge-positive" role="status">Level 3 — Full Research</span>
+      <p class="cell-note">Included in the Small-Cap research model.</p>
       <h1 id="company-title">Timken India Ltd.</h1>
       <p class="company-meta">TIMKEN · INE325A01013 · Industrials · Capital Goods</p>
       <div class="hero-actions">
@@ -78,7 +80,14 @@
       <div><dt>Confidence</dt><dd>98%</dd></div>
       <div><dt>Risk</dt><dd>24 / 100</dd></div>
       <div><dt>Trend</dt><dd>Sideways</dd></div>
-      <div><dt>Quote</dt><dd data-company-quote>₹3,134.70<small>Build-close price context; request a current quote before relying on it.</small></dd></div>
+      <div><dt>Market Price</dt><dd data-company-quote>
+        <span data-quote-price>₹3,134.70</span>
+        <span data-quote-change class="quote-change"></span>
+        <span class="badge badge-warning" data-quote-status-badge hidden></span>
+        <small data-quote-market-status>Build-close price context; request a current quote before relying on it.</small>
+        <small data-quote-updated></small>
+        <button type="button" class="button button-quiet button-small" data-quote-retry hidden>Retry quote</button>
+      </dd></div>
       <div><dt>Main positive</dt><dd>ROCE over three years is 18.9%, above the compatible covered-universe median of 13.4%.</dd></div>
       <div><dt>Main risk</dt><dd>Multibagger Score is 39.5, below the compatible covered-universe median of 50.6.</dd></div>
     </dl>
@@ -166,6 +175,7 @@
   </dialog>
 
   <div class="sr-only" data-announcer role="status" aria-live="polite" aria-atomic="true"></div>
+  <script defer src="/assets/quote-controller.js"></script>
   <script defer src="/assets/app.js"></script>
 <script defer src="/assets/research.js"></script></body>
 </html>

@@ -57,10 +57,12 @@
 
   <main id="main-content" class="page-shell" tabindex="-1">
 <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Rankings</a></li><li aria-current="page">Chennai Petroleum Corporation Ltd.</li></ol></nav>
-<article class="research-page" data-research-page data-instrument-id="49da28b0-9ef0-521d-9a33-b51acbd5cb93" data-symbol="CHENNPETRO" data-exchange="NSE">
+<article class="research-page" data-research-page data-instrument-id="49da28b0-9ef0-521d-9a33-b51acbd5cb93" data-symbol="CHENNPETRO" data-exchange="NSE" data-listing-status="active">
   <header class="company-hero panel" aria-labelledby="company-title">
     <div class="company-identity">
       <p class="eyebrow">Nifty Smallcap 250 · NSE</p>
+      <span class="badge badge-positive" role="status">Level 3 — Full Research</span>
+      <p class="cell-note">Included in the Small-Cap research model.</p>
       <h1 id="company-title">Chennai Petroleum Corporation Ltd.</h1>
       <p class="company-meta">CHENNPETRO · INE178A01016 · Energy · Oil Gas &amp; Consumable Fuels</p>
       <div class="hero-actions">
@@ -78,7 +80,14 @@
       <div><dt>Confidence</dt><dd>96%</dd></div>
       <div><dt>Risk</dt><dd>0 / 100</dd></div>
       <div><dt>Trend</dt><dd>Strong Up</dd></div>
-      <div><dt>Quote</dt><dd data-company-quote>₹1,244.00<small>Build-close price context; request a current quote before relying on it.</small></dd></div>
+      <div><dt>Market Price</dt><dd data-company-quote>
+        <span data-quote-price>₹1,244.00</span>
+        <span data-quote-change class="quote-change"></span>
+        <span class="badge badge-warning" data-quote-status-badge hidden></span>
+        <small data-quote-market-status>Build-close price context; request a current quote before relying on it.</small>
+        <small data-quote-updated></small>
+        <button type="button" class="button button-quiet button-small" data-quote-retry hidden>Retry quote</button>
+      </dd></div>
       <div><dt>Main positive</dt><dd>Multibagger Score is 55.5, above the compatible covered-universe median of 50.6.</dd></div>
       <div><dt>Main risk</dt><dd>Revenue CAGR over three years is -6.0%, below the compatible covered-universe median of 14.3%.</dd></div>
     </dl>
@@ -166,6 +175,7 @@
   </dialog>
 
   <div class="sr-only" data-announcer role="status" aria-live="polite" aria-atomic="true"></div>
+  <script defer src="/assets/quote-controller.js"></script>
   <script defer src="/assets/app.js"></script>
 <script defer src="/assets/research.js"></script></body>
 </html>

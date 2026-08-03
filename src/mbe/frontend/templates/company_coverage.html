@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Rankings</a></li><li aria-current="page">{{ company.identity.display_name }}</li></ol></nav>
-<article class="research-page" data-research-page data-coverage-company data-instrument-id="{{ company.identity.instrument_id }}" data-symbol="{{ company.identity.symbol }}" data-exchange="{{ company.identity.exchange }}">
+<article class="research-page" data-research-page data-coverage-company data-instrument-id="{{ company.identity.instrument_id }}" data-symbol="{{ company.identity.symbol }}" data-exchange="{{ company.identity.exchange }}" data-listing-status="{{ company.identity.listing_status }}">
   <header class="company-hero panel" aria-labelledby="company-title">
     <div class="company-identity">
       <p class="eyebrow">{{ company.identity.exchange }} · {{ company.identity.symbol }}</p>
@@ -19,8 +19,14 @@
       </div>
     </div>
     <dl class="hero-metrics">
-      <div><dt>Current price</dt><dd>{% if company.quote and company.quote.price is not none %}₹{{ '{:,.2f}'.format(company.quote.price) }}{% else %}Unavailable{% endif %}</dd></div>
-      <div><dt>Day change</dt><dd>{% if company.quote and company.quote.day_change_pct is not none %}{{ '%+.2f%%'|format(company.quote.day_change_pct) }}{% else %}Unavailable{% endif %}</dd></div>
+      <div><dt>Market Price</dt><dd data-company-quote>
+        <span data-quote-price>{% if company.quote and company.quote.price is not none %}₹{{ '{:,.2f}'.format(company.quote.price) }}{% else %}Unavailable{% endif %}</span>
+        <span data-quote-change class="quote-change"></span>
+        <span class="badge badge-warning" data-quote-status-badge hidden></span>
+        <small data-quote-market-status>{% if company.quote and company.quote.market_status %}{{ company.quote.market_status|title }} market{% else %}Market status unavailable{% endif %}</small>
+        <small data-quote-updated></small>
+        <button type="button" class="button button-quiet button-small" data-quote-retry hidden>Retry quote</button>
+      </dd></div>
       <div><dt>52-week high</dt><dd>{% if company.quote and company.quote.week52_high is not none %}₹{{ '{:,.2f}'.format(company.quote.week52_high) }}{% else %}Unavailable{% endif %}</dd></div>
       <div><dt>52-week low</dt><dd>{% if company.quote and company.quote.week52_low is not none %}₹{{ '{:,.2f}'.format(company.quote.week52_low) }}{% else %}Unavailable{% endif %}</dd></div>
       <div><dt>Market cap</dt><dd>Unavailable</dd></div>

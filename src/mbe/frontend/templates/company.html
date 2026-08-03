@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Rankings</a></li><li aria-current="page">{{ research.identity.display_name }}</li></ol></nav>
-<article class="research-page" data-research-page data-instrument-id="{{ research.identity.instrument_id }}" data-symbol="{{ research.identity.symbol }}" data-exchange="{{ research.identity.exchange }}">
+<article class="research-page" data-research-page data-instrument-id="{{ research.identity.instrument_id }}" data-symbol="{{ research.identity.symbol }}" data-exchange="{{ research.identity.exchange }}" data-listing-status="{{ research.identity.listing_status }}">
   <header class="company-hero panel" aria-labelledby="company-title">
     <div class="company-identity">
       <p class="eyebrow">{{ research.identity.index_membership }} · {{ research.identity.exchange }}</p>
@@ -25,7 +25,14 @@
       <div><dt>Confidence</dt><dd>{{ '%.0f%%'|format(research.ranking.confidence * 100) }}</dd></div>
       <div><dt>Risk</dt><dd>{{ '%.0f'|format(research.ranking.risk_score) }} / 100</dd></div>
       <div><dt>Trend</dt><dd>{{ research.ranking.technical_trend|replace('_', ' ')|title }}</dd></div>
-      <div><dt>Quote</dt><dd data-company-quote>{% if research.quote.price is not none %}₹{{ '{:,.2f}'.format(research.quote.price) }}{% else %}Unavailable{% endif %}<small>{{ research.quote.message }}</small></dd></div>
+      <div><dt>Market Price</dt><dd data-company-quote>
+        <span data-quote-price>{% if research.quote.price is not none %}₹{{ '{:,.2f}'.format(research.quote.price) }}{% else %}Unavailable{% endif %}</span>
+        <span data-quote-change class="quote-change"></span>
+        <span class="badge badge-warning" data-quote-status-badge hidden></span>
+        <small data-quote-market-status>{{ research.quote.message }}</small>
+        <small data-quote-updated></small>
+        <button type="button" class="button button-quiet button-small" data-quote-retry hidden>Retry quote</button>
+      </dd></div>
       <div><dt>Main positive</dt><dd>{{ research.strengths[0].text if research.strengths else 'No positive classification is available.' }}</dd></div>
       <div><dt>Main risk</dt><dd>{{ research.risks[0].text if research.risks else 'No evidence-backed warning is available.' }}</dd></div>
     </dl>

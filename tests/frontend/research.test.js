@@ -141,32 +141,43 @@ test("previous close missing still renders a price without a fabricated change v
   });
 });
 
-test("quote-unavailable shows a retry control that is keyboard-operable and announces on use", () => {
+test("quote-unavailable shows a retry control that is keyboard-operable and announces on use", async () => {
   const { dom, row } = fixture();
   const { window } = dom;
   window.document.body.dataset.dataMode = "api";
   window.eval(fs.readFileSync(path.join(root, "src/mbe/frontend/assets/quote-controller.js"), "utf8"));
+  // Matches quote-controller.js's own default maxConsecutiveFailures (5): the
+  // first N-1 failures must stay silent (the controller is auto-retrying
+  // with backoff underneath), and only the Nth flips state to "stopped" and
+  // reveals the retry control. Manual retries bypass the stopped-gate and
+  // run immediately, so we drive them directly instead of waiting through
+  // real backoff delays.
+  const maxConsecutiveFailures = 5;
   let attempt = 0;
   window.fetch = async () => {
     attempt += 1;
-    if (attempt === 1) throw new Error("network down");
+    if (attempt <= maxConsecutiveFailures) throw new Error("network down");
     return {
       ok: true,
       json: async () => ({ data: { quotes: [{ instrument_id: row.instrument_id, last_price: 42, market_status: "closed", freshness_state: "fresh" }] } }),
     };
   };
   window.eval(fs.readFileSync(path.join(root, "src/mbe/frontend/assets/research.js"), "utf8"));
-  return wait(30).then(() => {
-    const retry = window.document.querySelector("[data-quote-retry]");
-    assert.ok(retry && !retry.hidden, "retry control must be visible after a failed fetch");
-    assert.equal(retry.tagName, "BUTTON");
+  await wait(20);
+  const retry = window.document.querySelector("[data-quote-retry]");
+  assert.ok(retry, "retry control must exist in the quote block");
+  assert.equal(retry.tagName, "BUTTON");
+  assert.ok(retry.hidden, "retry control must stay hidden while the controller is still silently auto-retrying a transient failure");
+  for (let i = 1; i < maxConsecutiveFailures; i += 1) {
     retry.dispatchEvent(new window.Event("click", { bubbles: true }));
-    return wait(15).then(() => {
-      assert.match(window.document.querySelector("[data-quote-price]").textContent, /42\.00/);
-      assert.match(window.document.querySelector("[data-announcer]").textContent, /Quote refreshed/);
-      dom.window.close();
-    });
-  });
+    await wait(10);
+  }
+  assert.ok(!retry.hidden, "retry control must become visible once automatic retries stop");
+  retry.dispatchEvent(new window.Event("click", { bubbles: true }));
+  await wait(15);
+  assert.match(window.document.querySelector("[data-quote-price]").textContent, /42\.00/);
+  assert.match(window.document.querySelector("[data-announcer]").textContent, /Quote refreshed/);
+  dom.window.close();
 });
 
 test("inactive and delisted companies never trigger a quote fetch", () => {

@@ -323,13 +323,7 @@ def create_app(
                     None,
                 ),
             },
-            # A modeled instrument's score is itself evidence of usable
-            # financial data (the scoring pipeline requires it) even when
-            # the separate financial-dataset-build ingestion tables have no
-            # row for this instrument yet — mirrors the same
-            # research_available-as-financial-data-signal convention
-            # mbe.search.catalog already uses for coverage assessment.
-            has_financial_data=score is not None or _has_financial_data(session, instrument_id),
+            has_financial_data=_has_financial_data(session, instrument_id),
             has_model_score=score is not None,
             has_full_research_payload=score is not None,
         )

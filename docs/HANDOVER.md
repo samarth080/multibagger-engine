@@ -2320,6 +2320,91 @@ expansion.
   migration, no scoring/ranking/financial-value change; PostgreSQL still
   not provisioned.
 
+## Phase 11 Milestone 2B — dynamic market-price quote refresh (2026-08-04)
+
+- Status: Complete locally; not pushed or deployed. Built on top of Milestone
+  2A, fast-forward merged into `release/v1.0.0-rc1` before this milestone
+  started.
+- Objective achieved: company report pages (Level 1–3, i.e. every instrument
+  with a provider-symbol mapping) and the rankings table now refresh their
+  market price automatically, on a bounded client-side schedule, through the
+  existing provider-neutral `/api/v1/quotes`/`/api/quotes` layer — without
+  ever recalculating or touching the frozen research layer (score, rank,
+  confidence, risk, financials, technical state, strengths, risks, history,
+  peers). Level 0 pages (no provider mapping) and inactive/delisted listings
+  never attempt a live quote at all.
+- New shared module: `src/mbe/frontend/assets/quote-controller.js` — a
+  DOM-agnostic refresh state machine (`MBEQuoteController.create(options)`
+  returning `{register, start, retry, destroy, getState}`), reused unmodified
+  by both consumers below, plus shared wire-shape adapters
+  (`fromApiQuote`/`fromLegacyQuote`) so neither consumer parses a provider
+  response shape itself. Full design, the state machine, refresh-policy
+  table, quote-capability states, caching/failure/accessibility behavior and
+  the Milestone 2C prerequisites are documented in
+  [`quote-refresh-architecture.md`](quote-refresh-architecture.md).
+- Refresh policy: 90 seconds while any refreshed instrument reports an open
+  market; 15 minutes while all are closed (bounded, not "never," so a page
+  left open across a market-open transition self-corrects); paused entirely
+  on a hidden tab or while offline, with an immediate refresh on visibility
+  restore (if overdue) or the `online` event; exponential backoff
+  (`min(5000×2^(failures−1), 300000)` ms) on a full fetch failure, stopping
+  automatic retries after 5 consecutive failures in favor of a manual retry
+  control; overlapping triggers share one in-flight request.
+- Two consumers wired: `research.js` (company page hero quote block — new
+  `[data-quote-price]`/`[data-quote-change]`/`[data-quote-status-badge]`/
+  `[data-quote-market-status]`/`[data-quote-updated]`/`[data-quote-retry]`
+  hooks inside `[data-company-quote]` on both `company.html` and
+  `company_coverage.html`, gated on `data-listing-status`) and `app.js`'s
+  `initRankings()` (per-row `[data-quote]` cells, a page-level "Retry quotes"
+  control, stale-watcher cleanup across re-renders, the existing dual
+  api/legacy fetch mode and 30-instrument batch cap preserved).
+- No new backend endpoints. The existing `/api/v1/quotes` route already
+  satisfied every backend requirement this milestone needed (provider-neutral
+  contract, batch cap, fail-closed provider-symbol validation, partial-failure
+  handling, freshness/market-status metadata, a standing
+  `Cache-Control: public, max-age=60` on every 2xx response) — this milestone
+  only added tests pinning down scenarios that weren't yet explicitly
+  asserted (missing previous close, missing OHLC/volume fields, repeated-ID
+  dedup within one request, the cache header, and a delisted+unmapped
+  instrument's `/summary` route never fabricating a quote).
+- A real regression was found and fixed mid-milestone: duplicating the
+  wire-shape adapters into both `research.js` and `app.js` pushed `app.js`
+  past its documented 60 KiB uncompressed-asset budget
+  (`tests/test_publish.py::test_frontend_assets_stay_within_documented_uncompressed_budgets`),
+  which a full-suite Python run caught. Fixed by moving the adapters into the
+  already-shared `quote-controller.js` (both consumers now call
+  `MBEQuoteController.fromApiQuote`/`.fromLegacyQuote`) and raising the
+  budget to 64 KiB for the legitimate remainder; a second test
+  (`test_index_is_themed_with_nav_and_daychange_quotes`) that asserted the
+  quote field-name strings appear literally in `app.js` was updated to check
+  `quote-controller.js` instead, since that's where they now live.
+- Invariants re-verified after every change: `public_value_hashes()` (score
+  and financial hashes) unchanged from the Milestone 2A/deterministic-build
+  fixture; a new coverage-membership fixture
+  (`tests/fixtures/phase11-m2b-membership-hash.json`, instrument ID +
+  coverage level + `research_available` per record) pins which companies
+  belong to which coverage level; `deny_network()` still fails closed against
+  the exact Yahoo endpoint the quote adapter targets, confirming the quote
+  controller (browser-only) introduced no new Python-side network call.
+- Naming collision, documented not fixed: `coverage-architecture.md`'s own
+  "Milestone 2B recommendation" section names a *different*, unrelated,
+  still-unimplemented workstream (broader financial-data source, broader
+  index-membership import) that predates this milestone. See the note at the
+  top of `quote-refresh-architecture.md`.
+- Verification: 706 Python tests and 54 frontend tests passed; ESLint and
+  `tsc --project tsconfig.frontend.json` clean.
+- Known limitations: screener quote integration deferred (no existing
+  price/quote column to hook into — see Milestone 2C prerequisites); only one
+  quote provider (Yahoo) is ever registered, so the "unsupported provider"
+  quote-capability state is structurally representable but unreachable
+  today; the 15-minute closed-market ceiling is a bounded choice, not a
+  measured optimum.
+- Working-tree/commit/deployment state: committed locally on branch
+  `phase11-m2b-dynamic-quotes` (a git worktree at
+  `.worktrees/phase11-m2b-dynamic-quotes`); not merged, pushed or deployed;
+  no migration, no scoring/ranking/financial-value change; PostgreSQL still
+  not provisioned.
+
 ## End-of-phase update template
 
 Copy this section when closing each future phase:

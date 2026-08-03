@@ -40,7 +40,8 @@ def test_factor_subscores_reconcile_to_overall_via_stated_weights():
     info, fund, tech, val, risk = _full_general_inputs()
     card = build_universal_score("DIXON.NS", info, fund, tech, val, risk)
     from mbe.universal.policy import FACTOR_WEIGHTS
-    scored = [f for f in card.factors if f.confidence > 0]
+    # Exclude Data quality meta-factor from reconciliation (it reports coverage %, not company quality)
+    scored = [f for f in card.factors if f.confidence > 0 and f.name != "Data quality"]
     total_weight = sum(FACTOR_WEIGHTS[f.name] for f in scored)
     recombined = sum(FACTOR_WEIGHTS[f.name] * f.score for f in scored) / total_weight
     assert card.overall_score == pytest.approx(round(recombined, 1))
@@ -68,6 +69,8 @@ def test_no_data_at_all_is_insufficient():
     card = build_universal_score("ZZZ.NS", info, fund, tech, val, risk)
     assert card.report_state == ReportState.INSUFFICIENT
     assert card.company_type == CompanyType.UNKNOWN_LIMITED_DATA
+    # When no data exists at all, overall_score must be None (never fabricated as 0.0)
+    assert card.overall_score is None
 
 
 def test_bank_excludes_capital_efficiency_and_lowers_coverage_and_confidence():

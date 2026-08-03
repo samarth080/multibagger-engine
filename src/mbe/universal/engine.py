@@ -122,22 +122,25 @@ def build_universal_score(
     factors.append(_risk_factor(risk, data_confidence))
 
     total_possible_weight = sum(FACTOR_WEIGHTS.values())
-    scored_weight = sum(FACTOR_WEIGHTS[f.name] for f in factors if f.confidence > 0)
     non_meta_total = total_possible_weight - FACTOR_WEIGHTS["Data quality"]
     non_meta_scored = sum(
         FACTOR_WEIGHTS[f.name] for f in factors if f.confidence > 0 and f.name != "Data quality"
     )
     coverage_pct = round(100 * non_meta_scored / non_meta_total, 1) if non_meta_total else 0.0
-    factors.append(UniversalFactorScore(
-        name="Data quality", score=coverage_pct, confidence=1.0, eligible_weight=1.0, evidence=[],
-    ))
-    scored_weight += FACTOR_WEIGHTS["Data quality"]
 
+    # Calculate overall_score from real factors only, excluding Data quality meta-factor.
+    # When all real factors have zero confidence, overall_score stays None (not fabricated as 0.0).
+    scored_weight = sum(FACTOR_WEIGHTS[f.name] for f in factors if f.confidence > 0)
     overall_score = None
     if scored_weight > 0:
         overall_score = round(
             sum(FACTOR_WEIGHTS[f.name] * f.score for f in factors if f.confidence > 0) / scored_weight, 1
         )
+
+    # Append Data quality for reporting (coverage percentage), but it doesn't affect overall_score.
+    factors.append(UniversalFactorScore(
+        name="Data quality", score=coverage_pct, confidence=1.0, eligible_weight=1.0, evidence=[],
+    ))
 
     has_financials = fund.completeness > 0
     has_prices = tech.completeness > 0

@@ -642,7 +642,8 @@ def test_factor_subscores_reconcile_to_overall_via_stated_weights():
     info, fund, tech, val, risk = _full_general_inputs()
     card = build_universal_score("DIXON.NS", info, fund, tech, val, risk)
     from mbe.universal.policy import FACTOR_WEIGHTS
-    scored = [f for f in card.factors if f.confidence > 0]
+    # Exclude Data quality meta-factor from reconciliation (it reports coverage %, not company quality)
+    scored = [f for f in card.factors if f.confidence > 0 and f.name != "Data quality"]
     total_weight = sum(FACTOR_WEIGHTS[f.name] for f in scored)
     recombined = sum(FACTOR_WEIGHTS[f.name] * f.score for f in scored) / total_weight
     assert card.overall_score == pytest.approx(round(recombined, 1))
@@ -670,6 +671,8 @@ def test_no_data_at_all_is_insufficient():
     card = build_universal_score("ZZZ.NS", info, fund, tech, val, risk)
     assert card.report_state == ReportState.INSUFFICIENT
     assert card.company_type == CompanyType.UNKNOWN_LIMITED_DATA
+    # When no data exists at all, overall_score must be None (never fabricated as 0.0)
+    assert card.overall_score is None
 
 
 def test_bank_excludes_capital_efficiency_and_lowers_coverage_and_confidence():
@@ -836,22 +839,25 @@ def build_universal_score(
     factors.append(_risk_factor(risk, data_confidence))
 
     total_possible_weight = sum(FACTOR_WEIGHTS.values())
-    scored_weight = sum(FACTOR_WEIGHTS[f.name] for f in factors if f.confidence > 0)
     non_meta_total = total_possible_weight - FACTOR_WEIGHTS["Data quality"]
     non_meta_scored = sum(
         FACTOR_WEIGHTS[f.name] for f in factors if f.confidence > 0 and f.name != "Data quality"
     )
     coverage_pct = round(100 * non_meta_scored / non_meta_total, 1) if non_meta_total else 0.0
-    factors.append(UniversalFactorScore(
-        name="Data quality", score=coverage_pct, confidence=1.0, eligible_weight=1.0, evidence=[],
-    ))
-    scored_weight += FACTOR_WEIGHTS["Data quality"]
 
+    # Calculate overall_score from real factors only, excluding Data quality meta-factor.
+    # When all real factors have zero confidence, overall_score stays None (not fabricated as 0.0).
+    scored_weight = sum(FACTOR_WEIGHTS[f.name] for f in factors if f.confidence > 0)
     overall_score = None
     if scored_weight > 0:
         overall_score = round(
             sum(FACTOR_WEIGHTS[f.name] * f.score for f in factors if f.confidence > 0) / scored_weight, 1
         )
+
+    # Append Data quality for reporting (coverage percentage), but it doesn't affect overall_score.
+    factors.append(UniversalFactorScore(
+        name="Data quality", score=coverage_pct, confidence=1.0, eligible_weight=1.0, evidence=[],
+    ))
 
     has_financials = fund.completeness > 0
     has_prices = tech.completeness > 0

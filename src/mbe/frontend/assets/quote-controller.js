@@ -105,6 +105,7 @@
       setState("fetching");
       try {
         const resultsById = await fetchQuotes(ids);
+        if (destroyed) return;
         failures = 0;
         for (const id of ids) {
           const quote = (resultsById && typeof resultsById.get === "function" ? resultsById.get(id) : undefined) || null;
@@ -132,14 +133,16 @@
         baselineEstablished = true;
         prevMarketOpen = marketOpen;
         prevHasError = hasError;
-        if (!destroyed) { schedule(interval); setState("scheduled"); }
+        schedule(interval);
+        setState("scheduled");
       } catch (_err) {
+        if (destroyed) return;
         failures += 1;
         if (failures >= maxConsecutiveFailures) {
           clearPendingTimer();
           setState("stopped");
           onAnnounce("Quote updates stopped after repeated failures. Use Retry to try again.");
-        } else if (!destroyed) {
+        } else {
           schedule(Math.min(baseBackoffMs * (2 ** (failures - 1)), maxBackoffMs));
           setState("scheduled");
         }

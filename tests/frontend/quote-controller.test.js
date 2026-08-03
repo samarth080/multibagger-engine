@@ -199,3 +199,41 @@ test("never touches DOM directly — apply callbacks are the only side effect", 
   assert.equal(window.document.body.innerHTML, before);
   controller.destroy();
 });
+
+test("destroy() while a fetch is in-flight suppresses both the apply callback and any announce, on both the success and failure paths", async () => {
+  const { window: successWindow } = harness();
+  let resolveSuccess;
+  const successApplied = [];
+  const successAnnouncements = [];
+  const successController = successWindow.MBEQuoteController.create({
+    fetchQuotes: async ids => new Promise(resolve => { resolveSuccess = () => resolve(new Map(ids.map(id => [id, { price: 1, marketStatus: "open" }]))); }),
+    onAnnounce: m => successAnnouncements.push(m),
+    openIntervalMs: 10000, document: successWindow.document, window: successWindow,
+  });
+  successController.register("id-1", quote => successApplied.push(quote));
+  const successStart = successController.start();
+  successController.destroy();
+  resolveSuccess();
+  await successStart;
+  await wait(10);
+  assert.deepEqual(successApplied, [], "apply callback must not fire once the controller is destroyed");
+  assert.deepEqual(successAnnouncements, [], "onAnnounce must not fire once the controller is destroyed");
+
+  const { window: failureWindow } = harness();
+  let rejectFailure;
+  const failureAnnouncements = [];
+  const failureController = failureWindow.MBEQuoteController.create({
+    fetchQuotes: async () => new Promise((_resolve, reject) => { rejectFailure = () => reject(new Error("boom")); }),
+    onAnnounce: m => failureAnnouncements.push(m),
+    maxConsecutiveFailures: 1, baseBackoffMs: 5, maxBackoffMs: 10,
+    openIntervalMs: 10000, document: failureWindow.document, window: failureWindow,
+  });
+  failureController.register("id-1", () => {});
+  const failureStart = failureController.start();
+  failureController.destroy();
+  rejectFailure();
+  await failureStart;
+  await wait(10);
+  assert.deepEqual(failureAnnouncements, [], "the stopped-after-repeated-failures announcement must not fire once destroyed");
+  assert.notEqual(failureController.getState(), "stopped", "destroy() must not let the failure continuation move the state to stopped");
+});

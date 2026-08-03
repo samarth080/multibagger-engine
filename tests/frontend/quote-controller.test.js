@@ -70,6 +70,58 @@ test("closed-market ticks use the closed interval and market-status changes are 
   controller.destroy();
 });
 
+test("onAnnounce fires when the aggregate market status flips between ticks, but not on the baseline tick", async () => {
+  const { window } = harness();
+  const { fetchQuotes } = stubFetch([
+    ids => new Map(ids.map(id => [id, { price: 100, marketStatus: "closed", freshnessState: "fresh" }])),
+    ids => new Map(ids.map(id => [id, { price: 105, marketStatus: "open", freshnessState: "fresh" }])),
+  ]);
+  const announcements = [];
+  const controller = window.MBEQuoteController.create({
+    fetchQuotes, openIntervalMs: 20, closedIntervalMs: 20, onAnnounce: m => announcements.push(m),
+    document: window.document, window,
+  });
+  controller.register("id-1", () => {});
+  controller.start();
+  await wait(10);
+  assert.deepEqual(announcements, [], "the tick that establishes the baseline must stay silent even though it reports a market status");
+  await wait(25);
+  assert.ok(announcements.includes("The market is now open."), `expected an open-market announcement once the aggregate status flipped, got ${JSON.stringify(announcements)}`);
+  controller.destroy();
+});
+
+test("partial per-instrument failure applies null (or the error-carrying quote) only to the affected ids and still flags the aggregate as errored", async () => {
+  const { window } = harness();
+  const applied = { "id-1": [], "id-2": [], "id-3": [] };
+  const announcements = [];
+  let tick = 0;
+  const fetchQuotes = async ids => {
+    tick += 1;
+    if (tick === 1) return new Map(ids.map(id => [id, { price: 100, marketStatus: "closed", freshnessState: "fresh" }]));
+    const map = new Map();
+    map.set("id-2", { price: 101, marketStatus: "closed", freshnessState: "fresh" });
+    map.set("id-3", { price: 102, marketStatus: "closed", freshnessState: "fresh", error: true });
+    // id-1 is deliberately omitted from the batch response to simulate a per-instrument failure.
+    return map;
+  };
+  const controller = window.MBEQuoteController.create({
+    fetchQuotes, openIntervalMs: 20, closedIntervalMs: 20, onAnnounce: m => announcements.push(m),
+    document: window.document, window,
+  });
+  controller.register("id-1", quote => applied["id-1"].push(quote));
+  controller.register("id-2", quote => applied["id-2"].push(quote));
+  controller.register("id-3", quote => applied["id-3"].push(quote));
+  controller.start();
+  await wait(10);
+  assert.deepEqual(announcements, [], "the baseline tick must stay silent");
+  await wait(25);
+  assert.equal(applied["id-1"][1], null, "an id missing from the batch response must be applied as null");
+  assert.deepEqual(applied["id-2"][1], { price: 101, marketStatus: "closed", freshnessState: "fresh" }, "an unaffected id in the same batch must still receive its real quote");
+  assert.deepEqual(applied["id-3"][1], { price: 102, marketStatus: "closed", freshnessState: "fresh", error: true }, "an id carrying a truthy .error must be applied as-is, not nulled out");
+  assert.ok(announcements.includes("A quote could not be refreshed."), `expected the aggregate error announcement once the batch went from clean to partially failed, got ${JSON.stringify(announcements)}`);
+  controller.destroy();
+});
+
 test("a full fetch failure backs off exponentially then stops after the configured max", async () => {
   const { window } = harness();
   const { fetchQuotes, calls } = stubFetch([new Error("network down")]);

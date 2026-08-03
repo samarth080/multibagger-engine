@@ -100,6 +100,10 @@
       return Array.from(registry.keys()).slice(0, maxBatch);
     }
 
+    function quoteFor(resultsById, id) {
+      return resultsById && typeof resultsById.get === "function" ? resultsById.get(id) : undefined;
+    }
+
     async function performFetch(trigger) {
       const ids = batchIds();
       setState("fetching");
@@ -107,22 +111,22 @@
         const resultsById = await fetchQuotes(ids);
         if (destroyed) return;
         failures = 0;
+        let marketOpen = false;
+        let hasError = false;
         for (const id of ids) {
-          const quote = (resultsById && typeof resultsById.get === "function" ? resultsById.get(id) : undefined) || null;
+          const rawQuote = quoteFor(resultsById, id);
+          if (!rawQuote) hasError = true;
+          else {
+            if (rawQuote.marketStatus === "open") marketOpen = true;
+            if (rawQuote.error) hasError = true;
+          }
+          const quote = rawQuote || null;
           const callbacks = registry.get(id);
           if (!callbacks) continue;
           callbacks.forEach(apply => {
             try { apply(quote); } catch (_) { /* one bad watcher must not break the others */ }
           });
         }
-        const marketOpen = ids.some(id => {
-          const quote = resultsById && typeof resultsById.get === "function" ? resultsById.get(id) : undefined;
-          return Boolean(quote) && quote.marketStatus === "open";
-        });
-        const hasError = ids.some(id => {
-          const quote = resultsById && typeof resultsById.get === "function" ? resultsById.get(id) : undefined;
-          return !quote || Boolean(quote.error);
-        });
         lastFetchAt = now();
         const interval = marketOpen ? openIntervalMs : closedIntervalMs;
         if (trigger === "manual") {

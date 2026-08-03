@@ -2259,8 +2259,9 @@ expansion.
   (6,352,941 bytes); `search-index.json` average record 1,725.9 bytes (max
   1,953, 2,947 records); `research-coverage.json` 764 bytes. Rendering all
   2,697 non-Level-3 instruments as real static pages, at a sampled real page
-  size of ~10,753 bytes/page, would cost ~27.66 MiB — roughly 4x the entire
-  current `site/` output — which is the concrete justification for the
+  size of ~10,753 bytes/page, would cost ~27.66 MiB — roughly 1.3x the
+  entire current `site/` output, and ~4.6x the current `company/` directory
+  alone (the 250 static pages) — which is the concrete justification for the
   static/serverless split. Level counts in the current frozen build: Level
   0: 0, Level 1: 2,697, Level 2: 0, Level 3: 250. Build durations for the
   three independent offline stages: site render ~2.16s, search-asset build

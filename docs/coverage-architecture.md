@@ -95,9 +95,10 @@ this count.
 
 **Static-equivalent cost estimate:** rendering all 2,697 non-Level-3
 instruments as real static pages, at a sampled real page size of ~10,753
-bytes/page, would cost approximately **~27.66 MiB** — roughly 4x the size of
-the entire current `site/` output and ~4.6x the current `company/` directory
-alone — for content that is mostly near-identical identity/quote boilerplate
+bytes/page, would cost approximately **~27.66 MiB** — roughly 1.3x the size
+of the entire current `site/` output, and ~4.6x the current `company/`
+directory alone (the 250 static pages) — for content that is mostly
+near-identical identity/quote boilerplate
 differing only in a few fields per company (symbol, exchange, ISIN,
 sector/industry if known, listing status, live quote). This is the concrete
 justification for serving those companies on demand rather than statically:

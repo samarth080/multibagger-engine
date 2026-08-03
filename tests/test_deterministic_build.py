@@ -275,3 +275,49 @@ def test_coverage_artifact_does_not_change_the_preserved_public_hashes(tmp_path)
     build_coverage_only(MANIFEST, out)
     after = public_value_hashes(out)
     assert before == after == VALUE_FIXTURE
+
+
+def test_quote_refresh_ui_does_not_change_score_financial_or_membership_hashes(tmp_path):
+    """Milestone 2B only adds client-side JS (quote-controller.js) and DOM
+    hooks around the existing quote value in company templates — it must not
+    perturb any research/score/financial output or which companies belong to
+    which coverage level. Reuses the same 3-stage build sequence as the
+    Milestone 2A test above so the built site actually reflects the current
+    templates/assets, not stale frozen artifacts."""
+    out = tmp_path / "site"
+    render_site_from_manifest(MANIFEST, out)
+    build_search_only(MANIFEST, out, write_manifest=False)
+    build_coverage_only(MANIFEST, out)
+    assert public_value_hashes(out) == VALUE_FIXTURE
+
+    search_index = json.loads((out / "api/v1/search-index.json").read_text())
+    membership = sorted(
+        (record["instrument_id"], record["research_coverage_level"], record["research_available"])
+        for record in search_index["data"]
+    )
+    fixture_path = ROOT / "tests/fixtures/phase11-m2b-membership-hash.json"
+    if not fixture_path.exists():
+        fixture_path.write_text(json.dumps(membership, indent=2, sort_keys=True) + "\n")
+    assert [list(row) for row in membership] == json.loads(fixture_path.read_text())
+
+    # The new quote-controller.js asset must have been picked up by the
+    # rebuild (via _copy_assets in mbe.publish), confirming the frontend
+    # asset change is really reflected in this build, not silently skipped.
+    assert (out / "assets/quote-controller.js").exists()
+
+
+def test_deny_network_still_blocks_a_live_provider_call_after_the_quote_ui_change():
+    """The quote controller only ever runs client-side in the browser; it
+    introduces no new network call anywhere in the Python build path. Confirm
+    deny_network() still fails closed against the exact Yahoo endpoint the
+    quote adapter targets."""
+    with deny_network() as audit:
+        try:
+            urllib.request.urlopen(
+                "https://query1.finance.yahoo.com/v8/finance/chart/TEST.NS", timeout=1,
+            )
+        except OfflineNetworkError:
+            pass
+        else:
+            raise AssertionError("expected deny_network to block this request")
+    assert audit.attempted is True

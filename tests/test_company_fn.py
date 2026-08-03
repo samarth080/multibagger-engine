@@ -100,3 +100,17 @@ def test_level_0_instrument_renders_identity_only_label_without_fetching_a_quote
     assert status == 200
     assert "Level 0 — Identity Coverage" in html
     assert calls == []
+
+
+def test_every_coverage_level_resolves_without_a_404():
+    index = [
+        {**RELIANCE, "instrument_id": "id-l0", "provider_symbol": None},
+        {**RELIANCE, "instrument_id": "id-l1", "provider_symbol": "L1.NS"},
+    ]
+    for row in index:
+        status, _html = company_fn.render_company(row["instrument_id"], index=index, quote_fetcher=lambda s: None)
+        assert status == 200
+    # Level 3 is verified separately: it is served as a static file by
+    # Vercel before this function ever runs (see api/company.py's docstring
+    # and mbe.publish.render_site), so a 200-from-static-file check belongs
+    # with the existing render_site tests, not here.

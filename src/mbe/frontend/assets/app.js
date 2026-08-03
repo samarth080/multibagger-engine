@@ -604,11 +604,48 @@
   function riskClass(value) { if (value == null) return "risk-medium"; if (value <= 25) return "risk-low"; if (value <= 60) return "risk-medium"; return "risk-high"; }
   function trendClass(value) { const trend = String(value || "unknown"); if (trend.includes("up")) return "trend-up"; if (trend.includes("down")) return "trend-down"; if (trend === "sideways") return "trend-sideways"; return "trend-unknown"; }
 
+  // Wire-shape normalization is shared with research.js via quote-controller.js
+  // (MBEQuoteController.fromApiQuote/fromLegacyQuote) rather than duplicated here.
+  function renderQuoteCommon(span, common) {
+    if (!common || common.price == null) { span.textContent = "Unavailable"; span.title = "No usable quote for this instrument."; return; }
+    const change = common.changePct; const stale = common.freshnessState === "stale";
+    span.className = stale || !Number.isFinite(change) ? "cell-note" : change >= 0 ? "quote-gain" : "quote-loss";
+    span.replaceChildren(create("strong", "", `₹${formatNumber(common.price, 2)}${Number.isFinite(change) ? ` ${change >= 0 ? "+" : ""}${formatNumber(change, 2)}%` : ""}`));
+    const notes = [stale ? "Stale" : null, common.marketStatus, Number.isFinite(common.delayMinutes) && common.delayMinutes > 0 ? `${common.delayMinutes}m delay` : null, common.providerTimestamp ? new Date(common.providerTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) + " IST" : null].filter(Boolean);
+    if (notes.length) span.append(create("span", "cell-note", notes.join(" · ")));
+    span.title = common.stalenessReason || "";
+  }
+
   function initRankings() {
     const root = qs("[data-rankings-app]"); if (!root) return;
     const tbody = qs("[data-ranking-rows]", root); const table = qs("[data-rankings-table]", root); const form = qs("[data-filter-form]", root);
     const tableState = qs("[data-table-state]", root); const preference = document.body.dataset.dataMode || "auto";
-    let state = parseRankingState(global.location.search); let response = null; let requestSequence = 0; let quoteUnavailable = false;
+    let state = parseRankingState(global.location.search); let response = null; let requestSequence = 0;
+    const quoteSymbolByInstrumentId = new Map(); const quoteRowUnregisters = new Map();
+    const quotesRetryButton = create("button", "button button-small button-quiet", "Retry quotes");
+    quotesRetryButton.type = "button"; quotesRetryButton.hidden = true; quotesRetryButton.dataset.quotesRetry = "";
+    quotesRetryButton.setAttribute("aria-label", "Retry loading live rankings quotes");
+    qs("[data-mode-badge]")?.insertAdjacentElement("afterend", quotesRetryButton);
+    const controllerFactory = global["MBEQuoteController"];
+    const fetchRankingQuotes = async ids => {
+      const result = new Map(); if (!ids.length) return result;
+      if (response && response.mode === "api") {
+        const payload = await fetchJson(`${API.quotes}?instrument_ids=${encodeURIComponent(ids.join(","))}`, { timeout: 9000 });
+        for (const quote of payload.data?.quotes || []) result.set(String(quote.instrument_id), controllerFactory.fromApiQuote(quote));
+      } else {
+        const symbols = [...new Set(ids.map(id => quoteSymbolByInstrumentId.get(id)).filter(Boolean))];
+        const payload = symbols.length ? await fetchJson(`/api/quotes?symbols=${encodeURIComponent(symbols.join(","))}`, { timeout: 9000 }) : { quotes: {} };
+        for (const id of ids) { const symbol = quoteSymbolByInstrumentId.get(id); if (symbol) result.set(id, controllerFactory.fromLegacyQuote(payload.quotes?.[symbol])); }
+      }
+      return result;
+    };
+    const quoteController = controllerFactory ? controllerFactory.create({
+      onAnnounce: announce,
+      // Only surface Unavailable/retry once retries truly stop, not per failure.
+      onStateChange: nextState => { quotesRetryButton.hidden = nextState !== "stopped"; if (nextState === "stopped") qsa("[data-quote]", tbody).forEach(span => renderQuoteCommon(span, null)); },
+      fetchQuotes: fetchRankingQuotes,
+    }) : null;
+    quotesRetryButton.addEventListener("click", () => quoteController?.retry());
 
     const syncForm = () => {
       for (const name of ["q", "sector", "industry", "trend", "minScore", "minConfidence", "maxRisk"]) { const input = form.elements.namedItem(name); if (input) input.value = state[name] == null ? "" : String(state[name]); }
@@ -643,6 +680,7 @@
     };
     const renderRows = rows => {
       tbody.replaceChildren();
+      const nextInstrumentIds = new Set();
       for (const row of rows) {
         const tr = create("tr"); tr.dataset.instrumentId = row.instrument_id;
         const rank = cell("td", "rank"); rank.append(create("strong", "", row.rank)); const movement = row.rank_change > 0 ? `↑ ${row.rank_change}` : row.rank_change < 0 ? `↓ ${Math.abs(row.rank_change)}` : "—"; rank.append(create("span", "cell-note", movement)); tr.append(rank);
@@ -653,29 +691,25 @@
         const risk = cell("td", "risk", "number"); risk.append(create("span", `risk-mark ${riskClass(row.risk_score)}`, formatNumber(row.risk_score, 0))); tr.append(risk);
         const trend = cell("td", "trend"); trend.append(create("span", `trend ${trendClass(row.technical_trend)}`, String(row.technical_trend).replaceAll("_", " "))); tr.append(trend);
         const quote = cell("td", "quote", "number"); const quoteSpan = create("span", "cell-note", "Loading…"); quoteSpan.dataset.quote = row.instrument_id; quoteSpan.dataset.symbol = row.legacy_ticker; quoteSpan.dataset.base = String(row.price_at_build || ""); quote.append(quoteSpan); tr.append(quote);
+        if (row.instrument_id) {
+          nextInstrumentIds.add(row.instrument_id); quoteSymbolByInstrumentId.set(row.instrument_id, row.legacy_ticker);
+          // Rows are rebuilt every render, so drop any watcher left over from
+          // a prior render of this id before registering the fresh span.
+          quoteRowUnregisters.get(row.instrument_id)?.();
+          if (quoteController) quoteRowUnregisters.set(row.instrument_id, quoteController.register(row.instrument_id, result => renderQuoteCommon(quoteSpan, result)));
+        }
         const signals = cell("td", "signals"); signals.append(create("span", "", `${row.positive_signal_count} positive`), create("span", "cell-note", `${row.red_flag_count} flags`)); tr.append(signals);
         const freshness = cell("td", "freshness"); freshness.append(create("span", `badge ${row.has_missing_data ? "badge-warning" : "badge-positive"}`, row.has_missing_data ? "Partial inputs" : "Complete inputs")); tr.append(freshness);
         const actions = cell("td", "actions"); const group = create("span", "row-actions"); const report = create("a", "button button-small", "Research"); report.href = reportDestination(row); const details = create("button", "row-action", "⋯"); details.type = "button"; details.setAttribute("aria-label", `Show score details for ${row.name}`); details.setAttribute("aria-expanded", "false"); details.addEventListener("click", () => { const existing = qs(`[data-details-for="${row.instrument_id}"]`, tbody); if (existing) { existing.remove(); details.setAttribute("aria-expanded", "false"); } else { tr.after(buildDetails(row)); details.setAttribute("aria-expanded", "true"); } }); const copy = create("button", "row-action", "⧉"); copy.type = "button"; copy.setAttribute("aria-label", `Copy direct link for ${row.name}`); copy.addEventListener("click", async () => { try { await global.navigator.clipboard.writeText(new URL(report.href, global.location.href).href); announce(`Copied report link for ${row.name}`); } catch (_) { announce("Could not copy the link"); } }); group.append(report, details, copy); actions.append(group); tr.append(actions); tbody.append(tr);
       }
-      applyColumns(); loadQuotes(rows);
+      // Drop watchers for ids no longer on screen so they never accumulate.
+      for (const [id, unregister] of quoteRowUnregisters) {
+        if (!nextInstrumentIds.has(id)) { unregister(); quoteRowUnregisters.delete(id); quoteSymbolByInstrumentId.delete(id); }
+      }
+      applyColumns(); quoteController?.start();
     };
     const renderPagination = meta => { const pages = Math.max(0, meta.total_pages); setText("[data-page-summary]", pages ? `Page ${meta.page} of ${pages}` : "No pages", root); const previous = qs("[data-page-prev]", root); const next = qs("[data-page-next]", root); previous.disabled = meta.page <= 1; next.disabled = !pages || meta.page >= pages; };
     const renderSort = () => { qsa("th[aria-sort]", table).forEach(th => { const active = qs(`[data-sort="${state.sort}"]`, th); const isActive = Boolean(active); th.setAttribute("aria-sort", isActive ? (state.dir === "asc" ? "ascending" : "descending") : "none"); setText(".sort-indicator", isActive ? (state.dir === "asc" ? "↑" : "↓") : "", th); }); };
-    const loadQuotes = async rows => {
-      if (quoteUnavailable || !rows.length) return; const spans = qsa("[data-quote]", tbody); const ids = [...new Set(rows.map(row => row.instrument_id).filter(Boolean))].slice(0, 30);
-      try {
-        if (response.mode === "api") {
-          const payload = await fetchJson(`${API.quotes}?instrument_ids=${encodeURIComponent(ids.join(","))}`, { timeout: 9000 }); const byId = new Map((payload.data?.quotes || []).map(quote => [quote.instrument_id, quote])); spans.forEach(span => renderQuote(span, byId.get(span.dataset.quote), "api"));
-        } else {
-          const symbols = [...new Set(rows.map(row => row.legacy_ticker).filter(Boolean))].slice(0, 30); const payload = await fetchJson(`/api/quotes?symbols=${encodeURIComponent(symbols.join(","))}`, { timeout: 9000 }); spans.forEach(span => renderQuote(span, payload.quotes?.[span.dataset.symbol], "legacy"));
-        }
-      } catch (_) { quoteUnavailable = true; spans.forEach(span => { span.textContent = "Unavailable"; span.title = "Quote service is unavailable; ranking data remains valid."; }); }
-    };
-    const renderQuote = (span, quote, mode) => {
-      if (!quote) { span.textContent = "Unavailable"; span.title = "No usable quote for this instrument."; return; }
-      const price = mode === "api" ? quote.last_price : quote.price; const change = mode === "api" ? quote.percentage_change : quote.day_change_pct; const stale = mode === "api" ? quote.freshness_state === "stale" : quote.is_stale; const delay = mode === "api" ? quote.reported_delay_minutes : quote.delay_minutes; const timestamp = mode === "api" ? quote.provider_timestamp : quote.as_of;
-      span.className = stale || !Number.isFinite(change) ? "cell-note" : change >= 0 ? "quote-gain" : "quote-loss"; span.replaceChildren(create("strong", "", `₹${formatNumber(price, 2)}${Number.isFinite(change) ? ` ${change >= 0 ? "+" : ""}${formatNumber(change, 2)}%` : ""}`)); const notes = [stale ? "Stale" : null, quote.market_status, Number.isFinite(delay) && delay > 0 ? `${delay}m delay` : null, timestamp ? new Date(timestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) + " IST" : null].filter(Boolean); if (notes.length) span.append(create("span", "cell-note", notes.join(" · "))); span.title = quote.staleness_reason || quote.stale_reason || "";
-    };
     const load = async () => {
       const sequence = ++requestSequence; showLoading(); renderChips(); renderSort();
       try {

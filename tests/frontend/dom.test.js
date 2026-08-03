@@ -39,6 +39,7 @@ async function application() {
     }
     return response({}, 404);
   };
+  window.eval(fs.readFileSync(path.join(root, "src/mbe/frontend/assets/quote-controller.js"), "utf8"));
   window.eval(fs.readFileSync(path.join(root, "src/mbe/frontend/assets/app.js"), "utf8"));
   window.document.dispatchEvent(new window.Event("DOMContentLoaded", { bubbles: true }));
   await wait(80);
@@ -68,6 +69,41 @@ test("generated shell falls back to static rankings and supports URL-state inter
   density.dispatchEvent(new window.Event("change", { bubbles: true }));
   assert.equal(document.querySelector("[data-rankings-table]").dataset.density, "compact");
   assert.deepEqual(errors, []);
+  dom.window.close();
+});
+
+test("rankings quotes refresh through the shared controller and expose a manual retry after backoff stops", async () => {
+  const { dom, window } = await application();
+  const document = window.document;
+  // quote-controller.js's real default maxConsecutiveFailures is 5, and its
+  // backoff is 5s/10s/20s/40s/80s — waiting through that for real (~155s)
+  // is unacceptable in a test, and this is production rankings-page code,
+  // not test-only code, so the defaults must not be lowered just to make the
+  // test fast. Instead, mirror the technique Task 2's research.test.js used
+  // for the same problem: the first failure happens automatically once
+  // application() finishes booting (initRankings() registers the page's rows
+  // and starts the controller, which immediately attempts one fetch); the
+  // remaining failures are driven by manual retry() clicks, which bypass the
+  // pending backoff timer entirely and run immediately.
+  const maxConsecutiveFailures = 5;
+  window.fetch = async input => {
+    const url = new URL(String(input), window.location.href);
+    if (url.pathname === "/api/v1/status" || url.pathname === "/api/v1/rankings") return response({}, 503);
+    if (url.pathname === "/api/quotes") return response({}, 503);
+    if (url.pathname.endsWith(".json")) return response(JSON.parse(fs.readFileSync(path.join(root, "site", url.pathname.replace(/^\//, "")), "utf8")));
+    return response({}, 404);
+  };
+  const retry = document.querySelector("[data-quotes-retry]");
+  assert.ok(retry, "a manual retry control must exist near the mode badge");
+  assert.equal(retry.tagName, "BUTTON");
+  assert.ok(retry.hidden, "retry control must stay hidden while the controller is still silently auto-retrying a transient failure");
+  for (let i = 1; i < maxConsecutiveFailures; i += 1) {
+    retry.dispatchEvent(new window.Event("click", { bubbles: true }));
+    await wait(20);
+  }
+  assert.ok(!retry.hidden, "a manual retry control must appear once automatic backoff stops");
+  const firstSpan = document.querySelector("[data-ranking-rows] [data-quote]");
+  assert.equal(firstSpan.textContent.trim(), "Unavailable");
   dom.window.close();
 });
 

@@ -46,12 +46,14 @@ const searchIndex = [
     exchange: "NSE", isin: "INE000C01019", listing_status: "active", aliases: [],
     result_type: "modeled", research_available: true, rank: 4, multibagger_score: 71.2,
     confidence: 0.8, risk_score: 20, report_url: "/company/id-modeled.html",
+    research_coverage_level: 3, coverage_label: "Level 3 — Full Research",
   },
   {
     instrument_id: "id-unmodeled", display_name: "Unmodeled Industries Limited", symbol: "UNMODELED",
     exchange: "NSE", isin: "INE000D01010", listing_status: "active", aliases: [],
     result_type: "known", research_available: false, rank: null, multibagger_score: null,
     confidence: null, risk_score: null, report_url: "/company/id-unmodeled.html",
+    research_coverage_level: 1, coverage_label: "Level 1 — Market Coverage",
   },
 ];
 
@@ -103,6 +105,8 @@ test("static search carries research/ranking status through so the UI can badge 
   assert.equal(modeled.rank, 4);
   assert.equal(modeled.multibagger_score, 71.2);
   assert.equal(modeled.report_url, "/company/id-modeled.html");
+  assert.equal(modeled.research_coverage_level, 3);
+  assert.equal(modeled.coverage_label, "Level 3 — Full Research");
 
   const unmodeled = app.staticSearch(searchIndex, "Unmodeled Industries")[0];
   assert.equal(unmodeled.result_type, "known");
@@ -110,6 +114,16 @@ test("static search carries research/ranking status through so the UI can badge 
   assert.equal(unmodeled.rank, null);
   assert.equal(unmodeled.multibagger_score, null);
   assert.equal(unmodeled.report_url, "/company/id-unmodeled.html");
+  assert.equal(unmodeled.research_coverage_level, 1);
+  assert.equal(unmodeled.coverage_label, "Level 1 — Market Coverage");
+});
+
+test("researchBadgeText maps each coverage level to its public label", () => {
+  assert.equal(app.researchBadgeText(3), "Full Research");
+  assert.equal(app.researchBadgeText(2), "Financial Coverage");
+  assert.equal(app.researchBadgeText(1), "Market Coverage");
+  assert.equal(app.researchBadgeText(0), "Identity Only");
+  assert.equal(app.researchBadgeText(undefined), "Identity Only");
 });
 
 test("staticSearch finds a full-phrase match not covered by prefix or word match", () => {

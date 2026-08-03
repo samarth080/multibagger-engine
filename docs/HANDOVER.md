@@ -2315,9 +2315,10 @@ expansion.
 - Full detail, exact module/field references and the Milestone 2B
   recommendation: [`coverage-architecture.md`](coverage-architecture.md).
 - Verification: 699 Python tests and 36 frontend tests passed.
-- Working-tree/commit/deployment state: working tree only; not committed,
-  pushed or deployed; no migration, no scoring/ranking/financial-value
-  change; PostgreSQL still not provisioned.
+- Working-tree/commit/deployment state: committed locally on branch
+  `phase11-m2a-coverage` (20 commits); not merged, pushed or deployed; no
+  migration, no scoring/ranking/financial-value change; PostgreSQL still
+  not provisioned.
 
 ## End-of-phase update template
 

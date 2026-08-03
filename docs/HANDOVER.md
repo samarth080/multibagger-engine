@@ -186,6 +186,12 @@ Phase 2–8 regression this phase fixes — silently limits what users can find
 to whatever the scoring model currently covers. Full design in
 `search-architecture.md`.
 
+Since Phase 11 Milestone 2A, every search-universe company's position
+between these three universes is expressed as one of four formal, versioned
+coverage levels (Identity / Market / Financial / Full Research) rather than
+an implicit modeled-or-not split — see
+[`coverage-architecture.md`](coverage-architecture.md).
+
 ## Phase ledger
 
 | Phase | Status | Completed | Verification | Deployment state |
@@ -2219,6 +2225,100 @@ expansion.
   persist membership history, and publish coverage/eligibility reports. Do not
   calculate or expose large/mid-cap rankings until universe-specific model
   configurations are reviewed and validated in Milestone 3.
+
+## Phase 11 Milestone 2A — universal company report coverage architecture (2026-08-03)
+
+- Status: Complete locally; not pushed or deployed.
+- Objective achieved: every one of the 2,947 search-universe companies now
+  carries a deterministic, versioned coverage-level assessment instead of a
+  binary "has research page or not" split, and the ~2,697 non-Level-3
+  companies are served an honest, coverage-appropriate page rather than a
+  flat "not researched" placeholder.
+- Four coverage levels (`mbe.coverage.domain.CoverageLevel`, assigned by the
+  single `mbe.coverage.policy.assess_coverage()` function every caller
+  shares): **Level 0 — Identity Coverage** (identity only, the floor);
+  **Level 1 — Market Coverage** (identity plus live quote, requires a
+  provider symbol); **Level 2 — Financial Coverage** (adds a financial
+  summary, requires financial data and a provider symbol); **Level 3 — Full
+  Research** (the existing full research page, requires model score, full
+  research payload, financial data and provider symbol together, all four).
+  Each level's page sections are a strict superset of the previous level's.
+- Policy version `RESEARCH_COVERAGE_POLICY_VERSION = "2026-08-03.11.2a.1"`
+  (`coverage_level_version` for the level/section taxonomy is tracked
+  separately as `"1.0"`).
+- The existing 250 Level-3 pages are byte-for-byte unchanged: same score
+  hash (`12a5ef89c5584…`), same financial hash (`3e992181163743…`), same
+  research-universe membership. This milestone is purely additive to the
+  other ~2,697 instruments and to search/API metadata.
+- Static/serverless decision, with real measured numbers from a full
+  offline+search+coverage-artifact build: the 250 Level-3 pages stay static;
+  the other ~2,697 instruments are served by the coverage-aware
+  `api/company.py` serverless fallback, computing `assess_coverage()` on
+  demand from the bundled search index. `site/` total ~21.02 MiB
+  (22,043,312 bytes); `site/company/` (250 static pages) ~6.06 MiB
+  (6,352,941 bytes); `search-index.json` average record 1,725.9 bytes (max
+  1,953, 2,947 records); `research-coverage.json` 764 bytes. Rendering all
+  2,697 non-Level-3 instruments as real static pages, at a sampled real page
+  size of ~10,753 bytes/page, would cost ~27.66 MiB — roughly 1.3x the
+  entire current `site/` output, and ~4.6x the current `company/` directory
+  alone (the 250 static pages) — which is the concrete justification for the
+  static/serverless split. Level counts in the current frozen build: Level
+  0: 0, Level 1: 2,697, Level 2: 0, Level 3: 250. Build durations for the
+  three independent offline stages: site render ~2.16s, search-asset build
+  ~1.19s, coverage-artifact build ~0.89s.
+- New artifact: `site/data/research-coverage.json`
+  (`mbe.builds.offline.build_coverage_only`), aggregating per-record
+  coverage fields already written into `search-index.json` — schema
+  version, coverage policy version, build IDs, instrument count, level
+  counts, coverage-reason tally, generated-at and source hashes.
+- New API surface: `GET /api/v1/company/{instrument_id}/coverage`
+  (`CoverageData` envelope) and additive coverage fields on
+  `GET /api/v1/company/{instrument_id}/summary` — both DB-backed, both
+  return the standard bounded 503 `database_not_configured` error when
+  PostgreSQL isn't provisioned, same as every other dynamic route.
+- New search fields: `SearchIndexRecord` gains `research_coverage_level`,
+  `coverage_label`, `coverage_level_version`, `research_coverage_status`,
+  `research_eligible`, `research_eligibility_reasons`,
+  `research_sections_available`, `research_sections_missing`,
+  `coverage_policy_version` and `financial_available`; `app.js`'s
+  `researchBadgeText()` renders the four public badges ("Full Research",
+  "Financial Coverage", "Market Coverage", "Identity Only"). Ranking and
+  match-tier logic (`SEARCH_RANKING_POLICY_VERSION`) are unchanged — coverage
+  is exposed as data on each result, not folded into ranking.
+- Known limitation: **Level 2 has zero real members today.** Financial data
+  is only computed for the 250 Smallcap-model companies
+  (`scripts/build_financials.py` is scoped to
+  `universes/nifty-smallcap250-instruments.json`), so every instrument with
+  financial data today also qualifies for Level 3 outright — there is no
+  financial data source yet for any other instrument, and ingesting one is
+  out of scope for this milestone. Level 2 is fully specified, policy-tested
+  and template-tested, but will show 0 members until a broader financial
+  data source exists.
+- Pre-deploy step required: the checked-in `site/api/v1/search-index.json`
+  predates this milestone and does not yet carry the new coverage fields.
+  Regenerating it (`scripts/build_search_assets.py` then
+  `scripts/build_coverage_artifact.py` against the frozen manifest, then
+  committing the refreshed `search-index.json` and `research-coverage.json`)
+  was deliberately not done as part of this milestone's implementation,
+  since it touches a checked-in build artifact whose interaction with
+  `builds/manifests/phase11-m1-frozen-inputs.json`'s pinned artifact hashes
+  needs explicit human review — verified safe for the score/financial hash
+  gate specifically, but the broader frozen-manifest interaction was not
+  fully characterized.
+- Tooling gap found, not yet fixed: `scripts/verify_release.py`'s hardcoded
+  expected JSON count (509) doesn't account for the new
+  `research-coverage.json` artifact, and its offline-build check expects
+  `build-manifest.json`'s `build_mode` to read `"offline"`, but running the
+  search-asset/coverage-artifact stages after `build_site.py` leaves it
+  stamped `"search-only"` (the last stage's own label). Does not affect the
+  real checked-in `site/`, which still passes `verify_release.py` cleanly.
+- Full detail, exact module/field references and the Milestone 2B
+  recommendation: [`coverage-architecture.md`](coverage-architecture.md).
+- Verification: 699 Python tests and 36 frontend tests passed.
+- Working-tree/commit/deployment state: committed locally on branch
+  `phase11-m2a-coverage` (20 commits); not merged, pushed or deployed; no
+  migration, no scoring/ranking/financial-value change; PostgreSQL still
+  not provisioned.
 
 ## End-of-phase update template
 

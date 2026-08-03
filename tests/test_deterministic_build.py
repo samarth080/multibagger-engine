@@ -17,7 +17,8 @@ from mbe.builds.domain import (
 )
 from mbe.builds.network import OfflineNetworkError, deny_network
 from mbe.builds.offline import (
-    build_search_only, render_frontend_only, render_site_from_manifest, tree_digest,
+    build_coverage_only, build_search_only, render_frontend_only,
+    render_site_from_manifest, tree_digest,
 )
 from mbe.builds.pipeline import (
     build_financials_from_model, build_model_from_source,
@@ -253,3 +254,24 @@ def test_explicit_source_model_financial_research_pipeline_is_reproducible(
     )
     assert research["network_used"] is False
     assert research["research_count"] == 1
+
+
+def test_coverage_artifact_does_not_change_the_preserved_public_hashes(tmp_path):
+    """The score/financial hash gates only cover screener.json and
+    research/*.json — adding research-coverage.json must not perturb them.
+
+    build_coverage_only's own docstring requires build_search_only to have
+    run first against the same `out` (it only tallies fields already written
+    there, never recomputes them). render_site_from_manifest alone copies
+    the *frozen* search-index.json verbatim rather than recomputing it, so
+    build_search_only is run here too to reproduce the real 3-stage
+    site/search/coverage build sequence (see scripts/build_site.py,
+    scripts/build_search_assets.py, scripts/build_coverage_artifact.py)."""
+    from mbe.builds.offline import build_coverage_only, build_search_only, render_site_from_manifest
+    out = tmp_path / "site"
+    render_site_from_manifest(MANIFEST, out)
+    build_search_only(MANIFEST, out, write_manifest=False)
+    before = public_value_hashes(out)
+    build_coverage_only(MANIFEST, out)
+    after = public_value_hashes(out)
+    assert before == after == VALUE_FIXTURE

@@ -5,6 +5,8 @@
   <header class="company-hero panel" aria-labelledby="company-title">
     <div class="company-identity">
       <p class="eyebrow">{{ research.identity.index_membership }} · {{ research.identity.exchange }}</p>
+      <span class="badge badge-positive" role="status">Level 3 — Full Research</span>
+      <p class="cell-note">Included in the Small-Cap research model.</p>
       <h1 id="company-title">{{ research.identity.display_name }}</h1>
       {% if research.identity.legal_name and research.identity.legal_name != research.identity.display_name %}<p>{{ research.identity.legal_name }}</p>{% endif %}
       <p class="company-meta">{{ research.identity.symbol }}{% if research.identity.isin %} · {{ research.identity.isin }}{% endif %} · {{ research.identity.sector or 'Sector unavailable' }} · {{ research.identity.industry or 'Industry unavailable' }}</p>

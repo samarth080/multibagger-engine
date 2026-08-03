@@ -22,6 +22,8 @@ from mbe.data.registry import ProviderRegistry
 from mbe.db.base import Base
 from mbe.db.models import ProviderSymbolRow
 from mbe.db.repository import PlatformRepository
+from mbe.financials.projection import financial_build, project_history
+from mbe.financials.repository import persist_projection_build
 from mbe.instruments.importer import import_instruments
 from mbe.models.instrument import FreshnessState, QualityStatus
 from mbe.pipeline import screen
@@ -73,6 +75,16 @@ def api():
     )
     with Session(engine) as session:
         PlatformRepository(session).persist_build(manifest, result, {"GOOD.NS": ids["GOOD.NS"]})
+        # GOOD.NS represents a fully-modeled Level 3 company — matching
+        # production, where build_financials.py runs for every company in
+        # the modeled universe — so seed real financial-dataset rows for it
+        # rather than letting coverage assessment assume financial data
+        # exists just because a model score does.
+        projections = [
+            project_history(bundle.fin, instrument_id=ids[bundle.card.ticker], cutoff=manifest.data_cutoff)
+            for bundle in result.ranked
+        ]
+        persist_projection_build(session, financial_build(projections, cutoff=manifest.data_cutoff), projections)
     registry = ProviderRegistry()
     registry.register("quotes", "mock", MockQuotes(), default=True)
     return TestClient(create_app(engine=engine, provider_registry=registry)), ids, manifest
@@ -154,3 +166,40 @@ def test_company_summary_unknown_instrument_is_404(api):
     response = client.get("/api/v1/company/not-a-real-id/summary")
     assert response.status_code == 404
     assert response.json()["errors"][0]["code"] == "company_not_found"
+
+
+def test_coverage_route_returns_level_3_for_a_modeled_instrument(api):
+    client, ids, _ = api
+    response = client.get(f"/api/v1/company/{ids['GOOD.NS']}/coverage")
+    assert response.status_code == 200
+    data = response.json()["data"]
+    assert data["research_coverage_level"] == 3
+    assert data["research_eligible"] is True
+    assert "score" not in data
+
+
+def test_coverage_route_returns_level_1_for_an_unmodeled_instrument(api):
+    client, ids, _ = api
+    response = client.get(f"/api/v1/company/{ids['RELIANCE.NS']}/coverage")
+    assert response.status_code == 200
+    data = response.json()["data"]
+    assert data["research_coverage_level"] == 1
+    assert data["research_eligible"] is False
+    assert "not_in_model_universe" in data["research_eligibility_reasons"]
+
+
+def test_coverage_route_unknown_instrument_is_404(api):
+    client, _, _ = api
+    response = client.get("/api/v1/company/not-a-real-id/coverage")
+    assert response.status_code == 404
+    assert response.json()["errors"][0]["code"] == "company_not_found"
+
+
+def test_summary_route_gains_additive_coverage_fields(api):
+    client, ids, _ = api
+    response = client.get(f"/api/v1/company/{ids['RELIANCE.NS']}/summary")
+    assert response.status_code == 200
+    data = response.json()["data"]
+    assert data["research_coverage_level"] == 1
+    assert data["coverage_label"] == "Level 1 — Market Coverage"
+    assert data["research_eligible"] is False

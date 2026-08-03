@@ -24,17 +24,20 @@ from sqlalchemy.orm import Session
 
 from mbe import __version__
 from mbe.api.schemas import (
-    ApiError, CompanySummaryData, Envelope, HealthData, InstrumentData, ListingData,
+    ApiError, CompanySummaryData, CoverageData, Envelope, HealthData, InstrumentData, ListingData,
     LookupCandidate, MethodologyData, PageMeta, QuoteBatchData, RankingData, RankingDetailData,
     ScreenerResultData, SearchMetaData, SearchResultData, StatusData,
 )
+from mbe.coverage.domain import CoverageAssessment
+from mbe.coverage.policy import assess_coverage
 from mbe.data.market import QuoteRequest
 from mbe.data.registry import ProviderRegistry, default_registry
 from mbe.db.base import create_database_engine, database_url, session_factory
 from mbe.db.models import ProviderSymbolRow
-from mbe.db.models import InstrumentListingRow, InstrumentRow, ModelBuildRow, ScoreSnapshotRow
+from mbe.db.models import FinancialMetricSnapshotRow, InstrumentListingRow, InstrumentRow, ModelBuildRow, ScoreSnapshotRow
 from mbe.financials.metrics import FINANCIAL_METRICS, METRIC_DEFINITION_VERSION
 from mbe.financials.repository import coverage as financial_coverage_data, instrument_summary as financial_instrument_summary
+from mbe.financials.repository import latest_build as latest_financial_build
 from mbe.financials.official_repository import (
     filing_detail as official_filing_detail,
     filing_list as official_filing_list,
@@ -298,6 +301,33 @@ def create_app(
         )).all()
         return {row.instrument_id: row for row in rows}
 
+    def _has_financial_data(session: Session, instrument_id: str) -> bool:
+        build = latest_financial_build(session)
+        if not build:
+            return False
+        count = session.scalar(select(func.count()).select_from(FinancialMetricSnapshotRow).where(
+            FinancialMetricSnapshotRow.financial_dataset_build_id == build.financial_dataset_build_id,
+            FinancialMetricSnapshotRow.instrument_id == instrument_id,
+        ))
+        return bool(count)
+
+    def _assess(session: Session, instrument_id: str, row: dict, score) -> CoverageAssessment:
+        return assess_coverage(
+            {
+                "instrument_id": instrument_id, "company_id": row.get("company_id"),
+                "isin": row.get("isin"), "bse_code": row.get("bse_code"),
+                "legal_name": row.get("legal_name"), "listing_status": row.get("listing_status"),
+                "is_sme": row.get("is_sme"),
+                "provider_symbol": next(
+                    (m["provider_symbol"] for m in row.get("provider_mappings", []) if m["provider"] == "yahoo"),
+                    None,
+                ),
+            },
+            has_financial_data=_has_financial_data(session, instrument_id),
+            has_model_score=score is not None,
+            has_full_research_payload=score is not None,
+        )
+
     def _listing_data(candidate) -> list[ListingData]:
         return [ListingData(
             exchange=listing.exchange, symbol=listing.symbol, bse_code=listing.bse_code,
@@ -447,6 +477,7 @@ def create_app(
                 ])[0]
         except Exception:
             quote = None
+        assessment = _assess(session, instrument_id, row, score)
         return _envelope(request, CompanySummaryData(
             instrument_id=instrument_id, display_name=row.get("display_name"),
             legal_name=row.get("legal_name"), symbol=row.get("symbol"), exchange=row.get("exchange"),
@@ -467,7 +498,27 @@ def create_app(
             quote=quote,
             ranking_universe_badge=None if research_available else RANKING_UNIVERSE_BADGE,
             scoring_disclosure=None if research_available else SCORING_DISCLOSURE,
+            research_coverage_level=assessment.research_coverage_level,
+            coverage_label=assessment.coverage_label,
+            research_eligible=assessment.research_eligible,
+            research_sections_available=assessment.research_sections_available,
+            research_sections_missing=assessment.research_sections_missing,
+            coverage_policy_version=assessment.coverage_policy_version,
         ))
+
+    @app.get("/api/v1/company/{instrument_id}/coverage", response_model=Envelope[CoverageData])
+    def company_coverage_route(
+        request: Request, instrument_id: str, session: Session = Depends(get_session),
+    ):
+        """Always-available coverage assessment — the same policy call the
+        static search index and api/company.py use. See
+        docs/coverage-architecture.md."""
+        row = PlatformRepository(session).instrument(instrument_id)
+        if not row:
+            raise HTTPException(404, {"code": "company_not_found", "message": "No matching listed company."})
+        score = _current_scores(session, [instrument_id]).get(instrument_id)
+        assessment = _assess(session, instrument_id, row, score)
+        return _envelope(request, CoverageData(**assessment.model_dump(mode="json")))
 
     @app.get("/api/v1/rankings", response_model=Envelope[list[RankingData]])
     def rankings(

@@ -177,6 +177,47 @@ def build_search_only(
     return result
 
 
+def build_coverage_only(manifest_path: Path, out: Path) -> dict:
+    """Aggregates the per-record coverage fields already written into
+    api/v1/search-index.json (by build_search_only) into a small reporting
+    artifact. Must run after build_search_only against the same `out` — it
+    does not recompute assess_coverage itself, only tallies what's already
+    there, so it can never disagree with the per-instrument data."""
+    manifest, root = load_manifest(manifest_path)
+    controlled_time = _controlled_time(manifest)
+    search_path = out / "api/v1/search-index.json"
+    with deny_network() as audit:
+        rows = json.loads(search_path.read_text())["data"]
+        level_counts = {"0": 0, "1": 0, "2": 0, "3": 0}
+        reason_counts: dict[str, int] = {}
+        for row in rows:
+            level_counts[str(row["research_coverage_level"])] += 1
+            for reason in row.get("research_eligibility_reasons", []):
+                reason_counts[reason] = reason_counts.get(reason, 0) + 1
+        payload = {
+            "schema_version": "1.0",
+            "coverage_policy_version": rows[0]["coverage_policy_version"] if rows else "",
+            "search_build_id": sha256_file(search_path),
+            "financial_build_id": manifest.financial_build_id,
+            "model_build_ids": [v for v in manifest.model_build_ids.values() if v],
+            "instrument_count": len(rows),
+            "level_counts": level_counts,
+            "coverage_reasons": reason_counts,
+            "generated_at": controlled_time.isoformat(),
+            "source_hashes": {
+                "search_index": sha256_file(search_path),
+                "financial_build": manifest.financial_build_id,
+                "model_build": next(iter(manifest.model_build_ids.values()), None),
+            },
+        }
+        target = out / "data/research-coverage.json"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps(payload, indent=1, sort_keys=True))
+    if audit.attempted:
+        raise AssertionError("offline coverage-artifact build attempted network access")
+    return payload
+
+
 def render_site_from_manifest(manifest_path: Path, out: Path) -> SiteBuildManifest:
     manifest, root = load_manifest(manifest_path)
     controlled_time = _controlled_time(manifest)

@@ -25,6 +25,41 @@
     return typeof value === "number" && Number.isFinite(value) ? value : fallback;
   }
 
+  // Shared wire-shape adapters: both research.js (company page) and app.js
+  // (rankings table) need to normalize the same two quote shapes into the
+  // common { price, changePct, marketStatus, freshnessState, ... } object
+  // this controller and its consumers' render() functions expect. Defining
+  // them once here — rather than duplicating them in every page script —
+  // keeps each page bundle smaller and keeps the two consumers from drifting
+  // apart on what "common" means.
+  function fromApiQuote(quote) {
+    if (!quote) return null;
+    return {
+      price: quote.last_price ?? null,
+      changePct: quote.percentage_change ?? null,
+      marketStatus: quote.market_status || "unknown",
+      freshnessState: quote.freshness_state || "unknown",
+      stalenessReason: quote.staleness_reason || null,
+      delayMinutes: quote.reported_delay_minutes ?? null,
+      providerTimestamp: quote.provider_timestamp || null,
+      error: Boolean(quote.error_code),
+    };
+  }
+
+  function fromLegacyQuote(quote) {
+    if (!quote) return null;
+    return {
+      price: quote.price ?? null,
+      changePct: quote.day_change_pct ?? null,
+      marketStatus: quote.market_status || "unknown",
+      freshnessState: quote.is_stale ? "stale" : "fresh",
+      stalenessReason: quote.stale_reason || null,
+      delayMinutes: quote.delay_minutes ?? null,
+      providerTimestamp: quote.as_of || null,
+      error: false,
+    };
+  }
+
   /**
    * @typedef {object} MBEQuoteControllerOptions
    * @property {(ids: string[]) => Promise<Map<string, object|null>>} fetchQuotes
@@ -230,7 +265,7 @@
     };
   }
 
-  const pure = { create };
+  const pure = { create, fromApiQuote, fromLegacyQuote };
   global["MBEQuoteController"] = pure;
   if (typeof module !== "undefined" && module.exports) module.exports = pure;
 })(/** @type {Window & typeof globalThis} */ (globalThis));

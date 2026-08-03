@@ -43,32 +43,6 @@
     storage?.setItem(key, JSON.stringify(ids)); comparisonButton.textContent = "Added to comparison";
     announce(`${symbol || "Company"} added to the local comparison list.`);
   });
-  function apiQuoteToCommon(quote) {
-    if (!quote) return null;
-    return {
-      price: quote.last_price ?? null,
-      changePct: quote.percentage_change ?? null,
-      marketStatus: quote.market_status || "unknown",
-      freshnessState: quote.freshness_state || "unknown",
-      stalenessReason: quote.staleness_reason || null,
-      delayMinutes: quote.reported_delay_minutes ?? null,
-      providerTimestamp: quote.provider_timestamp || null,
-      error: Boolean(quote.error_code),
-    };
-  }
-  function legacyQuoteToCommon(quote) {
-    if (!quote) return null;
-    return {
-      price: quote.price ?? null,
-      changePct: quote.day_change_pct ?? null,
-      marketStatus: quote.market_status || "unknown",
-      freshnessState: quote.is_stale ? "stale" : "fresh",
-      stalenessReason: quote.stale_reason || null,
-      delayMinutes: quote.delay_minutes ?? null,
-      providerTimestamp: quote.as_of || null,
-      error: false,
-    };
-  }
   const quoteRoot = /** @type {HTMLElement | null} */ (root.querySelector("[data-company-quote]"));
   // Task 4 (rankings table) may need this same rule; if so it should define
   // its own copy rather than importing from research.js — quote-controller.js
@@ -76,7 +50,7 @@
   const listingStatus = String(root.dataset.listingStatus || "active");
   const priceNode = /** @type {HTMLElement | null | undefined} */ (quoteRoot?.querySelector("[data-quote-price]"));
   const changeNode = /** @type {HTMLElement | null | undefined} */ (quoteRoot?.querySelector("[data-quote-change]"));
-  const controllerFactory = /** @type {{ create: Function } | undefined} */ (global["MBEQuoteController"]);
+  const controllerFactory = /** @type {{ create: Function, fromApiQuote: Function, fromLegacyQuote: Function } | undefined} */ (global["MBEQuoteController"]);
   // priceNode/changeNode are the minimum markup this block can render into
   // (and imply quoteRoot exists, since they're queried from it); without them
   // there is nothing to update, so skip creating (and starting) a controller
@@ -128,9 +102,9 @@
     const payload = await response.json();
     const result = new Map();
     if (apiMode) {
-      for (const quote of payload.data?.quotes || []) result.set(String(quote.instrument_id), apiQuoteToCommon(quote));
+      for (const quote of payload.data?.quotes || []) result.set(String(quote.instrument_id), controllerFactory.fromApiQuote(quote));
     } else {
-      result.set(instrumentId, legacyQuoteToCommon(payload.quotes?.[legacySymbol]));
+      result.set(instrumentId, controllerFactory.fromLegacyQuote(payload.quotes?.[legacySymbol]));
     }
     return result;
   }

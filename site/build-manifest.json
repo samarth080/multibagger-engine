@@ -27,7 +27,7 @@
     "company_pages": "c21678a6c8dec24c463303b172ccff316d8fd40767d08da45a4be67f01cce2bf",
     "data": "b4183810494419c60049727f9cfe242808554917b0ab588bf53026399f643a64",
     "financials": "52ed95a8e71e3095fb0a46581443a77bf4b502e64a0cc8caec02aac00ab85936",
-    "frontend_assets": "b7466fcd3f2e035f1ceaf2740c3008daaeb74ae7c55b046ec27395171b6ed274",
+    "frontend_assets": "1cc10641451fba766756534ac0dde8c6920b60314237c7f817d339e14368b6dd",
     "index_html": "c53d8dfff7db9248737da18e930d22fca0045efe11d14ca56bec124c056bccd1",
     "legacy_pages": "65c3fc38cbe72d5f607cb8814cadd9c9849671f86f57c5ba3dec6b09ae39e9fc",
     "methodology_html": "e53e38837971b0d88b18d22946fb745cb142ed190f34cd0cd1b92b9e9276b1f6",
@@ -41,7 +41,7 @@
   "schema_version": "2026-08-02.11.1",
   "search_build_id": "c3b06118e6326fee71ca54ff7bb63b0ff31cce96f8d9fa6bf1cc5d813701333f",
   "search_ranking_policy_version": "2026-08-02.10c.2",
-  "site_build_id": "63fd0704-f07f-529d-b38a-62b775b4037e",
+  "site_build_id": "569cab0f-7f39-55ca-b27f-76ef9cf12a17",
   "small_cap_model_build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
   "status": "complete",
   "universe_versions": {

@@ -43,19 +43,112 @@
     storage?.setItem(key, JSON.stringify(ids)); comparisonButton.textContent = "Added to comparison";
     announce(`${symbol || "Company"} added to the local comparison list.`);
   });
-  async function loadQuote() {
-    const node = root.querySelector("[data-company-quote]"); if (!node || !validId) return;
-    const apiMode = document.body.dataset.dataMode === "api";
-    const url = apiMode ? `/api/v1/quotes?instrument_ids=${encodeURIComponent(instrumentId)}` : `/api/quotes?symbols=${encodeURIComponent(symbol + (exchange === "BSE" ? ".BO" : ".NS"))}`;
-    try {
-      const response = await global.fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" });
-      if (!response.ok) throw new Error("quote unavailable"); const payload = await response.json();
-      const quote = apiMode ? payload.data?.quotes?.[0] : payload.quotes?.[symbol + (exchange === "BSE" ? ".BO" : ".NS")];
-      if (!quote) throw new Error("quote unavailable");
-      const price = apiMode ? quote.last_price : quote.price; const change = apiMode ? quote.percentage_change : quote.day_change_pct;
-      node.textContent = Number.isFinite(price) ? `₹${Number(price).toLocaleString("en-IN", { maximumFractionDigits: 2 })}${Number.isFinite(change) ? ` · ${change >= 0 ? "+" : ""}${Number(change).toFixed(2)}%` : ""}` : "Unavailable";
-      const note = document.createElement("small"); note.textContent = `${quote.market_status || "Market status unavailable"}${(apiMode ? quote.freshness_state === "stale" : quote.is_stale) ? " · stale" : ""}`; node.append(note);
-    } catch (_) { /* Keep the honest server-rendered build-close/unavailable state. */ }
+  function apiQuoteToCommon(quote) {
+    if (!quote) return null;
+    return {
+      price: quote.last_price ?? null,
+      changePct: quote.percentage_change ?? null,
+      marketStatus: quote.market_status || "unknown",
+      freshnessState: quote.freshness_state || "unknown",
+      stalenessReason: quote.staleness_reason || null,
+      delayMinutes: quote.reported_delay_minutes ?? null,
+      providerTimestamp: quote.provider_timestamp || null,
+      error: Boolean(quote.error_code),
+    };
   }
-  loadQuote();
+  function legacyQuoteToCommon(quote) {
+    if (!quote) return null;
+    return {
+      price: quote.price ?? null,
+      changePct: quote.day_change_pct ?? null,
+      marketStatus: quote.market_status || "unknown",
+      freshnessState: quote.is_stale ? "stale" : "fresh",
+      stalenessReason: quote.stale_reason || null,
+      delayMinutes: quote.delay_minutes ?? null,
+      providerTimestamp: quote.as_of || null,
+      error: false,
+    };
+  }
+  const quoteRoot = /** @type {HTMLElement | null} */ (root.querySelector("[data-company-quote]"));
+  const listingStatus = String(root.dataset.listingStatus || "active");
+  const priceNode = /** @type {HTMLElement | null | undefined} */ (quoteRoot?.querySelector("[data-quote-price]"));
+  const changeNode = /** @type {HTMLElement | null | undefined} */ (quoteRoot?.querySelector("[data-quote-change]"));
+  const controllerFactory = /** @type {{ create: Function } | undefined} */ (global["MBEQuoteController"]);
+  // priceNode/changeNode are the minimum markup this block can render into;
+  // without them there is nothing to update, so skip creating (and starting)
+  // a controller entirely rather than polling a page that can never show the
+  // result.
+  if (quoteRoot && priceNode && changeNode && validId && !["inactive", "suspended", "delisted"].includes(listingStatus) && controllerFactory) {
+    const badgeNode = /** @type {HTMLElement | null} */ (quoteRoot.querySelector("[data-quote-status-badge]"));
+    const marketStatusNode = /** @type {HTMLElement | null} */ (quoteRoot.querySelector("[data-quote-market-status]"));
+    const updatedNode = /** @type {HTMLElement | null} */ (quoteRoot.querySelector("[data-quote-updated]"));
+    const retryButton = /** @type {HTMLButtonElement | null} */ (quoteRoot.querySelector("[data-quote-retry]"));
+    const apiMode = document.body.dataset.dataMode === "api";
+    const legacySymbol = symbol + (exchange === "BSE" ? ".BO" : ".NS");
+
+    const render = common => {
+      if (!common || common.price == null) {
+        priceNode.textContent = "Unavailable";
+        changeNode.textContent = "";
+        if (badgeNode) badgeNode.hidden = true;
+        if (marketStatusNode) marketStatusNode.textContent = "Market status unavailable";
+        if (retryButton) retryButton.hidden = false;
+        return;
+      }
+      if (retryButton) retryButton.hidden = true;
+      priceNode.textContent = `₹${Number(common.price).toLocaleString("en-IN", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
+      changeNode.textContent = Number.isFinite(common.changePct)
+        ? `${common.changePct >= 0 ? "▲ +" : "▼ "}${Number(common.changePct).toFixed(2)}%` : "";
+      changeNode.className = !Number.isFinite(common.changePct) ? "quote-change"
+        : common.changePct >= 0 ? "quote-change quote-gain" : "quote-change quote-loss";
+      if (badgeNode) {
+        const label = common.freshnessState === "stale" ? "Stale"
+          : common.freshnessState === "delayed" ? `Delayed${common.delayMinutes ? ` ${common.delayMinutes}m` : ""}` : "";
+        badgeNode.hidden = !label;
+        badgeNode.textContent = label;
+      }
+      if (marketStatusNode) marketStatusNode.textContent = common.marketStatus ? `${common.marketStatus} market` : "Market status unavailable";
+      if (updatedNode) {
+        updatedNode.textContent = common.providerTimestamp
+          ? `Updated ${new Date(common.providerTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })} IST`
+          : "Retrieval time unavailable";
+      }
+    };
+
+    async function fetchAndNormalize(ids) {
+      const url = apiMode
+        ? `/api/v1/quotes?instrument_ids=${encodeURIComponent(ids.join(","))}`
+        : `/api/quotes?symbols=${encodeURIComponent(legacySymbol)}`;
+      const response = await global.fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" });
+      if (!response.ok) throw new Error(`http_${response.status}`);
+      const payload = await response.json();
+      const result = new Map();
+      if (apiMode) {
+        for (const quote of payload.data?.quotes || []) result.set(String(quote.instrument_id), apiQuoteToCommon(quote));
+      } else {
+        result.set(instrumentId, legacyQuoteToCommon(payload.quotes?.[legacySymbol]));
+      }
+      return result;
+    }
+
+    const controller = controllerFactory.create({
+      onAnnounce: announce,
+      fetchQuotes: async ids => {
+        try {
+          return await fetchAndNormalize(ids);
+        } catch (err) {
+          // A batch-level failure (network down, non-2xx, bad JSON) still gets
+          // reflected immediately as "Unavailable" for this id, independent of
+          // the shared controller's own failure-count/backoff bookkeeping —
+          // rethrowing lets that bookkeeping (and the eventual "stopped after
+          // repeated failures" announcement) keep working normally.
+          render(null);
+          throw err;
+        }
+      },
+    });
+    controller.register(instrumentId, render);
+    controller.start();
+    retryButton?.addEventListener("click", () => controller.retry());
+  }
 })(/** @type {Window & typeof globalThis} */ (globalThis));

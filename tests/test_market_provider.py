@@ -81,6 +81,29 @@ def test_yahoo_quote_normalization_tolerates_missing_52_week_range():
     assert quote.week52_low is None
 
 
+def test_missing_previous_close_yields_a_price_with_no_fabricated_change():
+    request = QuoteRequest(instrument_id="a", provider_symbol="A.NS")
+    payload = _payload()
+    del payload["chart"]["result"][0]["meta"]["chartPreviousClose"]
+    quote = normalize_yahoo_chart(payload, request, now_ts=1_700_000_600)
+    assert quote.last_price == 110
+    assert quote.previous_close is None
+    assert quote.absolute_change is None
+    assert quote.percentage_change is None
+
+
+def test_partial_fields_missing_ohlc_and_volume_still_yield_a_usable_quote():
+    request = QuoteRequest(instrument_id="a", provider_symbol="A.NS")
+    payload = _payload()
+    meta = payload["chart"]["result"][0]["meta"]
+    for key in ("regularMarketOpen", "regularMarketDayHigh", "regularMarketDayLow", "regularMarketVolume"):
+        del meta[key]
+    quote = normalize_yahoo_chart(payload, request, now_ts=1_700_000_600)
+    assert quote.last_price == 110
+    assert quote.open is None and quote.day_high is None and quote.day_low is None
+    assert quote.volume is None
+
+
 def test_registry_supports_mock_substitution_and_unsupported_operations():
     class Mock:
         def health(self):

@@ -158,6 +158,39 @@ def test_validation_errors_and_quote_limits_are_stable(api):
     assert "secret" not in quote.text.lower()
 
 
+def test_quotes_endpoint_deduplicates_repeated_instrument_ids_in_one_request(api):
+    client, ids, _ = api
+    good_id = ids["GOOD.NS"]
+    response = client.get("/api/v1/quotes", params={"instrument_ids": f"{good_id},{good_id},{good_id}"})
+    assert response.status_code == 200
+    assert len(response.json()["data"]["quotes"]) == 1
+
+
+def test_quotes_endpoint_sets_a_short_public_cache_header(api):
+    client, ids, _ = api
+    response = client.get("/api/v1/quotes", params={"instrument_ids": ids["GOOD.NS"]})
+    assert response.headers["cache-control"] == "public, max-age=60"
+
+
+def test_company_summary_for_a_delisted_unmapped_instrument_never_fabricates_a_quote():
+    engine = create_engine("sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool)
+    Base.metadata.create_all(engine)
+    with Session(engine) as session:
+        import_instruments(session, [{
+            "company_name": "Delisted Shell Limited", "symbol": "DELIST", "exchange": "NSE",
+            "isin": "INE999Z01019", "sector": None, "industry": None,
+            "listing_status": "delisted", "provider_symbols": {}, "aliases": [],
+        }], source_code="test_master", source_version="v1")
+        instrument_id = session.scalars(select(InstrumentRow.instrument_id)).one()
+    client = TestClient(create_app(engine=engine, provider_registry=ProviderRegistry()))
+    response = client.get(f"/api/v1/company/{instrument_id}/summary")
+    assert response.status_code == 200
+    body = response.json()["data"]
+    assert body["listing_status"] == "delisted"
+    assert body["quote"] is None
+    assert body["research_available"] is False
+
+
 def test_methodology_is_machine_readable_and_database_absence_is_safe():
     client = TestClient(create_app())
     health = client.get("/api/v1/health")

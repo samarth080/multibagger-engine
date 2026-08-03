@@ -124,6 +124,7 @@ test("researchBadgeText maps each coverage level to its public label", () => {
   assert.equal(app.researchBadgeText(1), "Market Coverage");
   assert.equal(app.researchBadgeText(0), "Identity Only");
   assert.equal(app.researchBadgeText(undefined), "Identity Only");
+  assert.equal(app.researchBadgeText(5), "Identity Only");
 });
 
 test("staticSearch finds a full-phrase match not covered by prefix or word match", () => {

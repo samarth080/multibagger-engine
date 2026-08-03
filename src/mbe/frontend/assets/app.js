@@ -435,9 +435,14 @@
   }
 
   function researchBadgeText(level) {
+    // Keep in sync with CoverageLevel/COVERAGE_LEVEL_LABELS in src/mbe/coverage/domain.py.
     const labels = { 3: "Full Research", 2: "Financial Coverage", 1: "Market Coverage", 0: "Identity Only" };
     const key = Number.isInteger(level) ? level : 0;
-    return labels[key] || "Identity Only";
+    if (!(key in labels)) {
+      global.console.warn(`researchBadgeText: unmapped coverage level ${key}, falling back to "Identity Only"`);
+      return "Identity Only";
+    }
+    return labels[key];
   }
 
   const pure = { normalizeText, similarity, staticSearch, parseExchangeHint, parseRankingState, stateToSearch, rankingRow, normalizeRankingEnvelope, stableFilterSort, summaryFor, csvFor, buildCompatible, apiQuery, reportDestination, researchBadgeText };
@@ -516,7 +521,7 @@
         const bits = [Number.isFinite(item.rank) && `Rank #${item.rank}`, Number.isFinite(item.multibagger_score) && `Score ${Math.round(item.multibagger_score)}`].filter(Boolean);
         return create("span", "badge badge-positive", bits.length ? bits.join(" · ") : researchBadgeText(level));
       }
-      return create("span", `badge ${level === 2 ? "badge-positive" : "badge-info"}`, researchBadgeText(level));
+      return create("span", "badge badge-info", researchBadgeText(level));
     };
     const renderItems = (nextItems, query) => {
       items = nextItems; results.replaceChildren();

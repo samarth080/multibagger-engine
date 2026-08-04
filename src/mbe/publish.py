@@ -463,13 +463,13 @@ def render_error_page(ticker: str, reason: str) -> str:
 
 def render_coverage_company_page(
     record: dict, quote: dict | None, coverage: CoverageAssessment,
-    financial_summary: dict | None = None,
+    financial_summary: dict | None = None, *, universal: dict | None = None,
 ) -> str:
     """Canonical page for a search-universe company at coverage Level 0, 1
     or 2 — rendered on demand by the api/company.py serverless fallback
     (never part of the weekly static build: see docs/HANDOVER.md "Search,
     research and ranking universes" and docs/coverage-architecture.md)."""
-    payload = build_coverage_research(record, quote, coverage, financial_summary)
+    payload = build_coverage_research(record, quote, coverage, financial_summary, universal=universal)
     identity = payload["identity"]
     canonical_path = payload["canonical_url"]
     context = _base_context(

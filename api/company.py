@@ -24,6 +24,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from mbe.coverage.policy import assess_coverage  # noqa: E402
 from mbe.data.market import QuoteRequest, YahooChartQuoteProvider, normalize_yahoo_chart  # noqa: E402
 from mbe.publish import render_coverage_company_page  # noqa: E402
+from mbe.universal.cache import read_cached_report  # noqa: E402
+from mbe.universal.pipeline import analyze_universal  # noqa: E402
+from mbe.universal.report import build_universal_report  # noqa: E402
 
 _ID_RE = re.compile(r"^[A-Za-z0-9-]{1,80}\Z")
 _ROOT = Path(__file__).resolve().parent.parent
@@ -31,6 +34,7 @@ SEARCH_INDEX_PATHS = (
     _ROOT / "site" / "api" / "v1" / "search-index.json",
     Path("site/api/v1/search-index.json"),
 )
+_DEFAULT_UNIVERSAL_ARTIFACTS_DIR = _ROOT / "site" / "api" / "v1" / "universal-scores"
 
 
 def _log(event: str, **fields) -> None:
@@ -76,8 +80,37 @@ def _fetch_quote(provider_symbol: str | None, fetcher) -> dict | None:
         return None
 
 
+def _default_universal_provider():
+    from mbe.data.yahoo import YahooProvider
+    return YahooProvider(cache=None)
+
+
+def _universal_payload(
+    instrument_id: str, provider_symbol: str | None, *,
+    artifacts_dir: Path, provider,
+) -> dict | None:
+    """Pre-warmed artifact first, live on-demand fallback second. Returns
+    None (never raises) when there is no provider_symbol to score, or when
+    both the cache lookup and the live computation come up empty — the
+    page still renders identity/quote/coverage content either way."""
+    if not provider_symbol:
+        return None
+    artifact_path = artifacts_dir / f"{instrument_id}.json"
+    cached = read_cached_report(artifact_path)
+    if cached is not None:
+        return cached["report"]
+    try:
+        card = analyze_universal(provider_symbol, provider, instrument_id=instrument_id)
+        report = build_universal_report(card, generated_at=datetime.now(timezone.utc))
+    except Exception as exc:
+        _log("universal_score_failure", instrument_id=instrument_id, error_type=type(exc).__name__)
+        return None
+    return report
+
+
 def render_company(
     instrument_id: str, *, index: list[dict] | None = None, quote_fetcher=None,
+    universal_artifacts_dir: Path | None = None, universal_provider=None,
 ) -> tuple[int, str]:
     """Returns (http_status, html). Pure function — directly unit-testable
     with an injected index and quote fetcher, same shape as api/analyze.py."""
@@ -104,7 +137,14 @@ def render_company(
     if coverage.quote_available:
         fetcher = quote_fetcher or YahooChartQuoteProvider()._fetch
         quote = _fetch_quote(record.get("provider_symbol"), fetcher)
-    html = render_coverage_company_page(record, quote, coverage)
+    universal = None
+    if coverage.quote_available:
+        universal = _universal_payload(
+            instrument_id, record.get("provider_symbol"),
+            artifacts_dir=universal_artifacts_dir or _DEFAULT_UNIVERSAL_ARTIFACTS_DIR,
+            provider=universal_provider or _default_universal_provider(),
+        )
+    html = render_coverage_company_page(record, quote, coverage, universal=universal)
     return 200, html
 
 

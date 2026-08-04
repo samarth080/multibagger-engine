@@ -8,6 +8,8 @@ otherwise take priority over this route."""
 import importlib.util
 from pathlib import Path
 
+import pandas as pd
+
 spec = importlib.util.spec_from_file_location(
     "company_fn", Path(__file__).parent.parent / "api" / "company.py"
 )
@@ -32,6 +34,78 @@ def _chart_payload(**meta):
     base = {"regularMarketPrice": 2945.5, "regularMarketTime": 1_700_000_000, "marketState": "CLOSED"}
     base.update(meta)
     return {"chart": {"result": [{"meta": base, "timestamp": [1_700_000_000]}]}}
+
+
+_SAMPLE_CHART = _chart_payload()
+
+
+def _record(*, instrument_id, provider_symbol, research_available=False, **overrides):
+    """Build an index record from the RELIANCE fixture shape, overriding
+    only the fields a given test cares about — reuses the existing fixture
+    rather than duplicating its full identity shape."""
+    return {
+        **RELIANCE, "instrument_id": instrument_id, "provider_symbol": provider_symbol,
+        "research_available": research_available, **overrides,
+    }
+
+
+class _FailIfCalledProvider:
+    """A universal-score DataProvider double that must never be touched —
+    used to prove the pre-warmed-artifact path (and the no-provider-symbol
+    path) never falls through to a live computation."""
+
+    def get_info(self, ticker):
+        raise AssertionError("universal provider should not have been called")
+
+    def get_financials(self, ticker):
+        raise AssertionError("universal provider should not have been called")
+
+    def get_prices(self, ticker, years=3):
+        raise AssertionError("universal provider should not have been called")
+
+    def benchmark_ticker(self, ticker):
+        raise AssertionError("universal provider should not have been called")
+
+
+class _StubUniversalProvider:
+    """Same shape as tests/test_universal_pipeline.py's _StubProvider —
+    enough fabricated financial/price data for mbe.universal.pipeline to
+    produce a real (non-None) score."""
+
+    def get_info(self, ticker):
+        from mbe.models.company import CompanyInfo
+        return CompanyInfo(ticker=ticker, sector="Technology", industry="Software", market_cap=5e10)
+
+    def get_financials(self, ticker):
+        from mbe.models.company import FinancialHistory
+        years = {2023: 100.0, 2024: 130.0, 2025: 170.0}
+        return FinancialHistory(data={
+            "revenue": years, "net_income": {y: v * 0.1 for y, v in years.items()},
+            "cfo": {y: v * 0.12 for y, v in years.items()}, "capex": {y: -v * 0.04 for y, v in years.items()},
+            "fcf": {y: v * 0.08 for y, v in years.items()}, "total_equity": {y: v * 0.5 for y, v in years.items()},
+            "total_debt": {y: v * 0.1 for y, v in years.items()}, "cash": {y: v * 0.2 for y, v in years.items()},
+            "total_assets": {y: v * 0.9 for y, v in years.items()},
+            "current_assets": {y: v * 0.4 for y, v in years.items()},
+            "current_liabilities": {y: v * 0.2 for y, v in years.items()},
+            "interest_expense": {y: v * 0.01 for y, v in years.items()},
+            "shares_diluted": {y: 1_000_000.0 for y in years},
+        })
+
+    def get_prices(self, ticker, years=3):
+        from mbe.models.company import PriceHistory
+        idx = pd.bdate_range("2023-01-01", periods=260)
+        closes = [100 + i * 0.1 for i in range(len(idx))]
+        df = pd.DataFrame({
+            "open": closes,
+            "high": [c * 1.01 for c in closes],
+            "low": [c * 0.99 for c in closes],
+            "close": closes,
+            "volume": [1_000_000 for _ in closes],
+        }, index=idx)
+        return PriceHistory(ticker=ticker, df=df)
+
+    def benchmark_ticker(self, ticker):
+        return "^NSEI"
 
 
 def test_unknown_instrument_id_is_404_no_matching_company():
@@ -114,3 +188,76 @@ def test_every_coverage_level_resolves_without_a_404():
     # Vercel before this function ever runs (see api/company.py's docstring
     # and mbe.publish.render_site), so a 200-from-static-file check belongs
     # with the existing render_site tests, not here.
+
+
+def _capture_universal(monkeypatch, captured):
+    """Patch company_fn.render_coverage_company_page to record the
+    `universal` kwarg it was called with, while still delegating to the
+    real function so status/html assertions keep working unchanged.
+
+    Note: company_coverage.html (Task 14, not yet landed) doesn't render
+    anything from company.universal yet, so the raw HTML has no string to
+    assert on for the score. These tests instead verify the Python-level
+    payload threading — record -> _universal_payload -> render_coverage_
+    company_page — which is what this task actually implements."""
+    original = company_fn.render_coverage_company_page
+
+    def _capture(record, quote, coverage, financial_summary=None, *, universal=None):
+        captured["universal"] = universal
+        return original(record, quote, coverage, financial_summary, universal=universal)
+
+    monkeypatch.setattr(company_fn, "render_coverage_company_page", _capture)
+
+
+def test_render_company_uses_a_prewarmed_universal_artifact_when_present(tmp_path, monkeypatch):
+    from mbe.universal.cache import write_cached_report
+
+    index = [_record(instrument_id="id-1", provider_symbol="AAA.NS")]
+    artifacts_dir = tmp_path / "universal-scores"
+    write_cached_report(artifacts_dir / "id-1.json", {
+        "instrument_id": "id-1", "cache_key": "k1", "policy_version": "universal-score-v1",
+        "generated_at": "2026-08-04T00:00:00+00:00",
+        "report": {"executive_summary": {
+            "overall_score": 70.0, "confidence": "Medium", "data_coverage_pct": 60.0,
+            "report_state": "full_evaluated_report", "company_type": "general_corporate",
+        }},
+    })
+    captured = {}
+    _capture_universal(monkeypatch, captured)
+
+    status, html = company_fn.render_company(
+        "id-1", index=index, quote_fetcher=lambda symbol: _SAMPLE_CHART,
+        universal_artifacts_dir=artifacts_dir, universal_provider=_FailIfCalledProvider(),
+    )
+
+    assert status == 200
+    # Rendered from the pre-warmed artifact, not live-computed — the
+    # fail-if-called provider proves no live computation was attempted.
+    assert captured["universal"]["executive_summary"]["overall_score"] == 70.0
+
+
+def test_render_company_falls_back_to_live_computation_when_no_artifact(tmp_path, monkeypatch):
+    index = [_record(instrument_id="id-2", provider_symbol="BBB.NS")]
+    captured = {}
+    _capture_universal(monkeypatch, captured)
+
+    status, html = company_fn.render_company(
+        "id-2", index=index, quote_fetcher=lambda symbol: _SAMPLE_CHART,
+        universal_artifacts_dir=tmp_path / "empty",
+        universal_provider=_StubUniversalProvider(),
+    )
+
+    assert status == 200
+    assert captured["universal"] is not None
+    assert captured["universal"]["executive_summary"]["overall_score"] is not None
+
+
+def test_render_company_never_computes_universal_score_without_a_provider_symbol(tmp_path):
+    index = [_record(instrument_id="id-3", provider_symbol=None)]
+
+    status, html = company_fn.render_company(
+        "id-3", index=index, quote_fetcher=lambda s: (_ for _ in ()).throw(AssertionError("quote should not be fetched")),
+        universal_artifacts_dir=tmp_path, universal_provider=_FailIfCalledProvider(),
+    )
+
+    assert status == 200  # no exception raised — the fail-if-called provider was never touched

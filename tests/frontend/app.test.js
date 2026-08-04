@@ -232,6 +232,16 @@ test("CSV export escapes fields and report routing preserves useful destinations
   assert.equal(app.reportDestination(instruments[1]), "/company/id-food.html");
 });
 
+test("reportDestination always resolves to the canonical company route, never /api/analyze", () => {
+  const item = { instrument_id: "abc-123", symbol: "RELIANCE", exchange: "NSE" };
+  assert.equal(app.reportDestination(item), "/company/abc-123.html");
+});
+
+test("reportDestination with no instrument_id and no report_url still avoids /api/analyze", () => {
+  const item = { symbol: "RELIANCE", exchange: "NSE" };
+  assert.doesNotMatch(app.reportDestination(item), /\/api\/analyze/);
+});
+
 test("summary uses supported aggregate values only", () => {
   const summary = app.summaryFor(rows);
   assert.equal(summary.total, 3);

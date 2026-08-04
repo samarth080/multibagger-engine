@@ -80,10 +80,7 @@
   function reportDestination(item) {
     if (item.report_url) return item.report_url;
     if (/^[A-Za-z0-9-]{1,80}$/.test(String(item.instrument_id || ""))) return `/company/${item.instrument_id}.html`;
-    const symbol = symbolText(item.symbol);
-    if (!symbol) return "/";
-    const suffix = String(item.exchange || "NSE").toUpperCase() === "BSE" ? ".BO" : ".NS";
-    return `/api/analyze?ticker=${encodeURIComponent(symbol + suffix)}`;
+    return "/"; // defensive fallback only — every real search-universe item carries instrument_id
   }
 
   const _ALLOWED_EXCHANGES = new Set(["NSE", "BSE"]);
@@ -209,6 +206,10 @@
         research_available: Boolean(item.research_available),
         research_coverage_level: item.research_coverage_level == null ? 0 : Number(item.research_coverage_level),
         coverage_label: item.coverage_label || null,
+        universal_score_available: Boolean(item.universal_score_available),
+        universal_score: item.universal_score == null ? null : Number(item.universal_score),
+        universal_confidence: item.universal_confidence || null,
+        universal_data_coverage_pct: item.universal_data_coverage_pct == null ? null : Number(item.universal_data_coverage_pct),
         ranking_available: rankingAvailable,
         rank: item.rank == null ? null : Number(item.rank),
         multibagger_score: item.multibagger_score == null ? null : Number(item.multibagger_score),
@@ -533,6 +534,10 @@
         const li = create("li"); li.setAttribute("role", "option"); li.id = `search-option-${index}`; li.setAttribute("aria-selected", String(index === selected));
         const button = create("button", "search-result"); button.type = "button"; button.tabIndex = -1;
         const main = create("span"); main.append(create("span", "search-name", item.display_name || item.symbol), researchBadge(item));
+        if (item.universal_score_available) {
+          const label = `Universal ${Math.round(item.universal_score)} · ${item.universal_confidence}`;
+          main.append(create("span", "badge badge-info", label));
+        }
         if (item.listing_status && !["active", "unknown"].includes(item.listing_status)) {
           main.append(create("span", "badge badge-negative", item.listing_status));
         }

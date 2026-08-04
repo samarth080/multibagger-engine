@@ -51,33 +51,37 @@ class RefreshOutcome:
     failed: dict[str, str] = field(default_factory=dict)
 
 
-class _CachingProviderWrapper:
-    """Wraps a provider to cache the last fetched data per ticker, so
-    that analyze_universal doesn't refetch if it's the same ticker."""
-    def __init__(self, provider: DataProvider):
+class _PrefetchedProviderView:
+    """Wraps a provider so a call for the given ticker returns the
+    already-fetched (info, fin, prices) without hitting the provider
+    again — avoids a redundant second fetch when analyze_universal()
+    re-requests the same ticker's data internally. A call for any OTHER
+    ticker (e.g., the benchmark index) passes through to the real
+    provider untouched. Created fresh per instrument, never shared across
+    the batch, so it can't leak into retry logic (which always runs
+    against the raw provider) and can't grow memory across a large run."""
+
+    def __init__(self, provider: DataProvider, ticker: str, info, fin, prices):
         self._provider = provider
-        self._cache = {}
+        self._ticker = ticker
+        self._info = info
+        self._fin = fin
+        self._prices = prices
 
     def get_info(self, ticker):
-        if ticker not in self._cache:
-            self._cache[ticker] = {}
-        if "info" not in self._cache[ticker]:
-            self._cache[ticker]["info"] = self._provider.get_info(ticker)
-        return self._cache[ticker]["info"]
+        if ticker == self._ticker:
+            return self._info
+        return self._provider.get_info(ticker)
 
     def get_financials(self, ticker):
-        if ticker not in self._cache:
-            self._cache[ticker] = {}
-        if "fin" not in self._cache[ticker]:
-            self._cache[ticker]["fin"] = self._provider.get_financials(ticker)
-        return self._cache[ticker]["fin"]
+        if ticker == self._ticker:
+            return self._fin
+        return self._provider.get_financials(ticker)
 
     def get_prices(self, ticker, years=3):
-        if ticker not in self._cache:
-            self._cache[ticker] = {}
-        if "prices" not in self._cache[ticker]:
-            self._cache[ticker]["prices"] = self._provider.get_prices(ticker, years=years)
-        return self._cache[ticker]["prices"]
+        if ticker == self._ticker:
+            return self._prices
+        return self._provider.get_prices(ticker, years=years)
 
     def benchmark_ticker(self, ticker):
         return self._provider.benchmark_ticker(ticker)
@@ -112,8 +116,6 @@ def run_refresh(
     max_retries: int = 3,
     retry_backoff_seconds: float = 2.0,
 ) -> RefreshOutcome:
-    # Wrap provider to cache per-ticker fetches, so analyze_universal doesn't refetch
-    provider = _CachingProviderWrapper(provider)
     outcome = RefreshOutcome()
     output_dir = Path(output_dir)
     processed = 0
@@ -125,7 +127,7 @@ def run_refresh(
         ticker = record["provider_symbol"]
         artifact_path = output_dir / f"{instrument_id}.json"
 
-        # Resumable: check for fresh cache before fetching
+        # Resumable: check for fresh cache before fetching (trusts existing file without re-validating)
         cached = read_cached_report(artifact_path)
         if cached is not None:
             outcome.succeeded.append(instrument_id)
@@ -144,9 +146,11 @@ def run_refresh(
         # Compute cache key from fetched data
         key = cache_key_for(info, fin, prices, policy_version=UNIVERSAL_SCORE_POLICY_VERSION)
 
-        # Analyze (data is already fetched, so provider calls should be cached or quick)
+        # Analyze with prefetched view to avoid redundant second fetch when analyze_universal
+        # re-requests the same ticker's data. Benchmark (different ticker) passes through to real provider.
+        prefetched_view = _PrefetchedProviderView(provider, ticker, info, fin, prices)
         try:
-            card = analyze_universal(ticker, provider, instrument_id=instrument_id)
+            card = analyze_universal(ticker, prefetched_view, instrument_id=instrument_id)
         except ProviderError as exc:
             outcome.failed[instrument_id] = str(exc)
             continue

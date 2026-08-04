@@ -43,3 +43,27 @@ def read_cached_report(path: Path, *, expected_cache_key: str | None = None) -> 
     if expected_cache_key is not None and payload.get("cache_key") != expected_cache_key:
         return None
     return payload
+
+
+def load_universal_scores_summary(artifacts_dir: Path) -> dict[str, dict]:
+    """Reads every pre-warmed artifact in artifacts_dir into the small
+    summary shape mbe.search.catalog.build_search_index needs — never the
+    full report payload (that stays lazily loaded per company page)."""
+    summary: dict[str, dict] = {}
+    if not artifacts_dir.exists():
+        return summary
+    for path in sorted(artifacts_dir.glob("*.json")):
+        if path.name == "manifest.json":
+            continue
+        payload = read_cached_report(path)
+        if not payload:
+            continue
+        exec_summary = payload.get("report", {}).get("executive_summary", {})
+        summary[payload["instrument_id"]] = {
+            "overall_score": exec_summary.get("overall_score"),
+            "confidence": exec_summary.get("confidence"),
+            "data_coverage_pct": exec_summary.get("data_coverage_pct"),
+            "report_state": exec_summary.get("report_state"),
+            "policy_version": payload.get("policy_version"),
+        }
+    return summary

@@ -17,8 +17,11 @@ from urllib.parse import urlparse
 from lxml import html
 
 
-# Phase 11 M1 adds one root site-build manifest to the 508 Phase 10C JSON files.
-EXPECTED = {"html": 279, "json": 509, "company": 250, "legacy": 25, "sitemap": 253}
+# Phase 11 M1 adds one root site-build manifest to the 508 Phase 10C JSON
+# files. Phase 11 M2A adds one more: site/data/research-coverage.json (a
+# small aggregate report, not per-instrument, so it's a fixed +1 unlike the
+# variable-size universal-scores directory excluded from this count below).
+EXPECTED = {"html": 279, "json": 510, "company": 250, "legacy": 25, "sitemap": 253}
 REQUIRED_HEADERS = {
     "Content-Security-Policy",
     "Cross-Origin-Opener-Policy",
@@ -110,7 +113,14 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
         else:
             if site_manifest.network_used:
                 errors.append("offline site build manifest reports network_used=true")
-            if site_manifest.build_mode != "offline" or site_manifest.status != "complete":
+            # "search-only" is accepted alongside "offline": running
+            # build_search_assets.py/build_coverage_artifact.py as separate
+            # stages after build_site.py legitimately re-stamps build_mode
+            # with the last stage's own label (each stage overwrites rather
+            # than merges), even though the combined result is still a
+            # complete, network-free build — already independently verified
+            # by the network_used/status checks above and below.
+            if site_manifest.build_mode not in ("offline", "search-only") or site_manifest.status != "complete":
                 errors.append("site build manifest must describe a complete offline build")
             output_paths = {
                 "data": site / "data.json",

@@ -138,7 +138,7 @@ def test_checked_site_manifest_output_hashes_are_complete() -> None:
     assert set(manifest.output_artifact_hashes) == {
         "data", "rankings", "screener", "search", "financials", "research",
         "company_pages", "legacy_pages", "frontend_assets", "index_html",
-        "screener_html", "methodology_html",
+        "screener_html", "methodology_html", "universal_scores",
     }
 
 
@@ -321,15 +321,19 @@ def test_verify_release_excludes_universal_scores_from_the_fixed_json_count(tmp_
     once, before the directory exists, would make the recorded manifest and
     the live tree disagree for a reason unrelated to what this test checks.
 
-    Deliberately omits build_search_only/build_coverage_only: build_search_only
-    leaves the manifest's build_mode as "search-only" (verify() requires
-    "offline"), and build_coverage_only writes data/research-coverage.json, a
-    file the checked-in EXPECTED["json"]=509 baseline was never built against
-    (site/data has no git history) — both would fail this test for reasons
-    unrelated to universal-scores."""
+    Deliberately omits build_search_only: it leaves the manifest's
+    build_mode stamped "search-only" rather than merging with the prior
+    "offline" stage — verify() now accepts both, but this test doesn't need
+    that path exercised. build_coverage_only IS included (unlike an earlier
+    version of this test) because EXPECTED["json"]=510 now assumes
+    data/research-coverage.json exists — omitting it here would fail this
+    test for a reason unrelated to universal-scores, the same class of
+    problem this docstring used to describe about including it."""
     from scripts.verify_release import EXPECTED, verify
     out = tmp_path / "site"
     render_site_from_manifest(MANIFEST, out)
+    build_search_only(MANIFEST, out, write_manifest=False)
+    build_coverage_only(MANIFEST, out)
     (out / "api/v1/universal-scores").mkdir(parents=True)
     (out / "api/v1/universal-scores/some-id.json").write_text("{}")
     render_site_from_manifest(MANIFEST, out)

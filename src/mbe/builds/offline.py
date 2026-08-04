@@ -159,8 +159,11 @@ def build_search_only(
     nse_rows = json.loads((root / "universes/nse-search-universe.json").read_text())["records"]
     bse_rows = json.loads((root / "universes/bse-search-universe.json").read_text())["records"]
     with deny_network() as audit:
+        from mbe.universal.cache import load_universal_scores_summary
+        universal_scores = load_universal_scores_summary(out / "api/v1/universal-scores")
         payload = build_search_asset_payload(
             data=data, search_universe_rows=nse_rows, bse_rows=bse_rows,
+            universal_scores=universal_scores,
         )
         target = out / "api/v1/search-index.json"
         target.parent.mkdir(parents=True, exist_ok=True)

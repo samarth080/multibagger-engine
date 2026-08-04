@@ -675,12 +675,19 @@ def _static_envelope(data, *, meta=None, warnings=None, freshness=None) -> dict:
 
 def build_search_asset_payload(
     *, data: dict, search_universe_rows: list[dict], bse_rows: list[dict],
+    universal_scores: dict[str, dict] | None = None,
 ) -> dict:
-    """Build only the public search artifact from frozen, non-model inputs."""
+    """Build only the public search artifact from frozen, non-model inputs.
+
+    universal_scores (additive, Phase 11 Milestone 3) is the small summary
+    dict from mbe.universal.cache.load_universal_scores_summary — reading a
+    pre-warmed artifact directory already on disk, never a live fetch, so
+    this stays safe to call under deny_network()."""
     instruments = data.get("instruments", [])
     screener_rows = data.get("_screener_rows", [])
     search_index = build_search_index(
         search_universe_rows, instruments, screener_rows, bse_rows=bse_rows,
+        universal_scores=universal_scores,
     )
     rows = sorted(
         (record.model_dump(mode="json") for record in search_index),

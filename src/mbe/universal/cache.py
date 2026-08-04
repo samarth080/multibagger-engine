@@ -58,8 +58,12 @@ def load_universal_scores_summary(artifacts_dir: Path) -> dict[str, dict]:
         payload = read_cached_report(path)
         if not payload:
             continue
-        exec_summary = payload.get("report", {}).get("executive_summary", {})
-        summary[payload["instrument_id"]] = {
+        instrument_id = payload.get("instrument_id")
+        if not instrument_id:
+            continue
+        report = payload.get("report") or {}
+        exec_summary = report.get("executive_summary") or {}
+        summary[instrument_id] = {
             "overall_score": exec_summary.get("overall_score"),
             "confidence": exec_summary.get("confidence"),
             "data_coverage_pct": exec_summary.get("data_coverage_pct"),

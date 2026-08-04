@@ -83,3 +83,23 @@ def test_load_universal_scores_summary_reads_every_artifact_except_manifest(tmp_
 
 def test_load_universal_scores_summary_on_missing_directory_returns_empty(tmp_path):
     assert load_universal_scores_summary(tmp_path / "does-not-exist") == {}
+
+
+def test_load_universal_scores_summary_skips_artifact_missing_instrument_id(tmp_path):
+    (tmp_path / "bad.json").write_text(json.dumps({
+        "report": {"executive_summary": {"overall_score": 1.0}},
+    }))
+    assert load_universal_scores_summary(tmp_path) == {}
+
+
+def test_load_universal_scores_summary_skips_artifact_with_null_report(tmp_path):
+    (tmp_path / "id-2.json").write_text(json.dumps({
+        "instrument_id": "id-2", "report": None,
+    }))
+    summary = load_universal_scores_summary(tmp_path)
+    assert summary == {
+        "id-2": {
+            "overall_score": None, "confidence": None, "data_coverage_pct": None,
+            "report_state": None, "policy_version": None,
+        }
+    }

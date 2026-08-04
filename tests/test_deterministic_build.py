@@ -392,7 +392,7 @@ def test_universal_score_engine_output_is_pinned_for_the_verification_set():
 
     tickers = ["AAA.NS", "BBB.NS", "CCC.NS"]
     results = {
-        t: analyze_universal(t, _StubProvider()).__dict__
+        t: analyze_universal(t, _StubProvider()).model_dump()
         for t in tickers
     }
     # Flatten to only the fields we want to pin: overall_score, confidence, report_state value

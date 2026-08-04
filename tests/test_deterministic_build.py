@@ -378,3 +378,34 @@ def test_deny_network_still_blocks_a_live_provider_call_after_the_quote_ui_chang
         else:
             raise AssertionError("expected deny_network to block this request")
     assert audit.attempted is True
+
+
+def test_universal_score_engine_output_is_pinned_for_the_verification_set():
+    """Guards against silent scoring-policy drift. Not a network test —
+    uses the mbe.universal.pipeline.analyze_universal path with a fixed,
+    checked-in stub provider fixture (see conftest or a small inline stub),
+    matching the tests/test_universal_pipeline.py::_StubProvider pattern
+    from Task 8, so this test never touches the network and stays fast
+    and deterministic in CI."""
+    from mbe.universal.pipeline import analyze_universal
+    from tests.test_universal_pipeline import _StubProvider
+
+    tickers = ["AAA.NS", "BBB.NS", "CCC.NS"]
+    results = {
+        t: analyze_universal(t, _StubProvider()).__dict__
+        for t in tickers
+    }
+    # Flatten to only the fields we want to pin: overall_score, confidence, report_state value
+    results = {
+        t: {
+            "overall_score": card["overall_score"],
+            "confidence": card["confidence"],
+            "report_state": card["report_state"].value,
+        }
+        for t, card in results.items()
+    }
+
+    fixture_path = ROOT / "tests/fixtures/phase11-m3-universal-score-hash.json"
+    if not fixture_path.exists():
+        fixture_path.write_text(json.dumps(results, indent=2, sort_keys=True) + "\n")
+    assert results == json.loads(fixture_path.read_text())

@@ -1,0 +1,17 @@
+{
+  "AAA.NS": {
+    "confidence": "High",
+    "overall_score": 60.9,
+    "report_state": "full_evaluated_report"
+  },
+  "BBB.NS": {
+    "confidence": "High",
+    "overall_score": 60.9,
+    "report_state": "full_evaluated_report"
+  },
+  "CCC.NS": {
+    "confidence": "High",
+    "overall_score": 60.9,
+    "report_state": "full_evaluated_report"
+  }
+}

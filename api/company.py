@@ -87,20 +87,25 @@ def _default_universal_provider():
 
 def _universal_payload(
     instrument_id: str, provider_symbol: str | None, *,
-    artifacts_dir: Path, provider,
+    artifacts_dir: Path, provider_factory,
 ) -> dict | None:
     """Pre-warmed artifact first, live on-demand fallback second. Returns
-    None (never raises) when there is no provider_symbol to score, or when
-    both the cache lookup and the live computation come up empty — the
-    page still renders identity/quote/coverage content either way."""
+    None (never raises) when there is no provider_symbol to score, when the
+    cached artifact is missing/malformed, or when the live computation
+    fails — the page still renders identity/quote/coverage content either
+    way. ``provider_factory`` is a zero-arg callable rather than an
+    already-constructed provider so that the (expected-common, post-
+    prewarm) cache-hit path never pays for constructing it — in
+    particular, never imports yfinance, which mbe.data.market deliberately
+    avoids to keep this route lightweight."""
     if not provider_symbol:
         return None
     artifact_path = artifacts_dir / f"{instrument_id}.json"
     cached = read_cached_report(artifact_path)
     if cached is not None:
-        return cached["report"]
+        return cached.get("report")
     try:
-        card = analyze_universal(provider_symbol, provider, instrument_id=instrument_id)
+        card = analyze_universal(provider_symbol, provider_factory(), instrument_id=instrument_id)
         report = build_universal_report(card, generated_at=datetime.now(timezone.utc))
     except Exception as exc:
         _log("universal_score_failure", instrument_id=instrument_id, error_type=type(exc).__name__)
@@ -142,7 +147,7 @@ def render_company(
         universal = _universal_payload(
             instrument_id, record.get("provider_symbol"),
             artifacts_dir=universal_artifacts_dir or _DEFAULT_UNIVERSAL_ARTIFACTS_DIR,
-            provider=universal_provider or _default_universal_provider(),
+            provider_factory=universal_provider or _default_universal_provider,
         )
     html = render_coverage_company_page(record, quote, coverage, universal=universal)
     return 200, html

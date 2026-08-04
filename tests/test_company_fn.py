@@ -49,22 +49,12 @@ def _record(*, instrument_id, provider_symbol, research_available=False, **overr
     }
 
 
-class _FailIfCalledProvider:
-    """A universal-score DataProvider double that must never be touched —
-    used to prove the pre-warmed-artifact path (and the no-provider-symbol
-    path) never falls through to a live computation."""
-
-    def get_info(self, ticker):
-        raise AssertionError("universal provider should not have been called")
-
-    def get_financials(self, ticker):
-        raise AssertionError("universal provider should not have been called")
-
-    def get_prices(self, ticker, years=3):
-        raise AssertionError("universal provider should not have been called")
-
-    def benchmark_ticker(self, ticker):
-        raise AssertionError("universal provider should not have been called")
+def _fail_if_called_provider_factory():
+    """Passed as `universal_provider` (a zero-arg factory, not a provider
+    instance) — raising here proves render_company never even constructs a
+    live provider on the cache-hit / no-provider-symbol paths, a stronger
+    guarantee than merely never calling the provider's methods."""
+    raise AssertionError("universal provider factory should not have been called")
 
 
 class _StubUniversalProvider:
@@ -227,12 +217,13 @@ def test_render_company_uses_a_prewarmed_universal_artifact_when_present(tmp_pat
 
     status, html = company_fn.render_company(
         "id-1", index=index, quote_fetcher=lambda symbol: _SAMPLE_CHART,
-        universal_artifacts_dir=artifacts_dir, universal_provider=_FailIfCalledProvider(),
+        universal_artifacts_dir=artifacts_dir, universal_provider=_fail_if_called_provider_factory,
     )
 
     assert status == 200
     # Rendered from the pre-warmed artifact, not live-computed — the
-    # fail-if-called provider proves no live computation was attempted.
+    # fail-if-called factory proves no live computation (not even provider
+    # construction) was attempted.
     assert captured["universal"]["executive_summary"]["overall_score"] == 70.0
 
 
@@ -244,7 +235,7 @@ def test_render_company_falls_back_to_live_computation_when_no_artifact(tmp_path
     status, html = company_fn.render_company(
         "id-2", index=index, quote_fetcher=lambda symbol: _SAMPLE_CHART,
         universal_artifacts_dir=tmp_path / "empty",
-        universal_provider=_StubUniversalProvider(),
+        universal_provider=_StubUniversalProvider,
     )
 
     assert status == 200
@@ -257,7 +248,7 @@ def test_render_company_never_computes_universal_score_without_a_provider_symbol
 
     status, html = company_fn.render_company(
         "id-3", index=index, quote_fetcher=lambda s: (_ for _ in ()).throw(AssertionError("quote should not be fetched")),
-        universal_artifacts_dir=tmp_path, universal_provider=_FailIfCalledProvider(),
+        universal_artifacts_dir=tmp_path, universal_provider=_fail_if_called_provider_factory,
     )
 
     assert status == 200  # no exception raised — the fail-if-called provider was never touched

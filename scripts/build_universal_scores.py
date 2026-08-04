@@ -127,14 +127,6 @@ def run_refresh(
         ticker = record["provider_symbol"]
         artifact_path = output_dir / f"{instrument_id}.json"
 
-        # Resumable: check for fresh cache before fetching (trusts existing file without re-validating)
-        cached = read_cached_report(artifact_path)
-        if cached is not None:
-            outcome.succeeded.append(instrument_id)
-            outcome.skipped_cached.append(instrument_id)
-            continue
-
-        # Fetch with retry (this exercises the retry logic on transient failures)
         try:
             info, fin, prices = _fetch_with_retry(
                 provider, ticker, max_retries=max_retries, backoff_seconds=retry_backoff_seconds,
@@ -143,8 +135,12 @@ def run_refresh(
             outcome.failed[instrument_id] = str(exc)
             continue
 
-        # Compute cache key from fetched data
         key = cache_key_for(info, fin, prices, policy_version=UNIVERSAL_SCORE_POLICY_VERSION)
+        cached = read_cached_report(artifact_path, expected_cache_key=key)
+        if cached is not None:
+            outcome.succeeded.append(instrument_id)
+            outcome.skipped_cached.append(instrument_id)
+            continue
 
         # Analyze with prefetched view to avoid redundant second fetch when analyze_universal
         # re-requests the same ticker's data. Benchmark (different ticker) passes through to real provider.

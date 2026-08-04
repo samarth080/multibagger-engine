@@ -52,19 +52,43 @@ def test_run_refresh_isolates_per_company_failure(tmp_path):
     assert not (tmp_path / "id-2.json").exists()
 
 
-def test_run_refresh_is_resumable_and_skips_fresh_cache(tmp_path):
+def test_run_refresh_is_resumable_and_skips_the_expensive_analysis_on_a_cache_hit(tmp_path):
     instruments = [{"instrument_id": "id-1", "provider_symbol": "AAA.NS"}]
-    provider = _StubProvider()
-    first = run_refresh(instruments, provider=provider, output_dir=tmp_path)
+    first = run_refresh(instruments, provider=_StubProvider(), output_dir=tmp_path)
     assert first.succeeded == ["id-1"]
+    assert first.skipped_cached == []
 
-    class _FailIfCalled(_StubProvider):
-        def get_info(self, ticker):
-            raise AssertionError("should not re-fetch a fresh cache entry")
+    class _NoBenchmarkAllowed(_StubProvider):
+        def benchmark_ticker(self, ticker):
+            raise AssertionError(
+                "a cache hit must never reach the expensive analysis step — "
+                "benchmark_ticker is only ever called from inside analyze_universal, "
+                "never from the cheap fetch-and-hash step"
+            )
 
-    second = run_refresh(instruments, provider=_FailIfCalled(), output_dir=tmp_path)
+    # Same underlying data as the first run, so the freshly-computed hash
+    # matches the cached one — this proves genuine staleness detection
+    # (info/financials/prices ARE re-fetched to compute a comparison hash)
+    # while still skipping the expensive scoring/report-building step
+    # (which is the only code path that would ever need a benchmark).
+    second = run_refresh(instruments, provider=_NoBenchmarkAllowed(), output_dir=tmp_path)
     assert second.succeeded == ["id-1"]
     assert second.skipped_cached == ["id-1"]
+
+
+def test_run_refresh_recomputes_when_underlying_data_changes(tmp_path):
+    instruments = [{"instrument_id": "id-1", "provider_symbol": "AAA.NS"}]
+    first = run_refresh(instruments, provider=_StubProvider(), output_dir=tmp_path)
+    assert first.skipped_cached == []
+
+    class _ChangedDataProvider(_StubProvider):
+        def get_financials(self, ticker):
+            from mbe.models.company import FinancialHistory
+            return FinancialHistory(data={"revenue": {2024: 999.0}, "net_income": {2024: 50.0}})
+
+    second = run_refresh(instruments, provider=_ChangedDataProvider(), output_dir=tmp_path)
+    assert second.succeeded == ["id-1"]
+    assert second.skipped_cached == []  # hash changed, so it was genuinely recomputed, not skipped
 
 
 def test_run_refresh_retries_a_transient_failure_before_giving_up(tmp_path):

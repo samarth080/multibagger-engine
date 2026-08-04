@@ -27,7 +27,7 @@ def _universal_for(instrument_id: str) -> dict | None:
     static, incremental-rebuild and DB-backed dynamic research builders so
     all three read the exact same prewarmed-artifact directory the same way."""
     cached = read_cached_report(_UNIVERSAL_ARTIFACTS_DIR / f"{instrument_id}.json")
-    return cached["report"] if cached else None
+    return cached.get("report") if cached else None
 
 
 def build_lightweight_research(

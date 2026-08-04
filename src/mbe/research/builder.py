@@ -178,7 +178,7 @@ def build_company_research(
     technical: dict | None, history: list[dict], peer_candidates: list[dict],
     universe_medians: dict[str, float | None], news: list[dict] | None = None,
     filings: list[dict] | None = None, generated_at: str, data_mode: str = "static",
-    quote: dict | None = None,
+    quote: dict | None = None, universal: dict | None = None,
 ) -> CompanyResearch:
     instrument_id = str(identity["instrument_id"])
     symbol = str(identity.get("symbol") or identity.get("nse_symbol") or "")
@@ -314,4 +314,5 @@ def build_company_research(
                        "news_age_days_at_model_cutoff": news_age_days,
                        "peer_model_build_id": rank_domain.model_build_id,
                        "allowed_runtime_differences": ["live quote values", "runtime market status", "news after static cutoff"]},
+        universal=universal,
     )

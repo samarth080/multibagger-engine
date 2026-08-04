@@ -245,3 +245,4 @@ class CompanyResearch(BaseModel):
     feature_flags: dict[str, bool] = Field(default_factory=dict)
     methodology_links: dict[str, str] = Field(default_factory=dict)
     compatibility: dict[str, Any] = Field(default_factory=dict)
+    universal: dict[str, Any] | None = None

@@ -50,7 +50,7 @@
 
       {% if company.universal %}
       <section class="panel research-section" aria-labelledby="universal-score">
-        <div class="section-heading"><div><p class="eyebrow">Universal Research Score</p><h2 id="universal-score">Universal Research Score: {{ company.universal.executive_summary.overall_score | round(0, 'floor') | int if company.universal.executive_summary.overall_score is not none else 'Unavailable' }}/100</h2></div></div>
+        <div class="section-heading"><div><p class="eyebrow">Universal Research Score</p><h2 id="universal-score">Universal Research Score: {{ (company.universal.executive_summary.overall_score | round(0, 'floor') | int ~ '/100') if company.universal.executive_summary.overall_score is not none else 'Unavailable' }}</h2></div></div>
         <p class="notice notice-info"><span aria-hidden="true">ℹ</span> Universal Research Report available. This company is not currently included in a validated universe ranking.</p>
         <dl class="metric-strip">
           <div><dt>Confidence</dt><dd>{{ company.universal.executive_summary.confidence }}</dd></div>

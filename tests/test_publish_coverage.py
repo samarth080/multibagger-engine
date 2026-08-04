@@ -136,3 +136,10 @@ def test_coverage_page_shows_no_quote_mapping_message_for_level_0_when_universal
     html = render_coverage_company_page(no_symbol, None, _coverage(no_symbol), universal=None)
     assert "Universal Research Report available" not in html
     assert "no live market data" in html
+
+
+def test_coverage_page_does_not_attach_100_suffix_to_unavailable_score():
+    insufficient_data = {**UNIVERSAL, "executive_summary": {**UNIVERSAL["executive_summary"], "overall_score": None}}
+    html = render_coverage_company_page(RECORD, QUOTE, _coverage(), universal=insufficient_data)
+    assert "Unavailable/100" not in html
+    assert "Universal Research Score: Unavailable" in html

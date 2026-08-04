@@ -113,6 +113,17 @@ class SearchIndexRecord(BaseModel):
     research_sections_missing: list[str] = []
     coverage_policy_version: str = ""
 
+    # Universal Research Score, additive (Phase 11 Milestone 3). Populated
+    # only when a pre-warmed artifact exists for this instrument — see
+    # mbe.universal.cache.load_universal_scores_summary. Never fabricated;
+    # absence means "not yet refreshed," not "scored zero."
+    universal_score_available: bool = False
+    universal_score: float | None = None
+    universal_confidence: str | None = None
+    universal_data_coverage_pct: float | None = None
+    universal_report_state: str | None = None
+    universal_score_policy_version: str | None = None
+
 
 class SearchCandidate(BaseModel):
     """A ranked search result: the matched record plus why it matched, and

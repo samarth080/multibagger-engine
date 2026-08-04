@@ -145,3 +145,39 @@ def test_coverage_fields_are_never_missing_on_any_record():
         assert record.research_coverage_level in (0, 1, 2, 3)
         assert record.coverage_label
         assert record.research_sections_available
+
+
+def test_build_search_index_attaches_universal_score_when_summary_provided():
+    universal_scores = {
+        SUNPHARMA_ID: {
+            "overall_score": 61.0, "confidence": "Medium", "data_coverage_pct": 55.0,
+            "report_state": "partial_evaluated_report", "policy_version": "universal-score-v1",
+        },
+    }
+    index = build_search_index(
+        SEARCH_UNIVERSE_ROWS, RESEARCH_INSTRUMENTS, SCREENER_ROWS, universal_scores=universal_scores,
+    )
+    sunpharma = next(r for r in index if r.instrument_id == SUNPHARMA_ID)
+    assert sunpharma.universal_score_available is True
+    assert sunpharma.universal_score == 61.0
+    assert sunpharma.universal_confidence == "Medium"
+    assert sunpharma.universal_data_coverage_pct == 55.0
+    assert sunpharma.universal_report_state == "partial_evaluated_report"
+    assert sunpharma.universal_score_policy_version == "universal-score-v1"
+
+    # A record with no entry in universal_scores stays unset even when the
+    # dict is provided for other instruments.
+    reliance = next(r for r in index if r.symbol == "RELIANCE")
+    assert reliance.universal_score_available is False
+    assert reliance.universal_score is None
+
+
+def test_build_search_index_leaves_universal_fields_unset_without_summary():
+    index = build_search_index(SEARCH_UNIVERSE_ROWS, RESEARCH_INSTRUMENTS, SCREENER_ROWS)
+    for record in index:
+        assert record.universal_score_available is False
+        assert record.universal_score is None
+        assert record.universal_confidence is None
+        assert record.universal_data_coverage_pct is None
+        assert record.universal_report_state is None
+        assert record.universal_score_policy_version is None

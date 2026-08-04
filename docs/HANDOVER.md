@@ -1,6 +1,6 @@
 # Multibagger Engine living handover
 
-Last updated: 2026-08-02 (after Phase 11 Milestone 1 local completion)
+Last updated: 2026-08-05 (after Phase 11 Milestone 3 local completion)
 
 Status: Production is live at `https://multibagger-engine.vercel.app/` from
 source commit `6fb5a7e` / final tag `v1.0.0`, deployment
@@ -2404,6 +2404,128 @@ expansion.
   `.worktrees/phase11-m2b-dynamic-quotes`); not merged, pushed or deployed;
   no migration, no scoring/ranking/financial-value change; PostgreSQL still
   not provisioned.
+
+## Phase 11 Milestone 3 — Universal Research Score (2026-08-05)
+
+- Status: Complete locally; not pushed or deployed. Built on top of
+  Milestone 2B on the same branch/worktree.
+- Objective achieved: restored the original "search any supported listed
+  Indian stock, get a detailed evaluated report" product promise without
+  touching the validated Nifty Smallcap 250 Multibagger model. A new
+  company-type-aware, missing-data-safe "Universal Research Score" is now
+  computed for any searchable company with sufficient data, rendered as an
+  additive section on both the coverage-fallback pages (Levels 0-2) and
+  the existing 250 validated research pages (Level 3), and surfaced as a
+  badge in search results.
+- Main implementation: new `mbe.universal` package (domain, classification,
+  benchmarks, policy, engine, explanations, report, pipeline, cache) reusing
+  the existing, already-universe-agnostic metric layer
+  (`mbe.analysis.fundamentals/technicals/valuation/risk`) and the existing
+  generic scoring primitives (`mbe.scoring.benchmarks.score_metric`, the
+  renormalized-weighted-mean pattern from `mbe.scoring.pillars`) under a new
+  10-factor taxonomy with company-type variants; a bounded, resumable
+  refresh CLI (`scripts/build_universal_scores.py`); routing/template
+  integration in `api/company.py`, `company_coverage.html`, `company.html`;
+  search-index/frontend integration in `mbe.search.catalog`, `app.js`,
+  `screener.js`; release-verifier updates for the new variable-size artifact
+  directory. Full detail:
+  [`universal-research-score-architecture.md`](universal-research-score-architecture.md).
+- Architecture decisions: see the design doc
+  (`docs/superpowers/specs/2026-08-04-universal-research-score-design.md`)
+  and the architecture doc linked above — key decisions: the Universal
+  Research Score is a wholly separate policy/score from the validated
+  Multibagger score (never mixed, never overwrites Smallcap 250 data);
+  company-type-incompatible metrics (ROCE, leverage ratios for financial
+  companies) are excluded from scoring, never zeroed; missing/insufficient
+  data yields `overall_score = None` and an honest report state, never a
+  fabricated score; the report generator explicitly forbids price-target/
+  recommendation sections (`FORBIDDEN_REPORT_KEYS`, tested directly); the
+  refresh CLI treats "resumable" as "skip the expensive scoring step on a
+  genuine cache-key hash match," not "skip the network entirely," so a
+  policy-version bump still invalidates every cached entry as promised.
+- Implementation process: executed via the subagent-driven-development
+  skill — 19 planned tasks (`docs/superpowers/plans/2026-08-04-universal-research-score.md`),
+  each with a fresh implementer subagent followed by independent spec-
+  compliance and code-quality review subagents, with fix-and-re-review
+  loops wherever real issues were found (six real defects caught and fixed
+  before merge — see the architecture doc's "Known issues found and fixed"
+  section — including a scoring bug where `overall_score` could be
+  fabricated as `0.0` instead of `None` for a no-data company, and a
+  resumable-vs-staleness design tension in the refresh CLI resolved in
+  favor of genuine cache invalidation).
+- Files/modules changed: new `src/mbe/universal/**`,
+  `scripts/build_universal_scores.py`; modified `src/mbe/search/domain.py`,
+  `src/mbe/search/catalog.py`, `api/company.py`,
+  `src/mbe/research/coverage.py`, `src/mbe/research/builder.py`,
+  `src/mbe/research/lightweight.py`, `src/mbe/research/static.py`,
+  `src/mbe/research/operations.py`, `src/mbe/research/dynamic.py`,
+  `src/mbe/research/domain.py`, `src/mbe/publish.py`,
+  `src/mbe/builds/offline.py`, `src/mbe/frontend/templates/company_coverage.html`,
+  `src/mbe/frontend/templates/company.html`, `src/mbe/frontend/assets/app.js`,
+  `src/mbe/frontend/assets/screener.js`, `src/mbe/frontend/assets/app.css`,
+  `scripts/verify_release.py`, `vercel.json`
+  (`api/company.py` gained `maxDuration: 60`); ~25 new test files/additions.
+- Database migrations: none. New/changed environment variables: none. No
+  paid provider added; no proprietary scraping.
+- Provider/data limitations: Yahoo Finance remains the sole quote/financial
+  provider (unchanged); company-type classification is keyword-matched off
+  raw Yahoo sector/industry strings, since no cleaner taxonomy exists in
+  this repository; sector-specific financial metrics (NIM, CASA, combined
+  ratio, AUM growth) are honestly omitted for financial companies rather
+  than fabricated.
+- Tests run and results: 781 Python tests passed; 58 frontend (Node) tests
+  passed; ESLint and TypeScript `checkJs` clean; `compileall` clean;
+  `git diff --check` clean; `scripts/verify_release.py` → `status: "pass"`,
+  0 errors, `public_value_hashes` byte-identical to
+  `tests/fixtures/phase8-public-value-hashes.json`
+  (`scores_sha256: 12a5ef89c55847e010a33a0b9cada7280033219cc285d1d16164a43103a2cb19`,
+  `financials_sha256: 3e99218116374dcf3968a08dda0bb187926178f357b07ce7cedb1a3ac7955638`
+  — both unchanged from every prior phase). New drift-guard fixture
+  `tests/fixtures/phase11-m3-universal-score-hash.json` pins the Universal
+  engine's own output for a fixed, network-free verification set.
+- Build/deployment result: ran the real
+  `scripts/build_universal_scores.py` refresh CLI live against Yahoo
+  Finance for a 72-instrument verification set (the required
+  representative companies plus a 60-company scale sample) — 62 succeeded,
+  10 failed cleanly (recorded honestly in `manifest.json`, never silently
+  dropped). Regenerated `site/api/v1/search-index.json` and
+  `site/data/research-coverage.json` via the real
+  `build_search_assets.py`/`build_coverage_artifact.py` pipeline
+  (`network_used: false`, confirmed by the offline `deny_network()` guard)
+  — this also picked up Milestone 2A's coverage fields, which the
+  previously checked-in `search-index.json` predated (a known, previously
+  deferred step). Re-pinned `builds/manifests/phase11-m1-frozen-inputs.json`'s
+  `search_build_id`/search-index hash to match (score/financial hashes
+  independently verified unchanged before and after). Fixed two
+  previously-documented, deferred `scripts/verify_release.py` gaps
+  (`EXPECTED["json"]` not accounting for `research-coverage.json`; the
+  offline-build-mode check rejecting the legitimate `"search-only"` label)
+  that only surfaced once a real from-scratch rebuild ran for the first
+  time.
+- Known limitations: Universal coverage is 62 of 2,947 search-universe
+  companies after this milestone — the refresh pipeline is written
+  generically for the full universe, but a full-universe run needs more
+  time/request budget than this session used; no real company in the
+  current search universe is inactive/unmapped (Level 0 has zero members),
+  so that verification case used a synthetic invalid ticker instead of a
+  real one; every company that returned data in this run landed in
+  `full_evaluated_report` state (none in `partial`/`technical_only`) —
+  those states are real, policy-tested code paths, just not naturally hit
+  by this particular live sample. Full list in the architecture doc.
+- Working-tree/commit/deployment state: committed locally on branch
+  `phase11-m2b-dynamic-quotes` (worktree at
+  `.worktrees/phase11-m2b-dynamic-quotes`); not merged, pushed or deployed;
+  no migration; PostgreSQL still not provisioned.
+- Next phase: (1) run `scripts/build_universal_scores.py` against a larger
+  slice of the ~2,885 remaining search-universe companies as request/time
+  budget allows — no code change needed, purely an operator run; (2) the
+  already-gated Nifty 100/Midcap 150 membership import described in this
+  document's Phase 11 Milestone 1 entry, which would grow the validated
+  ranking/research universe independently of Universal Research Score
+  coverage; (3) consider a second quote/financial-data provider per
+  Milestone 2B's own "Milestone 2C prerequisites" list, which would also
+  widen Universal Research Score data availability beyond Yahoo's coverage
+  gaps.
 
 ## End-of-phase update template
 

@@ -38,6 +38,8 @@ def read_cached_report(path: Path, *, expected_cache_key: str | None = None) -> 
         payload = json.loads(path.read_text())
     except (OSError, json.JSONDecodeError):
         return None
+    if not isinstance(payload, dict):
+        return None
     if expected_cache_key is not None and payload.get("cache_key") != expected_cache_key:
         return None
     return payload

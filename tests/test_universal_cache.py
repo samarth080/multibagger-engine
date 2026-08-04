@@ -54,3 +54,10 @@ def test_read_cached_report_rejects_stale_cache_key(tmp_path):
     write_cached_report(path, {"instrument_id": "abc-123", "cache_key": "old-key", "report": {}})
     loaded = read_cached_report(path, expected_cache_key="new-key")
     assert loaded is None
+
+
+def test_read_cached_report_rejects_non_dict_json(tmp_path):
+    path = tmp_path / "malformed.json"
+    path.write_text(json.dumps([1, 2, 3]))  # valid JSON, but not a dict
+    loaded = read_cached_report(path)
+    assert loaded is None

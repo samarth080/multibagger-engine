@@ -138,7 +138,7 @@
     return registry === datasetRegistry && (!build || !datasetBuild || build === datasetBuild);
   }
 
-  const pure = { defaultState, encodeShareState, decodeShareState, sanitizeState, passes, staticQuery, formulaSafe, csvFor, compatible };
+  const pure = { defaultState, encodeShareState, decodeShareState, sanitizeState, passes, staticQuery, formulaSafe, csvFor, compatible, reportDestination };
   global["MBEScreener"] = pure;
   if (typeof module !== "undefined" && module.exports) module.exports = pure;
   if (!global.document) return;
@@ -246,7 +246,7 @@
     const list = qs("[data-screener-column-list]", root); list.replaceChildren(); metadata.fields.filter(field => field.exportable).forEach(field => { const label = create("label", "check-row"); const input = create("input"); input.type = "checkbox"; input.checked = state.query.columns.includes(field.field_id); input.disabled = REQUIRED_COLUMNS.has(field.field_id); input.addEventListener("change", () => { if (input.checked) state.query.columns.push(field.field_id); else state.query.columns = state.query.columns.filter(id => id !== field.field_id); state.query.columns = [...new Set(state.query.columns)]; if (state.query.columns.length > metadata.limits.max_columns) { state.query.columns.pop(); input.checked = false; showWarnings([`At most ${metadata.limits.max_columns} columns may be shown.`]); return; } state.query.page = 1; updateUrl(true); execute(); }); label.append(input, create("span", "", field.label)); list.append(label); });
   }
 
-  function reportDestination(row) { if (row.report_url) return row.report_url; if (/^[A-Za-z0-9-]{1,80}$/.test(String(row.instrument_id || ""))) return `/company/${row.instrument_id}.html`; const symbol = row.values.nse_symbol; return symbol ? `/api/analyze?ticker=${encodeURIComponent(symbol + ".NS")}` : "/"; }
+  function reportDestination(row) { if (row.report_url) return row.report_url; if (/^[A-Za-z0-9-]{1,80}$/.test(String(row.instrument_id || ""))) return `/company/${row.instrument_id}.html`; return "/"; }
   function renderResult(result) {
     currentResult = result; table.dataset.density = state.density; head.replaceChildren(); const headerRow = create("tr");
     state.query.columns.forEach(fieldId => { const field = fields.get(fieldId); const th = create("th", fieldId === "company" ? "company-col" : field?.data_type === "number" ? "number" : ""); th.scope = "col"; th.dataset.field = fieldId; if (field?.sortable) { const button = create("button", "sort-button", field.label); const active = state.query.sorts[0]?.field_id === fieldId; th.setAttribute("aria-sort", active ? (state.query.sorts[0].direction === "asc" ? "ascending" : "descending") : "none"); button.type = "button"; button.append(create("span", "sort-indicator", active ? (state.query.sorts[0].direction === "asc" ? " ↑" : " ↓") : "")); button.addEventListener("click", () => { const current = state.query.sorts[0]; state.query.sorts = [{ field_id: fieldId, direction: current?.field_id === fieldId && current.direction === "asc" ? "desc" : "asc" }]; state.query.page = 1; syncToolbar(); updateUrl(true); execute(); }); th.append(button); } else th.textContent = field?.label || fieldId; headerRow.append(th); }); const actionsHeader = create("th"); actionsHeader.scope = "col"; actionsHeader.append(create("span", "sr-only", "Actions")); headerRow.append(actionsHeader); head.append(headerRow);

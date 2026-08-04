@@ -424,3 +424,96 @@ def test_frontend_data_mode_is_validated(monkeypatch, tmp_path):
     import pytest
     with pytest.raises(ValueError, match="auto, api or static"):
         render_site(data, {"entered": [], "exited": []}, result, tmp_path)
+
+
+# --- Phase 11 M2C: Universal Research Score supplement on Level-3 pages ---
+
+RESEARCH_NOW = "2026-08-01T08:00:00+00:00"
+
+UNIVERSAL = {
+    "executive_summary": {
+        "overall_score": 81.0, "confidence": "High", "data_coverage_pct": 92.0,
+        "report_state": "full_evaluated_report", "company_type": "general_corporate",
+    },
+    "strengths": ["Growth scores 88/100, above the strength threshold."],
+    "risks": [],
+    "data_quality_notes": {"coverage_pct": 92.0, "excluded_factor_notes": []},
+    "methodology": {"policy_version": "universal-score-v1", "company_type_policy": "general_corporate"},
+    "source_lineage": {"generated_at": "2026-08-04T00:00:00+00:00"},
+}
+
+
+def _company_research_page(**overrides):
+    """Mirrors tests/test_research.py's `_page` fixture — a minimal but
+    complete set of build_company_research inputs for a Level-3 (fully
+    modeled) company."""
+    from mbe.research.builder import build_company_research
+
+    args = dict(
+        identity={
+            "instrument_id": "instrument-a", "display_name": "Alpha Engineering",
+            "legal_name": "Alpha Engineering Limited", "symbol": "ALPHA", "exchange": "NSE",
+            "isin": "INE000A01018", "sector": "Industrials", "industry": "Engineering",
+            "listing_status": "active",
+        },
+        ranking={
+            "rank": 7, "previous_rank": 18, "rank_change": 11,
+            "multibagger_score": 78.2, "previous_multibagger_score": 74.0, "score_change": 4.2,
+            "investment_score": 75.0, "confidence": .92, "risk_score": 61.0,
+            "investability": "Deep-dive diligence warranted", "technical_trend": "strong_up",
+            "coverage_quality": .92, "has_missing_data": True,
+            "positive_signal_count": 8, "red_flag_count": 2,
+            "components": [{"name": "Quality", "score": 84, "confidence": .9, "evidence_count": 4}],
+        },
+        model_build={
+            "build_id": "model-build", "model_version": "model-v1", "built_at": RESEARCH_NOW,
+            "data_cutoff": RESEARCH_NOW, "validation_status": "research validation only",
+        },
+        financial={
+            "selected_source": "yahoo_compatibility", "source_quality_tier": "B",
+            "selection_policy_version": "2026-08-01.2", "basis": "unknown",
+            "basis_reason": "The provider does not identify statement basis.",
+            "latest_annual_fiscal_year": 2025, "data_cutoff": RESEARCH_NOW,
+            "quality_status": "valid_with_warning", "quality_warnings": ["Verify independently."],
+            "financial_dataset_build_id": "financial-build", "metric_definition_version": "2026-08-01.1",
+            "values": {"revenue_cagr_3y": .184, "roce_3y": .211},
+            "facts": [{"metric_id": "revenue", "value": 1_500_000_000, "fiscal_year": 2025, "unit": "INR"}],
+        },
+        technical={"trend": "strong_up", "return_3m": .12},
+        history=[{"build_id": "model-build", "built_at": RESEARCH_NOW, "rank": 7, "multibagger_score": 78.2,
+                   "confidence": .92, "risk_score": 61, "investment_score": 75}],
+        peer_candidates=[], universe_medians={"multibagger_score": 63, "revenue_cagr_3y": .121, "roce_3y": .15},
+        news=[], filings=[], generated_at=RESEARCH_NOW,
+        quote={"price": 245.5, "currency": "INR", "timestamp": RESEARCH_NOW, "state": "build_close", "stale": True},
+    )
+    args.update(overrides)
+    return build_company_research(**args)
+
+
+def test_render_company_page_includes_universal_section_when_artifact_present():
+    from mbe.publish import _render_company_page
+
+    page = _company_research_page(universal=UNIVERSAL)
+    html = _render_company_page(page.model_dump(mode="json"))
+    assert "Universal Research Score" in html
+    assert "81" in html
+    assert "High" in html
+
+
+def test_render_company_page_shows_not_yet_refreshed_when_universal_is_none():
+    from mbe.publish import _render_company_page
+
+    page = _company_research_page(universal=None)
+    html = _render_company_page(page.model_dump(mode="json"))
+    assert "Universal Research Report available" not in html
+    assert "not yet been refreshed" in html
+
+
+def test_render_company_page_does_not_attach_100_suffix_to_unavailable_score():
+    from mbe.publish import _render_company_page
+
+    insufficient_data = {**UNIVERSAL, "executive_summary": {**UNIVERSAL["executive_summary"], "overall_score": None}}
+    page = _company_research_page(universal=insufficient_data)
+    html = _render_company_page(page.model_dump(mode="json"))
+    assert "Unavailable/100" not in html
+    assert "Universal Research Score: Unavailable" in html

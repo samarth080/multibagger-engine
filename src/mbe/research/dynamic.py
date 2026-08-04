@@ -10,6 +10,7 @@ from mbe.db.repository import PlatformRepository
 from mbe.financials.official_repository import filing_list
 from mbe.financials.repository import instrument_summary, metric_matrix
 from mbe.research.builder import build_company_research, canonical_company_url
+from mbe.research.lightweight import _universal_for
 
 PUBLIC_METRICS = ["revenue_cagr_3y", "roce_3y"]
 
@@ -56,4 +57,5 @@ def build_dynamic_research(session: Session, instrument_id: str):
         universe_medians=medians, news=[], filings=filings,
         generated_at=str((build or {}).get("built_at") or (financial_build.built_at if financial_build else "")),
         data_mode="dynamic",
+        universal=_universal_for(instrument_id),
     )

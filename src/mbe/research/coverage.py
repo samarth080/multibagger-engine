@@ -19,6 +19,7 @@ def build_coverage_research(
     coverage: CoverageAssessment,
     financial_summary: dict | None = None,
     *,
+    universal: dict | None = None,
     now: datetime | None = None,
 ) -> dict:
     if coverage.research_coverage_level >= 3:
@@ -31,4 +32,5 @@ def build_coverage_research(
     payload["financial_summary"] = (
         financial_summary if coverage.research_coverage_level >= 2 else None
     )
+    payload["universal"] = universal
     return payload

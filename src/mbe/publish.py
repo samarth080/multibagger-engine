@@ -463,13 +463,13 @@ def render_error_page(ticker: str, reason: str) -> str:
 
 def render_coverage_company_page(
     record: dict, quote: dict | None, coverage: CoverageAssessment,
-    financial_summary: dict | None = None,
+    financial_summary: dict | None = None, *, universal: dict | None = None,
 ) -> str:
     """Canonical page for a search-universe company at coverage Level 0, 1
     or 2 — rendered on demand by the api/company.py serverless fallback
     (never part of the weekly static build: see docs/HANDOVER.md "Search,
     research and ranking universes" and docs/coverage-architecture.md)."""
-    payload = build_coverage_research(record, quote, coverage, financial_summary)
+    payload = build_coverage_research(record, quote, coverage, financial_summary, universal=universal)
     identity = payload["identity"]
     canonical_path = payload["canonical_url"]
     context = _base_context(
@@ -675,12 +675,19 @@ def _static_envelope(data, *, meta=None, warnings=None, freshness=None) -> dict:
 
 def build_search_asset_payload(
     *, data: dict, search_universe_rows: list[dict], bse_rows: list[dict],
+    universal_scores: dict[str, dict] | None = None,
 ) -> dict:
-    """Build only the public search artifact from frozen, non-model inputs."""
+    """Build only the public search artifact from frozen, non-model inputs.
+
+    universal_scores (additive, Phase 11 Milestone 3) is the small summary
+    dict from mbe.universal.cache.load_universal_scores_summary — reading a
+    pre-warmed artifact directory already on disk, never a live fetch, so
+    this stays safe to call under deny_network()."""
     instruments = data.get("instruments", [])
     screener_rows = data.get("_screener_rows", [])
     search_index = build_search_index(
         search_universe_rows, instruments, screener_rows, bse_rows=bse_rows,
+        universal_scores=universal_scores,
     )
     rows = sorted(
         (record.model_dump(mode="json") for record in search_index),

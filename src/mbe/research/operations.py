@@ -8,6 +8,7 @@ from statistics import median
 
 from mbe.research.builder import build_company_research, canonical_company_url
 from mbe.research.domain import CompanyResearch
+from mbe.research.lightweight import _universal_for
 
 
 def load_research_payloads(site_dir: Path, instrument_id: str | None = None) -> dict[str, CompanyResearch]:
@@ -105,6 +106,7 @@ def rebuild_research_payloads(pages: dict[str, CompanyResearch]) -> dict[str, Co
             filings=[item.model_dump(mode="json") for item in page.filings],
             generated_at=page.lineage.generated_at, data_mode=page.lineage.data_mode,
             quote=page.quote.model_dump(mode="json"),
+            universal=_universal_for(page.identity.instrument_id),
         )
         rebuilt[page.identity.instrument_id] = rebuilt_page
     return rebuilt

@@ -48,6 +48,38 @@
         <p class="cell-note">Search finds every NSE/BSE-listed company. Only the modeled research universe receives a full report — see <a href="/methodology.html">methodology</a> for how the search, research and ranking universes differ.</p>
       </section>
 
+      {% if company.universal %}
+      <section class="panel research-section" aria-labelledby="universal-score">
+        <div class="section-heading"><div><p class="eyebrow">Universal Research Score</p><h2 id="universal-score">Universal Research Score: {{ (company.universal.executive_summary.overall_score | round(0, 'floor') | int ~ '/100') if company.universal.executive_summary.overall_score is not none else 'Unavailable' }}</h2></div></div>
+        <p class="notice notice-info"><span aria-hidden="true">ℹ</span> Universal Research Report available. This company is not currently included in a validated universe ranking.</p>
+        <dl class="metric-strip">
+          <div><dt>Confidence</dt><dd>{{ company.universal.executive_summary.confidence }}</dd></div>
+          <div><dt>Data coverage</dt><dd>{{ '%.0f%%'|format(company.universal.executive_summary.data_coverage_pct) if company.universal.executive_summary.data_coverage_pct is not none else 'Unavailable' }}</dd></div>
+          <div><dt>Report state</dt><dd>{{ company.universal.executive_summary.report_state | replace('_', ' ') | title }}</dd></div>
+          <div><dt>Company type</dt><dd>{{ company.universal.executive_summary.company_type | replace('_', ' ') | title }}</dd></div>
+        </dl>
+        {% if company.universal.strengths %}
+        <h3>Strengths</h3>
+        <ul>{% for item in company.universal.strengths %}<li>{{ item }}</li>{% endfor %}</ul>
+        {% endif %}
+        {% if company.universal.risks %}
+        <h3>Risks</h3>
+        <ul>{% for item in company.universal.risks %}<li>{{ item }}</li>{% endfor %}</ul>
+        {% endif %}
+        <p class="cell-note">Universal analysis updated: {{ company.universal.get('source_lineage', {}).get('generated_at', 'Unavailable') }} · Model {{ company.universal.get('methodology', {}).get('policy_version', 'Unavailable') }}. Not a buy/sell recommendation, guaranteed outcome or price target — see <a href="/methodology.html">methodology</a>.</p>
+      </section>
+      {% elif company.coverage.quote_available %}
+      <section class="panel research-section" aria-labelledby="universal-score-pending">
+        <div class="section-heading"><div><p class="eyebrow">Universal Research Score</p><h2 id="universal-score-pending">Not yet refreshed</h2></div></div>
+        <p class="empty-state">A Universal Research Score for this company has not yet been refreshed.</p>
+      </section>
+      {% else %}
+      <section class="panel research-section" aria-labelledby="universal-score-unavailable">
+        <div class="section-heading"><div><p class="eyebrow">Universal Research Score</p><h2 id="universal-score-unavailable">Unavailable</h2></div></div>
+        <p class="empty-state">A Universal Research Score cannot be produced for this company — there is no live market data source connected for it.</p>
+      </section>
+      {% endif %}
+
       <section class="panel research-section" aria-labelledby="business-description">
         <div class="section-heading"><div><p class="eyebrow">Identity</p><h2 id="business-description">Business description</h2></div></div>
         <p class="empty-state">Business description unavailable — no approved public data source is currently connected for unmodeled companies.</p>

@@ -5,7 +5,7 @@
   "functions": {
     "api/quotes.py": { "includeFiles": "{site/data.json,universes/nse-search-universe.json,src/mbe/**}" },
     "api/analyze.py": { "includeFiles": "src/mbe/**", "maxDuration": 60 },
-    "api/company.py": { "includeFiles": "{site/api/v1/search-index.json,src/mbe/**}" },
+    "api/company.py": { "includeFiles": "{site/api/v1/search-index.json,src/mbe/**}", "maxDuration": 60 },
     "api/v1.py": { "includeFiles": "{site/data.json,src/mbe/**,migrations/**,alembic.ini}" }
   },
   "headers": [

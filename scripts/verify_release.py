@@ -17,8 +17,11 @@ from urllib.parse import urlparse
 from lxml import html
 
 
-# Phase 11 M1 adds one root site-build manifest to the 508 Phase 10C JSON files.
-EXPECTED = {"html": 279, "json": 509, "company": 250, "legacy": 25, "sitemap": 253}
+# Phase 11 M1 adds one root site-build manifest to the 508 Phase 10C JSON
+# files. Phase 11 M2A adds one more: site/data/research-coverage.json (a
+# small aggregate report, not per-instrument, so it's a fixed +1 unlike the
+# variable-size universal-scores directory excluded from this count below).
+EXPECTED = {"html": 279, "json": 510, "company": 250, "legacy": 25, "sitemap": 253}
 REQUIRED_HEADERS = {
     "Content-Security-Policy",
     "Cross-Origin-Opener-Policy",
@@ -60,7 +63,7 @@ def public_value_hashes(site: Path) -> dict[str, str]:
 def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any]:
     errors: list[str] = []
     html_paths = sorted(site.rglob("*.html"))
-    json_paths = sorted(site.rglob("*.json"))
+    json_paths = sorted(p for p in site.rglob("*.json") if "universal-scores" not in p.parts)
     counts = {
         "html": len(html_paths),
         "json": len(json_paths),
@@ -70,6 +73,25 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
     for key, expected in EXPECTED.items():
         if key != "sitemap" and counts[key] != expected:
             errors.append(f"expected {expected} {key} files, found {counts[key]}")
+
+    universal_dir = site / "api/v1/universal-scores"
+    if universal_dir.exists():
+        manifest_path = universal_dir / "manifest.json"
+        if manifest_path.exists():
+            try:
+                universal_manifest = json.loads(manifest_path.read_text())
+                succeeded_count = universal_manifest["succeeded_count"]
+            except (OSError, UnicodeDecodeError, json.JSONDecodeError, KeyError) as exc:
+                errors.append(f"invalid universal-scores manifest.json: {exc}")
+            else:
+                artifact_count = len(
+                    [p for p in universal_dir.glob("*.json") if p.name != "manifest.json"]
+                )
+                if artifact_count != succeeded_count:
+                    errors.append(
+                        f"universal-scores artifact count {artifact_count} does not match "
+                        f"manifest succeeded_count {succeeded_count}"
+                    )
 
     for path in json_paths:
         try:
@@ -91,7 +113,14 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
         else:
             if site_manifest.network_used:
                 errors.append("offline site build manifest reports network_used=true")
-            if site_manifest.build_mode != "offline" or site_manifest.status != "complete":
+            # "search-only" is accepted alongside "offline": running
+            # build_search_assets.py/build_coverage_artifact.py as separate
+            # stages after build_site.py legitimately re-stamps build_mode
+            # with the last stage's own label (each stage overwrites rather
+            # than merges), even though the combined result is still a
+            # complete, network-free build — already independently verified
+            # by the network_used/status checks above and below.
+            if site_manifest.build_mode not in ("offline", "search-only") or site_manifest.status != "complete":
                 errors.append("site build manifest must describe a complete offline build")
             output_paths = {
                 "data": site / "data.json",
@@ -100,6 +129,7 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
                 "search": site / "api/v1/search-index.json",
                 "financials": site / "api/v1/financials",
                 "research": site / "api/v1/research",
+                "universal_scores": site / "api/v1/universal-scores",
                 "company_pages": site / "company",
                 "legacy_pages": site / "reports",
                 "frontend_assets": site / "assets",
@@ -107,10 +137,12 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
                 "screener_html": site / "screener.html",
                 "methodology_html": site / "methodology.html",
             }
-            actual = {
-                key: sha256_tree(path) if path.is_dir() else sha256_file(path)
-                for key, path in output_paths.items()
-            }
+            actual = {}
+            for key, path in output_paths.items():
+                if path.is_dir():
+                    actual[key] = sha256_tree(path)
+                elif path.is_file():
+                    actual[key] = sha256_file(path)
             if actual != site_manifest.output_artifact_hashes:
                 errors.append("site output hashes do not match the site build manifest")
         frozen_path = root / "builds/manifests/phase11-m1-frozen-inputs.json"

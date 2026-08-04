@@ -10,9 +10,24 @@ exist for a company the model has not evaluated.
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
+
+from mbe.universal.cache import read_cached_report
 
 RANKING_UNIVERSE_BADGE = "Not currently included in the Multibagger ranking universe."
 SCORING_DISCLOSURE = "This company has not yet been evaluated by the Multibagger scoring model."
+
+_UNIVERSAL_ARTIFACTS_DIR = Path("site/api/v1/universal-scores")
+
+
+def _universal_for(instrument_id: str) -> dict | None:
+    """Reads the pre-warmed Universal Research Score artifact for
+    instrument_id, if one exists. Never computes live — a missing artifact
+    simply means None (rendered as "not yet refreshed"). Shared by the
+    static, incremental-rebuild and DB-backed dynamic research builders so
+    all three read the exact same prewarmed-artifact directory the same way."""
+    cached = read_cached_report(_UNIVERSAL_ARTIFACTS_DIR / f"{instrument_id}.json")
+    return cached.get("report") if cached else None
 
 
 def build_lightweight_research(

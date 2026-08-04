@@ -104,3 +104,42 @@ def test_page_shows_a_prominent_banner_for_a_delisted_company():
     html = render_coverage_company_page(delisted, None, _coverage(delisted))
     assert "Not currently active" in html
     assert "Delisted" in html
+
+
+UNIVERSAL = {
+    "executive_summary": {
+        "overall_score": 70.0, "confidence": "Medium", "data_coverage_pct": 60.0,
+        "report_state": "full_evaluated_report", "company_type": "general_corporate",
+    },
+    "strengths": ["Growth scores 82/100, above the strength threshold."],
+    "risks": [],
+    "data_quality_notes": {"coverage_pct": 60.0, "excluded_factor_notes": []},
+    "methodology": {"policy_version": "universal-score-v1", "company_type_policy": "general_corporate"},
+    "source_lineage": {"generated_at": "2026-08-04T18:30:00+00:00"},
+}
+
+
+def test_coverage_page_renders_universal_score_section_when_available():
+    html = render_coverage_company_page(RECORD, QUOTE, _coverage(), universal=UNIVERSAL)
+    assert "Universal Research Score" in html
+    assert "70" in html
+    assert "This company is not currently included in a validated universe ranking" in html
+
+
+def test_coverage_page_shows_not_yet_refreshed_when_universal_is_none():
+    html = render_coverage_company_page(RECORD, QUOTE, _coverage(), universal=None)
+    assert "not yet been refreshed" in html or "Universal Research Report available" not in html
+
+
+def test_coverage_page_shows_no_quote_mapping_message_for_level_0_when_universal_is_none():
+    no_symbol = {**RECORD, "provider_symbol": None}
+    html = render_coverage_company_page(no_symbol, None, _coverage(no_symbol), universal=None)
+    assert "Universal Research Report available" not in html
+    assert "no live market data" in html
+
+
+def test_coverage_page_does_not_attach_100_suffix_to_unavailable_score():
+    insufficient_data = {**UNIVERSAL, "executive_summary": {**UNIVERSAL["executive_summary"], "overall_score": None}}
+    html = render_coverage_company_page(RECORD, QUOTE, _coverage(), universal=insufficient_data)
+    assert "Unavailable/100" not in html
+    assert "Universal Research Score: Unavailable" in html

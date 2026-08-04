@@ -1,0 +1,290 @@
+[
+  {
+    "instrument_id": "74d2df02-f10c-532a-9a96-fa3bd484bab5",
+    "provider_symbol": "RELIANCE.NS"
+  },
+  {
+    "instrument_id": "1c28c4c1-d18d-50be-a425-e568a0ed9ea9",
+    "provider_symbol": "TCS.NS"
+  },
+  {
+    "instrument_id": "37a2f506-07c1-54c0-a358-e3046aebc7d7",
+    "provider_symbol": "INFY.NS"
+  },
+  {
+    "instrument_id": "0e65acfe-42f4-5d7f-8965-43447b582638",
+    "provider_symbol": "HDFCBANK.NS"
+  },
+  {
+    "instrument_id": "d0f2cc4b-42ca-54f3-9f1c-eb74a98cbdc7",
+    "provider_symbol": "ICICIBANK.NS"
+  },
+  {
+    "instrument_id": "eb227909-13a5-538a-97ea-e1166e84ff63",
+    "provider_symbol": "HAL.NS"
+  },
+  {
+    "instrument_id": "08acaa64-5aff-51bc-b835-6b6d6d3ad3e4",
+    "provider_symbol": "BEL.NS"
+  },
+  {
+    "instrument_id": "b9880371-0ee4-573f-bc8c-4e446b03b7d6",
+    "provider_symbol": "DIXON.NS"
+  },
+  {
+    "instrument_id": "9b25bfae-c44d-54d4-8991-053777276a13",
+    "provider_symbol": "POLYCAB.NS"
+  },
+  {
+    "instrument_id": "ff7b792a-c20b-5435-8de7-64535e3af980",
+    "provider_symbol": "AGUL.NS"
+  },
+  {
+    "instrument_id": "e9e6032f-c8bc-5f11-a433-460ef495a2ae",
+    "provider_symbol": "VISHWAS.NS"
+  },
+  {
+    "instrument_id": "synthetic-inactive-unmapped-test",
+    "provider_symbol": "NOSUCHTICKERXYZ123.NS"
+  },
+  {
+    "instrument_id": "ec9a43b6-b0d8-5552-95df-8413c05aa38a",
+    "provider_symbol": "LENSKART.NS"
+  },
+  {
+    "instrument_id": "557788b0-8763-5f95-be0a-6f022eee5f2a",
+    "provider_symbol": "DIGIKORE.NS"
+  },
+  {
+    "instrument_id": "3ed6599a-ca61-5149-b7a3-e9715cdc63c4",
+    "provider_symbol": "NOVAAGRI.NS"
+  },
+  {
+    "instrument_id": "9afcb2b0-bab2-5eea-9d72-82274ec922bc",
+    "provider_symbol": "YESBANK.NS"
+  },
+  {
+    "instrument_id": "7f02b542-6c9e-52af-887b-3e987cc59ded",
+    "provider_symbol": "ARABIAN.NS"
+  },
+  {
+    "instrument_id": "62295955-e9dd-5c05-8fb9-afda1fddb555",
+    "provider_symbol": "BILVYAPAR.NS"
+  },
+  {
+    "instrument_id": "285f8ada-d394-55fd-adc4-624715e85f52",
+    "provider_symbol": "SNEHAA.NS"
+  },
+  {
+    "instrument_id": "b97055f3-231d-5e01-b0b9-3d8e3b8c3667",
+    "provider_symbol": "BIOCON.NS"
+  },
+  {
+    "instrument_id": "1b85444e-d2ad-5340-ad3d-609fda7cb382",
+    "provider_symbol": "MODIS.NS"
+  },
+  {
+    "instrument_id": "7094d02c-3a8d-564f-b317-cf837d83ceb9",
+    "provider_symbol": "TEXINFRA.NS"
+  },
+  {
+    "instrument_id": "38ad806b-5ffc-558a-a0e2-109a973794c0",
+    "provider_symbol": "ASIANTILES.NS"
+  },
+  {
+    "instrument_id": "5612d7c8-a9b0-56f0-96ab-7c8e63a7900a",
+    "provider_symbol": "SERVICE.NS"
+  },
+  {
+    "instrument_id": "bda351b3-c6d5-53a7-8d64-1aa26fc396cc",
+    "provider_symbol": "GOLDSTAR.NS"
+  },
+  {
+    "instrument_id": "be98ef69-ad03-5aaf-be28-5eeacae51eb0",
+    "provider_symbol": "AMAGI.NS"
+  },
+  {
+    "instrument_id": "1d5926b6-8af8-5496-b7d6-3a1f03856870",
+    "provider_symbol": "BEEKAY.NS"
+  },
+  {
+    "instrument_id": "e3de88ec-be59-5b35-b1b0-c22a822c582d",
+    "provider_symbol": "PRAVEG.NS"
+  },
+  {
+    "instrument_id": "4e06af70-df10-5b2b-8702-5ed3253a0b6c",
+    "provider_symbol": "PARASPETRO.NS"
+  },
+  {
+    "instrument_id": "d80b94cf-12f9-57a1-a9ba-36b5f0c9edba",
+    "provider_symbol": "BAGFILMS.NS"
+  },
+  {
+    "instrument_id": "d32acca4-c13f-52e0-a671-683a88e986b1",
+    "provider_symbol": "HINDUNILVR.NS"
+  },
+  {
+    "instrument_id": "51f677e9-506a-5181-a8d4-04e6a7d247a9",
+    "provider_symbol": "BHARATRAS.NS"
+  },
+  {
+    "instrument_id": "57fd0109-ffff-5d3e-9197-2888a645d6a4",
+    "provider_symbol": "SUDEEPPHRM.NS"
+  },
+  {
+    "instrument_id": "f14fec32-14ac-5f80-a751-a8cf6ddde695",
+    "provider_symbol": "PHANTOMFX.NS"
+  },
+  {
+    "instrument_id": "b7886e14-83e2-57b3-9d31-34e76e4e663b",
+    "provider_symbol": "ASTAR.NS"
+  },
+  {
+    "instrument_id": "96fdaffc-5551-5ffd-9ed4-9aac3f30c263",
+    "provider_symbol": "SYSTMTXC.NS"
+  },
+  {
+    "instrument_id": "89f7914d-17a6-5cb8-916a-54e81c754101",
+    "provider_symbol": "CONSOFINVT.NS"
+  },
+  {
+    "instrument_id": "d3bd7e63-50c9-5563-a0cc-9282ace11b05",
+    "provider_symbol": "GUJRAFFIA.NS"
+  },
+  {
+    "instrument_id": "a6863c53-5d4c-5065-89db-307655ecabb8",
+    "provider_symbol": "VIKRAMSOLR.NS"
+  },
+  {
+    "instrument_id": "73b6fbdd-557f-5c5c-bd85-11ca47f3ab7e",
+    "provider_symbol": "VERTOZ.NS"
+  },
+  {
+    "instrument_id": "4d304c34-9935-57a4-8b01-1cbb8659b88e",
+    "provider_symbol": "ATLANTAELE.NS"
+  },
+  {
+    "instrument_id": "76bad11b-7f8e-5073-b81b-14f527ea18f9",
+    "provider_symbol": "TATACAP.NS"
+  },
+  {
+    "instrument_id": "e7239bca-16cf-5add-8893-7f0d27280a0f",
+    "provider_symbol": "GROBTEA.NS"
+  },
+  {
+    "instrument_id": "1f7100d7-d3cf-53cb-b5f0-ddd3f6e3af9e",
+    "provider_symbol": "OCCLLTD.NS"
+  },
+  {
+    "instrument_id": "daf3b946-c2e9-5d79-8851-b900a0a7c19e",
+    "provider_symbol": "ARHAM.NS"
+  },
+  {
+    "instrument_id": "783e6cda-3b6f-5d00-96dd-d3274b2aae7f",
+    "provider_symbol": "GAEL.NS"
+  },
+  {
+    "instrument_id": "66cbfbea-a0cc-5d40-9e8c-95e2a16ba1c1",
+    "provider_symbol": "APOLLOPIPE.NS"
+  },
+  {
+    "instrument_id": "d12eef34-2445-51b2-bae0-f21a05864db8",
+    "provider_symbol": "SUPRAJIT.NS"
+  },
+  {
+    "instrument_id": "87ffc534-db34-5ed6-9009-7a55939e35c6",
+    "provider_symbol": "DCM.NS"
+  },
+  {
+    "instrument_id": "a2a4d460-0464-5394-91a9-6f655ff4317d",
+    "provider_symbol": "KEI.NS"
+  },
+  {
+    "instrument_id": "9d64d18f-6659-50b6-814f-4d0c3c3f81fa",
+    "provider_symbol": "PARTH.NS"
+  },
+  {
+    "instrument_id": "d542c8d3-1615-545c-99e2-9ad3dfe99a8c",
+    "provider_symbol": "DELTAMAGNT.NS"
+  },
+  {
+    "instrument_id": "c8748dbe-64ad-542f-9577-297c0b586030",
+    "provider_symbol": "SPANDANA.NS"
+  },
+  {
+    "instrument_id": "557537c7-af64-5d51-8b40-c6a99f80db57",
+    "provider_symbol": "CHETANA.NS"
+  },
+  {
+    "instrument_id": "91b8fe98-71cb-54b6-90ec-62e5d4de4485",
+    "provider_symbol": "TVTODAY.NS"
+  },
+  {
+    "instrument_id": "3ddce936-384f-534a-a64d-788c04c78f7a",
+    "provider_symbol": "KDL.NS"
+  },
+  {
+    "instrument_id": "ca395ca9-5810-5ac5-a684-9bce34f2048c",
+    "provider_symbol": "SBGLP.NS"
+  },
+  {
+    "instrument_id": "45a34c76-c381-5d24-8fde-7f5005cb4f45",
+    "provider_symbol": "FEDFINA.NS"
+  },
+  {
+    "instrument_id": "ecdfd4ef-313f-5bb4-ba26-65fd6a4a148a",
+    "provider_symbol": "BUTTERFLY.NS"
+  },
+  {
+    "instrument_id": "24e85a3f-8750-5992-95b7-5cd2934bc74a",
+    "provider_symbol": "TGL.NS"
+  },
+  {
+    "instrument_id": "e02e1e5b-5822-57a8-bb5f-b51c2c9fa8fc",
+    "provider_symbol": "TVVISION.NS"
+  },
+  {
+    "instrument_id": "79ad34b0-8bd1-5a62-b567-0bebda74b7b4",
+    "provider_symbol": "IDEA.NS"
+  },
+  {
+    "instrument_id": "28ce7142-344a-5dc7-9e42-bfe5cca95654",
+    "provider_symbol": "FRACTAL.NS"
+  },
+  {
+    "instrument_id": "393a6bd4-3186-59e8-9da1-2ed2b153cf9a",
+    "provider_symbol": "MUNJALAU.NS"
+  },
+  {
+    "instrument_id": "0943854c-acbd-5150-a8ea-9d79de9c60e0",
+    "provider_symbol": "BLUEWATER.NS"
+  },
+  {
+    "instrument_id": "4932c83a-af94-5bec-b2d0-ed0f9a818db0",
+    "provider_symbol": "SWSOLAR.NS"
+  },
+  {
+    "instrument_id": "17304f75-385f-54a6-abaa-722788b14e55",
+    "provider_symbol": "AURIONPRO.NS"
+  },
+  {
+    "instrument_id": "35188cd9-cba6-5912-b246-b44f4dcf15f3",
+    "provider_symbol": "SYMPHONY.NS"
+  },
+  {
+    "instrument_id": "da33faaf-eb45-51dc-bbcf-57a0a1d4ee13",
+    "provider_symbol": "ASPIRE.NS"
+  },
+  {
+    "instrument_id": "95d47da8-d57c-534a-80ce-6c66a821270e",
+    "provider_symbol": "VALIANTLAB.NS"
+  },
+  {
+    "instrument_id": "3290899a-106a-5cb7-a69d-cd157fb76280",
+    "provider_symbol": "GENCON.NS"
+  },
+  {
+    "instrument_id": "58385e68-4db9-53c4-8920-66cf1818081e",
+    "provider_symbol": "SAIFL.NS"
+  }
+]

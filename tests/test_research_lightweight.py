@@ -127,3 +127,44 @@ def test_lightweight_payload_does_not_flag_an_active_company_as_inactive():
     payload = build_lightweight_research(RECORD, QUOTE, now=NOW)
     assert payload["is_inactive"] is False
     assert payload["listing_status_disclosure"] is None
+
+
+# --- Phase 11 M2C: shared prewarmed-artifact reader for the Universal
+# Research Score (never a live-compute fallback — see mbe.research.static,
+# .operations and .dynamic, the three build-time callers) ---
+
+
+def test_universal_for_reads_a_prewarmed_cached_report(tmp_path, monkeypatch):
+    from mbe.research import lightweight
+    from mbe.universal.cache import write_cached_report
+
+    monkeypatch.setattr(lightweight, "_UNIVERSAL_ARTIFACTS_DIR", tmp_path)
+    write_cached_report(tmp_path / "instrument-a.json", {
+        "instrument_id": "instrument-a", "cache_key": "k", "policy_version": "universal-score-v1",
+        "generated_at": "2026-08-04T00:00:00+00:00",
+        "report": {"executive_summary": {"overall_score": 81.0, "confidence": "High"}},
+    })
+    result = lightweight._universal_for("instrument-a")
+    assert result == {"executive_summary": {"overall_score": 81.0, "confidence": "High"}}
+
+
+def test_universal_for_returns_none_without_a_live_fetch_when_the_artifact_is_missing(tmp_path, monkeypatch):
+    from mbe.research import lightweight
+
+    monkeypatch.setattr(lightweight, "_UNIVERSAL_ARTIFACTS_DIR", tmp_path)
+    assert lightweight._universal_for("no-such-instrument") is None
+
+
+def test_universal_for_returns_none_for_a_malformed_artifact_missing_the_report_key(tmp_path, monkeypatch):
+    """A truncated write from an interrupted refresh run, or a schema
+    change, must not crash the offline build for all 250 companies — it
+    must degrade to "not yet refreshed" like a missing artifact."""
+    from mbe.research import lightweight
+    from mbe.universal.cache import write_cached_report
+
+    monkeypatch.setattr(lightweight, "_UNIVERSAL_ARTIFACTS_DIR", tmp_path)
+    write_cached_report(tmp_path / "instrument-a.json", {
+        "instrument_id": "instrument-a", "cache_key": "k", "policy_version": "universal-score-v1",
+        "generated_at": "2026-08-04T00:00:00+00:00",
+    })
+    assert lightweight._universal_for("instrument-a") is None

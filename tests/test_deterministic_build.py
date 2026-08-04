@@ -138,7 +138,7 @@ def test_checked_site_manifest_output_hashes_are_complete() -> None:
     assert set(manifest.output_artifact_hashes) == {
         "data", "rankings", "screener", "search", "financials", "research",
         "company_pages", "legacy_pages", "frontend_assets", "index_html",
-        "screener_html", "methodology_html",
+        "screener_html", "methodology_html", "universal_scores",
     }
 
 
@@ -306,6 +306,67 @@ def test_quote_refresh_ui_does_not_change_score_financial_or_membership_hashes(t
     assert (out / "assets/quote-controller.js").exists()
 
 
+def test_verify_release_excludes_universal_scores_from_the_fixed_json_count(tmp_path):
+    """universal-scores is a variable-size, incrementally-grown artifact set —
+    it must never be folded into the fixed EXPECTED["json"] literal, or every
+    refresh run would break the release verifier.
+
+    Exercises scripts.verify_release.verify() directly (rather than
+    re-deriving the exclusion inline) so this test actually regresses if the
+    module's own json-counting rglob call stops excluding the directory.
+
+    render_site_from_manifest is called a second time after the
+    universal-scores directory is added so the resulting build-manifest.json
+    (mode "offline", complete) re-hashes that directory too — calling it only
+    once, before the directory exists, would make the recorded manifest and
+    the live tree disagree for a reason unrelated to what this test checks.
+
+    Deliberately omits build_search_only: it leaves the manifest's
+    build_mode stamped "search-only" rather than merging with the prior
+    "offline" stage — verify() now accepts both, but this test doesn't need
+    that path exercised. build_coverage_only IS included (unlike an earlier
+    version of this test) because EXPECTED["json"]=510 now assumes
+    data/research-coverage.json exists — omitting it here would fail this
+    test for a reason unrelated to universal-scores, the same class of
+    problem this docstring used to describe about including it."""
+    from scripts.verify_release import EXPECTED, verify
+    out = tmp_path / "site"
+    render_site_from_manifest(MANIFEST, out)
+    build_search_only(MANIFEST, out, write_manifest=False)
+    build_coverage_only(MANIFEST, out)
+    (out / "api/v1/universal-scores").mkdir(parents=True)
+    (out / "api/v1/universal-scores/some-id.json").write_text("{}")
+    render_site_from_manifest(MANIFEST, out)
+    result = verify(out, ROOT)
+    assert result["counts"]["json"] == EXPECTED["json"]
+    assert result["errors"] == []
+    assert result["status"] == "pass"
+
+
+def test_verify_release_reports_a_corrupt_universal_scores_manifest_instead_of_crashing(tmp_path):
+    """verify() is the last line of defense against shipping a broken build —
+    a corrupt api/v1/universal-scores/manifest.json (invalid JSON, or valid
+    JSON missing succeeded_count) must surface as a reported error, not an
+    uncaught JSONDecodeError/KeyError that crashes the whole check."""
+    from scripts.verify_release import verify
+    out = tmp_path / "site"
+    render_site_from_manifest(MANIFEST, out)
+    universal_dir = out / "api/v1/universal-scores"
+    universal_dir.mkdir(parents=True)
+    (universal_dir / "some-id.json").write_text("{}")
+    (universal_dir / "manifest.json").write_text("not valid json")
+    render_site_from_manifest(MANIFEST, out)
+    result = verify(out, ROOT)
+    assert any("invalid universal-scores manifest.json" in error for error in result["errors"])
+    assert result["status"] == "fail"
+
+    (universal_dir / "manifest.json").write_text(json.dumps({"no_succeeded_count_field": 1}))
+    render_site_from_manifest(MANIFEST, out)
+    result = verify(out, ROOT)
+    assert any("invalid universal-scores manifest.json" in error for error in result["errors"])
+    assert result["status"] == "fail"
+
+
 def test_deny_network_still_blocks_a_live_provider_call_after_the_quote_ui_change():
     """The quote controller only ever runs client-side in the browser; it
     introduces no new network call anywhere in the Python build path. Confirm
@@ -321,3 +382,34 @@ def test_deny_network_still_blocks_a_live_provider_call_after_the_quote_ui_chang
         else:
             raise AssertionError("expected deny_network to block this request")
     assert audit.attempted is True
+
+
+def test_universal_score_engine_output_is_pinned_for_the_verification_set():
+    """Guards against silent scoring-policy drift. Not a network test —
+    uses the mbe.universal.pipeline.analyze_universal path with a fixed,
+    checked-in stub provider fixture (see conftest or a small inline stub),
+    matching the tests/test_universal_pipeline.py::_StubProvider pattern
+    from Task 8, so this test never touches the network and stays fast
+    and deterministic in CI."""
+    from mbe.universal.pipeline import analyze_universal
+    from tests.test_universal_pipeline import _StubProvider
+
+    tickers = ["AAA.NS", "BBB.NS", "CCC.NS"]
+    results = {
+        t: analyze_universal(t, _StubProvider()).model_dump()
+        for t in tickers
+    }
+    # Flatten to only the fields we want to pin: overall_score, confidence, report_state value
+    results = {
+        t: {
+            "overall_score": card["overall_score"],
+            "confidence": card["confidence"],
+            "report_state": card["report_state"].value,
+        }
+        for t, card in results.items()
+    }
+
+    fixture_path = ROOT / "tests/fixtures/phase11-m3-universal-score-hash.json"
+    if not fixture_path.exists():
+        fixture_path.write_text(json.dumps(results, indent=2, sort_keys=True) + "\n")
+    assert results == json.loads(fixture_path.read_text())

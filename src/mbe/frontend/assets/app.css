@@ -335,6 +335,7 @@ h2 { font-size: var(--text-lg); }
 .notice { display: flex; gap: var(--space-2); align-items: flex-start; padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-2); background: var(--surface-1); }
 .notice-warning { border-color: color-mix(in srgb, var(--warning) 40%, var(--border)); background: var(--warning-soft); }
 .notice-error { border-color: color-mix(in srgb, var(--negative) 40%, var(--border)); background: var(--negative-soft); }
+.notice-info { border-color: color-mix(in srgb, var(--info) 40%, var(--border)); background: var(--info-soft); }
 
 .app-footer { max-width: var(--content-width); margin: var(--space-6) auto 0; padding: var(--space-5) var(--space-4); border-top: 1px solid var(--border); color: var(--text-3); font-size: var(--text-sm); }
 .footer-grid { display: grid; grid-template-columns: 1fr auto; gap: var(--space-4); }

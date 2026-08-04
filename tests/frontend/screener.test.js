@@ -84,3 +84,13 @@ test("browser static evaluator matches the shared Python parity fixture", () => 
   const result = screener.staticQuery(parity.rows, parity.query);
   assert.deepEqual(result.rows.map(row => row.instrument_id), parity.expected_instrument_ids);
 });
+
+test("reportDestination resolves to the canonical company route for a row with instrument_id", () => {
+  const row = { instrument_id: "abc-123", values: { nse_symbol: "RELIANCE" } };
+  assert.equal(screener.reportDestination(row), "/company/abc-123.html");
+});
+
+test("reportDestination with no instrument_id and no report_url never returns an /api/analyze URL", () => {
+  const row = { values: { nse_symbol: "RELIANCE" } };
+  assert.doesNotMatch(screener.reportDestination(row), /\/api\/analyze/);
+});

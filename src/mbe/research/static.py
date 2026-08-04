@@ -6,6 +6,7 @@ from statistics import median
 
 from mbe.pipeline import ScreenResult
 from mbe.research.builder import build_company_research, canonical_company_url
+from mbe.research.lightweight import _universal_for
 
 
 def _median(rows: list[dict], field: str) -> float | None:
@@ -100,6 +101,7 @@ def build_static_research(data: dict, result: ScreenResult) -> dict[str, dict]:
             generated_at=data["built_at"], data_mode="static",
             quote={"price": bundle.tech.price if bundle else None, "currency": bundle.info.currency if bundle else "INR",
                    "timestamp": data["built_at"], "state": "build_close", "stale": True},
+            universal=_universal_for(instrument_id),
         )
         pages[instrument_id] = page.model_dump(mode="json")
     return pages

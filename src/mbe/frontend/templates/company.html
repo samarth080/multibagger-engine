@@ -43,6 +43,33 @@
     <div class="research-main">
       <section class="panel research-section" aria-labelledby="research-summary"><div class="section-heading"><div><p class="eyebrow">Deterministic overview</p><h2 id="research-summary">Research summary</h2></div></div><ul class="summary-list">{% for sentence in research.research_summary %}<li>{{ sentence }}</li>{% endfor %}</ul><p class="cell-note">Generated from structured model fields. This is not an investment recommendation.</p></section>
 
+      {% if research.universal %}
+      <section class="panel research-section" aria-labelledby="universal-score">
+        <div class="section-heading"><div><p class="eyebrow">Universal Research Score</p><h2 id="universal-score">Universal Research Score: {{ (research.universal.executive_summary.overall_score | round(0, 'floor') | int ~ '/100') if research.universal.executive_summary.overall_score is not none else 'Unavailable' }}</h2></div></div>
+        <p class="notice notice-info"><span aria-hidden="true">ℹ</span> A cross-universe Universal Research Report is also available for this company, alongside the full Nifty Smallcap 250 model research above.</p>
+        <dl class="metric-strip">
+          <div><dt>Confidence</dt><dd>{{ research.universal.executive_summary.confidence }}</dd></div>
+          <div><dt>Data coverage</dt><dd>{{ '%.0f%%'|format(research.universal.executive_summary.data_coverage_pct) if research.universal.executive_summary.data_coverage_pct is not none else 'Unavailable' }}</dd></div>
+          <div><dt>Report state</dt><dd>{{ research.universal.executive_summary.report_state | replace('_', ' ') | title }}</dd></div>
+          <div><dt>Company type</dt><dd>{{ research.universal.executive_summary.company_type | replace('_', ' ') | title }}</dd></div>
+        </dl>
+        {% if research.universal.strengths %}
+        <h3>Strengths</h3>
+        <ul>{% for item in research.universal.strengths %}<li>{{ item }}</li>{% endfor %}</ul>
+        {% endif %}
+        {% if research.universal.risks %}
+        <h3>Risks</h3>
+        <ul>{% for item in research.universal.risks %}<li>{{ item }}</li>{% endfor %}</ul>
+        {% endif %}
+        <p class="cell-note">Universal analysis updated: {{ research.universal.get('source_lineage', {}).get('generated_at', 'Unavailable') }} · Model {{ research.universal.get('methodology', {}).get('policy_version', 'Unavailable') }}. Not a buy/sell recommendation, guaranteed outcome or price target — see <a href="/methodology.html">methodology</a>.</p>
+      </section>
+      {% else %}
+      <section class="panel research-section" aria-labelledby="universal-score-pending">
+        <div class="section-heading"><div><p class="eyebrow">Universal Research Score</p><h2 id="universal-score-pending">Not yet refreshed</h2></div></div>
+        <p class="empty-state">A Universal Research Score for this company has not yet been refreshed.</p>
+      </section>
+      {% endif %}
+
       <section class="panel research-section" aria-labelledby="why-ranked"><div class="section-heading"><div><p class="eyebrow">Explainability</p><h2 id="why-ranked">Why this company ranks here</h2></div><a href="/methodology.html">Methodology</a></div><div class="explanation-list">{% for item in research.explanations %}<article class="explanation explanation-{{ item.classification }}"><div><span class="status-label">{{ item.classification }}</span><h3>{{ item.label }}</h3></div><p>{{ item.text }}</p><small>{{ item.source or 'Source unavailable' }}{% if item.period %} · {{ item.period }}{% endif %}</small></article>{% endfor %}</div></section>
 
       <div class="split-panels">

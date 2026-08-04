@@ -1,0 +1,27 @@
+{
+ "coverage_policy_version": "2026-08-03.11.2a.1",
+ "coverage_reasons": {
+  "in_smallcap_research_universe": 250,
+  "no_financial_data": 2697,
+  "not_in_model_universe": 2697
+ },
+ "financial_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+ "generated_at": "2026-08-01T11:10:03.765519+00:00",
+ "instrument_count": 2947,
+ "level_counts": {
+  "0": 0,
+  "1": 2697,
+  "2": 0,
+  "3": 250
+ },
+ "model_build_ids": [
+  "1bd53d15-67c6-4b02-b830-0eb0bb1d582b"
+ ],
+ "schema_version": "1.0",
+ "search_build_id": "229f9634f1a395c166e777f900075e3a485591ad9007d22612a76adbba2fcbb5",
+ "source_hashes": {
+  "financial_build": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
+  "model_build": null,
+  "search_index": "229f9634f1a395c166e777f900075e3a485591ad9007d22612a76adbba2fcbb5"
+ }
+}

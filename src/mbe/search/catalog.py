@@ -51,6 +51,7 @@ def build_search_index(
     screener_rows: list[dict[str, Any]] | None = None,
     *,
     bse_rows: list[dict[str, Any]] | None = None,
+    universal_scores: dict[str, dict[str, Any]] | None = None,
 ) -> list[SearchIndexRecord]:
     """Build the full, merged search index.
 
@@ -75,6 +76,11 @@ def build_search_index(
     ``stable_instrument_id`` keys on ISIN alone when present); a row with no
     ISIN match becomes its own BSE-only search result. Never merged by name
     or symbol similarity alone.
+
+    ``universal_scores`` (Phase 11 Milestone 3) — a summary dict keyed by
+    ``instrument_id`` (``mbe.universal.cache.load_universal_scores_summary``
+    shape) used only to attach the additive Universal Research Score fields.
+    A record with no entry keeps those fields unset — never fabricated.
 
     Every row present in any input is included: the research universe is
     authoritative for a company's identity when both sources describe it
@@ -173,6 +179,15 @@ def build_search_index(
         record.research_sections_available = assessment.research_sections_available
         record.research_sections_missing = assessment.research_sections_missing
         record.coverage_policy_version = assessment.coverage_policy_version
+
+        universal = (universal_scores or {}).get(instrument_id)
+        if universal:
+            record.universal_score_available = True
+            record.universal_score = universal.get("overall_score")
+            record.universal_confidence = universal.get("confidence")
+            record.universal_data_coverage_pct = universal.get("data_coverage_pct")
+            record.universal_report_state = universal.get("report_state")
+            record.universal_score_policy_version = universal.get("policy_version")
 
     return list(records.values())
 

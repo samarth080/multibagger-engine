@@ -138,7 +138,7 @@
     return registry === datasetRegistry && (!build || !datasetBuild || build === datasetBuild);
   }
 
-  const pure = { defaultState, encodeShareState, decodeShareState, sanitizeState, passes, staticQuery, formulaSafe, csvFor, compatible };
+  const pure = { defaultState, encodeShareState, decodeShareState, sanitizeState, passes, staticQuery, formulaSafe, csvFor, compatible, reportDestination };
   global["MBEScreener"] = pure;
   if (typeof module !== "undefined" && module.exports) module.exports = pure;
   if (!global.document) return;

@@ -534,7 +534,7 @@
         const li = create("li"); li.setAttribute("role", "option"); li.id = `search-option-${index}`; li.setAttribute("aria-selected", String(index === selected));
         const button = create("button", "search-result"); button.type = "button"; button.tabIndex = -1;
         const main = create("span"); main.append(create("span", "search-name", item.display_name || item.symbol), researchBadge(item));
-        if (item.universal_score_available) {
+        if (item.universal_score_available && Number.isFinite(item.universal_score)) {
           const label = `Universal ${Math.round(item.universal_score)} · ${item.universal_confidence}`;
           main.append(create("span", "badge badge-info", label));
         }

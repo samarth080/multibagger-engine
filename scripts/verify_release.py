@@ -75,15 +75,20 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
     if universal_dir.exists():
         manifest_path = universal_dir / "manifest.json"
         if manifest_path.exists():
-            universal_manifest = json.loads(manifest_path.read_text())
-            artifact_count = len(
-                [p for p in universal_dir.glob("*.json") if p.name != "manifest.json"]
-            )
-            if artifact_count != universal_manifest["succeeded_count"]:
-                errors.append(
-                    f"universal-scores artifact count {artifact_count} does not match "
-                    f"manifest succeeded_count {universal_manifest['succeeded_count']}"
+            try:
+                universal_manifest = json.loads(manifest_path.read_text())
+                succeeded_count = universal_manifest["succeeded_count"]
+            except (OSError, UnicodeDecodeError, json.JSONDecodeError, KeyError) as exc:
+                errors.append(f"invalid universal-scores manifest.json: {exc}")
+            else:
+                artifact_count = len(
+                    [p for p in universal_dir.glob("*.json") if p.name != "manifest.json"]
                 )
+                if artifact_count != succeeded_count:
+                    errors.append(
+                        f"universal-scores artifact count {artifact_count} does not match "
+                        f"manifest succeeded_count {succeeded_count}"
+                    )
 
     for path in json_paths:
         try:

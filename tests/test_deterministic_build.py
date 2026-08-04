@@ -339,6 +339,30 @@ def test_verify_release_excludes_universal_scores_from_the_fixed_json_count(tmp_
     assert result["status"] == "pass"
 
 
+def test_verify_release_reports_a_corrupt_universal_scores_manifest_instead_of_crashing(tmp_path):
+    """verify() is the last line of defense against shipping a broken build —
+    a corrupt api/v1/universal-scores/manifest.json (invalid JSON, or valid
+    JSON missing succeeded_count) must surface as a reported error, not an
+    uncaught JSONDecodeError/KeyError that crashes the whole check."""
+    from scripts.verify_release import verify
+    out = tmp_path / "site"
+    render_site_from_manifest(MANIFEST, out)
+    universal_dir = out / "api/v1/universal-scores"
+    universal_dir.mkdir(parents=True)
+    (universal_dir / "some-id.json").write_text("{}")
+    (universal_dir / "manifest.json").write_text("not valid json")
+    render_site_from_manifest(MANIFEST, out)
+    result = verify(out, ROOT)
+    assert any("invalid universal-scores manifest.json" in error for error in result["errors"])
+    assert result["status"] == "fail"
+
+    (universal_dir / "manifest.json").write_text(json.dumps({"no_succeeded_count_field": 1}))
+    render_site_from_manifest(MANIFEST, out)
+    result = verify(out, ROOT)
+    assert any("invalid universal-scores manifest.json" in error for error in result["errors"])
+    assert result["status"] == "fail"
+
+
 def test_deny_network_still_blocks_a_live_provider_call_after_the_quote_ui_change():
     """The quote controller only ever runs client-side in the browser; it
     introduces no new network call anywhere in the Python build path. Confirm

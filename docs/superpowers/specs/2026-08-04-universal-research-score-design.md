@@ -91,6 +91,21 @@ duplicated here) found:
 
 ## Factor taxonomy and metric mapping (general-corporate policy)
 
+**Note (added after implementation, reconciling this preliminary sketch
+with what shipped):** the exact metric-to-factor assignment below was
+refined during Task 4 of the implementation plan
+(`docs/superpowers/plans/2026-08-04-universal-research-score.md`) into
+`src/mbe/universal/policy.py`'s `_GENERAL_FACTORS`, the actual source of
+truth. Two changes from this original sketch, both deliberate: `fcf_cagr_3y`
+and `share_count_cagr_3y` were dropped (Growth and Financial strength ended
+up with three and four metrics respectively, at clean round per-metric
+weights, rather than including every superficially-plausible metric);
+`dist_52w_high` moved from Momentum to Technical trend (it's a trend/
+positioning signal, closer to `trend_state`/`rsi14` than to the
+relative-strength/money-flow pair). See the architecture doc
+(`docs/universal-research-score-architecture.md`) for the exact final
+factor/weight table.
+
 | Factor | Metrics reused from existing engine | Source module |
 |---|---|---|
 | Growth | `revenue_cagr_3y`, `profit_cagr_3y`, `margin_trend`, `fcf_cagr_3y` | `mbe.analysis.fundamentals` |

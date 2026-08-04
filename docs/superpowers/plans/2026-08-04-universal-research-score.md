@@ -1477,7 +1477,10 @@ class _StubProvider:
         import pandas as pd
         from mbe.models.company import PriceHistory
         idx = pd.bdate_range("2024-01-01", periods=60)
-        return PriceHistory(ticker=ticker, df=pd.DataFrame({"close": [100.0] * len(idx)}, index=idx))
+        return PriceHistory(ticker=ticker, df=pd.DataFrame({
+            "close": [100.0] * len(idx), "high": [101.0] * len(idx),
+            "low": [99.0] * len(idx), "volume": [1000000] * len(idx),
+        }, index=idx))
 
     def benchmark_ticker(self, ticker):
         return "^NSEI"
@@ -1501,19 +1504,45 @@ def test_run_refresh_isolates_per_company_failure(tmp_path):
     assert not (tmp_path / "id-2.json").exists()
 
 
-def test_run_refresh_is_resumable_and_skips_fresh_cache(tmp_path):
+def test_run_refresh_is_resumable_and_skips_the_expensive_analysis_on_a_cache_hit(tmp_path):
+    """"Resumable" means skipping the EXPENSIVE work (scoring + report
+    building), not skipping the network entirely — genuine staleness
+    detection requires re-fetching to compute a comparison hash on every
+    run (a policy version bump must invalidate every cached entry
+    deterministically, which is impossible if a cache hit never re-checks
+    the hash). A cache hit still costs one cheap fetch; it just proves the
+    expensive analyze_universal step (the only code path that ever needs
+    a benchmark) was skipped."""
     instruments = [{"instrument_id": "id-1", "provider_symbol": "AAA.NS"}]
-    provider = _StubProvider()
-    first = run_refresh(instruments, provider=provider, output_dir=tmp_path)
+    first = run_refresh(instruments, provider=_StubProvider(), output_dir=tmp_path)
     assert first.succeeded == ["id-1"]
+    assert first.skipped_cached == []
 
-    class _FailIfCalled(_StubProvider):
-        def get_info(self, ticker):
-            raise AssertionError("should not re-fetch a fresh cache entry")
+    class _NoBenchmarkAllowed(_StubProvider):
+        def benchmark_ticker(self, ticker):
+            raise AssertionError(
+                "a cache hit must never reach the expensive analysis step — "
+                "benchmark_ticker is only ever called from inside analyze_universal"
+            )
 
-    second = run_refresh(instruments, provider=_FailIfCalled(), output_dir=tmp_path)
+    second = run_refresh(instruments, provider=_NoBenchmarkAllowed(), output_dir=tmp_path)
     assert second.succeeded == ["id-1"]
     assert second.skipped_cached == ["id-1"]
+
+
+def test_run_refresh_recomputes_when_underlying_data_changes(tmp_path):
+    instruments = [{"instrument_id": "id-1", "provider_symbol": "AAA.NS"}]
+    first = run_refresh(instruments, provider=_StubProvider(), output_dir=tmp_path)
+    assert first.skipped_cached == []
+
+    class _ChangedDataProvider(_StubProvider):
+        def get_financials(self, ticker):
+            from mbe.models.company import FinancialHistory
+            return FinancialHistory(data={"revenue": {2024: 999.0}, "net_income": {2024: 50.0}})
+
+    second = run_refresh(instruments, provider=_ChangedDataProvider(), output_dir=tmp_path)
+    assert second.succeeded == ["id-1"]
+    assert second.skipped_cached == []  # hash changed, so it was genuinely recomputed, not skipped
 
 
 def test_run_refresh_retries_a_transient_failure_before_giving_up(tmp_path):
@@ -1620,6 +1649,42 @@ class RefreshOutcome:
     failed: dict[str, str] = field(default_factory=dict)
 
 
+class _PrefetchedProviderView:
+    """Wraps a provider so a call for the given ticker returns the
+    already-fetched (info, fin, prices) without hitting the provider
+    again — avoids a redundant second fetch when analyze_universal()
+    re-requests the same ticker's data internally. A call for any OTHER
+    ticker (e.g., the benchmark index) passes through to the real
+    provider untouched. Created fresh per instrument, never shared across
+    the batch, so it can't leak into retry logic (which always runs
+    against the raw provider) and can't grow memory across a large run."""
+
+    def __init__(self, provider: DataProvider, ticker: str, info, fin, prices):
+        self._provider = provider
+        self._ticker = ticker
+        self._info = info
+        self._fin = fin
+        self._prices = prices
+
+    def get_info(self, ticker):
+        if ticker == self._ticker:
+            return self._info
+        return self._provider.get_info(ticker)
+
+    def get_financials(self, ticker):
+        if ticker == self._ticker:
+            return self._fin
+        return self._provider.get_financials(ticker)
+
+    def get_prices(self, ticker, years=3):
+        if ticker == self._ticker:
+            return self._prices
+        return self._provider.get_prices(ticker, years=years)
+
+    def benchmark_ticker(self, ticker):
+        return self._provider.benchmark_ticker(ticker)
+
+
 def _fetch_with_retry(provider: DataProvider, ticker: str, *, max_retries: int, backoff_seconds: float):
     """Returns (info, fin, prices) or raises the last ProviderError after
     exhausting retries. A fresh transient failure (e.g. a dropped
@@ -1674,8 +1739,14 @@ def run_refresh(
             outcome.skipped_cached.append(instrument_id)
             continue
 
+        # Analyze via a prefetched view so analyze_universal's internal
+        # re-request of the same ticker's data is served from what was
+        # already fetched above, not a redundant second live fetch. The
+        # benchmark index (a different ticker) still passes through to
+        # the real provider.
+        prefetched_view = _PrefetchedProviderView(provider, ticker, info, fin, prices)
         try:
-            card = analyze_universal(ticker, provider, instrument_id=instrument_id)
+            card = analyze_universal(ticker, prefetched_view, instrument_id=instrument_id)
         except ProviderError as exc:
             outcome.failed[instrument_id] = str(exc)
             continue
@@ -1735,7 +1806,7 @@ if __name__ == "__main__":
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `.venv/bin/python -m pytest tests/test_build_universal_scores.py -v`
-Expected: PASS (7 passed)
+Expected: PASS (8 passed)
 
 - [ ] **Step 5: Commit**
 

@@ -60,7 +60,7 @@ def public_value_hashes(site: Path) -> dict[str, str]:
 def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any]:
     errors: list[str] = []
     html_paths = sorted(site.rglob("*.html"))
-    json_paths = sorted(site.rglob("*.json"))
+    json_paths = sorted(p for p in site.rglob("*.json") if "universal-scores" not in p.parts)
     counts = {
         "html": len(html_paths),
         "json": len(json_paths),
@@ -70,6 +70,20 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
     for key, expected in EXPECTED.items():
         if key != "sitemap" and counts[key] != expected:
             errors.append(f"expected {expected} {key} files, found {counts[key]}")
+
+    universal_dir = site / "api/v1/universal-scores"
+    if universal_dir.exists():
+        manifest_path = universal_dir / "manifest.json"
+        if manifest_path.exists():
+            universal_manifest = json.loads(manifest_path.read_text())
+            artifact_count = len(
+                [p for p in universal_dir.glob("*.json") if p.name != "manifest.json"]
+            )
+            if artifact_count != universal_manifest["succeeded_count"]:
+                errors.append(
+                    f"universal-scores artifact count {artifact_count} does not match "
+                    f"manifest succeeded_count {universal_manifest['succeeded_count']}"
+                )
 
     for path in json_paths:
         try:
@@ -100,6 +114,7 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
                 "search": site / "api/v1/search-index.json",
                 "financials": site / "api/v1/financials",
                 "research": site / "api/v1/research",
+                "universal_scores": site / "api/v1/universal-scores",
                 "company_pages": site / "company",
                 "legacy_pages": site / "reports",
                 "frontend_assets": site / "assets",
@@ -107,10 +122,12 @@ def verify(site: Path, root: Path, fixture: Path | None = None) -> dict[str, Any
                 "screener_html": site / "screener.html",
                 "methodology_html": site / "methodology.html",
             }
-            actual = {
-                key: sha256_tree(path) if path.is_dir() else sha256_file(path)
-                for key, path in output_paths.items()
-            }
+            actual = {}
+            for key, path in output_paths.items():
+                if path.is_dir():
+                    actual[key] = sha256_tree(path)
+                elif path.is_file():
+                    actual[key] = sha256_file(path)
             if actual != site_manifest.output_artifact_hashes:
                 errors.append("site output hashes do not match the site build manifest")
         frozen_path = root / "builds/manifests/phase11-m1-frozen-inputs.json"

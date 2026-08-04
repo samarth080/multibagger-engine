@@ -242,6 +242,7 @@ def _output_hashes(out: Path) -> dict[str, str]:
         "search": out / "api/v1/search-index.json",
         "financials": out / "api/v1/financials",
         "research": out / "api/v1/research",
+        "universal_scores": out / "api/v1/universal-scores",
         "company_pages": out / "company",
         "legacy_pages": out / "reports",
         "frontend_assets": out / "assets",

@@ -306,6 +306,39 @@ def test_quote_refresh_ui_does_not_change_score_financial_or_membership_hashes(t
     assert (out / "assets/quote-controller.js").exists()
 
 
+def test_verify_release_excludes_universal_scores_from_the_fixed_json_count(tmp_path):
+    """universal-scores is a variable-size, incrementally-grown artifact set —
+    it must never be folded into the fixed EXPECTED["json"] literal, or every
+    refresh run would break the release verifier.
+
+    Exercises scripts.verify_release.verify() directly (rather than
+    re-deriving the exclusion inline) so this test actually regresses if the
+    module's own json-counting rglob call stops excluding the directory.
+
+    render_site_from_manifest is called a second time after the
+    universal-scores directory is added so the resulting build-manifest.json
+    (mode "offline", complete) re-hashes that directory too — calling it only
+    once, before the directory exists, would make the recorded manifest and
+    the live tree disagree for a reason unrelated to what this test checks.
+
+    Deliberately omits build_search_only/build_coverage_only: build_search_only
+    leaves the manifest's build_mode as "search-only" (verify() requires
+    "offline"), and build_coverage_only writes data/research-coverage.json, a
+    file the checked-in EXPECTED["json"]=509 baseline was never built against
+    (site/data has no git history) — both would fail this test for reasons
+    unrelated to universal-scores."""
+    from scripts.verify_release import EXPECTED, verify
+    out = tmp_path / "site"
+    render_site_from_manifest(MANIFEST, out)
+    (out / "api/v1/universal-scores").mkdir(parents=True)
+    (out / "api/v1/universal-scores/some-id.json").write_text("{}")
+    render_site_from_manifest(MANIFEST, out)
+    result = verify(out, ROOT)
+    assert result["counts"]["json"] == EXPECTED["json"]
+    assert result["errors"] == []
+    assert result["status"] == "pass"
+
+
 def test_deny_network_still_blocks_a_live_provider_call_after_the_quote_ui_change():
     """The quote controller only ever runs client-side in the browser; it
     introduces no new network call anywhere in the Python build path. Confirm

@@ -1,6 +1,6 @@
 {
   "build_configuration_hash": "4c8960fd4e7e0664d4ee9c8d05964a8ff1c832b56336cb35427a761f57a48604",
-  "build_mode": "offline",
+  "build_mode": "search-only",
   "classification_policy_version": "2026-08-02.10c.1",
   "financial_build_id": "34baaa1c-e2f6-508b-b2f0-389669739b2a",
   "generated_at": "2026-08-01T11:10:03.765519Z",
@@ -27,7 +27,7 @@
     "company_pages": "c21678a6c8dec24c463303b172ccff316d8fd40767d08da45a4be67f01cce2bf",
     "data": "b4183810494419c60049727f9cfe242808554917b0ab588bf53026399f643a64",
     "financials": "52ed95a8e71e3095fb0a46581443a77bf4b502e64a0cc8caec02aac00ab85936",
-    "frontend_assets": "1cc10641451fba766756534ac0dde8c6920b60314237c7f817d339e14368b6dd",
+    "frontend_assets": "c13113354d65565beb9d15c0183ce41fa503ca71ef81144a3046648a08f0a6ff",
     "index_html": "c53d8dfff7db9248737da18e930d22fca0045efe11d14ca56bec124c056bccd1",
     "legacy_pages": "65c3fc38cbe72d5f607cb8814cadd9c9849671f86f57c5ba3dec6b09ae39e9fc",
     "methodology_html": "e53e38837971b0d88b18d22946fb745cb142ed190f34cd0cd1b92b9e9276b1f6",
@@ -35,13 +35,14 @@
     "research": "11ca5d31b76a324849dc4e56a9dbf736f5334ffacf9a57df09ff901bc2a5a1fd",
     "screener": "510c3d4fc7c2d78204114aad782ed64c3a33885bcb429831bb21916dff85a8e8",
     "screener_html": "8eb261ca11f92026afa812422f02a5aed8e362107aeaf3577d3646202cb2377a",
-    "search": "c3b06118e6326fee71ca54ff7bb63b0ff31cce96f8d9fa6bf1cc5d813701333f"
+    "search": "229f9634f1a395c166e777f900075e3a485591ad9007d22612a76adbba2fcbb5",
+    "universal_scores": "bc959f9df3a6be2cbd47bcd8e4f704db31be31644bc4b6119efd7c4d50c815e7"
   },
   "quote_mode": "frozen-build-close",
   "schema_version": "2026-08-02.11.1",
-  "search_build_id": "c3b06118e6326fee71ca54ff7bb63b0ff31cce96f8d9fa6bf1cc5d813701333f",
+  "search_build_id": "229f9634f1a395c166e777f900075e3a485591ad9007d22612a76adbba2fcbb5",
   "search_ranking_policy_version": "2026-08-02.10c.2",
-  "site_build_id": "569cab0f-7f39-55ca-b27f-76ef9cf12a17",
+  "site_build_id": "7f601d39-11b3-5fe3-aafd-edabdb5fb966",
   "small_cap_model_build_id": "1bd53d15-67c6-4b02-b830-0eb0bb1d582b",
   "status": "complete",
   "universe_versions": {
